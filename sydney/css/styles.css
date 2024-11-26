@@ -95,6 +95,9 @@ Navigation
 .post-navigation .nav-next span {
 	margin-left: 10px;
 }
+.woocommerce nav.woocommerce-pagination ul li .page-numbers {
+	padding: 0;
+}
 .woocommerce nav.woocommerce-pagination ul li .page-numbers,
 .nav-links .page-numbers {
 	background-color: var(--sydney-dark-background);
@@ -690,6 +693,7 @@ Header
 	padding: 0 18px;
 	border-top: 1px solid #252525;
 	transition: all 0.3s ease;
+	word-wrap: break-word;
 }
 #mainnav .sub-menu li:hover > a {
 	color: #fff;
@@ -1254,6 +1258,13 @@ Header
 	width: 100%;
 	transition: all 0.3s;
 }
+
+.transparent-header .sticky-header.sticky-always.bottom-header_layout_3,
+.transparent-header .sticky-header.sticky-always.bottom-header_layout_4,
+.transparent-header .sticky-header.sticky-always.bottom-header_layout_5 {
+	position: static;
+}
+
 .transparent-header .sticky-header.is-sticky {
 	position: fixed;
 	width: 100%;
