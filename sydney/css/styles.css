@@ -1075,7 +1075,7 @@ Header
 		padding: 0;
 }
 .transparent-header .sticky-header.sticky-scrolltop {
-	position: absolute;
+	position: static;
 	z-index: 19;
 	width: 100%;
 	top: 0;
@@ -1230,9 +1230,6 @@ Header
 	.sydney-offcanvas-menu {
 		display: block;
 	}
-}	
-.sticky-always {
-	transition: box-shadow 0.3s;
 }
 .main-header.sticky-active {
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);

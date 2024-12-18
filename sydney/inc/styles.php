@@ -407,7 +407,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				}            
 			}
 
-			$custom .= $this->get_background_color_css( 'main_header_background', '', '.main-header,.header-search-form' );
+			$custom .= $this->get_background_color_css( 'main_header_background', '', '.main-header:not(.sticky-active),.header-search-form' );
 			$custom .= $this->get_background_color_css( 'main_header_background_sticky', '', '.main-header.sticky-active' );
 
 			$custom .= $this->get_color_css( 'main_header_color', '', '.main-header .site-title a,.main-header .site-description,.main-header #mainnav .menu > li > a,#mainnav .nav-menu > li > a, .main-header .header-contact a' );
@@ -430,7 +430,13 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$custom .= $this->get_background_color_css( 'main_header_submenu_background', '', '.bottom-header-row #mainnav ul ul li, .main-header #mainnav ul ul li' );
 			$custom .= $this->get_color_css( 'main_header_submenu_color', '', '.bottom-header-row #mainnav ul ul li a,.bottom-header-row #mainnav ul ul li:hover a, .main-header #mainnav ul ul li:hover a,.main-header #mainnav ul ul li a' );
 			$custom .= $this->get_fill_css( 'main_header_submenu_color', '', '.bottom-header-row #mainnav ul ul li svg, .main-header #mainnav ul ul li svg' );
+
+			$header_icons_size = get_theme_mod( 'header_icons_size' );
+			$custom .= ".header-item .sydney-svg-icon { width:" . esc_attr( $header_icons_size ) . "px;height:" . esc_attr( $header_icons_size ) . "px;}" . "\n";
+			$custom .= ".header-item .sydney-svg-icon svg { max-height:" . esc_attr( $header_icons_size - 2 ) . "px;}" . "\n";
 			
+			$custom .= $this->get_background_color_css( 'search_bar_background_color', '', '.header-search-form' );
+
             //Submenu items hover
 			$custom .= $this->get_color_css( 'submenu_items_hover', '', '#mainnav .sub-menu li:hover>a, .main-header #mainnav ul ul li:hover>a' );
 
