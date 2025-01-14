@@ -629,7 +629,7 @@ require get_template_directory() . '/inc/customizer/upsell/class-customize.php';
 /**
  * Style Book Toggle
  */
-//require get_template_directory() . '/inc/customizer/style-book/control/class-customizer-style-book.php';
+require get_template_directory() . '/inc/customizer/style-book/control/class-customizer-style-book.php';
 
 /**
  * Gutenberg
