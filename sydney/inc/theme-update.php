@@ -394,14 +394,14 @@ function sydney_hf_update_notice_2_52() {
         <p>
             <?php 
             /* translators: 1: documentation link. */
-            printf( esc_html__( 'Want to see the new header and footer builder before upgrading? Check out our %s.', 'sydney' ), '<a target="_blank" href="#">documentation</a>' ); ?>
+            printf( esc_html__( 'Want to see the new header and footer builder before upgrading? Check out our %s.', 'sydney' ), '<a target="_blank" href="https://docs.athemes.com/article/header-footer-builder-2/">documentation</a>' ); ?>
         </p>
         <a href="#" class="button sydney-update-hf" data-nonce="<?php echo esc_attr( wp_create_nonce( 'sydney-update-hf-nonce' ) ); ?>" style="margin-top: 15px;"><?php esc_html_e( 'Update theme header and footer', 'sydney' ); ?></a>
         <a href="#" class="button sydney-update-hf-dismiss" data-nonce="<?php echo esc_attr( wp_create_nonce( 'sydney-update-hf-dismiss-nonce' ) ); ?>" style="margin-top: 15px;"><?php esc_html_e( 'Continue to use the old header and footer system', 'sydney' ); ?></a> 
     </div>
     <?php }
 }
-add_action( 'admin_notices', 'sydney_hf_update_notice_2_52' );
+//add_action( 'admin_notices', 'sydney_hf_update_notice_2_52' );
 
 /**
  * Header update ajax callback
@@ -439,3 +439,27 @@ function sydney_hf_update_dismiss_notice_2_52_callback() {
 	) );
 }
 add_action( 'wp_ajax_sydney_hf_update_dismiss_notice_2_52_callback', 'sydney_hf_update_dismiss_notice_2_52_callback' );
+
+/**
+ * Update settings
+ * 
+ * @since 2.54
+ */
+function sydney_update_settings_2_54() {
+    // Enable page min height
+    $flag = get_theme_mod( 'sydney_enable_page_min_height', false );
+
+    if ( true !== $flag ) {
+        set_theme_mod( 'sydney_enable_page_min_height', true );
+        set_theme_mod( 'sydney_enable_page_min_height_flag', true );
+    }
+
+    // Default sticky background
+    $flag = get_theme_mod( 'sydney_default_sticky_background', false );
+
+    if ( true !== $flag ) {
+        set_theme_mod( 'sydney_header_row__main_header_row_sticky_background_color', '#ffffff' );
+        set_theme_mod( 'sydney_default_sticky_background_flag', true );
+    }
+}
+add_action( 'after_switch_theme', 'sydney_update_settings_2_54' );

@@ -146,9 +146,12 @@ foreach( $opts_to_move as $control_tabs ) {
     }
 }
 
-$wp_customize->get_setting( 'header_button_text' )->transport = 'refresh';
-$wp_customize->get_setting( 'header_button_link' )->transport = 'refresh';
-
+if ( $wp_customize->get_setting( 'header_button_text' ) !== NULL ) {
+    $wp_customize->get_setting( 'header_button_text' )->transport = 'refresh';
+}
+if ( $wp_customize->get_setting( 'header_button_link' ) !== NULL ) {
+    $wp_customize->get_setting( 'header_button_link' )->transport = 'refresh';
+}
 
 /**
  * Design (Tab Content)
