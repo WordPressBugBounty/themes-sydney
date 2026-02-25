@@ -554,3 +554,25 @@ function sydney_use_height_for_logo() {
     set_theme_mod( 'sydney_use_height_for_logo', true );
 }
 add_action( 'after_switch_theme', 'sydney_use_height_for_logo' );
+
+/**
+ * Enable CSS variables for global colors for new users
+ * 
+ * When a color option is connected to a global color, output var(--sydney-global-color-X)
+ * instead of the hex value. This ensures colors stay in sync when global colors change.
+ * 
+ * Only enabled for new users to avoid unexpected changes for existing users.
+ * 
+ * @since 2.61
+ */
+function sydney_enable_global_color_css_vars() {
+    $flag = get_theme_mod( 'sydney_global_color_css_vars', false );
+
+    if ( true === $flag ) {
+        return;
+    }
+
+    // Set flag - only runs for new users (after_switch_theme)
+    set_theme_mod( 'sydney_global_color_css_vars', true );
+}
+add_action( 'after_switch_theme', 'sydney_enable_global_color_css_vars' );

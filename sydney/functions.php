@@ -122,6 +122,9 @@ function sydney_setup() {
 	}
 
 	add_theme_support( 'editor-color-palette', $colors );
+
+	// Enable Onboarding Wizard
+	add_filter( 'atss_enable_onboarding_wizard', '__return_true' );
 }
 endif; // sydney_setup
 add_action( 'after_setup_theme', 'sydney_setup' );
@@ -688,6 +691,23 @@ require get_template_directory() . '/inc/modules/block-templates/class-sydney-bl
 require get_template_directory() . '/inc/modules/hf-builder/class-header-footer-builder.php';
 
 /**
+ * Action Scheduler.
+ * Load on plugins_loaded to ensure it's available before init.
+ */
+add_action(
+	'plugins_loaded',
+	static function() {
+		
+		// Check if Action Scheduler is already loaded.
+		if ( function_exists( 'as_schedule_recurring_action' ) ) {
+			return;
+		}
+
+		require_once get_template_directory() . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
+	}
+);
+
+/**
  * Theme dashboard.
  */
 require get_template_directory() . '/inc/dashboard/class-dashboard.php';
@@ -726,6 +746,12 @@ require get_template_directory() . '/inc/classes/class-sydney-modules.php';
  * Block styles
  */
 require get_template_directory() . '/inc/block-styles.php';
+
+/**
+ * Usage Tracking.
+ */
+require get_template_directory() . '/inc/usage-tracking/class-sydney-usage-tracking.php';
+require get_template_directory() . '/inc/usage-tracking/class-sydney-send-usage-task.php';
 
 /*
  * Enable fontawesome 5 on first time theme activation
@@ -788,18 +814,5 @@ if ( defined( 'SITEORIGIN_PANELS_VERSION' ) && ( isset($pagenow) && $pagenow ===
  * Sydney custom get template part
  */
 function sydney_get_template_part( $slug, $name = null, $args = array() ) {
-	if ( version_compare( get_bloginfo( 'version' ), '5.5', '>=' ) ) {
-		return get_template_part( $slug, $name, $args );
-	} else {
-		extract($args);
-	
-		$templates = array();
-		$name = (string) $name;
-		if ( '' !== $name ) {
-			$templates[] = "{$slug}-{$name}.php";
-		}
-		$templates[] = "{$slug}.php";
-	 
-		return include( locate_template($templates) );
-	}
+	return get_template_part( $slug, $name, $args );
 }

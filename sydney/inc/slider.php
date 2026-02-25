@@ -35,7 +35,7 @@ function sydney_slider_template() {
         'slider_subtitle_2' => get_theme_mod('slider_subtitle_2', 'Feel free to look around'),
         'slider_subtitle_3' => get_theme_mod('slider_subtitle_3'),
         'slider_subtitle_4' => get_theme_mod('slider_subtitle_4'),
-        'slider_subtitle_5' => get_theme_mod('slider_subtitle_5'),          
+        'slider_subtitle_5' => get_theme_mod('slider_subtitle_5'),
     );
     $images = array(
         'slider_image_1' => get_theme_mod('slider_image_1'),
@@ -46,12 +46,12 @@ function sydney_slider_template() {
     );
 
 
-    if ( $images['slider_image_1'] === '' ) {
+    if ( empty( $images['slider_image_1'] ) ) {
         return;
     }
 
     //If the second slide is empty, stop the slider
-    if ( $images['slider_image_2'] !== '' ) {
+    if ( ! empty( $images['slider_image_2'] ) ) {
         $speed = get_theme_mod('slider_speed', '4000');
     } else {
         $speed = 0;

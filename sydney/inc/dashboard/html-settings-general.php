@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Settings - General
+ * Settings - General (License)
  * 
  * @package Dashboard
  */
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 ?>
 
-<div class="sydney-dashboard-card sydney-dashboard-card-no-box-shadow">
-    <div class="sydney-dashboard-card-body sydney-dashboard-card-body-content-with-dividers">
+<!-- License Section -->
+<div class="sydney-dashboard-card-section">
        
         <?php if ( defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
 
@@ -69,5 +69,6 @@ if (!defined('ABSPATH')) {
 
         <?php endif; ?>
 
-    </div>
 </div>
+<!-- End License Section -->
+

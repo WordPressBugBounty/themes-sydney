@@ -89,10 +89,18 @@ function sydney_customize_register( $wp_customize ) {
     require get_template_directory() . '/inc/customizer/controls/control-checkbox-multiple.php';
     require get_template_directory() . '/inc/customizer/controls/multiple-select/class-control-multiple-select.php';
    
-    require get_template_directory() . '/inc/vendor/kirki-framework/control-base/src/Control/Base.php';
-    require get_template_directory() . '/inc/vendor/kirki-framework/url-getter/src/URL.php';
-    require get_template_directory() . '/inc/vendor/kirki-framework/control-sortable/src/Control/Sortable.php';
-    require get_template_directory() . '/inc/vendor/kirki-framework/control-slider/src/Control/Slider.php';
+    if ( ! class_exists( '\Kirki\Control\Base' ) ) {
+        require get_template_directory() . '/inc/vendor/kirki-framework/control-base/src/Control/Base.php';
+    }
+    if ( ! class_exists( '\Kirki\URL' ) ) {
+        require get_template_directory() . '/inc/vendor/kirki-framework/url-getter/src/URL.php';
+    }
+    if ( ! class_exists( '\Kirki\Control\Sortable' ) ) {
+        require get_template_directory() . '/inc/vendor/kirki-framework/control-sortable/src/Control/Sortable.php';
+    }
+    if ( ! class_exists( '\Kirki\Control\Slider' ) ) {
+        require get_template_directory() . '/inc/vendor/kirki-framework/control-slider/src/Control/Slider.php';
+    }
     
     $wp_customize->register_control_type( 'Sydney_Select2_Custom_Control'   );
     $wp_customize->register_control_type( '\Kirki\Control\sortable' );

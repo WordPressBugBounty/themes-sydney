@@ -39,8 +39,8 @@ function sydney_editor_styles() {
 	$body_font      = json_decode( $body_font, true );
 	$headings_font  = json_decode( $headings_font, true );
 
-	$custom .= ".editor-styles-wrapper, .editor-styles-wrapper .editor-block-list__block { font-family:" . esc_attr( $body_font['font'] ) . ',' . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
-	$custom .= ".editor-post-title__block .editor-post-title__input, .editor-styles-wrapper .editor-post-title__input, .editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3, .editor-styles-wrapper h4, .editor-styles-wrapper h5, .editor-styles-wrapper h6 { font-family:" . esc_attr( $headings_font['font'] ) . ',' . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
+	$custom .= ".editor-styles-wrapper, .editor-styles-wrapper .editor-block-list__block { font-family:\"" . esc_attr( $body_font['font'] ) . "\"," . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
+	$custom .= ".editor-post-title__block .editor-post-title__input, .editor-styles-wrapper .editor-post-title__input, .editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3, .editor-styles-wrapper h4, .editor-styles-wrapper h5, .editor-styles-wrapper h6 { font-family:\"" . esc_attr( $headings_font['font'] ) . "\"," . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
 	
 	$custom .= Sydney_Custom_CSS::get_font_sizes_css( 'h1_font_size', $defaults = array( 'desktop' => 48, 'tablet' => 42, 'mobile' => 32 ), '.editor-styles-wrapper h1' );
 	$custom .= Sydney_Custom_CSS::get_font_sizes_css( 'h2_font_size', $defaults = array( 'desktop' => 38, 'tablet' => 32, 'mobile' => 24 ), '.editor-styles-wrapper h2' );

@@ -47,7 +47,10 @@ if ( !class_exists( 'Sydney_Elementor_Global_Colors' ) ) :
 
 			$css    = ':root{';
 			foreach ( $global_colors as $slug => $color ) {
-				$css .= '--e-global-color-' . str_replace( '-', '', $slug ) . ':' . $color . ';';
+				// Extract the color number from the slug (e.g., 'global_color_1' -> '1')
+				$color_number = str_replace( 'global_color_', '', $slug );
+				// Use Sydney's CSS variable instead of the actual color value
+				$css .= '--e-global-color-' . str_replace( '-', '', $slug ) . ':var(--sydney-global-color-' . $color_number . ');';
 			}
 			$css .= '}';
 

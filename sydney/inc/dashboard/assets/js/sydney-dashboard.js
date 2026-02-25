@@ -519,15 +519,21 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				$( this ).find( '.sydney-dashboard-tabs-nav-link' ).on( 'click', function(e){
 					e.preventDefault();
 
-					const 
+					const
 						tabsNavLink  = $( this ).closest( '.sydney-dashboard-tabs-nav' ).find( '.sydney-dashboard-tabs-nav-link' ),
 						to           = $( this ).data( 'tab-to' );
+
+					// Redirect to onboarding wizard if starter-sites tab
+					if( to === 'starter-sites' ) {
+						window.location.href = '/wp-admin/admin.php?page=atss-onboarding-wizard'; //todo: get admin url from php
+						return;
+					}
 
 					// Tab Nav Item
 					tabsNavLink.each( function(){
 						$( this ).closest( '.sydney-dashboard-tabs-nav-item' ).removeClass( 'active' );
 					});
-					
+
 					$( this ).closest( '.sydney-dashboard-tabs-nav-item' ).addClass( 'active' );
 
 					// Tab Content
@@ -800,6 +806,59 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				}, 300);
 			} );
 
+		}
+
+		// Option Switcher (for usage tracking toggle)
+		var $optionSwitcher = $('.sydney-dashboard-option-switcher');
+
+		if ($optionSwitcher.length) {
+			$optionSwitcher.on('click', function (e) {
+				e.preventDefault();
+
+				const 
+					$this          = $( this ),
+					optionId 	   = $this.data( 'option-id' ),
+					activate   	   = $this.data( 'option-activate' ) ? true : false,
+					loadingMessage = activate ? window.sydney_dashboard.i18n.activating : window.sydney_dashboard.i18n.deactivating;
+
+				$this
+					.html( '<i class="dashicons dashicons-update-alt"></i>' + loadingMessage )
+					.removeClass( 'sydney-dashboard-link-success' )
+					.addClass( 'loading' );
+
+				$.post( window.sydney_dashboard.ajax_url, {
+					action: 'sydney_option_switcher_handler',
+					nonce: window.sydney_dashboard.nonce,
+					optionId: optionId,
+					activate: activate
+				}, function ( response ) {
+					if( response.success ) {
+
+						if( activate ) {
+							$this
+								.html( window.sydney_dashboard.i18n.deactivate )
+								.removeClass( 'sydney-dashboard-link-success' )
+								.addClass( 'sydney-dashboard-link-danger' )
+								.removeClass( 'loading' )
+								.data( 'option-activate', false );
+
+						} else {
+							$this
+								.html( window.sydney_dashboard.i18n.activate )
+								.removeClass( 'sydney-dashboard-link-danger' )
+								.addClass( 'sydney-dashboard-link-success' )
+								.removeClass( 'loading' )
+								.data( 'option-activate', true );
+						}
+
+					} else {
+						$this
+							.html( window.sydney_dashboard.i18n.error )
+							.removeClass( 'loading' );
+					}
+				});
+
+			});
 		}
 
 	});

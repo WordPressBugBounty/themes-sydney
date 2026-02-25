@@ -16,6 +16,10 @@
     "test": "@php vendor/bin/phpunit",
     "test:unit": "@php vendor/bin/phpunit --testsuite unit"
   },
+  "require": {
+    "php": ">=7.2",
+    "woocommerce/action-scheduler": "^3.9"
+  },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "1.1.2",
     "wp-coding-standards/wpcs": "3.2.0",

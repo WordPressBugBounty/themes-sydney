@@ -17,8 +17,18 @@
             <?php
                 $logo_id    = attachment_url_to_postid( get_theme_mod( 'site_logo' ) );
                 $logo_attrs = wp_get_attachment_image_src( $logo_id, 'large' );
-            ?>						
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
+
+                // Build dimension attributes only if valid
+                $dimension_attrs = '';
+                if ( is_array( $logo_attrs ) && ! empty( $logo_attrs[1] ) && ! empty( $logo_attrs[2] ) ) {
+                    $dimension_attrs = sprintf(
+                        'width="%s" height="%s"',
+                        esc_attr( $logo_attrs[1] ),
+                        esc_attr( $logo_attrs[2] )
+                    );
+                }
+            ?>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img <?php echo $dimension_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
         <?php endif;
 
         if ( get_theme_mod('logo_site_title', 0) || empty( get_theme_mod('site_logo') ) ) :

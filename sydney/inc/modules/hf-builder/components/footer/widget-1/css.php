@@ -18,7 +18,7 @@ $css .= Sydney_Custom_CSS::get_responsive_css(
 );
 
 // Widget Title Color
-$css .= Sydney_Custom_CSS::get_color_css( 'sydney_section_fb_component__widget1_title_color', '', '.shfb-footer .shfb-component-widget1 .widget-column .widget .widget-title' );
+$css .= Sydney_Custom_CSS::get_color_css( 'sydney_section_fb_component__widget1_title_color', '', '.shfb-footer .shfb-component-widget1 .widget-column .widget .widget-title,.shfb-footer .shfb-component-widget1 .widget-column .widget h3' );
 
 // Text Color
 $css .= Sydney_Custom_CSS::get_color_css( 'sydney_section_fb_component__widget1_text_color', '', '.shfb-footer .shfb-component-widget1 .widget-column .widget' );

@@ -80,7 +80,7 @@
 	//Sidebar color
 	wp.customize('sidebar_color',function( value ) {
 		value.bind( function( newval ) {
-			$('.widget-area,.widget-area a, .widget-area .widget-title').css('color', newval );
+			$('.widget-area,.widget-area a').css('color', newval );
 		} );
 	});
 	//Footer widgets background
@@ -545,7 +545,7 @@
 
 			$( '#sydney-preview-google-fonts-body-css' ).attr( 'href', 'https://fonts.googleapis.com/css?family=' + jQuery.parseJSON( to )['font'].replace(/ /g, '+') + ':' + jQuery.parseJSON( to )['regularweight'] + '&display=swap' );
 
-			$( 'body' ).css( 'font-family', jQuery.parseJSON( to )['font'] );
+			$( 'body' ).css( 'font-family', '"' + jQuery.parseJSON( to )['font'] + '"' );
 
 			$( 'head' ).append('<style id="sydney-preview-body-weight-css" type="text/css">body {font-weight:' + jQuery.parseJSON( to )['regularweight'] + ';}</style>');
 
@@ -562,7 +562,7 @@
 
 			$( '#sydney-preview-google-fonts-headings-css' ).attr( 'href', 'https://fonts.googleapis.com/css?family=' + jQuery.parseJSON( to )['font'].replace(/ /g, '+') + ':' + jQuery.parseJSON( to )['regularweight'] + '&display=swap' );
 
-			$( 'h1,h2,h3,h4,h5,h6,.site-title' ).css( 'font-family', jQuery.parseJSON( to )['font'] );
+			$( 'h1,h2,h3,h4,h5,h6,.site-title' ).css( 'font-family', '"' + jQuery.parseJSON( to )['font'] + '"' );
 
 			$( 'head' ).append('<style id="sydney-preview-headings-weight-css" type="text/css">h1,h2,h3,h4,h5,h6,.site-title {font-weight:' + jQuery.parseJSON( to )['regularweight'] + ';}</style>');
 
@@ -579,7 +579,7 @@
 
 			$( '#sydney-preview-google-fonts-menu-css' ).attr( 'href', 'https://fonts.googleapis.com/css?family=' + jQuery.parseJSON( to )['font'].replace(/ /g, '+') + ':' + jQuery.parseJSON( to )['regularweight'] + '&display=swap' );
 
-			$( '#mainnav > div > ul > li > a' ).css( 'font-family', jQuery.parseJSON( to )['font'] );
+			$( '#mainnav > div > ul > li > a' ).css( 'font-family', '"' + jQuery.parseJSON( to )['font'] + '"' );
 
 			$( 'head' ).append('<style id="sydney-preview-menu-weight-css" type="text/css">#mainnav > div > ul > li > a {font-weight:' + jQuery.parseJSON( to )['regularweight'] + ';}</style>');
 

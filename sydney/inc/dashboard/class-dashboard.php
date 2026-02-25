@@ -65,6 +65,8 @@ class Sydney_Dashboard
         add_action('wp_ajax_sydney_plugin', array( $this, 'ajax_plugin' ));
         add_action('wp_ajax_sydney_dismissed_handler', array( $this, 'ajax_dismissed_handler' ));
 
+        add_action( 'wp_ajax_sydney_option_switcher_handler', array( $this, 'ajax_option_switcher_handler' ) );
+
         add_action( 'wp_ajax_sydney_module_activation_handler', array( $this, 'ajax_module_activation_handler' ) );
         add_action( 'wp_ajax_sydney_module_activation_all_handler', array( $this, 'ajax_module_activation_all_handler' ) );
         add_action( 'wp_ajax_sydney_template_builder_data', array( $this, 'ajax_template_builder_data' ) );
@@ -260,6 +262,7 @@ class Sydney_Dashboard
                 'activated' => esc_html__('Activated', 'sydney'),
                 'deactivated' => esc_html__('Deactivated', 'sydney'),
                 'failed_message' => esc_html__('Something went wrong, contact support.', 'sydney'),
+                'error' => esc_html__('Error', 'sydney'),
             ),
         ));
     }
@@ -531,6 +534,32 @@ class Sydney_Dashboard
         }
 
         wp_send_json_error();
+    }
+
+    /**
+     * Ajax option switcher handler.
+     * Handles the usage tracking toggle and other option switches.
+     */
+    public function ajax_option_switcher_handler() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
+        $option_id = ( isset( $_POST['optionId'] ) ) ? sanitize_text_field( wp_unslash( $_POST['optionId'] ) ) : '';
+        $activate  = ( isset( $_POST['activate'] ) ) ? sanitize_text_field( wp_unslash( $_POST['activate'] ) ) : '';
+
+        // Convert string to integer (1 or 0).
+        $activate = ( $activate === 'true' ) ? 1 : 0;
+
+        if ( empty( $option_id ) ) {
+            wp_send_json_error();
+        }
+
+        update_option( $option_id, $activate );
+
+        wp_send_json_success();
     }
 
     /**

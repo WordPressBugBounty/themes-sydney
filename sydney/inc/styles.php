@@ -107,7 +107,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
                 $custom .= ".woocommerce ul.products li.product .star-rating { margin-right:0;}"."\n";
             }
         
-            global $post;
+            
+      
+        $post;
             if ( isset( $post ) ) {
                 $elementor_page = get_post_meta( $post->ID, '_elementor_edit_mode', true );
                 if ( !$elementor_page ) {
@@ -754,6 +756,24 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		 */
 		public static function get_background_color_css( $setting, $default, $selector, $important = false ) {
 			$mod = get_theme_mod( $setting, $default );
+			
+			// Check if CSS variables for global colors are enabled (new users only)
+			$use_css_vars = get_theme_mod( 'sydney_global_color_css_vars', false );
+			
+			// Check if a global color is connected
+			$global_setting = get_theme_mod( 'global_' . $setting, '' );
+			if ( $use_css_vars && $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
+				// Get the global color value using proper defaults
+				$global_color_defaults = sydney_get_global_color_defaults();
+				$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
+				$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
+				
+				if ( self::colors_match( $mod, $global_color_value ) ) {
+					// Extract the color number and use the CSS variable
+					$color_number = str_replace( 'global_color_', '', $global_setting );
+					$mod = 'var(--sydney-global-color-' . $color_number . ')';
+				}
+			}
 
 			Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'background-color', '', $important );
 
@@ -761,44 +781,131 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		}
 
 		/**
-		 * Get color CSS
+		 * Check if two color values match (handles different formats)
 		 */
-		public static function get_color_css( $setting, $default, $selector, $important = false ) {
-			$mod = get_theme_mod( $setting, $default );
+		public static function colors_match( $color1, $color2 ) {
+			if ( empty( $color1 ) || empty( $color2 ) ) {
+				return false;
+			}
 
-            Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'color', '', $important );
+			// Normalize both colors: lowercase, trim, remove # prefix
+			$color1 = strtolower( trim( ltrim( $color1, '#' ) ) );
+			$color2 = strtolower( trim( ltrim( $color2, '#' ) ) );
 
-			return $selector . '{ color:' . esc_attr( $mod ) . ';}' . "\n";
-		}       
+			return $color1 === $color2;
+		}
 
-		/**
-		 * Get border color CSS
-		 */
-		public static function get_border_color_css( $setting, $default, $selector ) {
-			$mod = get_theme_mod( $setting, $default );
-
-			return $selector . '{ border-color:' . esc_attr( $mod ) . ';}' . "\n";
-		}           
+	/**
+	 * Get color CSS
+	 */
+	public static function get_color_css( $setting, $default, $selector, $important = false ) {
+		$mod = get_theme_mod( $setting, $default );
 		
-		/**
-		 * Get fill CSS
-		 */
-		public static function get_fill_css( $setting, $default, $selector, $important = false ) {
-			$mod = get_theme_mod( $setting, $default );
-
-			Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'fill', '', $important );
-
-			return $selector . '{ fill:' . esc_attr( $mod ) . ';}' . "\n";
-		}   
+		// Check if CSS variables for global colors are enabled (new users only)
+		$use_css_vars = get_theme_mod( 'sydney_global_color_css_vars', false );
 		
-		/**
-		 * Get stroke CSS
-		 */
-		public static function get_stroke_css( $setting, $default, $selector ) {
-			$mod = get_theme_mod( $setting, $default );
+		// Check if a global color is connected
+		$global_setting = get_theme_mod( 'global_' . $setting, '' );
+		if ( $use_css_vars && $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
+			// Get the global color value using proper defaults
+			$global_color_defaults = sydney_get_global_color_defaults();
+			$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
+			$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
+			
+			if ( self::colors_match( $mod, $global_color_value ) ) {
+				// Extract the color number and use the CSS variable
+				$color_number = str_replace( 'global_color_', '', $global_setting );
+				$mod = 'var(--sydney-global-color-' . $color_number . ')';
+			}
+		}
 
-			return $selector . '{ stroke:' . esc_attr( $mod ) . ';}' . "\n";
-		}       
+        Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'color', '', $important );
+
+		return $selector . '{ color:' . esc_attr( $mod ) . ';}' . "\n";
+	}
+
+	/**
+	 * Get border color CSS
+	 */
+	public static function get_border_color_css( $setting, $default, $selector ) {
+		$mod = get_theme_mod( $setting, $default );
+		
+		// Check if CSS variables for global colors are enabled (new users only)
+		$use_css_vars = get_theme_mod( 'sydney_global_color_css_vars', false );
+		
+		// Check if a global color is connected
+		$global_setting = get_theme_mod( 'global_' . $setting, '' );
+		if ( $use_css_vars && $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
+			// Get the global color value using proper defaults
+			$global_color_defaults = sydney_get_global_color_defaults();
+			$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
+			$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
+			
+			if ( self::colors_match( $mod, $global_color_value ) ) {
+				// Extract the color number and use the CSS variable
+				$color_number = str_replace( 'global_color_', '', $global_setting );
+				$mod = 'var(--sydney-global-color-' . $color_number . ')';
+			}
+		}
+
+		return $selector . '{ border-color:' . esc_attr( $mod ) . ';}' . "\n";
+	}
+		
+	/**
+	 * Get fill CSS
+	 */
+	public static function get_fill_css( $setting, $default, $selector, $important = false ) {
+		$mod = get_theme_mod( $setting, $default );
+		
+		// Check if CSS variables for global colors are enabled (new users only)
+		$use_css_vars = get_theme_mod( 'sydney_global_color_css_vars', false );
+		
+		// Check if a global color is connected
+		$global_setting = get_theme_mod( 'global_' . $setting, '' );
+		if ( $use_css_vars && $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
+			// Get the global color value using proper defaults
+			$global_color_defaults = sydney_get_global_color_defaults();
+			$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
+			$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
+			
+			if ( self::colors_match( $mod, $global_color_value ) ) {
+				// Extract the color number and use the CSS variable
+				$color_number = str_replace( 'global_color_', '', $global_setting );
+				$mod = 'var(--sydney-global-color-' . $color_number . ')';
+			}
+		}
+
+		Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'fill', '', $important );
+
+		return $selector . '{ fill:' . esc_attr( $mod ) . ';}' . "\n";
+	}
+		
+	/**
+	 * Get stroke CSS
+	 */
+	public static function get_stroke_css( $setting, $default, $selector ) {
+		$mod = get_theme_mod( $setting, $default );
+		
+		// Check if CSS variables for global colors are enabled (new users only)
+		$use_css_vars = get_theme_mod( 'sydney_global_color_css_vars', false );
+		
+		// Check if a global color is connected
+		$global_setting = get_theme_mod( 'global_' . $setting, '' );
+		if ( $use_css_vars && $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
+			// Get the global color value using proper defaults
+			$global_color_defaults = sydney_get_global_color_defaults();
+			$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
+			$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
+			
+			if ( self::colors_match( $mod, $global_color_value ) ) {
+				// Extract the color number and use the CSS variable
+				$color_number = str_replace( 'global_color_', '', $global_setting );
+				$mod = 'var(--sydney-global-color-' . $color_number . ')';
+			}
+		}
+
+		return $selector . '{ stroke:' . esc_attr( $mod ) . ';}' . "\n";
+	}
 
 		//Font sizes
 		public static function get_font_sizes_css( $setting, $defaults, $selector ) {

@@ -27,9 +27,9 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             add_action( 'customize_controls_print_footer_scripts', array( $this, 'enqueue' ) );
         }
 
-        public function enqueue() {
-            wp_enqueue_style( 'sydney-style-book', get_stylesheet_directory_uri() . '/inc/customizer/style-book/css/styles.min.css', array(), '20250902' );
-            wp_enqueue_script( 'sydney-style-book', get_stylesheet_directory_uri() . '/inc/customizer/style-book/js/scripts.min.js', array( 'customize-controls' ), '20250902', true );
+	public function enqueue() {
+        wp_enqueue_style( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/css/styles.min.css', array(), '20250902' );
+        wp_enqueue_script( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/js/scripts.min.js', array( 'customize-controls' ), '20250902', true );
 
             /**
              * Dynamic CSS
@@ -80,8 +80,8 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             $body_font      = json_decode( $body_font, true );
             $headings_font  = json_decode( $headings_font, true );
 
-            $custom .= ".sydney-style-book-section-content .style-book-body { font-family:" . esc_attr( $body_font['font'] ) . ',' . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
-            $custom .= ".sydney-style-book-section-content h1.style-book-heading, .sydney-style-book-section-content h2.style-book-heading, .sydney-style-book-section-content h3.style-book-heading, .sydney-style-book-section-content h4.style-book-heading, .sydney-style-book-section-content h5.style-book-heading, .sydney-style-book-section-content h6.style-book-heading { font-family:" . esc_attr( $headings_font['font'] ) . ',' . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
+            $custom .= ".sydney-style-book-section-content .style-book-body { font-family:\"" . esc_attr( $body_font['font'] ) . "\"," . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
+            $custom .= ".sydney-style-book-section-content h1.style-book-heading, .sydney-style-book-section-content h2.style-book-heading, .sydney-style-book-section-content h3.style-book-heading, .sydney-style-book-section-content h4.style-book-heading, .sydney-style-book-section-content h5.style-book-heading, .sydney-style-book-section-content h6.style-book-heading { font-family:\"" . esc_attr( $headings_font['font'] ) . "\"," . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
 
             //Headings styling
             $custom .= Sydney_Custom_CSS::get_font_sizes_css( 'h1_font_size', $defaults = array( 'desktop' => 48, 'tablet' => 42, 'mobile' => 32 ), '.sydney-style-book-section-content h1.style-book-heading' );
@@ -413,12 +413,12 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
                 </div>
                 <div class="sydney-style-book-section-content">
                     <a href="javascript:wp.customize.section( 'sydney_section_images' ).focus();" class="sydney-style-book-customizer-link">
-                        <div class="sydney-style-book-media">
-                            <figure>
-                                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/images/stylebook.jpg' ); ?>" alt="<?php esc_attr_e( 'Media Image', 'sydney' ); ?>">
-                                <figcaption><?php esc_html_e( 'Image Caption', 'sydney' ); ?></figcaption>   
-                            </figure>
-                        </div>
+		<div class="sydney-style-book-media">
+			<figure>
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/images/stylebook.jpg' ); ?>" alt="<?php esc_attr_e( 'Media Image', 'sydney' ); ?>">
+				<figcaption><?php esc_html_e( 'Image Caption', 'sydney' ); ?></figcaption>   
+			</figure>
+		</div>
                         <?php $this->render_edit_overlay(); ?>
                     </a>
                 </div>

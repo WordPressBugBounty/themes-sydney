@@ -35,6 +35,9 @@ if( sydney_callback_sticky_header() ) {
     $css .= Sydney_Custom_CSS::get_background_color_css( 'shfb_search_icon_sticky_color_hover', '#757575', '.sticky-header-active .shfb-component-search .header-search:hover .sydney-image.is-svg' );
 }
 
+// Background Color
+$css .= Sydney_Custom_CSS::get_background_color_css( 'shfb_search_background_color', '', '.shfb .header-search-form' );
+
 // Padding
 $css .= Sydney_Custom_CSS::get_responsive_dimensions_css( 
     'shfb_search_icon_padding',

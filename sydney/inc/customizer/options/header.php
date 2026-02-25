@@ -79,7 +79,7 @@ $wp_customize->add_setting(
 	'global_site_title_color',
 	array(
 		'default'           => '',
-		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage',
 	)
 );
@@ -151,7 +151,7 @@ $wp_customize->add_setting(
 	'global_site_desc_color',
 	array(
 		'default'           => '',
-		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage',
 	)
 );

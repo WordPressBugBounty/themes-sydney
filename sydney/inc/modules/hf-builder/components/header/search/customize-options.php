@@ -53,6 +53,7 @@ $wp_customize->add_control(
                         '#customize-control-shfb_search_icon',
                         '#customize-control-shfb_search_icon_sticky_title',
                         '#customize-control-shfb_search_icon_sticky',
+                        '#customize-control-shfb_search_background_color',
                         '#customize-control-shfb_search_layout_title',
                         '#customize-control-shfb_search_icon_padding',
                         '#customize-control-shfb_search_icon_margin'
@@ -143,6 +144,39 @@ $wp_customize->add_control(
             'priority' => 25
         )
     )
+);
+
+// Background Color
+$wp_customize->add_setting(
+	'global_shfb_search_background_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'shfb_search_background_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_control(
+	new Sydney_Alpha_Color(
+		$wp_customize,
+		'shfb_search_background_color',
+		array(
+			'label'    => esc_html__( 'Background Color', 'sydney' ),
+			'section'  => 'sydney_section_hb_component__search',
+			'settings' => array(
+				'global'  => 'global_shfb_search_background_color',
+				'setting' => 'shfb_search_background_color',
+			),
+			'priority' => 26
+		)
+	)
 );
 
 // Sticky Header - Title
