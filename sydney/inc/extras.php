@@ -70,6 +70,11 @@ function sydney_body_classes( $classes ) {
 		$classes[] = 'transparent-header';
 	}
 
+	//Transparent header on mobile
+	if ( in_array( 'transparent-header', $classes, true ) && ! get_theme_mod( 'transparent_header_mobile', 1 ) ) {
+		$classes[] = 'no-transparent-header-mobile';
+	}
+
 	//Check if current page has blocks
 	if ( isset( $post ) && function_exists( 'has_blocks' ) && has_blocks() ) {
 		$classes[] = 'syd-has-blocks';

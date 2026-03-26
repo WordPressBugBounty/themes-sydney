@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="sydney-dashboard-row">
     <div class="sydney-dashboard-column">
-        <div class="sydney-dashboard-card sydney-dashboard-card-top-spacing">
+        <div class="sydney-dashboard-card sydney-dashboard-card-top-spacing sydney-dashboard-card-tabs-divider">
             <div class="sydney-dashboard-card-body sydney-dashboard-card-body-content-with-dividers">
 
                 <?php 
@@ -25,6 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php 
                 // Load Misc section (Usage Tracking).
                 require get_template_directory() . '/inc/dashboard/html-settings-misc.php';
+                ?>
+
+                <?php 
+                // Load Wizard section.
+                require get_template_directory() . '/inc/dashboard/html-settings-wizard.php';
                 ?>
 
             </div>

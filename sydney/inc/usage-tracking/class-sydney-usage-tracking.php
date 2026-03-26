@@ -180,6 +180,7 @@ class Sydney_Usage_Tracking {
 			'athemes_sydney_pro_installed_date'  => $is_pro ? $this->get_installed_date( 'pro' ) : '',
 			'athemes_sydney_active_modules'      => $this->get_active_modules(),
 			'athemes_sydney_settings'            => $this->get_settings(),
+			'athemes_sydney_block_editor_enabled' => (int) $this->is_block_editor_enabled(),
 		);
 
 		if ( $data['is_multisite'] ) {
@@ -403,6 +404,30 @@ class Sydney_Usage_Tracking {
 	 */
 	private function get_sites_total() {
 		return function_exists( 'get_blog_count' ) ? (int) get_blog_count() : 1;
+	}
+
+	/**
+	 * Check if the block editor (Gutenberg) is the default editor.
+	 *
+	 * @return bool
+	 */
+	private function is_block_editor_enabled() {
+		// WordPress 5.0+ provides this function and it accounts for Classic Editor plugin.
+		if ( function_exists( 'use_block_editor_for_post_type' ) ) {
+			return use_block_editor_for_post_type( 'post' );
+		}
+
+		// Fallback: check if Classic Editor plugin is active and set to classic mode.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( is_plugin_active( 'classic-editor/classic-editor.php' ) ) {
+			return get_option( 'classic-editor-replace', 'block' ) !== 'classic';
+		}
+
+		// Default: block editor is enabled in WordPress 5.0+.
+		return true;
 	}
 }
 

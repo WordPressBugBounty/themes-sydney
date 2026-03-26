@@ -24,11 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">
 				<div class="sydney-dashboard-box-link">
 					<?php if ( get_option( 'sydney-usage-tracking-enabled', 0 ) ) : ?>
-						<a href="#" class="sydney-dashboard-link sydney-dashboard-link-danger sydney-dashboard-option-switcher" data-option-id="sydney-usage-tracking-enabled" data-option-activate="false">
+						<a href="#" class="sydney-dashboard-external-link sydney-dashboard-link-danger sydney-dashboard-option-switcher" data-option-id="sydney-usage-tracking-enabled" data-option-activate="false">
 							<?php echo esc_html__( 'Deactivate', 'sydney' ); ?>
 						</a>
 					<?php else : ?>
-						<a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-option-switcher" data-option-id="sydney-usage-tracking-enabled" data-option-activate="true">
+						<a href="#" class="sydney-dashboard-external-link sydney-dashboard-link-success sydney-dashboard-option-switcher" data-option-id="sydney-usage-tracking-enabled" data-option-activate="true">
 							<?php echo esc_html__( 'Activate', 'sydney' ); ?>
 						</a>
 					<?php endif; ?>

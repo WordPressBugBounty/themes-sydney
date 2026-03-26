@@ -692,20 +692,10 @@ require get_template_directory() . '/inc/modules/hf-builder/class-header-footer-
 
 /**
  * Action Scheduler.
- * Load on plugins_loaded to ensure it's available before init.
  */
-add_action(
-	'plugins_loaded',
-	static function() {
-		
-		// Check if Action Scheduler is already loaded.
-		if ( function_exists( 'as_schedule_recurring_action' ) ) {
-			return;
-		}
-
-		require_once get_template_directory() . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
-	}
-);
+if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
+	require_once get_template_directory() . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
+}
 
 /**
  * Theme dashboard.

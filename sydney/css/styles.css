@@ -617,8 +617,12 @@ Header
 	text-decoration: none;
 	outline: none;
 }
-#mainnav ul li a:hover {
+#mainnav ul li a:hover,
+#mainnav ul li:hover > a {
 	color: var(--sydney-global-color-1);
+}
+#mainnav ul li:hover > .dropdown-symbol svg {
+	fill: var(--sydney-global-color-1);
 }
 #mainnav ul ul a {
 	width: 180px;

@@ -14,6 +14,7 @@ $opts_to_move = array(
         'enable_sticky_header',
         'sticky_header_type',
         'transparent_header',
+		'transparent_header_mobile',
         'header_container',
     ),
     'style'   => array()

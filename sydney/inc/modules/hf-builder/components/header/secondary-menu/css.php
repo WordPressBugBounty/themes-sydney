@@ -22,8 +22,8 @@ $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_color', '#212121', '.s
 $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_color', '#212121', '.shfb .secondary-navigation a.sydney-dropdown-link + .dropdown-symbol svg' );
 
 // Text Color Hover
-$css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_color_hover', '#757575', '.shfb .secondary-navigation a.sydney-dropdown-link:hover' );
-$css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_color_hover', '#757575', '.shfb .secondary-navigation a.sydney-dropdown-link:hover + .dropdown-symbol svg' );
+$css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_color_hover', '#757575', '.shfb .secondary-navigation a.sydney-dropdown-link:hover, .shfb .secondary-navigation li.sydney-dropdown-li:hover > a.sydney-dropdown-link' );
+$css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_color_hover', '#757575', '.shfb .secondary-navigation a.sydney-dropdown-link:hover + .dropdown-symbol svg, .shfb .secondary-navigation li.sydney-dropdown-li:hover > .dropdown-symbol svg' );
 
 // Submenu Background
 $css .= Sydney_Custom_CSS::get_background_color_css( 'secondary_menu_submenu_background', '#FFF', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul, .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li' );
@@ -33,8 +33,8 @@ $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_submenu_color', '#2121
 $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_submenu_color', '#212121', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a + .dropdown-symbol svg' );
 
 // Submenu Text Color Hover
-$css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_submenu_color_hover', '#757575', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover' );
-$css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_submenu_color_hover', '#757575', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover + .dropdown-symbol svg' );
+$css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_submenu_color_hover', '#757575', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover, .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li:hover > a' );
+$css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_submenu_color_hover', '#757575', '.shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover + .dropdown-symbol svg, .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li:hover > .dropdown-symbol svg' );
 
 if( sydney_callback_sticky_header() ) {
     // Sticky Header - Text Color
@@ -42,8 +42,8 @@ if( sydney_callback_sticky_header() ) {
     $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_color', '#212121', '.sticky-header-active .shfb .secondary-navigation a.sydney-dropdown-link + .dropdown-symbol svg' );
     
     // Sticky Header - Text Color Hover
-    $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_sticky_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation a.sydney-dropdown-link:hover' );
-    $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation a.sydney-dropdown-link:hover + .dropdown-symbol svg' );
+    $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_sticky_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation a.sydney-dropdown-link:hover, .sticky-header-active .shfb .secondary-navigation li.sydney-dropdown-li:hover > a.sydney-dropdown-link' );
+    $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation a.sydney-dropdown-link:hover + .dropdown-symbol svg, .sticky-header-active .shfb .secondary-navigation li.sydney-dropdown-li:hover > .dropdown-symbol svg' );
     
     // Sticky Header - Submenu Background
     $css .= Sydney_Custom_CSS::get_background_color_css( 'secondary_menu_sticky_submenu_background', '#FFF', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul, .sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li' );
@@ -53,8 +53,8 @@ if( sydney_callback_sticky_header() ) {
     $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_submenu_color', '#212121', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a + .dropdown-symbol svg' );
     
     // Sticky Header - Submenu Text Color Hover
-    $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_sticky_submenu_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover' );
-    $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_submenu_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover + .dropdown-symbol svg' );
+    $css .= Sydney_Custom_CSS::get_color_css( 'secondary_menu_sticky_submenu_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover, .sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li:hover > a' );
+    $css .= Sydney_Custom_CSS::get_fill_css( 'secondary_menu_sticky_submenu_color_hover', '#757575', '.sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul a:hover + .dropdown-symbol svg, .sticky-header-active .shfb .secondary-navigation .sub-menu.sydney-dropdown-ul li.sydney-dropdown-li:hover > .dropdown-symbol svg' );
 }
 
 // Padding

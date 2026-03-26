@@ -899,7 +899,7 @@ class Sydney_Header_Footer_Builder {
 
                 <div class="shfb-rows">
                     <?php
-                    foreach( $this->header_rows as $row ) { 
+                    foreach( (array) $this->header_rows as $row ) {
                         if( $this->get_row_data( $row['id'], 'header' ) === NULL ) {
                             continue;
                         }
@@ -1050,7 +1050,7 @@ class Sydney_Header_Footer_Builder {
 
                 <div class="shfb-rows">
                     <?php
-                    foreach( $this->footer_rows as $row ) { 
+                    foreach( (array) $this->footer_rows as $row ) {
                         if( $this->get_row_data( $row['id'], 'footer' ) === NULL ) {
                             continue;
                         }

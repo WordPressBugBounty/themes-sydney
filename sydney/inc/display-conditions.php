@@ -13,11 +13,11 @@ function sydney_get_display_conditions( $maybe_rules, $default = true, $mod_defa
 	$rules  = array();
 	$result = $default;
 
-	if ( is_array( $maybe_rules ) && ! empty( $maybe_rules ) ) {
+	if ( is_array( $maybe_rules ) ) {
 		$rules = $maybe_rules;
 	} else {
 		$option = get_theme_mod( $maybe_rules, $mod_default );
-		$rules  = json_decode( $option, true );
+		$rules  = is_string( $option ) ? json_decode( $option, true ) : ( is_array( $option ) ? $option : array() );
 	}
 
 	if ( ! empty( $rules ) ) {

@@ -523,12 +523,6 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 						tabsNavLink  = $( this ).closest( '.sydney-dashboard-tabs-nav' ).find( '.sydney-dashboard-tabs-nav-link' ),
 						to           = $( this ).data( 'tab-to' );
 
-					// Redirect to onboarding wizard if starter-sites tab
-					if( to === 'starter-sites' ) {
-						window.location.href = '/wp-admin/admin.php?page=atss-onboarding-wizard'; //todo: get admin url from php
-						return;
-					}
-
 					// Tab Nav Item
 					tabsNavLink.each( function(){
 						$( this ).closest( '.sydney-dashboard-tabs-nav-item' ).removeClass( 'active' );
@@ -822,7 +816,7 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 					loadingMessage = activate ? window.sydney_dashboard.i18n.activating : window.sydney_dashboard.i18n.deactivating;
 
 				$this
-					.html( '<i class="dashicons dashicons-update-alt"></i>' + loadingMessage )
+					.html( loadingMessage )
 					.removeClass( 'sydney-dashboard-link-success' )
 					.addClass( 'loading' );
 

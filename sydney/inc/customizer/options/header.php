@@ -394,6 +394,25 @@ $wp_customize->add_control(
 	)
 );
 
+$wp_customize->add_setting(
+	'transparent_header_mobile',
+	array(
+		'default'           => 1,
+		'sanitize_callback' => 'sydney_sanitize_checkbox',
+	)
+);
+$wp_customize->add_control(
+	new Sydney_Toggle_Control(
+		$wp_customize,
+		'transparent_header_mobile',
+		array(
+			'label'           => esc_html__( 'Apply transparent header on mobile', 'sydney' ),
+			'section'         => 'sydney_section_main_header',
+			'active_callback' => 'sydney_callback_transparent_header',
+		)
+	)
+);
+
 $wp_customize->add_setting( 'main_header_elements_title',
 	array(
 		'default'           => '',

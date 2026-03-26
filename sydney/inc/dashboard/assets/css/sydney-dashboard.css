@@ -904,7 +904,7 @@
   display: block;
 }
 
-.sydney-dashboard-notice .dashicons-dismiss {
+.sydney-dashboard-hero .sydney-dashboard-dismissable {
   cursor: pointer;
   position: absolute;
   z-index: 1;
@@ -923,10 +923,10 @@
   height: 38px;
   font-size: 16px;
   line-height: 1em;
-  color: #787c82;
+  color: #A7AAAD;
 }
 
-.sydney-dashboard-notice .dashicons-dismiss:hover {
+.sydney-dashboard-hero .sydney-dashboard-dismissable:hover {
   color: #d63638;
 }
 

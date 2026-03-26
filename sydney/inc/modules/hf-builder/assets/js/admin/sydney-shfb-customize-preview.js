@@ -484,4 +484,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     } );
   } );
+
+  //Sticky site title color
+  wp.customize( 'site_title_sticky_color', function( value ) {
+    value.bind( function( newval ) {
+      $( 'head' ).find( '#sydney-customizer-styles-site_title_sticky_color' ).remove();
+      $( 'head' ).append( '<style id="sydney-customizer-styles-site_title_sticky_color">.sticky-header-active .shfb .site-branding .site-title a { color: ' + newval + '; }</style>' );
+    } );
+  } );
+
+  //Sticky site description color
+  wp.customize( 'site_description_sticky_color', function( value ) {
+    value.bind( function( newval ) {
+      $( 'head' ).find( '#sydney-customizer-styles-site_description_sticky_color' ).remove();
+      $( 'head' ).append( '<style id="sydney-customizer-styles-site_description_sticky_color">.sticky-header-active .shfb .site-description { color: ' + newval + '; }</style>' );
+    } );
+  } );
 })(jQuery);

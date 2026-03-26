@@ -117,4 +117,16 @@ foreach( $rows as $row ) {
 
 }
 
+// Transparent header mobile toggle.
+if ( sydney_callback_transparent_header() && ! get_theme_mod( 'transparent_header_mobile', 1 ) ) {
+    $css .= "
+        @media (max-width: {$mobile_breakpoint}px) {
+            .no-transparent-header-mobile .header-wrapper,
+            .no-transparent-header-mobile .shfb-header {
+                position: relative;
+            }
+        }
+    ";
+}
+
 // @codingStandardsIgnoreEnd WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

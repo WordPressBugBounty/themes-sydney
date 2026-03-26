@@ -33,7 +33,13 @@ function sydney_dashboard_settings()
 	// Hero.
 	//
 	$settings['hero_title'] = esc_html__('Welcome to Sydney', 'sydney');
-	$settings['hero_desc']  = esc_html__('Sydney is now installed and ready to go. To help you with the next step, we’ve gathered together on this page all the resources you might need. We hope you enjoy using Sydney.', 'sydney');
+	$settings['hero_desc'] = esc_html__('Sydney is installed and ready to go! Click "Start Building With Templates" to browse our professionally designed starter sites and get your website up and running in minutes.', 'sydney');
+	if ( get_option( 'atss_wizard_state' ) ) {
+		$settings['hero_desc'] = esc_html__('Pick up where you left off! Click Resume Site Wizard to finish choosing your template and customizing your site\'s design and branding.', 'sydney');
+	} elseif ( empty( get_option( 'atss_wizard_state' ) ) && get_option( 'atss_current_starter' ) ) {
+		$settings['hero_desc']  = esc_html__('Starter Site is installed and ready for you! Check out the resources on this page to help you get started. Enjoy using Sydney!', 'sydney');
+	}
+	
 	$settings['hero_image'] = get_template_directory_uri() . '/inc/dashboard/assets/images/welcome-banner@2x.png';
 
 	//
@@ -155,7 +161,7 @@ function sydney_dashboard_settings()
 	//
 	// Demos.
 	//
-	$ettings['demos'] = array();
+	$settings['demos'] = array();
 
 	//
 	// Plugins.
@@ -365,6 +371,12 @@ function sydney_dashboard_settings()
 		//'link_label'  => esc_html__( 'Customize', 'sydney' ),
 		'docs_link'   => 'https://docs.athemes.com/article/how-to-build-a-mega-menu-with-sydney-pro/',
 		'desc'        => __('Mega menu with Elementor support', 'sydney'),
+		'dependency'  => array(
+			'callback' => function() {
+				return defined( 'ELEMENTOR_VERSION' );
+			},
+			'message'  => esc_html__( 'Requires Elementor', 'sydney' ),
+		),      
 	);
 	if ( !Sydney_Modules::is_module_active( 'hf-builder' ) ) {
 		$settings['features'][] = array(
@@ -439,6 +451,12 @@ function sydney_dashboard_settings()
 		'link_label'  => esc_html__('Customize', 'sydney'),
 		'docs_link'   => 'https://docs.athemes.com/article/444-pro-extended-woocommerce-module',
 		'desc'        => __('Extra features for WooCommerce', 'sydney'),
+		'dependency'  => array(
+			'callback' => function() {
+				return class_exists( 'WooCommerce' );
+			},
+			'message'  => esc_html__( 'Requires WooCommerce', 'sydney' ),
+		),
 	);
 	$settings['features'][] = array(
 		'category'    => 'integrations',

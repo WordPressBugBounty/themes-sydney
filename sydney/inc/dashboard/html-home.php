@@ -64,6 +64,10 @@ if (!defined('ABSPATH')) {
                                                 <?php echo esc_html__( 'Customize', 'sydney' ); ?>
                                             </a>
                                         <?php endif; ?>
+                                    <?php elseif ( Sydney_Modules::has_unmet_dependencies( $feature ) ) : ?>
+                                        <span class="sydney-dashboard-link sydney-dashboard-link-disabled">
+                                            <?php echo esc_html( Sydney_Modules::get_dependency_message( $feature ) ); ?>
+                                        </span>                                        
                                     <?php else : ?>
                                         <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true">
                                             <?php echo esc_html__( 'Activate', 'sydney' ); ?>
@@ -161,6 +165,10 @@ if (!defined('ABSPATH')) {
                                                     <?php echo esc_html__( 'Customize', 'sydney' ); ?>
                                                 </a>
                                             <?php endif; ?>
+                                        <?php elseif ( Sydney_Modules::has_unmet_dependencies( $feature ) ) : ?>
+                                            <span class="sydney-dashboard-link sydney-dashboard-link-disabled">
+                                                <?php echo esc_html( Sydney_Modules::get_dependency_message( $feature ) ); ?>
+                                            </span>                                           
                                         <?php else : ?>
                                             <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true">
                                                 <?php echo esc_html__( 'Activate', 'sydney' ); ?>

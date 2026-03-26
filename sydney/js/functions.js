@@ -575,7 +575,8 @@ sydney.stickyMenu = {
 		} );
 
 		// Set body padding-top (same logic as applySticky method)
-		if ( totalHeight > 0 && !document.body.classList.contains( 'transparent-header' ) ) {
+		var isTransparent = document.body.classList.contains( 'transparent-header' ) && !( document.body.classList.contains( 'no-transparent-header-mobile' ) && window.matchMedia( '(max-width: 1024px)' ).matches );
+		if ( totalHeight > 0 && !isTransparent ) {
 			document.body.style.paddingTop = totalHeight + 'px';
 		}
 	},
@@ -621,7 +622,8 @@ sydney.stickyMenu = {
 			} );
 
 			// Set body padding-top
-			if ( totalHeight > 0 && !document.body.classList.contains( 'transparent-header' ) ) {
+			var isTransparent = document.body.classList.contains( 'transparent-header' ) && !( document.body.classList.contains( 'no-transparent-header-mobile' ) && window.matchMedia( '(max-width: 1024px)' ).matches );
+			if ( totalHeight > 0 && !isTransparent ) {
 				document.body.style.paddingTop = totalHeight + 'px';
 			}
 		} else {

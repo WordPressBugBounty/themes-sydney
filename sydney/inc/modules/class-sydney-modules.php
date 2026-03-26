@@ -102,6 +102,44 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 				}
 			}
 		}
+
+		/**
+		 * Check if a feature has unmet dependencies
+		 *
+		 * @param array $feature Feature configuration array
+		 * @return bool True if dependencies are not met, false if all dependencies are met
+		 */
+		public static function has_unmet_dependencies( $feature ) {
+			// If no dependency is set, all dependencies are met
+			if ( ! isset( $feature['dependency'] ) || ! is_array( $feature['dependency'] ) ) {
+				return false;
+			}
+
+			// Check if callback exists and is callable
+			if ( ! isset( $feature['dependency']['callback'] ) || ! is_callable( $feature['dependency']['callback'] ) ) {
+				return false;
+			}
+
+			// Call the dependency callback - if it returns false, dependencies are not met
+			$dependency_met = call_user_func( $feature['dependency']['callback'] );
+
+			// Return true if dependency is NOT met (inverse logic for has_unmet)
+			return ! $dependency_met;
+		}
+
+		/**
+		 * Get the dependency message for a feature
+		 *
+		 * @param array $feature Feature configuration array
+		 * @return string The dependency message or empty string
+		 */
+		public static function get_dependency_message( $feature ) {
+			if ( ! isset( $feature['dependency']['message'] ) ) {
+				return '';
+			}
+
+			return $feature['dependency']['message'];
+		}
 	}   
 }
 

@@ -167,15 +167,17 @@ class Sydney_Dashboard
         );
 
         // Add 'aThemes Patcher' link
-        add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page
-            'sydney-dashboard',
-            esc_html__('Patcher', 'sydney'),
-            esc_html__('Patcher', 'sydney'),
-            'manage_options',
-            'athemes-patcher-preview-sp',
-            array( $this, 'html_patcher' ),
-            3
-        );
+        if ( !defined( 'ATHEMES_PATCHER_VERSION' ) ) {
+            add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page
+                'sydney-dashboard',
+                esc_html__('Patcher', 'sydney'),
+                esc_html__('Patcher', 'sydney'),
+                'manage_options',
+                'athemes-patcher-preview-sp',
+                array( $this, 'html_patcher' ),
+                3
+            );
+        }
 
         // Add 'Upgrade' link
         if( !defined( 'SYDNEY_PRO_VERSION' ) ) {
@@ -970,7 +972,6 @@ class Sydney_Dashboard
             if (!get_transient($transient)) {
                 ?>
             <div class="sydney-dashboard sydney-dashboard-notice">
-            <div class="sydney-dashboard-dismissable dashicons dashicons-dismiss" data-notice="<?php echo esc_attr($transient); ?>"></div>
             <?php require get_template_directory() . '/inc/dashboard/html-hero.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound ?>
             </div>
         <?php
