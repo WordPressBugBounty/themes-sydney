@@ -497,7 +497,9 @@ function sydney_customize_register( $wp_customize ) {
 
     $wp_customize->selective_refresh->add_partial( 'site_logo', array(
         'selector' => '.site-branding',
-        'render_callback' => array( 'Sydney_Header', 'logo' ),
+        'render_callback' => function() {
+            Sydney_Header::get_instance()->logo();
+        },
     ) );
 
     //___Theme info___//

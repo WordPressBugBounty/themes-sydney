@@ -4,6 +4,40 @@
  * Gutenberg support
  */
 
+/**
+ * Block classes that render heading-level HTML in the editor and should
+ * therefore receive heading typography rather than body typography.
+ *
+ * The `wp:post-title`, `wp:query-title`, `wp:site-title` and
+ * `wp:comments-title` blocks render as `<h*>` elements but do not carry
+ * the `.wp-block-heading` class, so they must be listed explicitly.
+ */
+function sydney_editor_heading_block_classes() {
+	return array(
+		'wp-block-heading',
+		'wp-block-post-title',
+		'wp-block-query-title',
+		'wp-block-site-title',
+		'wp-block-comments-title',
+	);
+}
+
+function sydney_editor_body_typography_selector() {
+	$exclusions = '';
+	foreach ( sydney_editor_heading_block_classes() as $class ) {
+		$exclusions .= ':not(.' . $class . ')';
+	}
+	return '.editor-styles-wrapper > *' . $exclusions;
+}
+
+function sydney_editor_heading_typography_selector() {
+	$selectors = array();
+	foreach ( sydney_editor_heading_block_classes() as $class ) {
+		$selectors[] = '.editor-styles-wrapper .' . $class;
+	}
+	return implode( ', ', $selectors );
+}
+
 function sydney_editor_styles() {
 	wp_enqueue_style( 'sydney-block-editor-styles', get_theme_file_uri( '/sydney-gutenberg-editor-styles.css' ), '', '20220208', 'all' );
 
@@ -66,7 +100,7 @@ function sydney_editor_styles() {
 	$body_text_transform    = get_theme_mod( 'body_text_transform' );
 	$body_text_decoration   = get_theme_mod( 'body_text_decoration' );
 
-	$custom .= ".editor-styles-wrapper > *:not(.wp-block-heading) { text-transform:" . esc_attr( $body_text_transform ) . ";font-style:" . esc_attr( $body_font_style ) . ";line-height:" . esc_attr( $body_line_height ) . ";letter-spacing:" . esc_attr( $body_letter_spacing ) . "px;}" . "\n";  
+	$custom .= sydney_editor_body_typography_selector() . " { text-transform:" . esc_attr( $body_text_transform ) . ";font-style:" . esc_attr( $body_font_style ) . ";line-height:" . esc_attr( $body_line_height ) . ";letter-spacing:" . esc_attr( $body_letter_spacing ) . "px;}" . "\n";
 
 	//Single post title
 	$custom .= Sydney_Custom_CSS::get_font_sizes_css( 'single_post_title_size', $defaults = array( 'desktop' => 48, 'tablet' => 32, 'mobile' => 32 ), '.editor-post-title__block .editor-post-title__input, .editor-styles-wrapper .editor-post-title__input' );
@@ -78,7 +112,7 @@ function sydney_editor_styles() {
 	$headings_text_transform    = get_theme_mod( 'headings_text_transform' );
 	$headings_text_decoration   = get_theme_mod( 'headings_text_decoration' );
 
-	$custom .= ".editor-styles-wrapper .wp-block-heading { font-style:" . esc_attr( $headings_font_style ) . ";line-height:" . esc_attr( $headings_line_height ) . ";letter-spacing:" . esc_attr( $headings_letter_spacing ) . "px;text-transform:" . esc_attr( $headings_text_transform ) . ";text-decoration:" . esc_attr( $headings_text_decoration ) . ";}" . "\n";
+	$custom .= sydney_editor_heading_typography_selector() . " { font-style:" . esc_attr( $headings_font_style ) . ";line-height:" . esc_attr( $headings_line_height ) . ";letter-spacing:" . esc_attr( $headings_letter_spacing ) . "px;text-transform:" . esc_attr( $headings_text_transform ) . ";text-decoration:" . esc_attr( $headings_text_decoration ) . ";}" . "\n";
 	
 	//__COLORS
 

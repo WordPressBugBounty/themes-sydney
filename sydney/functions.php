@@ -689,6 +689,7 @@ require get_template_directory() . '/inc/theme-update.php';
 require get_template_directory() . '/inc/modules/class-sydney-modules.php';
 require get_template_directory() . '/inc/modules/block-templates/class-sydney-block-templates.php';
 require get_template_directory() . '/inc/modules/hf-builder/class-header-footer-builder.php';
+require get_template_directory() . '/inc/modules/pattern-library/class-sydney-pattern-library.php';
 
 /**
  * Action Scheduler.
@@ -716,6 +717,12 @@ require get_template_directory() . '/inc/performance/class-sydney-performance.ph
  * Add global colors support for Elementor
  */
 require get_template_directory() . '/inc/integrations/elementor/class-sydney-elementor-global-colors.php';
+/**
+ * Elementor admin UI tweaks
+ */
+if ( is_admin() ) {
+	require get_template_directory() . '/inc/integrations/elementor/class-sydney-elementor-admin-tweaks.php';
+}
 /**
  * Template library for Elementor
  */

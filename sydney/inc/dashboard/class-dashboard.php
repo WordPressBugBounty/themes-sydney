@@ -724,6 +724,10 @@ class Sydney_Dashboard
 
         check_ajax_referer('nonce-bt-dashboard', 'nonce');
 
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
 		if ( ! isset( $_POST['key'] ) ) {
 			wp_send_json_error();
 		}
@@ -789,14 +793,18 @@ class Sydney_Dashboard
      * Edit template
      */
     function edit_template_part_callback() {
-            
+
         check_ajax_referer('nonce-bt-dashboard', 'nonce');
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
 
         if ( ! isset( $_POST['key'] ) ) {
             wp_send_json_error();
         }
 
-        $post_id = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
+        $post_id = absint( wp_unslash( $_POST['key'] ) );
 
         $post = get_post( $post_id );
 
@@ -806,8 +814,12 @@ class Sydney_Dashboard
 
         $action = 'edit';
 
-        if( class_exists( 'Elementor\Plugin' ) && Elementor\Plugin::$instance->documents->get( $post_id )->is_built_with_elementor() ) {
-            $action = 'elementor';
+        if ( class_exists( 'Elementor\Plugin' ) ) {
+            $document = Elementor\Plugin::$instance->documents->get( $post_id );
+
+            if ( $document && $document->is_built_with_elementor() ) {
+                $action = 'elementor';
+            }
         }
 
         $edit_url = get_admin_url() . 'post.php?post=' . $post_id . '&action=' . $action;

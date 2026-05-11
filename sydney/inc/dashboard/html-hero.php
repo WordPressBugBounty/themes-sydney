@@ -48,11 +48,11 @@ $transient = sprintf('%s_hero_notice', get_template());
 			<div class="sydney-dashboard-hero-actions">
 				<?php if ( in_array( $this->get_plugin_status( $this->settings['starter_plugin_path'] ), array( 'inactive', 'not_installed' ), true ) ) : ?>
 					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary sydney-dashboard-plugin-ajax-button sydney-ajax-success-redirect" data-type="install" data-path="<?php echo esc_attr($this->settings['starter_plugin_path']); ?>" data-slug="<?php echo esc_attr($this->settings['starter_plugin_slug']); ?>">
-						<?php esc_html_e('Start Building With Templates', 'sydney'); ?>
+						<?php esc_html_e("Let's Get Started", 'sydney'); ?>
 					</a>
 				<?php elseif ( 'active' === $this->get_plugin_status( $this->settings['starter_plugin_path'] ) && empty( get_option( 'atss_current_starter' ) ) && empty( get_option( 'atss_wizard_state' ) ) ) : ?>
 					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary sydney-dashboard-hero-button">
-						<?php esc_html_e('Start Building With Templates', 'sydney'); ?>
+						<?php esc_html_e("Let's Get Started", 'sydney'); ?>
 					</a>
 				<?php elseif ( 'active' === $this->get_plugin_status( $this->settings['starter_plugin_path'] ) && ! empty( get_option( 'atss_wizard_state' ) ) ) : ?>
 					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary sydney-dashboard-hero-button">
@@ -67,7 +67,7 @@ $transient = sprintf('%s_hero_notice', get_template());
 
 			<?php if ('active' !== $this->get_plugin_status($this->settings['starter_plugin_path'])) : ?>
 				<div class="sydney-dashboard-hero-notion">
-					<?php esc_html_e('Clicking "Start Building With Templates" button will install and activate the Sydney \'aThemes Starter Sites\' plugin.', 'sydney'); ?>
+					<?php esc_html_e('Clicking "Let\'s Get Started" button will install and activate the Sydney \'aThemes Starter Sites\' plugin.', 'sydney'); ?>
 				</div>
 			<?php endif; ?>
 	</div>

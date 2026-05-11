@@ -33,7 +33,7 @@ function sydney_dashboard_settings()
 	// Hero.
 	//
 	$settings['hero_title'] = esc_html__('Welcome to Sydney', 'sydney');
-	$settings['hero_desc'] = esc_html__('Sydney is installed and ready to go! Click "Start Building With Templates" to browse our professionally designed starter sites and get your website up and running in minutes.', 'sydney');
+	$settings['hero_desc'] = esc_html__('Sydney is installed and ready to go! Click "Let\'s Get Started" to browse our professionally designed starter sites and get your website up and running in minutes.', 'sydney');
 	if ( get_option( 'atss_wizard_state' ) ) {
 		$settings['hero_desc'] = esc_html__('Pick up where you left off! Click Resume Site Wizard to finish choosing your template and customizing your site\'s design and branding.', 'sydney');
 	} elseif ( empty( get_option( 'atss_wizard_state' ) ) && get_option( 'atss_current_starter' ) ) {
@@ -526,8 +526,16 @@ function sydney_dashboard_settings()
 			'link_label'  => esc_html__('Customize', 'sydney'),
 			'docs_link'   => 'https://docs.athemes.com/article/block-templates-module/',
 			'desc'        => __('Build headers, footers etc. with the site editor.', 'sydney'),
-		);  
+		);
 	}
+
+	$settings['features'][] = array(
+		'category' => 'general',
+		'module'   => 'pattern-library',
+		'title'    => esc_html__( 'Pattern Library', 'sydney' ),
+		'type'     => 'free',
+		'desc'     => __( 'Browse and insert Sydney patterns directly from the block editor.', 'sydney' ),
+	);
 
 	// Useful plugins.
 	$settings['useful-plugins'] = array(

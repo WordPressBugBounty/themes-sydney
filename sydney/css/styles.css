@@ -1517,7 +1517,7 @@ Blog
 .entry-content > .panel-layout {
 	margin-bottom: 0;
 }
-mbody:not(.elementor-page):not(.panel-layout):not(.page-template-page_front-page) .entry-content h1 {
+body:not(.elementor-page):not(.panel-layout):not(.page-template-page_front-page) .entry-content h1 {
 	margin-top: 1em;
 	margin-bottom: 0.5em;	
 }

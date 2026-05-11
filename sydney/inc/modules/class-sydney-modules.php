@@ -36,6 +36,17 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 					'text'          => __( 'Build headers, footers etc. with the site editor.', 'sydney' ) . '<div><a target="_blank" href="#">' . __( 'Documentation article', 'sydney' ) . '</a></div>',
 					'keywords'      => array( 'header', 'footer', 'template', 'templates', 'builder' ),
 				),
+				array(
+					'slug'         => 'pattern-library',
+					'name'         => esc_html__( 'Pattern Library', 'sydney' ),
+					'type'         => 'free',
+					'link'         => '',
+					'link_label'   => '',
+					'activate_uri' => '&amp;activate_module_pattern-library',
+					'text'         => __( 'Browse and insert Sydney patterns directly from the block editor.', 'sydney' ),
+					'keywords'     => array( 'patterns', 'studio', 'block editor', 'library' ),
+					'default'      => true,
+				),
 			);
 
 			if ( $category ) {
@@ -53,17 +64,43 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 
 		/**
 		 * Check if a specific module is activated
+		 *
+		 * Resolution order:
+		 * 1. If the slug is present in the `sydney-modules` option, return that value
+		 *    (explicit user choice wins, including explicit `false` opt-outs).
+		 * 2. Otherwise fall back to the module's default from {@see self::get_module_defaults()}.
+		 *    Missing slug means off.
+		 *
+		 * This path must stay translation-free — module bootstrap files call
+		 * `is_module_active()` at file-include time, before `init`, and
+		 * `get_modules()` uses `esc_html__()`/`__()` which triggers a
+		 * `_load_textdomain_just_in_time` notice on WP 6.7+.
 		 */
 		public static function is_module_active( $module ) {
 
 			$all_modules = get_option( 'sydney-modules' );
 			$all_modules = ( is_array( $all_modules ) ) ? $all_modules : (array) $all_modules;
 
-			if ( array_key_exists( $module, $all_modules ) && true === $all_modules[$module] ) {
-				return true;
+			if ( array_key_exists( $module, $all_modules ) ) {
+				return (bool) $all_modules[ $module ];
 			}
-		
-			return false;
+
+			$defaults = self::get_module_defaults();
+
+			return ! empty( $defaults[ $module ] );
+		}
+
+		/**
+		 * Default activation state for modules, keyed by slug.
+		 *
+		 * Kept separate from {@see self::get_modules()} so `is_module_active()`
+		 * can resolve defaults without touching translation functions.
+		 */
+		private static function get_module_defaults() {
+			return array(
+				'block-templates' => false,
+				'pattern-library' => true,
+			);
 		}
 
 		/**

@@ -55,6 +55,93 @@
 				"vh",
 				"vw"
 			]
+		},
+		"shadow": {
+			"defaultPresets": false,
+			"presets": [
+				{
+					"name": "Natural",
+					"slug": "natural",
+					"shadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)"
+				},
+				{
+					"name": "Lifted",
+					"slug": "lifted",
+					"shadow": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)"
+				},
+				{
+					"name": "Deep",
+					"slug": "deep",
+					"shadow": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
+				},
+				{
+					"name": "Sharp",
+					"slug": "sharp",
+					"shadow": "6px 6px 0px rgba(0, 0, 0, 0.2)"
+				},
+				{
+					"name": "Outlined",
+					"slug": "outlined",
+					"shadow": "6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0)"
+				},
+				{
+					"name": "Crisp",
+					"slug": "crisp",
+					"shadow": "6px 6px 0px rgb(0, 0, 0)"
+        }
+      ]
+    },
+		"typography": {
+			"defaultFontSizes": false,
+			"fluid": true,
+			"fontSizes": [
+				{
+					"name": "Small",
+					"slug": "small",
+					"size": "14px"
+				},
+				{
+					"name": "Medium",
+					"slug": "medium",
+					"size": "16px"
+				},
+				{
+					"name": "Regular",
+					"slug": "regular",
+					"size": "18px",
+					"fluid": {
+						"min": "16px",
+						"max": "18px"
+					}
+				},
+				{
+					"name": "Large",
+					"slug": "large",
+					"size": "24px",
+					"fluid": {
+						"min": "16px",
+						"max": "24px"
+					}
+				},
+				{
+					"name": "X-Large",
+					"slug": "x-large",
+					"size": "32px",
+					"fluid": {
+						"min": "20px",
+						"max": "32px"
+					}
+				},
+				{
+					"name": "XX-Large",
+					"slug": "xx-large",
+					"size": "48px",
+					"fluid": {
+						"min": "32px",
+						"max": "48px"
+					}
+				}
+			]
 		}
 	},
     "templateParts": [

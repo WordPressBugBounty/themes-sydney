@@ -78,10 +78,59 @@ function sydney_header_style() {
 			.header-image {
 				background-image: none;
 				height: auto !important;
-			}		
+			}
 		}
 	</style>
 	<?php
+	}
+
+	// Hero YouTube placeholder: keep the header image visible when WP core's
+	// wp-custom-header.js wipes the inner <img>, and lock the container's
+	// aspect ratio so the height does not jump while the YouTube iframe
+	// is inserted (intrinsic 1920x1080) before fitVids wraps it. Issue #346.
+	$is_video_hero = ( get_theme_mod( 'front_header_type' ) === 'core-video' && is_front_page() )
+		|| ( get_theme_mod( 'site_header_type' ) === 'core-video' && ! is_front_page() );
+
+	if (
+		$is_video_hero
+		&& function_exists( 'is_header_video_active' )
+		&& is_header_video_active()
+		&& get_header_image()
+	) {
+		$video_settings = function_exists( 'get_header_video_settings' ) ? get_header_video_settings() : array();
+		$mime_type      = isset( $video_settings['mimeType'] ) ? $video_settings['mimeType'] : '';
+
+		if ( 'video/x-youtube' === $mime_type ) {
+			$header_obj = function_exists( 'get_custom_header' ) ? get_custom_header() : null;
+			$ratio_w    = ( $header_obj && ! empty( $header_obj->width ) ) ? (int) $header_obj->width : 1920;
+			$ratio_h    = ( $header_obj && ! empty( $header_obj->height ) ) ? (int) $header_obj->height : 1080;
+			?>
+			<style type="text/css">
+				.wp-custom-header {
+					aspect-ratio: <?php echo (int) $ratio_w; ?> / <?php echo (int) $ratio_h; ?>;
+					overflow: hidden;
+					background-image: url("<?php echo esc_url( get_header_image() ); ?>");
+					background-size: cover;
+					background-position: center;
+					background-repeat: no-repeat;
+				}
+				.wp-custom-header > img {
+					display: none;
+				}
+				.wp-custom-header > iframe {
+					display: block;
+					width: 100%;
+					height: 100%;
+					border: 0;
+					opacity: 0;
+					animation: sydney-yth-fadein 0.6s ease 0.8s forwards;
+				}
+				@keyframes sydney-yth-fadein {
+					to { opacity: 1; }
+				}
+			</style>
+			<?php
+		}
 	}
 }
 endif; // sydney_header_style

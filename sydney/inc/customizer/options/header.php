@@ -580,7 +580,9 @@ $wp_customize->add_control( new Sydney_Repeater_Control( $wp_customize, 'social_
 $wp_customize->selective_refresh->add_partial( 'social_profiles_header', array(
 	'selector'              => '.header-social',
 	'container_inclusive'   => true,
-	'render_callback'       => array( 'Sydney_Header', 'social' ),
+	'render_callback'       => function() {
+		Sydney_Header::get_instance()->social();
+	},
 ) );
 
 $wp_customize->add_setting(
