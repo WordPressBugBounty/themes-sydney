@@ -7,7 +7,7 @@ import {
 } from "@wordpress/components";
 import { close } from "@wordpress/icons";
 import { useSelect, useDispatch } from "@wordpress/data";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { STORE_NAME } from "../store/index.js";
 import { TypeFilter } from "./TypeFilter.js";
 import { PatternGrid } from "./PatternGrid.js";
@@ -23,9 +23,22 @@ export function PatternLibraryModal({ onClose, onInsert }) {
   });
 
   const searchQuery = useSelect((select) => select(STORE_NAME).getSearchQuery());
-  const { setSearch } = useDispatch(STORE_NAME);
+  const selectedType = useSelect((select) => select(STORE_NAME).getSelectedType());
+  const favorites = useSelect((select) => select(STORE_NAME).getFavorites());
+  const recentlyUsed = useSelect((select) => select(STORE_NAME).getRecentlyUsed());
+  const { setSearch, setType, trackPatternInsert } = useDispatch(STORE_NAME);
 
   const sydneyPatterns = patterns.filter((p) => p.name?.startsWith("sydney/"));
+
+  const isFavoritesActive = selectedType === "favorites";
+  const showFavoritesFilter = favorites.length > 0;
+  const isRecentActive = selectedType === "recent";
+  const showRecentFilter = recentlyUsed.length > 0;
+
+  function handleInsert(pattern, blocks) {
+    trackPatternInsert(pattern.name);
+    onInsert(pattern, blocks);
+  }
 
   return (
     <Modal
@@ -74,9 +87,68 @@ export function PatternLibraryModal({ onClose, onInsert }) {
           <HStack
             spacing={4}
             alignment="center"
-            justify="flex-end"
+            justify="space-between"
             className="sydney-pattern-library-modal-header"
           >
+            <div className="sydney-pattern-library-modal-header-left">
+              {showRecentFilter && (
+                <button
+                  type="button"
+                  className={`sydney-pattern-library-recently-used-filter${
+                    isRecentActive ? " is-active" : ""
+                  }`}
+                  aria-pressed={isRecentActive}
+                  onClick={() => setType(isRecentActive ? "all" : "recent")}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <polyline points="1 4 1 10 7 10" />
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                  </svg>
+                  {__("Recently used", "sydney")}
+                </button>
+              )}
+              {showFavoritesFilter && (
+                <button
+                  type="button"
+                  className={`sydney-pattern-library-favorites-filter${
+                    isFavoritesActive ? " is-active" : ""
+                  }`}
+                  aria-pressed={isFavoritesActive}
+                  onClick={() => setType(isFavoritesActive ? "all" : "favorites")}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill={isFavoritesActive ? "currentColor" : "none"}
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+                  {sprintf(
+                    /* translators: %d: number of favorited patterns */
+                    __("Favorites (%d)", "sydney"),
+                    favorites.length
+                  )}
+                </button>
+              )}
+            </div>
             <Button
               icon={close}
               onClick={onClose}
@@ -87,7 +159,7 @@ export function PatternLibraryModal({ onClose, onInsert }) {
             <PatternGrid
               patterns={sydneyPatterns}
               isLoading={isLoading}
-              onInsert={onInsert}
+              onInsert={handleInsert}
             />
           </div>
         </div>

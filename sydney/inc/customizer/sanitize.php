@@ -160,17 +160,34 @@ function sydney_in_range( $input, $min, $max ){
 }
 
 /**
- * Sanitize fonts
+ * Sanitize a typography theme_mod (font, regularweight, optional extraweights, category).
+ *
+ * Scalar fields are passed through sanitize_text_field(). The optional
+ * `extraweights` field is treated as an array of weight strings: each entry is
+ * coerced to a string, sanitised, dropped if empty, and the final array is
+ * deduplicated. Numerically reindexed so `wp_json_encode()` always emits a JSON
+ * array (not an object).
  */
 function sydney_google_fonts_sanitize( $input ) {
-    $val =  json_decode( $input, true );
-    if( is_array( $val ) ) {
+    $val = json_decode( $input, true );
+    if ( is_array( $val ) ) {
         foreach ( $val as $key => $value ) {
-            $val[$key] = sanitize_text_field( $value );
+            if ( is_array( $value ) ) {
+                $sanitised = array();
+                foreach ( $value as $item ) {
+                    $item = sanitize_text_field( (string) $item );
+                    if ( '' === $item ) {
+                        continue;
+                    }
+                    $sanitised[] = $item;
+                }
+                $val[ $key ] = array_values( array_unique( $sanitised ) );
+            } else {
+                $val[ $key ] = sanitize_text_field( $value );
+            }
         }
         $input = wp_json_encode( $val );
-    }
-    else {
+    } else {
         $input = wp_json_encode( sanitize_text_field( $val ) );
     }
     return $input;

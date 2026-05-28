@@ -1455,6 +1455,16 @@
 			} );
 		} );
 	});
+
+	//extra global colors
+	$.each( [1, 2], function( i, n ) {
+		wp.customize( 'extra_global_color_' + n, function( value ) {
+			value.bind( function( to ) {
+				$( 'html' ).css( '--sydney-extra-global-color-' + n, to );
+				$( 'html' ).css( '--e-global-color-extra_global_color_' + n, to );
+			} );
+		} );
+	});
 		
 	wp.customize('offcanvas_menu_font_size',function( value ) {
 		value.bind( function( to ) {

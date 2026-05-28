@@ -51,6 +51,30 @@ $wp_customize->add_control( new Sydney_Palette_Control( $wp_customize, 'custom_p
 	'priority'  => 1,
 )));
 
+// Extra colors palette (only when at least one extra theme_mod is set).
+// Rendered as a separate Sydney_Palette_Control directly after the globals —
+// no header, no separator — so it reads as its own visual group but isn't
+// labeled.
+$sydney_extras = sydney_get_extra_global_colors();
+if ( ! empty( $sydney_extras ) ) {
+	$extras_settings = array();
+	foreach ( array_keys( $sydney_extras ) as $n ) {
+		$setting_id = 'extra_global_color_' . $n;
+		$wp_customize->add_setting( $setting_id, array(
+			'default'           => '',
+			'transport'         => 'postMessage',
+			'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		));
+		$extras_settings[ $setting_id ] = $setting_id;
+	}
+
+	$wp_customize->add_control( new Sydney_Palette_Control( $wp_customize, 'custom_palette_extras', array(
+		'section'  => 'colors',
+		'settings' => $extras_settings,
+		'priority' => 2,
+	)));
+}
+
 //General
 $wp_customize->add_setting( 'general_color_title',
 	array(

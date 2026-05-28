@@ -124,8 +124,13 @@ function sydney_dashboard_settings()
 		'home'           => esc_html__('Home', 'sydney'),
 		'starter-sites'  => esc_html__('Starter Sites', 'sydney'),
 		'settings'       => esc_html__('Settings', 'sydney'),
-		'free-vs-pro'    => esc_html__('Free vs Pro', 'sydney'),
 	);
+
+	if ( class_exists( 'Sydney_Setup_Checklist' ) && Sydney_Setup_Checklist::instance()->should_show_tab() ) {
+		$settings['tabs']['setup'] = esc_html__( 'Setup', 'sydney' );
+	}
+
+	$settings['tabs']['free-vs-pro'] = esc_html__('Free vs Pro', 'sydney');
 
 	if ( ( isset( $settings['has_pro'] ) && $settings['has_pro'] && Sydney_Modules::is_module_active( 'templates' ) ) || !$settings['has_pro'] ) {
 		$settings['tabs'] = array_merge(

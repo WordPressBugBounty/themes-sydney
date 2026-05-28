@@ -31,7 +31,16 @@ $disabled = !$this->settings['has_pro'] ? 'style="pointer-events:none;"' : '';
 			<h3><?php esc_html_e( 'Template Builder', 'sydney' ); ?></h3>
 			
 			<?php if ( !$this->settings['has_pro'] ) : ?>
-				<p><?php echo '<strong>' . esc_html__( 'Please note: ', 'sydney' ) . '</strong>' . esc_html__( 'This feature is available only in Sydney Pro', 'sydney' ); ?></p>
+				<p class="template-builder-pro-notice">
+					<?php
+					echo '<strong>' . esc_html__( 'Please note: ', 'sydney' ) . '</strong>';
+					printf(
+						/* translators: %s: "Sydney Pro" wrapped in <strong>. */
+						esc_html__( 'This feature is available only in %s', 'sydney' ),
+						'<strong>Sydney Pro</strong>'
+					);
+					?>
+				</p>
 			<?php endif; ?>
 
 			<ol>
@@ -155,7 +164,7 @@ $disabled = !$this->settings['has_pro'] ? 'style="pointer-events:none;"' : '';
 				<?php endif; //check if templates is empty ?>
 
 				<div class="add-new-template-wrapper">
-					<span id="add-new-template"><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add Template', 'sydney' ); ?></span>
+					<span id="add-new-template" <?php echo $disabled; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add Template', 'sydney' ); ?></span>
 				</div>
 
 			</div>

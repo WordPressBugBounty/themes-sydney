@@ -145,6 +145,48 @@ input::-moz-focus-inner, input::-moz-focus-outer {
   width: 100% !important;
 }
 
+/* "Additional weights to load" multi-select sits on its own row beneath the
+ * primary weight dropdown. Visually matches the native <select> above it. */
+.google_fonts_select_control .google-fonts-extras-wrapper {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .font-control-title {
+  margin-bottom: 6px;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper select.google-fonts-extraweights-style {
+  width: 100% !important;
+  max-width: 100%;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .select2-selection--multiple {
+  min-height: 40px;
+  border-color: #d0d0d0 !important;
+  border-radius: 4px;
+  padding: 6px;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .select2-selection--multiple .select2-selection__rendered {
+  padding: 0;
+  line-height: 1.2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .select2-selection--multiple .select2-selection__choice {
+  margin: 3px 4px 3px 0;
+  padding: 1px 6px;
+  line-height: 1.4;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .select2-selection--multiple .select2-search--inline {
+  flex: 1 1 auto;
+  min-width: 40px;
+}
+.google_fonts_select_control .google-fonts-extras-wrapper .select2-selection--multiple .select2-search--inline .select2-search__field {
+  margin: 0;
+  height: 22px;
+  min-height: 0;
+  line-height: 22px;
+}
+
 .bold {
   font-weight: 600;
 }
@@ -1835,6 +1877,13 @@ ul[id^="sub-accordion-section-sydney_cpt_"] li:not(.customize-control-sydney-tex
 .sydney-custom-palette {
   display: flex;
   justify-content: space-between;
+}
+
+/* Extras palette: only 1-2 swatches, so distribute from the start instead of
+   stretching them to opposite edges. */
+#customize-control-custom_palette_extras .sydney-custom-palette {
+  justify-content: flex-start;
+  gap: 6px;
 }
 /* Dimensions Control */
 .sydney-dimensions-control .sydney-dimensions-wrapper .sydney-dimensions-header {

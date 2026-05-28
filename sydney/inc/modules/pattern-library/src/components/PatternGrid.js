@@ -5,6 +5,7 @@ import { useMemo, useState, useRef, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { STORE_NAME } from '../store/index.js';
 import { TYPE_ORDER } from '../constants.js';
+import { FavoriteToggle } from './FavoriteToggle.js';
 
 function getTypeIndex( pattern ) {
 	const categories = pattern.categories || [];
@@ -15,6 +16,15 @@ function getTypeIndex( pattern ) {
 export function PatternGrid( { patterns, isLoading, onInsert } ) {
 	const selectedType = useSelect( ( select ) => select( STORE_NAME ).getSelectedType() );
 	const searchQuery = useSelect( ( select ) => select( STORE_NAME ).getSearchQuery() );
+	const favorites = useSelect( ( select ) => select( STORE_NAME ).getFavorites() );
+	const favoriteSet = useMemo( () => new Set( favorites ), [ favorites ] );
+	const recentlyUsed = useSelect( ( select ) => select( STORE_NAME ).getRecentlyUsed() );
+	const recentlyUsedSet = useMemo( () => new Set( recentlyUsed ), [ recentlyUsed ] );
+	const recentlyUsedOrder = useMemo( () => {
+		const order = new Map();
+		recentlyUsed.forEach( ( name, index ) => order.set( name, index ) );
+		return order;
+	}, [ recentlyUsed ] );
 	const isPro = window.sydneyPatternLibrary?.isPro || false;
 	const upgradeUrl = window.sydneyPatternLibrary?.upgradeUrl || '';
 
@@ -33,7 +43,16 @@ export function PatternGrid( { patterns, isLoading, onInsert } ) {
 
 	const q = ( searchQuery || '' ).trim().toLowerCase();
 	const filtered = patterns.filter( ( pattern ) => {
-		const matchesType = selectedType === 'all' || ( pattern.categories || [] ).includes( selectedType );
+		let matchesType;
+		if ( selectedType === 'all' ) {
+			matchesType = true;
+		} else if ( selectedType === 'favorites' ) {
+			matchesType = favoriteSet.has( pattern.name );
+		} else if ( selectedType === 'recent' ) {
+			matchesType = recentlyUsedSet.has( pattern.name );
+		} else {
+			matchesType = ( pattern.categories || [] ).includes( selectedType );
+		}
 		if ( ! q ) return matchesType;
 		const title = ( pattern.title || '' ).toLowerCase();
 		const keywords = ( pattern.keywords || [] ).map( ( k ) => String( k ).toLowerCase() );
@@ -41,7 +60,13 @@ export function PatternGrid( { patterns, isLoading, onInsert } ) {
 		return matchesType && matchesQuery;
 	} );
 
-	const sorted = [ ...filtered ].sort( ( a, b ) => getTypeIndex( a ) - getTypeIndex( b ) );
+	const sorted = [ ...filtered ].sort( ( a, b ) => {
+		if ( selectedType === 'recent' ) {
+			// Preserve LRU ordering from the recentlyUsed array.
+			return ( recentlyUsedOrder.get( a.name ) ?? Infinity ) - ( recentlyUsedOrder.get( b.name ) ?? Infinity );
+		}
+		return getTypeIndex( a ) - getTypeIndex( b );
+	} );
 	const freePatterns = sorted.filter( ( p ) => ! p.sydney_pro );
 	const proPatterns = sorted.filter( ( p ) => p.sydney_pro );
 
@@ -172,28 +197,33 @@ function PatternPreview( { pattern, onClick, isPro = false } ) {
 	}, [ inViewport ] );
 
 	return (
-		<button
+		<div
 			ref={ blockRef }
-			type="button"
 			className="sydney-pattern-library-pattern-item"
-			aria-label={ pattern.title }
-			onClick={ () => onClick( pattern, blocks ) }
 		>
-			{ isPro && (
-				<span className="sydney-pattern-library-pro-badge">{ __( 'Pro', 'sydney' ) }</span>
-			) }
-			{ inViewport && (
-				<BlockPreview
-					blocks={ blocks }
-					viewportWidth={ 1600 }
-					additionalStyles={ [
-						{ css: '.is-root-container > .wp-block-cover,.is-root-container > .wp-block-group { max-width: 100% !important;margin-bottom: 0 !important; } .wp-block-cover { min-height: 500px !important; }' },
-					] }
-				/>
-			) }
-			{ ! isLoaded && (
-				<div className="sydney-pattern-library-pattern-skeleton" aria-hidden="true" />
-			) }
-		</button>
+			<FavoriteToggle patternName={ pattern.name } />
+			<button
+				type="button"
+				className="sydney-pattern-library-pattern-item__action"
+				aria-label={ pattern.title }
+				onClick={ () => onClick( pattern, blocks ) }
+			>
+				{ isPro && (
+					<span className="sydney-pattern-library-pro-badge">{ __( 'Pro', 'sydney' ) }</span>
+				) }
+				{ inViewport && (
+					<BlockPreview
+						blocks={ blocks }
+						viewportWidth={ 1600 }
+						additionalStyles={ [
+							{ css: '.is-root-container > .wp-block-cover,.is-root-container > .wp-block-group { max-width: 100% !important;margin-bottom: 0 !important; } .wp-block-cover { min-height: 500px !important; }' },
+						] }
+					/>
+				) }
+				{ ! isLoaded && (
+					<div className="sydney-pattern-library-pattern-skeleton" aria-hidden="true" />
+				) }
+			</button>
+		</div>
 	);
 }

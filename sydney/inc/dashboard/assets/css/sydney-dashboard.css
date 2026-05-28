@@ -726,7 +726,6 @@
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link {
   color: #2271b1;
-  font-weight: 500;
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:after {
@@ -1677,13 +1676,20 @@
 }
 
 /* Free Vs Pro Table */
+.sydney-dashboard-freevspro-table__item {
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
 .sydney-dashboard-freevspro-table__header {
   position: sticky;
   top: 50px;
   z-index: 1;
-  border-radius: 4px;
-  border: 1px solid #C2CFF8;
-  background-color: #F9FAFE;
+  border-radius: 6px 6px 0 0;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #f7f7f7;
 }
 
 .sydney-dashboard-freevspro-table__header .sydney-dashboard-freevspro-table__column {
@@ -1757,7 +1763,7 @@
   max-width: 275px;
   padding: 17px 23px;
   text-align: center;
-  border-bottom: 1px solid #E3E8F7;
+  border-bottom: 1px solid #f7f7f7;
 }
 
 .sydney-dashboard-freevspro-table__column strong {
@@ -1866,22 +1872,18 @@
 }
 
 /* Templates Builder */
-.sydney-dashboard-container[data-theme="sydney"] .sydney-dashboard-tabs-nav-link[data-tab-to="builder"]:before {
-  content: 'PRO';
-  color: #2271b1;
-  position: absolute;
-  top: 3px;
-  right: 0;
-  border: 1px solid #2271b1;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 1;
-  padding: 1px 3px;
-}
 .template-builder-wrapper {
   background-color: #f7f7f7;
   padding: 30px 0 30px 30px;
   margin-top: -32px;
+}
+.template-builder-wrapper .template-builder-pro-notice {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 0 10px #efefef;
+  padding: 14px 20px;
+  margin: 10px 0 20px;
 }
 .template-builder-wrapper .intro {
   display: flex;
@@ -2530,4 +2532,298 @@
 
 .sydney-dashboard-feature-card.sydney-dashboard-feature-card-plugin a {
   margin-top: auto;
+}
+
+/* Setup Checklist */
+.sydney-setup-checklist-intro {
+	margin-bottom: 24px;
+}
+.sydney-setup-checklist-intro h2 {
+	font-size: 20px;
+	line-height: 30px;
+	margin: 0 0 8px;
+}
+.sydney-setup-checklist-intro p {
+	margin: 0;
+	max-width: 70ch;
+}
+.sydney-setup-checklist-category {
+	margin-bottom: 20px;
+}
+.sydney-setup-checklist-category-box {
+	border: 1px solid #e5e5e5;
+	border-radius: 6px;
+	background: #fff;
+	overflow: hidden;
+}
+.sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-category-box {
+	background: #f7fcfa;
+	border-color: #def3ed;
+}
+.sydney-setup-checklist-category-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 20px;
+	margin: 0;
+	border-bottom: 1px solid #f7f7f7;
+}
+.sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-category-header {
+	border-bottom: 0;
+}
+.sydney-setup-checklist-category.is-collapsed .sydney-setup-checklist-category-header {
+	cursor: pointer;
+}
+.sydney-setup-checklist-category-label {
+	font-size: 16px;
+	line-height: 1.4;
+	margin: 0;
+}
+.sydney-setup-checklist-category-progress {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+	box-sizing: border-box;
+}
+.sydney-setup-checklist-category-progress.is-state-empty,
+.sydney-setup-checklist-category-progress.is-state-partial {
+	background: #eee;
+}
+.sydney-setup-checklist-category-progress.is-state-done {
+	background: #3fb28f;
+	border: 1.5px solid #3fb28f;
+}
+.sydney-setup-checklist-category-progress-fraction {
+	display: inline;
+}
+.sydney-setup-checklist-category-progress-check {
+	display: none;
+}
+.sydney-setup-checklist-category-progress.is-state-done .sydney-setup-checklist-category-progress-fraction {
+	display: none;
+}
+.sydney-setup-checklist-category-progress.is-state-done .sydney-setup-checklist-category-progress-check {
+	display: inline-block;
+}
+.sydney-setup-checklist-category-toggle {
+	display: none;
+	margin-left: auto;
+	background: transparent;
+	border: 0;
+	padding: 4px;
+	cursor: pointer;
+	line-height: 0;
+	border-radius: 4px;
+}
+.sydney-setup-checklist-category-toggle:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+.sydney-setup-checklist-category-toggle .dashicons {
+	transition: transform 0.2s ease;
+}
+.sydney-setup-checklist-category.is-fully-done .sydney-setup-checklist-category-toggle {
+	display: inline-flex;
+}
+.sydney-setup-checklist-category.is-fully-done:not(.is-collapsed) .sydney-setup-checklist-category-toggle .dashicons {
+	transform: rotate(180deg);
+}
+.sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-items {
+	display: none;
+}
+.sydney-setup-checklist-items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.sydney-setup-checklist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 16px 20px;
+	border-bottom: 1px solid #f7f7f7;
+	column-gap: 12px;
+	row-gap: 0;
+}
+.sydney-setup-checklist-item:last-child {
+	border-bottom: 0;
+}
+.sydney-setup-checklist-item-status {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	color: #c8c8c8;
+	background: transparent;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	line-height: 0;
+	cursor: pointer;
+	border-radius: 50%;
+	transition: color 0.15s ease;
+}
+.sydney-setup-checklist-item-status:hover:not([disabled]) {
+	color: #2271b1;
+}
+.sydney-setup-checklist-item-status:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+.sydney-setup-checklist-item-status[disabled] {
+	cursor: default;
+}
+.sydney-setup-checklist-item-status.is-loading {
+	opacity: 0.5;
+}
+.sydney-setup-checklist-item-status .check {
+	display: none;
+}
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status .ring {
+	fill: #3fb28f;
+	stroke: #3fb28f;
+}
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status .check {
+	display: inline;
+	stroke: #fff;
+}
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status:hover:not([disabled]) .ring {
+	fill: #359a7c;
+	stroke: #359a7c;
+}
+.sydney-setup-checklist-item-text {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+}
+.sydney-setup-checklist-item-title {
+	font-weight: 500;
+}
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-title {
+	text-decoration: line-through;
+}
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-text,
+.sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-actions {
+	opacity: 0.5;
+}
+.sydney-setup-checklist-item-desc {
+	font-size: 13px;
+	margin-top: 5px;
+}
+.sydney-setup-checklist-item-actions {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.sydney-setup-checklist-item-actions .button,
+.sydney-setup-checklist-item-actions .button-primary,
+.sydney-setup-checklist-item-actions .button-secondary {
+	min-width: 115px;
+	text-align: center;
+}
+.sydney-setup-checklist-item-actions .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	line-height: 1;
+	vertical-align: middle;
+	margin-right: 4px;
+}
+.sydney-setup-checklist-help {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 50%;
+	color: #757575;
+	cursor: pointer;
+	line-height: 0;
+	transition: color 0.15s ease, background 0.15s ease;
+}
+.sydney-setup-checklist-help:hover {
+	color: #2271b1;
+	background: #f0f6fc;
+}
+.sydney-setup-checklist-help:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+.sydney-setup-checklist-help .dashicons {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+}
+.sydney-setup-checklist-help-dialog {
+	position: fixed;
+	padding: 0;
+	border: 0;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+	max-width: min(960px, 92vw);
+	max-height: 92vh;
+	overflow: visible;
+}
+.sydney-setup-checklist-help-dialog::backdrop {
+	background: rgba(0, 0, 0, 0.55);
+}
+.sydney-setup-checklist-help-dialog-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 92vh;
+	border-radius: 8px;
+}
+.sydney-setup-checklist-help-dialog-close {
+	position: absolute;
+	top: -14px;
+	right: -14px;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: #1d2327;
+	color: #fff;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.sydney-setup-checklist-help-dialog-close:hover {
+	background: #000;
+}
+.sydney-setup-checklist-help-dialog-close:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 2px;
+}
+.sydney-setup-checklist-help-dialog-close .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+@media (max-width: 720px) {
+	.sydney-setup-checklist-item-actions {
+		width: 100%;
+		justify-content: flex-end;
+	}
 }

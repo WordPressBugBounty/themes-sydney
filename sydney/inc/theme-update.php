@@ -576,3 +576,22 @@ function sydney_enable_global_color_css_vars() {
     set_theme_mod( 'sydney_global_color_css_vars', true );
 }
 add_action( 'after_switch_theme', 'sydney_enable_global_color_css_vars' );
+
+/**
+ * Setup Checklist
+ * Enable the dashboard Setup tab for new users only. Existing sites that
+ * update into the version that ships this feature never trigger
+ * `after_switch_theme` and therefore never get the eligibility flag, so the
+ * tab stays hidden for them. Sites that newly switch to Sydney from a
+ * non-Sydney theme do get the flag and see the checklist until they finish.
+ */
+function sydney_setup_checklist_enable_for_new_users( $old_theme_name ) {
+    if ( get_option( 'sydney_setup_checklist_eligible' ) ) {
+        return;
+    }
+    if ( strpos( strtolower( $old_theme_name ), 'sydney' ) !== false ) {
+        return;
+    }
+    update_option( 'sydney_setup_checklist_eligible', 1 );
+}
+add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );

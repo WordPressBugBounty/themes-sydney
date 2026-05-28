@@ -190,9 +190,24 @@
   border-color: var(--border-color-hover);
   outline: none;
 }
-.sydney-pattern-library-pattern-item:focus {
+.sydney-pattern-library-pattern-item:focus-within {
   box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
+  outline: none;
+}
+.sydney-pattern-library-pattern-item__action {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.sydney-pattern-library-pattern-item__action:focus {
   outline: none;
 }
 .sydney-pattern-library-pro-badge {
@@ -207,6 +222,113 @@
   border-radius: 2px;
   z-index: 10;
   pointer-events: none;
+}
+
+/* Heart toggle in top-left of each pattern card.
+   Hidden until the card is hovered/focused; always visible when favorited
+   so users can find their favorites to un-heart them. */
+.sydney-pattern-library-favorite-toggle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 11;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  color: #1d2327;
+  cursor: pointer;
+  line-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.sydney-pattern-library-pattern-item:hover .sydney-pattern-library-favorite-toggle,
+.sydney-pattern-library-pattern-item:focus-within .sydney-pattern-library-favorite-toggle,
+.sydney-pattern-library-favorite-toggle.is-favorited,
+.sydney-pattern-library-favorite-toggle:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sydney-pattern-library-favorite-toggle:hover {
+  background: #fff;
+  transform: scale(1.08);
+}
+.sydney-pattern-library-favorite-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
+}
+.sydney-pattern-library-favorite-toggle.is-favorited {
+  color: #e0245e;
+}
+.sydney-pattern-library-favorite-toggle svg {
+  display: block;
+  pointer-events: none;
+}
+
+/* Top-bar Favorites toggle (modal header strip).
+   Plain <button> styled as a compact text link so it aligns vertically
+   with the icon-only close button to its right. Hover/active states use
+   the WP admin theme color so the toggle visually matches whatever
+   accent the user has configured in their profile. */
+.sydney-pattern-library-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sydney-pattern-library-recently-used-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  padding: 4px 6px;
+  margin: 0;
+  font: inherit;
+  color: var(--color-heading);
+  cursor: pointer;
+  border-radius: 2px;
+}
+.sydney-pattern-library-recently-used-filter svg {
+  flex-shrink: 0;
+}
+.sydney-pattern-library-recently-used-filter:hover,
+.sydney-pattern-library-recently-used-filter.is-active {
+  color: var(--wp-admin-theme-color, #3858e9);
+}
+.sydney-pattern-library-recently-used-filter:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #3858e9);
+}
+.sydney-pattern-library-favorites-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  padding: 4px 6px;
+  margin: 0;
+  font: inherit;
+  color: var(--color-heading);
+  cursor: pointer;
+  border-radius: 2px;
+}
+.sydney-pattern-library-favorites-filter svg {
+  flex-shrink: 0;
+}
+.sydney-pattern-library-favorites-filter:hover,
+.sydney-pattern-library-favorites-filter.is-active {
+  color: var(--wp-admin-theme-color, #3858e9);
+}
+.sydney-pattern-library-favorites-filter:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #3858e9);
 }
 /* Per-card skeleton shown while the BlockPreview iframe is loading */
 .sydney-pattern-library-pattern-item {

@@ -41,8 +41,7 @@ function sydney_editor_heading_typography_selector() {
 function sydney_editor_styles() {
 	wp_enqueue_style( 'sydney-block-editor-styles', get_theme_file_uri( '/sydney-gutenberg-editor-styles.css' ), '', '20220208', 'all' );
 
-	wp_enqueue_style( 'sydney-fonts', sydney_google_fonts_url(), array(), '20250901' );
-
+	// Google Fonts are loaded into the editor iframe via add_editor_style() in sydney_setup().
 
 	//Dynamic styles
 	$custom = '';
@@ -55,6 +54,9 @@ function sydney_editor_styles() {
 	for ($i = 1; $i <= 9; $i++) {
 		$color = get_theme_mod("global_color_" . $i, $global_color_defaults["global_color_" . $i]);
 		$custom .= "  --sydney-global-color-" . $i . ":" . esc_attr( $color ) . ";" . "\n";
+	}
+	foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+		$custom .= "  --sydney-extra-global-color-" . $n . ":" . esc_attr( $value ) . ";" . "\n";
 	}
 	$custom .= "}" . "\n";
 
@@ -131,6 +133,9 @@ function sydney_editor_styles() {
 
 	$buttons_radius = get_theme_mod( 'buttons_radius', 3 );
 	$custom .= ".editor-styles-wrapper .wp-block-button__link { border-radius:" . intval( $buttons_radius ) . "px;}" . "\n";
+
+	$custom .= ".editor-styles-wrapper .wp-block-button__link { box-sizing: border-box; border: 2px solid transparent; }\n";
+	$custom .= ".editor-styles-wrapper .wp-block-button:not(.is-style-outline) .wp-block-button__link, .editor-styles-wrapper .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover { border-color: transparent; }\n";
 
 	$custom .= Sydney_Custom_CSS::get_font_sizes_css( 'button_font_size', $defaults = array( 'desktop' => 13, 'tablet' => 13, 'mobile' => 13 ), '.editor-styles-wrapper .wp-block-button__link,button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );
 	$button_text_transform = get_theme_mod( 'button_text_transform', 'uppercase' );

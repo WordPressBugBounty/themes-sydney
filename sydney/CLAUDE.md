@@ -2,9 +2,105 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+# MEMORY.md
+Maintain a file called MEMORY.md in this project. After any significant decision, add an entry: What was decided / Why / What was rejected and why. Read MEMORY.md at the start of every session. Never contradict a logged decision without flagging it first.
+
+When I say "session end", "wrapping up", or "let's stop here" or similar: write a session summary to MEMORY.md. Include: Worked on / Completed / In progress / Decisions made / Next session priorities.
+
+# ERRORS.md
+Maintain a file called ERRORS.md. When an approach takes more than 2 attempts to work, log it: What didn't work / What worked instead / Note for next time. Check ERRORS.md before suggesting approaches to similar tasks.
+
+## Working Principles
+
+Behavioral guidelines to reduce common LLM coding mistakes.
+
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+### 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+### 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+### 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+### 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+## General rules
+- Match response length to task complexity. Simple questions get direct, short answers. Complex tasks get full, detailed responses. Never pad responses with restatements of the question or closing sentences that repeat what you just said.
+- Never open responses with filler phrases like "Great question!", "Of course!", "Certainly!", or similar warmups. Start every response with the actual answer. No preamble, no acknowledgment of the question.
+
 ## Project Overview
 
 **Sydney** is a WordPress theme by aThemes, built with PHP 7.2+ and modern frontend tooling. The theme supports Elementor, WooCommerce, Gutenberg block templates, and includes a custom header/footer builder.
+
+## Tech Stack
+
+Tech stack for this project. Always use these. Never suggest alternatives unless I ask:
+
+- **Language:** PHP 7.2+ (theme code), JavaScript (ES6, no TypeScript)
+- **Framework:** WordPress 5.0+ theme (functions.php + hooks, classic theme with block template support)
+- **Package manager:** npm (frontend assets), Composer (PHP dependencies)
+- **Database:** MySQL via WordPress APIs (`$wpdb`, `WP_Query`, options/meta/transient APIs) — never raw SQL outside of `$wpdb->prepare()`
+- **Testing:** PHPUnit + WP_Mock for unit tests (`tests/unit/`), Playwright for E2E (`tests/*.spec.js`)
+- **Styling:** SCSS compiled via WPGulp (Gulp 4) — edit `css/modules/src/*.scss`, never the compiled CSS
+- **Build:** WPGulp (`npm start` for watch, `npm run zip` for release)
+- **Customizer controls:** Pure WordPress Customizer API (`WP_Customize_Control`, `WP_Customize_Setting`). Kirki is bundled in `inc/vendor/kirki-framework/` for legacy controls only — do not add new Kirki controls.
+
+If something seems like the wrong tool, flag it. But use the defined stack unless I explicitly say otherwise.
 
 ## Development Commands
 
@@ -50,7 +146,7 @@ npm run zip  # Creates sydney.zip (runs composer test:unit first)
 functions.php          # Theme setup and feature registration
 inc/
 ├── classes/           # Core OOP classes (header, modules, metaboxes, SVG)
-├── modules/           # Feature modules (hf-builder, block-templates)
+├── modules/           # Feature modules (hf-builder, block-templates, pattern-library)
 ├── customizer/        # Customizer controls, options, callbacks
 ├── dashboard/         # Admin dashboard settings
 ├── integrations/      # Third-party integrations
@@ -84,7 +180,7 @@ if ( class_exists( 'Sydney_Modules' ) && Sydney_Modules::is_module_active( 'hf-b
 }
 ```
 
-Active modules: `hf-builder` (header/footer builder), `block-templates` (Gutenberg templates)
+Active modules: `hf-builder` (header/footer builder), `block-templates` (Gutenberg templates), `pattern-library` (block pattern catalog)
 
 ## Code Style
 
@@ -98,12 +194,8 @@ Active modules: `hf-builder` (header/footer builder), `block-templates` (Gutenbe
 - **File naming**: Classes in `class-*.php`, functions in descriptive names
 
 ### WordPress Conventions
-- Escape all output: `esc_html()`, `esc_attr()`, `esc_url()`
-- Sanitize all input: `sanitize_text_field()`, `intval()`, etc.
-- Use nonces for forms: `wp_verify_nonce()`, `wp_create_nonce()`
-- Check capabilities: `current_user_can()`
-- Hooks naming: `sydney_action_name` (actions), `sydney_filter_name` (filters)
-- Translation functions: `__()`, `_e()`, `_n()`, `esc_html__()`, `esc_html_e()`
+- Hook naming: `sydney_action_name` (actions), `sydney_filter_name` (filters)
+- Standard WPCS rules apply — `composer phpcs` is authoritative for escaping, sanitization, nonces, capabilities, and i18n.
 
 ### Testing Conventions
 - Unit tests extend `Sydney\Tests\BaseThemeTest` (provides WP_Mock setup)
@@ -123,10 +215,16 @@ Active modules: `hf-builder` (header/footer builder), `block-templates` (Gutenbe
 - **Translation**: Generates `languages/sydney.pot`
 - **ZIP packaging**: Excludes node_modules, vendor, tests, config files
 
+### Working with assets
+- Never edit compiled CSS — edit SCSS in `css/modules/src/` and let Gulp recompile.
+- Compiled CSS/JS is built on demand; only release branches commit the compiled output.
+
 ### Local Development URL
 Default: `http://sydney.local/` (configure in `wpgulp.config.js`)
 
 ## Testing Strategy
+
+Run `composer test` and `composer phpcs` before opening a PR.
 
 ### PHP Unit Tests
 - Located in `tests/unit/`
@@ -171,15 +269,6 @@ When working on features:
 4. Update version numbers only on release branches
 5. All PRs should be against the `develop` branch
 
-## Common Pitfalls
-
-- **Never modify compiled CSS** - Always edit SCSS in `css/modules/src/`
-- **Don't commit compiled files** - Gulp compiles on-demand (except for releases)
-- **Always run tests** - `composer test` before PRs
-- **Prefix everything** - PHPCS will fail without `sydney_` prefix on globals
-- **Text domain is mandatory** - All translation functions need `'sydney'`
-- **Use get_template_part()** - For WordPress 5.5+, use native function (no sydney_ wrapper needed)
-
 ## WordPress Version Compatibility
 
 **Breaking change in WordPress 5.5**: `get_template_part()` now supports passing args directly. Sydney previously had `sydney_get_template_part()` wrapper but now uses native function when possible.
@@ -194,17 +283,6 @@ Custom WooCommerce integration in `inc/woocommerce.php` and `woocommerce/` direc
 
 ### Kirki Framework
 Used for advanced Customizer controls (sortable, generic, base controls). Bundled in `inc/vendor/kirki-framework/`.
-
-## Quick Reference
-
-| Task | Command |
-|------|---------|
-| Start dev server | `npm start` |
-| Run all tests | `composer test && npm test` |
-| Check code style | `composer phpcs` |
-| Fix code style | `composer phpcs:fix` |
-| Build for production | `npm run zip` |
-| View test report | `npm run report` |
 
 ## Documentation
 

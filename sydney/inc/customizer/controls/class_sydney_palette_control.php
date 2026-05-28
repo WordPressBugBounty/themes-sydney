@@ -50,11 +50,12 @@ class Sydney_Palette_Control extends WP_Customize_Control {
 				<?php } ?>
 
 				<div class="sydney-custom-palette">
-					<?php for ( $i = 1; $i <= 9 ; $i++ ) { 
-						$val = $this->value( 'global_color_' . $i ) ? $this->value( 'global_color_' . $i ) : $this->settings['global_color_' . $i]->default; ?>
+					<?php foreach ( $this->settings as $setting_id => $setting ) {
+						$val     = $this->value( $setting_id );
+						$default = $setting->default; ?>
 						<div class="sydney-color-control sydney-global-color-control">
-							<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $this->settings['global_color_' . $i]->default ); ?>" style="background-color: <?php echo esc_attr( $this->value( 'global_color_' . $i ) ); ?>;"></div>						
-							<input type="text" value="<?php echo esc_attr( $this->value( 'global_color_' . $i ) ); ?>" class="sydney-color-input" <?php $this->link( 'global_color_' . $i ); ?> />						
+							<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $default ); ?>" style="background-color: <?php echo esc_attr( $val ); ?>;"></div>
+							<input type="text" value="<?php echo esc_attr( $val ); ?>" class="sydney-color-input" <?php $this->link( $setting_id ); ?> />
 						</div>
 					<?php } ?>
 				</div>

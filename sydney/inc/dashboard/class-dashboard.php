@@ -69,6 +69,9 @@ class Sydney_Dashboard
 
         add_action( 'wp_ajax_sydney_module_activation_handler', array( $this, 'ajax_module_activation_handler' ) );
         add_action( 'wp_ajax_sydney_module_activation_all_handler', array( $this, 'ajax_module_activation_all_handler' ) );
+        add_action( 'wp_ajax_sydney_setup_checklist_toggle',    array( $this, 'ajax_setup_checklist_toggle' ) );
+        add_action( 'wp_ajax_sydney_setup_homepage',            array( $this, 'ajax_setup_homepage' ) );
+        add_action( 'wp_ajax_sydney_setup_checklist_mark_used', array( $this, 'ajax_setup_checklist_mark_used' ) );
         add_action( 'wp_ajax_sydney_template_builder_data', array( $this, 'ajax_template_builder_data' ) );
         add_action( 'wp_ajax_insert_template_part_callback', array( $this, 'insert_template_part_callback' ) );
         add_action( 'wp_ajax_edit_template_part_callback', array( $this, 'edit_template_part_callback' ) );
@@ -265,6 +268,9 @@ class Sydney_Dashboard
                 'deactivated' => esc_html__('Deactivated', 'sydney'),
                 'failed_message' => esc_html__('Something went wrong, contact support.', 'sydney'),
                 'error' => esc_html__('Error', 'sydney'),
+                'mark_complete' => esc_html__('Mark complete', 'sydney'),
+                'mark_incomplete' => esc_html__('Mark incomplete', 'sydney'),
+                'edit_homepage' => esc_html__('Edit homepage', 'sydney'),
             ),
         ));
     }
@@ -635,6 +641,78 @@ class Sydney_Dashboard
         // Update modules option
         update_option( 'sydney-modules', $modules );
 
+        wp_send_json_success();
+    }
+
+    /**
+     * Manually mark a checklist item complete / incomplete.
+     */
+    public function ajax_setup_checklist_toggle() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
+        $slug     = isset( $_POST['slug'] )     ? sanitize_key( wp_unslash( $_POST['slug'] ) )     : '';
+        $complete = isset( $_POST['complete'] ) ? sanitize_text_field( wp_unslash( $_POST['complete'] ) ) : '';
+        $complete = ( 'true' === $complete );
+
+        if ( '' === $slug ) {
+            wp_send_json_error();
+        }
+
+        $checklist = Sydney_Setup_Checklist::instance();
+        $checklist->set_manual_state( $slug, $complete );
+
+        // Only count "mark complete" as engagement — clearing a checkbox doesn't
+        // signal the user is using the checklist for its intended purpose.
+        if ( $complete ) {
+            Sydney_Setup_Checklist::mark_used();
+        }
+
+        wp_send_json_success( array(
+            'slug'     => $slug,
+            'is_done'  => $checklist->is_done( $slug ),
+            'all_done' => $checklist->all_done(),
+        ) );
+    }
+
+    /**
+     * 1-click homepage setup. Delegates to Sydney_Setup_Checklist::setup_homepage().
+     */
+    public function ajax_setup_homepage() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
+        $result = Sydney_Setup_Checklist::instance()->setup_homepage();
+
+        if ( empty( $result['ok'] ) ) {
+            wp_send_json_error( isset( $result['error'] ) ? $result['error'] : '' );
+        }
+
+        Sydney_Setup_Checklist::mark_used();
+
+        unset( $result['ok'] );
+        wp_send_json_success( $result );
+    }
+
+    /**
+     * Lightweight ping endpoint for JS-only checklist engagement events
+     * (help-video open, action-button click, Merchant install via the
+     * checklist row). Server-side flows call `mark_used()` directly.
+     */
+    public function ajax_setup_checklist_mark_used() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
+        Sydney_Setup_Checklist::mark_used();
         wp_send_json_success();
     }
 

@@ -147,3 +147,11 @@
 .editor-styles-wrapper .wp-block-list li {
 	margin-bottom: 0;
 }
+
+/* Post-title heading anchors inside query-type blocks should use the heading color, not browser-default link blue. Mirrors css/styles.css fix for issue #352. :where() keeps the editor-styles-wrapper scoping without adding specificity, so per-block link colors (Gutenberg's Color → Link picker) still win by source order. */
+:where(.editor-styles-wrapper) .wp-block-post-title a,
+:where(.editor-styles-wrapper) .wp-block-post-title > a,
+:where(.editor-styles-wrapper) .wp-block-latest-posts__post-title {
+	color: var(--sydney-headings-color);
+	text-decoration: none;
+}

@@ -117,7 +117,39 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 							?>
 						</select>
 					<?php endif; ?>
-					</div>				
+					</div>
+
+					<?php if ( $this->input_attrs['disableRegular'] === false ) : ?>
+						<?php
+							$current_extras = isset( $this->fontValues->extraweights ) ? $this->fontValues->extraweights : array();
+							if ( ! is_array( $current_extras ) ) {
+								$current_extras = array();
+							}
+							$current_extras = array_map(
+								static function ( $w ) {
+									return 'regular' === $w ? '400' : (string) $w;
+								},
+								$current_extras
+							);
+							$primary_normalised = 'regular' === $this->fontValues->regularweight ? '400' : $this->fontValues->regularweight;
+						?>
+						<div class="google-fonts-extras-wrapper">
+							<div class="font-control-title"><strong><?php esc_html_e( 'Additional weights to load', 'sydney' ); ?></strong></div>
+							<select class="google-fonts-extraweights-style" multiple="multiple">
+								<?php
+									foreach ( $this->fontList[ $this->fontListIndex ]->variants as $key => $value ) {
+										$variant_normalised = 'regular' === $value ? '400' : $value;
+										// Skip the primary in the extras dropdown — it's already loaded.
+										if ( $variant_normalised === $primary_normalised ) {
+											continue;
+										}
+										$is_selected = in_array( $variant_normalised, $current_extras, true );
+										echo '<option value="' . esc_attr( $value ) . '" ' . selected( $is_selected, true, false ) . '>' . esc_html( $value ) . '</option>';
+									}
+								?>
+							</select>
+						</div>
+					<?php endif; ?>
 
 					<input type="hidden" class="google-fonts-category" value="<?php echo esc_html( $this->fontValues->category ); ?>">
 				</div>

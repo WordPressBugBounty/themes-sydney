@@ -158,6 +158,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
                 $color = get_theme_mod("global_color_" . $i, $global_color_defaults["global_color_" . $i]);
                 $custom .= "  --sydney-global-color-" . $i . ":" . $color . ";" . "\n";
             }
+            foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+                $custom .= "  --sydney-extra-global-color-" . $n . ":" . esc_attr( $value ) . ";" . "\n";
+            }
             $custom .= "}" . "\n";
 
             //Primary color
@@ -341,6 +344,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 			$buttons_radius = get_theme_mod( 'buttons_radius' );
 			$custom .= "button,.roll-button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { border-radius:" . intval( $buttons_radius ) . "px;}" . "\n";
+
+			$custom .= ".wp-block-button__link { box-sizing: border-box; border: 2px solid transparent; }\n";
+			$custom .= ".wp-block-button:not(.is-style-outline) .wp-block-button__link, .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover { border-color: transparent; }\n";
 
 			$custom .= $this->get_font_sizes_css( 'button_font_size', $defaults = array( 'desktop' => 14, 'tablet' => 14, 'mobile' => 14 ), 'button,.roll-button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );
 			$button_text_transform = get_theme_mod( 'button_text_transform', 'uppercase' );
@@ -677,8 +683,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			}  
             
             //Global colors
-			$custom .= $this->get_color_css( 'color_link_default', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link)' );
-			$custom .= $this->get_color_css( 'color_link_hover', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):hover' );
+			$custom .= $this->get_color_css( 'color_link_default', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(.has-link-color a):not(.wp-block-post-title a):not(.wp-block-latest-posts__post-title)' );
+			$custom .= $this->get_color_css( 'color_link_hover', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(.has-link-color a):not(.wp-block-post-title a):not(.wp-block-latest-posts__post-title):hover' );
 			$custom .= $this->get_color_css( 'color_heading_1', '', 'h1' );
 			$custom .= $this->get_color_css( 'color_heading_2', '', 'h2' );
 			$custom .= $this->get_color_css( 'color_heading_3', '', 'h3' );

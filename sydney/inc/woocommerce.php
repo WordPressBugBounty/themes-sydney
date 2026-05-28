@@ -646,6 +646,31 @@ add_action( 'wp', 'sydney_remove_wc_breadcrumbs' );
  * Legacy functions
  */
 
+if ( ! function_exists( 'sydney_should_register_legacy_cart_fragment' ) ) {
+    /**
+     * Whether the legacy a.cart-contents fragment should be registered.
+     *
+     * Returns true only when the site is still on the legacy header markup —
+     * i.e. when the user has not run the modern-header upgrade AND the
+     * hf-builder module is not active. Either signal alone is treated as
+     * "site is rendering modern cart markup," so registering the legacy
+     * fragment would clobber it (issue #371).
+     *
+     * @return bool
+     */
+    function sydney_should_register_legacy_cart_fragment() {
+        if ( get_option( 'sydney-update-header' ) ) {
+            return false;
+        }
+
+        if ( class_exists( 'Sydney_Modules' ) && Sydney_Modules::is_module_active( 'hf-builder' ) ) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 /**
  * Update cart
  */
@@ -655,12 +680,29 @@ function sydney_header_add_to_cart_fragment( $fragments ) {
     ?>
     <a class="cart-contents" href="<?php echo esc_url( wc_get_cart_url() ); ?>"><i class="sydney-svg-icon"><?php sydney_get_svg_icon( 'icon-cart', true ); ?></i><span class="cart-amount"><?php echo esc_html( WC()->cart->cart_contents_count ); ?></span></a>
     <?php
-    
+
     $fragments['a.cart-contents'] = ob_get_clean();
-    
+
     return $fragments;
 }
-add_filter( 'woocommerce_add_to_cart_fragments', 'sydney_header_add_to_cart_fragment' );
+add_action( 'init', 'sydney_maybe_register_legacy_cart_fragment' );
+
+if ( ! function_exists( 'sydney_maybe_register_legacy_cart_fragment' ) ) {
+    /**
+     * Conditionally register the legacy a.cart-contents fragment.
+     *
+     * Runs on init (not at file load) so the predicate can evaluate
+     * get_option() and Sydney_Modules::is_module_active() safely after
+     * WordPress is fully booted.
+     *
+     * @return void
+     */
+    function sydney_maybe_register_legacy_cart_fragment() {
+        if ( sydney_should_register_legacy_cart_fragment() ) {
+            add_filter( 'woocommerce_add_to_cart_fragments', 'sydney_header_add_to_cart_fragment' );
+        }
+    }
+}
 
 /**
  * Add cart to menu

@@ -262,21 +262,25 @@ if ( !function_exists( 'sydney_menu_container' ) ) {
 /**
  * Get image alts
  */
-function sydney_image_alt( $image ) {
-	
-	$id     = attachment_url_to_postid( $image );
-	$alt    = get_post_meta( $id, '_wp_attachment_image_alt', true) ;
+if ( ! function_exists( 'sydney_image_alt' ) ) {
+	function sydney_image_alt( $image ) {
 
-	if ( $alt ) {
-		return $alt;
+		$id     = attachment_url_to_postid( $image );
+		$alt    = get_post_meta( $id, '_wp_attachment_image_alt', true) ;
+
+		if ( $alt ) {
+			return $alt;
+		}
 	}
 }
 
 /**
  * Check AMP endpoint
  */
-function sydney_is_amp() {
-	return function_exists( 'amp_is_request' ) && amp_is_request();
+if ( ! function_exists( 'sydney_is_amp' ) ) {
+	function sydney_is_amp() {
+		return function_exists( 'amp_is_request' ) && amp_is_request();
+	}
 }
 
 /**
@@ -352,28 +356,30 @@ function sydney_get_social_network( $social ) {
 /**
  * Social profile list
  */
-function sydney_social_profile( $location ) {
-		
-	$social_links = get_theme_mod( $location );
+if ( ! function_exists( 'sydney_social_profile' ) ) {
+	function sydney_social_profile( $location ) {
 
-	if ( !$social_links ) {
-		return;
-	}
+		$social_links = get_theme_mod( $location );
 
-	$social_links = explode( ',', $social_links );
-
-	$items = '<div class="social-profile">';
-	foreach ( $social_links as $social ) {
-		$network = sydney_get_social_network( $social );
-		if ( $network ) {
-			// translators: %s is the social network name
-			$aria_label = sprintf( esc_html__( '%s link, opens in a new tab', 'sydney' ), esc_html( $network ) );
-			$items .= '<a target="_blank" href="' . esc_url( $social ) . '" aria-label="' . esc_attr( $aria_label )  . '"><i class="sydney-svg-icon">' . sydney_get_svg_icon( 'icon-' . esc_html( $network ), false ) . '</i></a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped		
+		if ( !$social_links ) {
+			return;
 		}
-	}
-	$items .= '</div>';
 
-	echo $items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$social_links = explode( ',', $social_links );
+
+		$items = '<div class="social-profile">';
+		foreach ( $social_links as $social ) {
+			$network = sydney_get_social_network( $social );
+			if ( $network ) {
+				// translators: %s is the social network name
+				$aria_label = sprintf( esc_html__( '%s link, opens in a new tab', 'sydney' ), esc_html( $network ) );
+				$items .= '<a target="_blank" href="' . esc_url( $social ) . '" aria-label="' . esc_attr( $aria_label )  . '"><i class="sydney-svg-icon">' . sydney_get_svg_icon( 'icon-' . esc_html( $network ), false ) . '</i></a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+		}
+		$items .= '</div>';
+
+		echo $items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
 }
 
 /**
@@ -612,17 +618,19 @@ function sydney_mobile_header_layouts() {
 /**
  * Header elements
  */
-function sydney_header_elements() {
+if ( ! function_exists( 'sydney_header_elements' ) ) {
+	function sydney_header_elements() {
 
-	$elements = array(
-		'search'            => esc_html__( 'Search', 'sydney' ),
-		'woocommerce_icons' => esc_html__( 'Cart &amp; account icons', 'sydney' ),
-		'button'            => esc_html__( 'Button', 'sydney' ),
-		'contact_info'      => esc_html__( 'Contact info', 'sydney' ),
-		'social'            => esc_html__( 'Social', 'sydney' ),
-	);
+		$elements = array(
+			'search'            => esc_html__( 'Search', 'sydney' ),
+			'woocommerce_icons' => esc_html__( 'Cart &amp; account icons', 'sydney' ),
+			'button'            => esc_html__( 'Button', 'sydney' ),
+			'contact_info'      => esc_html__( 'Contact info', 'sydney' ),
+			'social'            => esc_html__( 'Social', 'sydney' ),
+		);
 
-	return apply_filters( 'sydney_header_elements', $elements );
+		return apply_filters( 'sydney_header_elements', $elements );
+	}
 }
 
 /**
@@ -648,81 +656,185 @@ function sydney_add_submenu_icons( $item_output, $item, $depth, $args ) {
 add_filter( 'walker_nav_menu_start_el', 'sydney_add_submenu_icons', 10, 4 );
 
 /**
- * Google Fonts URL
+ * Parse a Google Fonts variant string into a (weight, italic) tuple.
+ *
+ * Recognised forms:
+ *   'regular'    -> ('400', false)
+ *   'italic'     -> ('400', true)
+ *   '400'        -> ('400', false)
+ *   '700italic'  -> ('700', true)
+ *
+ * Anything else (e.g. 'banana', '') returns null.
+ *
+ * @param mixed $variant Raw variant from the typography theme_mod.
+ * @return array{weight:string,italic:bool}|null
  */
-function sydney_google_fonts_url() {
-	$fonts_url  = '';
-	$subsets    = 'latin';
+function sydney_parse_font_variant( $variant ) {
+	if ( ! is_scalar( $variant ) ) {
+		return null;
+	}
+	$variant = (string) $variant;
+	if ( '' === $variant ) {
+		return null;
+	}
 
-	$defaults = wp_json_encode(
-		array(
-			'font'          => 'System default',
-			'regularweight' => '400',
-			'category'      => 'sans-serif',
-		)
+	if ( 'regular' === $variant ) {
+		return array( 'weight' => '400', 'italic' => false );
+	}
+	if ( 'italic' === $variant ) {
+		return array( 'weight' => '400', 'italic' => true );
+	}
+
+	$italic = false;
+	$weight = $variant;
+	if ( substr( $variant, -6 ) === 'italic' ) {
+		$italic = true;
+		$weight = substr( $variant, 0, -6 );
+	}
+
+	if ( '' === $weight || ! ctype_digit( $weight ) ) {
+		return null;
+	}
+
+	return array( 'weight' => $weight, 'italic' => $italic );
+}
+
+/**
+ * Normalise a typography theme_mod into the sorted, deduplicated list of
+ * Google Fonts variant tuples to LOAD.
+ *
+ * Combines `regularweight` (the primary, applied via PHP CSS) with the optional
+ * `extraweights` array (additional variants loaded but not applied).
+ *
+ * Each entry is an associative array: `[ 'weight' => '400', 'italic' => false ]`.
+ * Sort order is roman first (italic = false), then italic; each group sorted
+ * numerically by weight ascending. Empty input falls back to `[('400', false)]`.
+ *
+ * @param array $font Decoded typography theme_mod.
+ * @return array<int,array{weight:string,italic:bool}>
+ */
+function sydney_typography_loaded_weights( $font ) {
+	$tuples = array();
+
+	$primary = isset( $font['regularweight'] ) ? $font['regularweight'] : '400';
+	$parsed  = sydney_parse_font_variant( $primary );
+	if ( null !== $parsed ) {
+		$tuples[] = $parsed;
+	}
+
+	$extras = isset( $font['extraweights'] ) ? $font['extraweights'] : array();
+	if ( is_array( $extras ) ) {
+		foreach ( $extras as $extra ) {
+			$parsed = sydney_parse_font_variant( $extra );
+			if ( null === $parsed ) {
+				continue;
+			}
+			$tuples[] = $parsed;
+		}
+	}
+
+	// Dedupe by (weight, italic) tuple.
+	$seen   = array();
+	$unique = array();
+	foreach ( $tuples as $tuple ) {
+		$key = $tuple['weight'] . '|' . ( $tuple['italic'] ? '1' : '0' );
+		if ( isset( $seen[ $key ] ) ) {
+			continue;
+		}
+		$seen[ $key ] = true;
+		$unique[]     = $tuple;
+	}
+
+	if ( empty( $unique ) ) {
+		return array( array( 'weight' => '400', 'italic' => false ) );
+	}
+
+	// Roman first, then italic; within each group sort numerically by weight.
+	usort(
+		$unique,
+		static function ( $a, $b ) {
+			if ( $a['italic'] !== $b['italic'] ) {
+				return $a['italic'] ? 1 : -1;
+			}
+			return ( (int) $a['weight'] ) <=> ( (int) $b['weight'] );
+		}
 	);
 
-	//Get and decode options
-	$body_font      = get_theme_mod( 'sydney_body_font', $defaults );
-	$headings_font  = get_theme_mod( 'sydney_headings_font', $defaults );
-	$menu_font      = get_theme_mod( 'sydney_menu_font', $defaults );
+	return $unique;
+}
 
-	$body_font      = json_decode( $body_font, true );
-	$headings_font  = json_decode( $headings_font, true );
-	$menu_font      = json_decode( $menu_font, true );
+/**
+ * Google Fonts URL
+ */
+if ( ! function_exists( 'sydney_google_fonts_url' ) ) {
+	function sydney_google_fonts_url() {
+		$defaults = wp_json_encode(
+			array(
+				'font'          => 'System default',
+				'regularweight' => '400',
+				'category'      => 'sans-serif',
+			)
+		);
 
-	if ( 'System default' === $body_font['font'] && 'System default' === $headings_font['font'] && 'System default' === $menu_font['font'] ) {
-		return; //return early if defaults are active
-	}
+		$body_font     = json_decode( get_theme_mod( 'sydney_body_font',     $defaults ), true );
+		$headings_font = json_decode( get_theme_mod( 'sydney_headings_font', $defaults ), true );
+		$menu_font     = json_decode( get_theme_mod( 'sydney_menu_font',     $defaults ), true );
 
-	$font_families = array();
-
-	if ( 'System default' !== $body_font['font'] ) {
-		if ( 'regular' === $body_font['regularweight'] ) {
-			$body_font['regularweight'] = '400';
+		if (
+			'System default' === $body_font['font']
+			&& 'System default' === $headings_font['font']
+			&& 'System default' === $menu_font['font']
+		) {
+			return; // All slots default; emit no URL.
 		}
 
-		$font_families[] = $body_font['font'] . ':wght@' . $body_font['regularweight'];
-	}
+		$font_families = array();
+		foreach ( array( $body_font, $menu_font, $headings_font ) as $slot ) {
+			if ( 'System default' === $slot['font'] ) {
+				continue;
+			}
+			$tuples     = sydney_typography_loaded_weights( $slot );
+			$has_italic = false;
+			foreach ( $tuples as $tuple ) {
+				if ( $tuple['italic'] ) {
+					$has_italic = true;
+					break;
+				}
+			}
 
-	if ( 'System default' !== $menu_font['font'] ) {
-
-		if ( 'regular' === $menu_font['regularweight'] ) {
-			$menu_font['regularweight'] = '400';
+			if ( $has_italic ) {
+				// Axis-tuple form: `Font:ital,wght@0,400;0,700;1,400`.
+				$pairs = array();
+				foreach ( $tuples as $tuple ) {
+					$pairs[] = ( $tuple['italic'] ? '1' : '0' ) . ',' . $tuple['weight'];
+				}
+				$font_families[] = $slot['font'] . ':ital,wght@' . implode( ';', $pairs );
+			} else {
+				// Backward-compatible roman-only form: `Font:wght@400;700`.
+				$weights = array();
+				foreach ( $tuples as $tuple ) {
+					$weights[] = $tuple['weight'];
+				}
+				$font_families[] = $slot['font'] . ':wght@' . implode( ';', $weights );
+			}
 		}
-				
-		$font_families[] = $menu_font['font'] . ':wght@' . $menu_font['regularweight'];
-	}   
 
-	if ( 'System default' !== $headings_font['font'] ) {
+		$fonts_url = add_query_arg(
+			array(
+				'family'  => implode( '&family=', $font_families ),
+				'display' => 'swap',
+			),
+			'https://fonts.googleapis.com/css2'
+		);
 
-		$old_weights = get_theme_mod( 'headings_font_weights' );
-		
-		if ( is_array( $old_weights ) && in_array( '400', $old_weights, true ) ) {
-			$headings_font['regularweight'] = '400';
+		// Local fonts (WPTT WebFont Loader) — pass the full upstream URL through unchanged.
+		if ( get_theme_mod( 'perf_google_fonts_local', 0 ) ) {
+			require_once get_theme_file_path( 'inc/vendor/wptt-webfont-loader/wptt-webfont-loader.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+			return wptt_get_webfont_url( $fonts_url );
 		}
 
-		if ( 'regular' === $headings_font['regularweight'] ) {
-			$headings_font['regularweight'] = '400';
-		}       
-
-		$font_families[] = $headings_font['font'] . ':wght@' . $headings_font['regularweight'];
+		return esc_url_raw( $fonts_url );
 	}
-	
-	$fonts_url = add_query_arg( array(
-		'family' => implode( '&family=', $font_families ),
-		'display' => 'swap',
-	), 'https://fonts.googleapis.com/css2' );
-
-	// Load google fonts locally
-	$load_locally = get_theme_mod( 'perf_google_fonts_local', 0 );
-	if( $load_locally ) {
-		require_once get_theme_file_path( 'inc/vendor/wptt-webfont-loader/wptt-webfont-loader.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
-
-		return wptt_get_webfont_url( $fonts_url );
-	}
-
-	return esc_url_raw( $fonts_url );
 }
 
 /**
@@ -932,16 +1044,41 @@ function sydney_get_global_color_defaults() {
 /**
  * Get global colors
  */
-function sydney_get_global_colors() {
-	$defaults = sydney_get_global_color_defaults();
+if ( ! function_exists( 'sydney_get_global_colors' ) ) {
+	function sydney_get_global_colors() {
+		$defaults = sydney_get_global_color_defaults();
 
-	$colors = array();
+		$colors = array();
 
-	foreach ( $defaults as $key => $value ) {
-		$colors[ $key ] = get_theme_mod( $key, $value );
+		foreach ( $defaults as $key => $value ) {
+			$colors[ $key ] = get_theme_mod( $key, $value );
+		}
+
+		return $colors;
 	}
+}
 
-	return $colors;
+/**
+ * Get the extra global colors (currently only set by the AM Starter Sites plugin).
+ *
+ * Returns an associative array keyed by the slot number (1, 2) with hex string values.
+ * Only slots that have a non-empty value are returned.
+ *
+ * Maximum 2 slots, intended for 1-2 brand accents per starter site — not a second palette.
+ *
+ * @return array<int,string> e.g. array( 1 => '#C97D5D' )
+ */
+if ( ! function_exists( 'sydney_get_extra_global_colors' ) ) {
+	function sydney_get_extra_global_colors() {
+		$colors = array();
+		for ( $i = 1; $i <= 2; $i++ ) {
+			$value = get_theme_mod( 'extra_global_color_' . $i, '' );
+			if ( ! empty( $value ) ) {
+				$colors[ $i ] = $value;
+			}
+		}
+		return $colors;
+	}
 }
 
 /**
@@ -1058,29 +1195,31 @@ add_action( 'sydney_search_content', 'sydney_search_template' );
 /**
  * Get Header Search Icon
  */
-function sydney_get_header_search_icon( $do_echo = false ) {
-	$icon = get_theme_mod( 'search_icon', 'icon-search' );
+if ( ! function_exists( 'sydney_get_header_search_icon' ) ) {
+	function sydney_get_header_search_icon( $do_echo = false ) {
+		$icon = get_theme_mod( 'search_icon', 'icon-search' );
 
-	$output = '';
-	if( $icon !== 'icon-custom' ) {
-		$output .= '<i class="sydney-svg-icon icon-search active">' . sydney_get_svg_icon( $icon ) . '</i>';
-	} else {
-		$image_id = get_theme_mod( 'search_icon_custom_image', 0 );
+		$output = '';
+		if( $icon !== 'icon-custom' ) {
+			$output .= '<i class="sydney-svg-icon icon-search active">' . sydney_get_svg_icon( $icon ) . '</i>';
+		} else {
+			$image_id = get_theme_mod( 'search_icon_custom_image', 0 );
 
-		/**
-		 * Hook 'sydney_header_icons_image_size'
-		 *
-		 * @since 1.0.0
-		 */
-		$output .= '<i class="sydney-svg-icon icon-search active">' . sydney_get_image( $image_id, apply_filters( 'sydney_header_icons_image_size', 'sydney-header-icons' ) ) . '</i>';
-	}
+			/**
+			 * Hook 'sydney_header_icons_image_size'
+			 *
+			 * @since 1.0.0
+			 */
+			$output .= '<i class="sydney-svg-icon icon-search active">' . sydney_get_image( $image_id, apply_filters( 'sydney_header_icons_image_size', 'sydney-header-icons' ) ) . '</i>';
+		}
 
-	$output .= '<i class="sydney-svg-icon icon-cancel">' . sydney_get_svg_icon( 'icon-cancel' ) . '</i>';
+		$output .= '<i class="sydney-svg-icon icon-cancel">' . sydney_get_svg_icon( 'icon-cancel' ) . '</i>';
 
-	if ( $do_echo !== false ) {
-		echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	} else {
-		return $output;
+		if ( $do_echo !== false ) {
+			echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			return $output;
+		}
 	}
 }
 

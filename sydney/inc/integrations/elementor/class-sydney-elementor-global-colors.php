@@ -52,6 +52,12 @@ if ( !class_exists( 'Sydney_Elementor_Global_Colors' ) ) :
 				// Use Sydney's CSS variable instead of the actual color value
 				$css .= '--e-global-color-' . str_replace( '-', '', $slug ) . ':var(--sydney-global-color-' . $color_number . ');';
 			}
+
+			foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+				$slug = 'extra_global_color_' . $n;
+				$css .= '--e-global-color-' . str_replace( '-', '', $slug ) . ':var(--sydney-extra-global-color-' . $n . ');';
+			}
+
 			$css .= '}';
 
 			wp_add_inline_style( 'sydney-style-min', $css );
@@ -65,18 +71,23 @@ if ( !class_exists( 'Sydney_Elementor_Global_Colors' ) ) :
 
 			$global_colors = sydney_get_global_colors();
 
+			// Add extras into the same map so they're addressable via the per-color REST route.
+			foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+				$global_colors[ 'extra_global_color_' . $n ] = $value;
+			}
+
 			$color_slugs = array_combine( array_keys( $global_colors ), array_keys( $global_colors ) );
-	
+
 			foreach ( array_keys( $global_colors ) as $slug ) {
 				$color_slugs[$slug] = $slug;
 			}
-	
+
 			$rest_id = substr( $route, strrpos( $route, '/' ) + 1 );
-	
+
 			if ( ! in_array( $rest_id, array_keys( $color_slugs ), true ) ) {
 				return $response;
 			}
-	
+
 			$response = new \WP_REST_Response(
 				[
 					'id'    => esc_attr( $rest_id ),
@@ -111,9 +122,17 @@ if ( !class_exists( 'Sydney_Elementor_Global_Colors' ) ) :
 			];
 
 			$global_colors = sydney_get_global_colors();
-	
+
+			// Add extras into both maps.
+			foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+				$slug                   = 'extra_global_color_' . $n;
+				$global_colors[ $slug ] = $value;
+				/* translators: %s: Extra color number */
+				$label_map[ $slug ]     = sprintf( __( 'Extra Color %s', 'sydney' ), $n );
+			}
+
 			$data   = $response->get_data();
-	
+
 			foreach ( $global_colors as $slug => $color_value ) {
 				$data['colors'][ $slug ] = [
 					'id'    => esc_attr( $slug ),
@@ -121,9 +140,9 @@ if ( !class_exists( 'Sydney_Elementor_Global_Colors' ) ) :
 					'value' => $color_value,
 				];
 			}
-	
+
 			$response->set_data( $data );
-	
+
 			return $response;
 		}
 	}

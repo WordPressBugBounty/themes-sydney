@@ -139,54 +139,138 @@ jQuery( document ).ready( function() {
 jQuery(document).ready(function ($) {
   "use strict";
 
-  $('.google-fonts-list').each(function (i, obj) {
+  function normalisePrimary(value) {
+    return 'regular' === value ? '400' : value;
+  }
+
+  function getFontVariants(controlName, fontFamily) {
+    var control = _wpCustomizeSettings.controls[controlName];
+    if (!control || !control.sydneyfontslist) {
+      return null;
+    }
+    for (var i = 0; i < control.sydneyfontslist.length; i++) {
+      if (control.sydneyfontslist[i].family === fontFamily) {
+        return control.sydneyfontslist[i];
+      }
+    }
+    return null;
+  }
+
+  function rebuildExtras($extras, variants, primaryValue, previouslyPicked) {
+    var primaryNormalised = normalisePrimary(primaryValue);
+    $extras.empty();
+    $.each(variants, function (i, variant) {
+      var variantNormalised = normalisePrimary(variant);
+      if (variantNormalised === primaryNormalised) {
+        return;
+      }
+      var isSelected = $.inArray(variant, previouslyPicked) !== -1 ||
+        $.inArray(variantNormalised, previouslyPicked) !== -1;
+      var $option = $('<option></option>').val(variant).html(variant);
+      if (isSelected) {
+        $option.attr('selected', 'selected');
+      }
+      $extras.append($option);
+    });
+    // Refresh select2 to reflect the new options.
+    if ($extras.hasClass('select2-hidden-accessible')) {
+      $extras.trigger('change.select2');
+    }
+  }
+
+  // Init Select2 on the family selector.
+  $('.google-fonts-list').each(function () {
     if (!$(this).hasClass('select2-hidden-accessible')) {
       $(this).select2();
     }
   });
-  $('.google-fonts-list').on('change', function () {
-    var elementRegularWeight = $(this).parent().parent().find('.google-fonts-regularweight-style');
-    var selectedFont = $(this).val();
-    var customizerControlName = $(this).attr('control-name'); // Clear Weight/Style dropdowns
 
-    elementRegularWeight.empty(); // Make sure Italic & Bold dropdowns are enabled
-    // Get the Google Fonts control object
-
-    var bodyfontcontrol = _wpCustomizeSettings.controls[customizerControlName]; // Find the index of the selected font
-
-    var indexes = $.map(bodyfontcontrol.sydneyfontslist, function (obj, index) {
-      if (obj.family === selectedFont) {
-        return index;
-      }
-    });
-    var index = indexes[0]; // For the selected Google font show the available weight/style variants
-
-    $.each(bodyfontcontrol.sydneyfontslist[index].variants, function (val, text) {
-      elementRegularWeight.append($('<option></option>').val(text).html(text)); //Set default value
-
-      if ($(elementRegularWeight).find('option[value="regular"]').length > 0) {
-        $(elementRegularWeight).val('regular');
-      } else if ($(elementRegularWeight).find('option[value="400"]').length > 0) {
-        $(elementRegularWeight).val('400');
-      } else if ($(elementRegularWeight).find('option[value="300"]').length > 0) {
-        $(elementRegularWeight).val('300');
-      }
-    }); // Update the font category based on the selected font
-
-    $(this).parent().parent().find('.google-fonts-category').val(bodyfontcontrol.sydneyfontslist[index].category);
-    sydneyGetAllSelects($(this).parent().parent().parent().parent());
+  // Init Select2 (multi) on the extras selector.
+  $('.google-fonts-extraweights-style').each(function () {
+    if (!$(this).hasClass('select2-hidden-accessible')) {
+      $(this).select2({
+        multiple: true,
+        placeholder: '',
+        width: '100%'
+      });
+    }
   });
-  $('.google_fonts_select_control select').on('change', function () {
-    sydneyGetAllSelects($(this).parent().parent().parent().parent());
+
+  // Family change: rebuild primary + extras, update category.
+  $('.google-fonts-list').on('change', function () {
+    var $container = $(this).closest('.google_fonts_select_control');
+    var $primary = $container.find('.google-fonts-regularweight-style');
+    var $extras = $container.find('.google-fonts-extraweights-style');
+    var selectedFont = $(this).val();
+    var customizerControlName = $(this).attr('control-name');
+
+    var font = getFontVariants(customizerControlName, selectedFont);
+    if (!font) {
+      return;
+    }
+
+    // Remember previously picked extras so we can preserve them when possible.
+    var previousExtras = $extras.val() || [];
+
+    // Rebuild primary dropdown (all variants — italics belong here too).
+    $primary.empty();
+    $.each(font.variants, function (i, variant) {
+      $primary.append($('<option></option>').val(variant).html(variant));
+    });
+    // Pick a sensible default for the primary.
+    if ($primary.find('option[value="regular"]').length > 0) {
+      $primary.val('regular');
+    } else if ($primary.find('option[value="400"]').length > 0) {
+      $primary.val('400');
+    } else if ($primary.find('option[value="300"]').length > 0) {
+      $primary.val('300');
+    }
+
+    // Rebuild extras dropdown, preserving previously-picked variants that still exist.
+    rebuildExtras($extras, font.variants, $primary.val(), previousExtras);
+
+    // Update category.
+    $container.find('.google-fonts-category').val(font.category);
+
+    sydneyGetAllSelects($container);
+  });
+
+  // Primary change: rebuild extras so the new primary is excluded and the
+  // previous primary becomes selectable again.
+  $('.google-fonts-regularweight-style').on('change', function () {
+    var $container = $(this).closest('.google_fonts_select_control');
+    var $extras = $container.find('.google-fonts-extraweights-style');
+    var $family = $container.find('.google-fonts-list');
+    var customizerControlName = $family.attr('control-name');
+
+    var font = getFontVariants(customizerControlName, $family.val());
+    if (!font) {
+      return;
+    }
+
+    var previousExtras = $extras.val() || [];
+    rebuildExtras($extras, font.variants, $(this).val(), previousExtras);
+
+    sydneyGetAllSelects($container);
+  });
+
+  // Catch-all sync: any change inside the control writes the JSON payload.
+  $('.google_fonts_select_control').on('change', 'select', function () {
+    sydneyGetAllSelects($(this).closest('.google_fonts_select_control'));
   });
 
   function sydneyGetAllSelects($element) {
+    var extras = $element.find('.google-fonts-extraweights-style').val();
+    if (!extras) {
+      extras = [];
+    }
     var selectedFont = {
       font: $element.find('.google-fonts-list').val(),
       regularweight: $element.find('.google-fonts-regularweight-style').val(),
+      extraweights: extras,
       category: $element.find('.google-fonts-category').val()
-    }; // Important! Make sure to trigger change event so Customizer knows it has to save the field
-
+    };
+    // Important! Make sure to trigger change event so Customizer knows it has to save the field.
     $element.find('.customize-control-google-font-selection').val(JSON.stringify(selectedFont)).trigger('change');
   }
 });
@@ -513,7 +597,7 @@ jQuery(document).ready(function ($) {
     $(this).parent().find('li').not('.section-meta').not('.customize-control-sydney-tab-control').addClass('sydney-hide-control');
     var generals = $(this).find('.control-tab-general').data('connected');
     $.each(generals, function (i, v) {
-      $(this).removeClass('sydney-hide-control'); //show
+      $(v).removeClass('sydney-hide-control'); //show
     });
     $(this).find('.control-tab').on('click', function () {
       var visibles = $(this).data('connected');
@@ -521,7 +605,7 @@ jQuery(document).ready(function ($) {
       $(this).siblings().removeClass('active');
       $(this).parent().parent().parent().find('li').not('.section-meta').not('.customize-control-sydney-tab-control').addClass('sydney-hide-control');
       $.each(visibles, function (i, v) {
-        $(this).removeClass('sydney-hide-control'); //show
+        $(v).removeClass('sydney-hide-control'); //show
       });
     });
   });

@@ -121,7 +121,23 @@ function sydney_setup() {
 		);
 	}
 
+	foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+		$colors[] = array(
+			/* translators: %s: Extra color number */
+			'name'  => sprintf( esc_html__( 'Extra Color %s', 'sydney' ), $n ),
+			'slug'  => 'extra_global_color_' . $n,
+			'color' => 'var(--sydney-extra-global-color-' . $n . ')',
+		);
+	}
+
 	add_theme_support( 'editor-color-palette', $colors );
+
+	// Load Google Fonts into the editor canvas iframe — enqueue_block_editor_assets only reaches the outer admin frame.
+	add_theme_support( 'editor-styles' );
+	$sydney_editor_fonts_url = sydney_google_fonts_url();
+	if ( null !== $sydney_editor_fonts_url ) {
+		add_editor_style( $sydney_editor_fonts_url );
+	}
 
 	// Enable Onboarding Wizard
 	add_filter( 'atss_enable_onboarding_wizard', '__return_true' );
@@ -465,29 +481,6 @@ function sydney_get_image_alt( $image ) {
 }
 
 /**
- * Fix skip link focus in IE11.
- *
- * This does not enqueue the script because it is tiny and because it is only for IE11,
- * thus it does not warrant having an entire dedicated blocking script being loaded.
- *
- * from TwentyTwenty
- * 
- * @link https://git.io/vWdr2
- */
-function sydney_skip_link_focus_fix() {
-
-	if ( sydney_is_amp() ) { 
-		return;
-	}
-	?>
-	<script>
-	/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
-	</script>
-	<?php
-}
-add_action( 'wp_print_footer_scripts', 'sydney_skip_link_focus_fix' );
-
-/**
  * Get SVG code for specific theme icon
  */
 function sydney_get_svg_icon( $icon, $echo = false ) { //phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.echoFound
@@ -702,6 +695,9 @@ if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
  * Theme dashboard.
  */
 require get_template_directory() . '/inc/dashboard/class-dashboard.php';
+
+require get_template_directory() . '/inc/dashboard/class-setup-checklist.php';
+require get_template_directory() . '/inc/dashboard/class-setup-checklist-rest.php';
 
 /**
  * Theme dashboard settings.

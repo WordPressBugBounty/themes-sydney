@@ -855,6 +855,240 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 			});
 		}
 
+		// Setup Checklist — manual toggle via the status button (the circle/check)
+		$(document).on('click', '.sydney-setup-checklist-item-status', function (e) {
+			e.preventDefault();
+
+			var $button = $(this);
+			if ($button.is('[disabled]')) {
+				return;
+			}
+			var $row      = $button.closest('.sydney-setup-checklist-item');
+			var slug      = $row.data('item-slug');
+			var nextState = $button.data('complete') === 1 || $button.data('complete') === '1';
+			var wasDone   = $row.hasClass('is-done');
+
+			// Optimistic UI: flip state immediately, revert on failure.
+			applyState(nextState);
+			$button.addClass('is-loading');
+
+			$.post(window.sydney_dashboard.ajax_url, {
+				action:   'sydney_setup_checklist_toggle',
+				nonce:    window.sydney_dashboard.nonce,
+				slug:     slug,
+				complete: nextState ? 'true' : 'false'
+			}, function (response) {
+				$button.removeClass('is-loading');
+
+				if (!response.success) {
+					applyState(wasDone);
+					return;
+				}
+
+				// Reconcile against server truth, then announce.
+				applyState(!!response.data.is_done);
+
+				var itemTitle = $row.find('.sydney-setup-checklist-item-title').text();
+				$('.sydney-setup-checklist-live').text(
+					itemTitle + ': ' + (response.data.is_done ? window.sydney_dashboard.i18n.mark_incomplete : window.sydney_dashboard.i18n.mark_complete)
+				);
+
+				if (response.data.all_done) {
+					window.location.reload();
+				}
+			}).fail(function () {
+				$button.removeClass('is-loading');
+				applyState(wasDone);
+			});
+
+			function applyState(done) {
+				if (done) {
+					$row.addClass('is-done');
+					$button
+						.data('complete', '0')
+						.attr('aria-pressed', 'true')
+						.attr('aria-label', window.sydney_dashboard.i18n.mark_incomplete);
+				} else {
+					$row.removeClass('is-done');
+					$button
+						.data('complete', '1')
+						.attr('aria-pressed', 'false')
+						.attr('aria-label', window.sydney_dashboard.i18n.mark_complete);
+				}
+				updateCategoryDoneState($row.closest('.sydney-setup-checklist-category'));
+			}
+		});
+
+		// Setup Checklist — 1-click homepage
+		$(document).on('click', '.sydney-setup-homepage-button', function (e) {
+			e.preventDefault();
+
+			var $button = $(this);
+			var caption = $button.html();
+			$button.html(window.sydney_dashboard.i18n.saving).attr('disabled', 'disabled');
+
+			$.post(window.sydney_dashboard.ajax_url, {
+				action: 'sydney_setup_homepage',
+				nonce:  window.sydney_dashboard.nonce
+			}, function (response) {
+				if (!response.success) {
+					$button.html(caption).removeAttr('disabled');
+					return;
+				}
+
+				var $row = $button.closest('.sydney-setup-checklist-item');
+				$row.addClass('is-done');
+				$button
+					.html(window.sydney_dashboard.i18n.edit_homepage)
+					.removeAttr('disabled')
+					.attr('href', response.data.home_edit_url)
+					.removeClass('sydney-setup-homepage-button');
+				updateCategoryDoneState($row.closest('.sydney-setup-checklist-category'));
+
+				if (response.data.all_done) {
+					window.location.reload();
+				}
+			}).fail(function () {
+				$button.html(caption).removeAttr('disabled');
+			});
+		});
+
+		// Setup Checklist — collapse/expand a fully-done section
+		$(document).on('click', '.sydney-setup-checklist-category-toggle', function (e) {
+			e.preventDefault();
+			var $btn      = $(this);
+			var $section  = $btn.closest('.sydney-setup-checklist-category');
+			var collapsed = $section.toggleClass('is-collapsed').hasClass('is-collapsed');
+			$btn.attr('aria-expanded', collapsed ? 'false' : 'true');
+		});
+
+		// Setup Checklist — clicking anywhere on a collapsed section header expands it.
+		$(document).on('click', '.sydney-setup-checklist-category.is-collapsed .sydney-setup-checklist-category-header', function (e) {
+			if ($(e.target).closest('.sydney-setup-checklist-category-toggle').length) {
+				return;
+			}
+			var $section = $(this).closest('.sydney-setup-checklist-category');
+			$section.removeClass('is-collapsed');
+			$section.find('.sydney-setup-checklist-category-toggle').attr('aria-expanded', 'true');
+		});
+
+		// Once-per-page-load ping that flips the "checklist actually used"
+		// flag on the server. Server-side flows (manual toggle, 1-click
+		// homepage) already mark themselves used directly — this exists for
+		// the JS-only events (help open, action link click, plugin install).
+		var checklistMarkedUsed = false;
+		function markChecklistUsed() {
+			if (checklistMarkedUsed) {
+				return;
+			}
+			checklistMarkedUsed = true;
+			$.post(window.sydney_dashboard.ajax_url, {
+				action: 'sydney_setup_checklist_mark_used',
+				nonce:  window.sydney_dashboard.nonce
+			});
+		}
+
+		// Any action link (Customize / Manage / Install Merchant CTA) inside
+		// a checklist row counts as engagement.
+		$(document).on('click', '.sydney-setup-checklist-item-actions a', function () {
+			markChecklistUsed();
+		});
+
+		// Setup Checklist — help image dialog. Clicking a help icon opens
+		// a shared native <dialog> showing the item's image. Image src is
+		// cleared on close so we don't hold the bitmap when not visible.
+		$(document).on('click', '.sydney-setup-checklist-help', function (e) {
+			e.preventDefault();
+			var dialog = document.getElementById('sydney-setup-checklist-help-dialog');
+			if (!dialog) {
+				return;
+			}
+			var src = $(this).data('help-image');
+			if (!src) {
+				return;
+			}
+			var img = dialog.querySelector('.sydney-setup-checklist-help-dialog-image');
+			if (img) {
+				img.src = src;
+				img.alt = $(this).attr('aria-label') || '';
+			}
+
+			// Opening the help image counts as engagement.
+			markChecklistUsed();
+
+			if (typeof dialog.showModal === 'function') {
+				dialog.showModal();
+			} else {
+				dialog.setAttribute('open', '');
+			}
+		});
+
+		// Close on backdrop click (clicking the dialog element itself,
+		// not its children, means the user clicked outside the content box).
+		$(document).on('click', '.sydney-setup-checklist-help-dialog', function (e) {
+			if (e.target === this && typeof this.close === 'function') {
+				this.close();
+			}
+		});
+
+		// Close button inside the dialog.
+		$(document).on('click', '.sydney-setup-checklist-help-dialog-close', function () {
+			var dialog = this.closest('dialog');
+			if (dialog && typeof dialog.close === 'function') {
+				dialog.close();
+			}
+		});
+
+		// Release the image bitmap when the dialog closes. `close` doesn't
+		// bubble, so jQuery delegation can't catch it — bind directly.
+		(function () {
+			var helpDialog = document.getElementById('sydney-setup-checklist-help-dialog');
+			if (!helpDialog) {
+				return;
+			}
+			helpDialog.addEventListener('close', function () {
+				var img = helpDialog.querySelector('.sydney-setup-checklist-help-dialog-image');
+				if (img) {
+					img.removeAttribute('src');
+				}
+			});
+		}());
+
+		// Recompute fully-done state for a category after an item toggle.
+		function updateCategoryDoneState($section) {
+			if (!$section || !$section.length) {
+				return;
+			}
+			var $items    = $section.find('.sydney-setup-checklist-item');
+			var total     = $items.length;
+			var doneCount = $items.filter('.is-done').length;
+			var allDone   = total > 0 && doneCount === total;
+			var wasFully  = $section.hasClass('is-fully-done');
+
+			// Update fraction circle.
+			var $progress = $section.find('.sydney-setup-checklist-category-progress');
+			if ($progress.length) {
+				$progress.find('.sydney-setup-checklist-category-progress-fraction').text(doneCount + '/' + total);
+				$progress.attr('data-done', doneCount);
+				$progress.removeClass('is-state-empty is-state-partial is-state-done');
+				if (allDone) {
+					$progress.addClass('is-state-done');
+				} else if (doneCount > 0) {
+					$progress.addClass('is-state-partial');
+				} else {
+					$progress.addClass('is-state-empty');
+				}
+			}
+
+			if (allDone && !wasFully) {
+				$section.addClass('is-fully-done is-collapsed');
+				$section.find('.sydney-setup-checklist-category-toggle').attr('aria-expanded', 'false');
+			} else if (!allDone && wasFully) {
+				$section.removeClass('is-fully-done is-collapsed');
+				$section.find('.sydney-setup-checklist-category-toggle').attr('aria-expanded', 'true');
+			}
+		}
+
 	});
 
 })(jQuery);

@@ -5,6 +5,10 @@
  * @package Sydney
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'Sydney_Modules' ) || ! Sydney_Modules::is_module_active( 'pattern-library' ) ) {
 	return;
 }
@@ -36,8 +40,35 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 
 		/**
 		 * Transient key for the cached pattern file list.
+		 *
+		 * Suffix bumped to invalidate caches written by older releases that stored
+		 * absolute server paths (broke after site migration — see issue #393).
 		 */
-		const PATTERN_FILES_CACHE_KEY = 'sydney_pattern_files';
+		const PATTERN_FILES_CACHE_KEY = 'sydney_pattern_files_v2';
+
+		/**
+		 * User meta key storing the per-user favorited pattern names.
+		 */
+		const USER_META_KEY = 'sydney_pattern_library_favorites';
+
+		/**
+		 * Hard cap on the number of favorites stored per user. Defensive — prevents
+		 * unbounded growth from a misbehaving client or hand-crafted POST.
+		 */
+		const FAVORITES_MAX = 500;
+
+		/**
+		 * User meta key storing the per-user list of recently-inserted pattern names,
+		 * ordered most-recent-first.
+		 */
+		const RECENTLY_USED_META_KEY = 'sydney_pattern_library_recently_used';
+
+		/**
+		 * Server-side cap on the number of recently-used entries persisted per user.
+		 * Higher than the client-side cap (12) so a future bump to client N doesn't
+		 * need a migration. The sanitizer truncates anything longer than this.
+		 */
+		const RECENTLY_USED_SERVER_CAP = 50;
 
 		/**
 		 * Instance
@@ -64,6 +95,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				add_action( 'init', array( $this, 'register_patterns' ) );
 			}
 			add_action( 'rest_api_init', array( $this, 'register_patterns' ) );
+			add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
 		}
 
@@ -122,6 +154,10 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 *
 		 * The pattern directory only changes with theme updates, so the cache is
 		 * invalidated by comparing the stored theme version against the current one.
+		 *
+		 * Only basenames are stored in the cache; the absolute path is rebuilt from
+		 * the current template directory on read so the cache survives site migration
+		 * (issue #393).
 		 */
 		private function get_pattern_files() {
 			$patterns_dir = get_template_directory() . '/inc/modules/pattern-library/patterns/';
@@ -139,7 +175,12 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				&& $cached['version'] === $theme_version
 				&& is_array( $cached['files'] )
 			) {
-				return $cached['files'];
+				return array_map(
+					static function ( $basename ) use ( $patterns_dir ) {
+						return $patterns_dir . $basename;
+					},
+					$cached['files']
+				);
 			}
 
 			$files = glob( $patterns_dir . '*.php' );
@@ -151,7 +192,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				self::PATTERN_FILES_CACHE_KEY,
 				array(
 					'version' => $theme_version,
-					'files'   => $files,
+					'files'   => array_map( 'basename', $files ),
 				),
 				WEEK_IN_SECONDS
 			);
@@ -197,11 +238,311 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				'sydney-pattern-library',
 				'sydneyPatternLibrary',
 				array(
-					'isPro'      => defined( 'SYDNEY_PRO_VERSION' ),
-					'upgradeUrl' => 'https://athemes.com/sydney-upgrade/',
-					'typeOrder'  => array_keys( $this->get_categories() ),
+					'isPro'        => defined( 'SYDNEY_PRO_VERSION' ),
+					'upgradeUrl'   => 'https://athemes.com/sydney-upgrade/',
+					'favorites'    => self::get_user_favorites( get_current_user_id() ),
+					'recentlyUsed' => self::get_user_recently_used( get_current_user_id() ),
+					'typeOrder'    => array_keys( $this->get_categories() ),
 				)
 			);
+		}
+
+		/**
+		 * Register the favorites REST routes.
+		 *
+		 * Backend-only: both routes are hidden from the API discovery index
+		 * (`show_in_index => false`) and gated to logged-in users with the
+		 * edit_posts capability — the same audience that can open the pattern
+		 * library in the block editor.
+		 */
+		public function register_rest_routes() {
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-favorites',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'rest_get_favorites' ),
+					'permission_callback' => array( $this, 'rest_favorites_permissions_check' ),
+					'show_in_index'       => false,
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-favorites',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'rest_update_favorites' ),
+					'permission_callback' => array( $this, 'rest_favorites_permissions_check' ),
+					'show_in_index'       => false,
+					'args'                => array(
+						'favorites' => array(
+							'required' => true,
+							'type'     => 'array',
+							'items'    => array(
+								'type' => 'string',
+							),
+						),
+					),
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-recently-used',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'rest_get_recently_used' ),
+					'permission_callback' => array( $this, 'rest_recently_used_permissions_check' ),
+					'show_in_index'       => false,
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-recently-used',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'rest_update_recently_used' ),
+					'permission_callback' => array( $this, 'rest_recently_used_permissions_check' ),
+					'show_in_index'       => false,
+					'args'                => array(
+						'recently_used' => array(
+							'required' => true,
+							'type'     => 'array',
+							'items'    => array(
+								'type' => 'string',
+							),
+						),
+					),
+				)
+			);
+		}
+
+		/**
+		 * REST permission gate: logged-in editors only.
+		 *
+		 * Explicit `is_user_logged_in()` check produces a clean 401 for
+		 * anonymous callers; the capability check produces a 403 for
+		 * authenticated-but-under-privileged callers.
+		 *
+		 * @return bool
+		 */
+		public function rest_favorites_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * GET handler — return the current user's favorites.
+		 *
+		 * @return \WP_REST_Response
+		 */
+		public function rest_get_favorites() {
+			return rest_ensure_response(
+				array( 'favorites' => self::get_user_favorites( get_current_user_id() ) )
+			);
+		}
+
+		/**
+		 * POST handler — sanitize and persist the user's favorites array.
+		 *
+		 * @param \WP_REST_Request $request REST request.
+		 * @return \WP_REST_Response
+		 */
+		public function rest_update_favorites( $request ) {
+			$sanitized = self::sanitize_favorites_input( $request->get_param( 'favorites' ) );
+
+			update_user_meta(
+				get_current_user_id(),
+				self::USER_META_KEY,
+				wp_json_encode( $sanitized )
+			);
+
+			return rest_ensure_response( array( 'favorites' => $sanitized ) );
+		}
+
+		/**
+		 * REST permission gate for recently-used routes: logged-in editors only.
+		 *
+		 * Mirrors rest_favorites_permissions_check(). Explicit
+		 * `is_user_logged_in()` check produces a clean 401 for anonymous callers;
+		 * the capability check produces a 403 for authenticated-but-under-
+		 * privileged callers.
+		 *
+		 * @return bool
+		 */
+		public function rest_recently_used_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * GET handler — return the current user's recently-used patterns.
+		 *
+		 * @return \WP_REST_Response
+		 */
+		public function rest_get_recently_used() {
+			return rest_ensure_response(
+				array( 'recently_used' => self::get_user_recently_used( get_current_user_id() ) )
+			);
+		}
+
+		/**
+		 * POST handler — sanitize and persist the user's recently-used array.
+		 *
+		 * @param \WP_REST_Request $request REST request.
+		 * @return \WP_REST_Response
+		 */
+		public function rest_update_recently_used( $request ) {
+			$sanitized = self::sanitize_recently_used_input( $request->get_param( 'recently_used' ) );
+
+			update_user_meta(
+				get_current_user_id(),
+				self::RECENTLY_USED_META_KEY,
+				wp_json_encode( $sanitized )
+			);
+
+			return rest_ensure_response( array( 'recently_used' => $sanitized ) );
+		}
+
+		/**
+		 * Read and validate a user's favorites array from user meta.
+		 *
+		 * Returns an empty array on any failure (missing meta, malformed JSON,
+		 * non-array payload) — callers can treat the result as authoritative
+		 * without their own validation.
+		 *
+		 * @param int $user_id User ID.
+		 * @return array<int, string>
+		 */
+		public static function get_user_favorites( $user_id ) {
+			if ( empty( $user_id ) ) {
+				return array();
+			}
+
+			$raw = get_user_meta( $user_id, self::USER_META_KEY, true );
+			if ( empty( $raw ) || ! is_string( $raw ) ) {
+				return array();
+			}
+
+			$decoded = json_decode( $raw, true );
+			if ( ! is_array( $decoded ) ) {
+				return array();
+			}
+
+			return self::sanitize_favorites_input( $decoded );
+		}
+
+		/**
+		 * Read and validate a user's recently-used pattern array from user meta.
+		 *
+		 * Returns an empty array on any failure (missing meta, malformed JSON,
+		 * non-array payload) — callers can treat the result as authoritative
+		 * without their own validation.
+		 *
+		 * @param int $user_id User ID.
+		 * @return array<int, string>
+		 */
+		public static function get_user_recently_used( $user_id ) {
+			if ( empty( $user_id ) ) {
+				return array();
+			}
+
+			$raw = get_user_meta( $user_id, self::RECENTLY_USED_META_KEY, true );
+			if ( empty( $raw ) || ! is_string( $raw ) ) {
+				return array();
+			}
+
+			$decoded = json_decode( $raw, true );
+			if ( ! is_array( $decoded ) ) {
+				return array();
+			}
+
+			return self::sanitize_recently_used_input( $decoded );
+		}
+
+		/**
+		 * Sanitize a favorites input array.
+		 *
+		 * Filters the input down to:
+		 *   - strings only,
+		 *   - matching the pattern-name format `sydney/...` or `sydney-pro/...`
+		 *     with lowercase alphanumerics, hyphens, and underscores only
+		 *     (case-sensitive — registered pattern names are always lowercase,
+		 *     and mixed-case entries would never match the client-side filter),
+		 *   - de-duplicated (first occurrence wins to preserve user ordering),
+		 *   - capped at FAVORITES_MAX entries.
+		 *
+		 * @param mixed $raw Untrusted input. Anything not an array becomes [].
+		 * @return array<int, string>
+		 */
+		public static function sanitize_favorites_input( $raw ) {
+			if ( ! is_array( $raw ) ) {
+				return array();
+			}
+
+			$out  = array();
+			$seen = array();
+			foreach ( $raw as $value ) {
+				if ( ! is_string( $value ) ) {
+					continue;
+				}
+				if ( ! preg_match( '#^sydney(-pro)?/[a-z0-9_-]+$#', $value ) ) {
+					continue;
+				}
+				if ( isset( $seen[ $value ] ) ) {
+					continue;
+				}
+				$seen[ $value ] = true;
+				$out[]          = $value;
+				if ( count( $out ) >= self::FAVORITES_MAX ) {
+					break;
+				}
+			}
+
+			return $out;
+		}
+
+		/**
+		 * Sanitize a recently-used input array.
+		 *
+		 * Filters the input down to:
+		 *   - strings only,
+		 *   - matching the pattern-name format `sydney/...` or `sydney-pro/...`
+		 *     with lowercase alphanumerics, hyphens, and underscores only
+		 *     (case-sensitive — registered pattern names are always lowercase,
+		 *     and mixed-case entries would never match the client-side filter),
+		 *   - de-duplicated (first occurrence wins to preserve client-side
+		 *     LRU ordering — the most-recent entry sits at index 0),
+		 *   - capped at RECENTLY_USED_SERVER_CAP entries.
+		 *
+		 * @param mixed $raw Untrusted input. Anything not an array becomes [].
+		 * @return array<int, string>
+		 */
+		public static function sanitize_recently_used_input( $raw ) {
+			if ( ! is_array( $raw ) ) {
+				return array();
+			}
+
+			$out  = array();
+			$seen = array();
+			foreach ( $raw as $value ) {
+				if ( ! is_string( $value ) ) {
+					continue;
+				}
+				if ( ! preg_match( '#^sydney(-pro)?/[a-z0-9_-]+$#', $value ) ) {
+					continue;
+				}
+				if ( isset( $seen[ $value ] ) ) {
+					continue;
+				}
+				$seen[ $value ] = true;
+				$out[]          = $value;
+				if ( count( $out ) >= self::RECENTLY_USED_SERVER_CAP ) {
+					break;
+				}
+			}
+
+			return $out;
 		}
 	}
 
