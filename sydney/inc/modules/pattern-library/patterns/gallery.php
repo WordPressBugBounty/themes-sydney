@@ -12,9 +12,9 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 1', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
-		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#111111"}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group alignfull has-background" style="background-color:#111111;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-dark' ),
+		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.3em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},},"textColor":"white"} -->
 <p class="has-text-align-center has-white-color has-text-color" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30);font-size:14px;font-style:normal;font-weight:700;letter-spacing:0.3em;text-transform:uppercase">Our Work</p>
 <!-- /wp:paragraph -->
@@ -59,7 +59,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 2', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#F4F5F7"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#F4F5F7;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.3em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -114,9 +114,9 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 3', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
-		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#111111"}},"layout":{"type":"constrained"}} -->
-<section class="wp-block-group alignfull has-background" style="background-color:#111111;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-dark' ),
+		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:heading {"textAlign":"center","style":{"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#ffffff"}}} -->
 <h2 class="wp-block-heading has-text-align-center has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:0">Selected Projects</h2>
 <!-- /wp:heading --></div>
@@ -159,7 +159,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 4', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'projects' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'projects', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"12px","letterSpacing":"3px"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"global_color_5"} -->
@@ -241,7 +241,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 5', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'projects' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'projects', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"12px","letterSpacing":"3px"},"spacing":{"margin":{"bottom":"var:preset|spacing|20","top":"0"}}},"textColor":"global_color_5"} -->
@@ -328,7 +328,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 6', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'digital', 'grid', 'images' ),
+		'keywords'   => array( 'gallery', 'agency', 'digital', 'grid', 'images', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -384,7 +384,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 7', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'digital', 'portfolio', 'columns' ),
+		'keywords'   => array( 'gallery', 'agency', 'digital', 'portfolio', 'columns', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"672px","justifyContent":"left"}} -->
@@ -430,7 +430,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 8', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'digital', 'dark', 'masonry' ),
+		'keywords'   => array( 'gallery', 'agency', 'digital', 'dark', 'masonry', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -484,7 +484,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 9', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -532,7 +532,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 10', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'columns' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'columns', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 <div class="wp-block-group alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"672px","justifyContent":"left"}} -->
@@ -587,7 +587,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 11', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -637,7 +637,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 12', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -719,7 +719,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 13', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","justifyContent":"left"}} -->
 <div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"#ffffff"}}} -->
@@ -794,7 +794,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 14', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -844,7 +844,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Gallery 15', 'sydney' ),
 		'categories' => array( 'sydney-gallery' ),
-		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images' ),
+		'keywords'   => array( 'gallery', 'agency', 'portfolio', 'grid', 'images', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->

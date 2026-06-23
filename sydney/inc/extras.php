@@ -526,7 +526,7 @@ function sydney_related_posts() {
 				<div class="col-md-4">
 					<div class="related-post">
 						<div class="entry-thumb">
-							<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail( 'medium-thumb' ); ?></a>
+							<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail( 'sydney-medium-thumb' ); ?></a>
 						</div>	
 						<div class="entry-meta">
 							<?php sydney_posted_on(); ?>

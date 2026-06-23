@@ -257,7 +257,7 @@ if ( ! function_exists( 'sydney_single_post_thumbnail' ) ) :
 
 		?>
 		<div class="entry-thumb <?php echo esc_attr( $class ? $class : '' ); ?>">
-			<?php the_post_thumbnail('large-thumb'); ?>
+			<?php the_post_thumbnail('sydney-large-thumb'); ?>
 		</div>
 		<?php
 	}

@@ -64,9 +64,31 @@ class Sydney_Alpha_Color extends WP_Customize_Control {
 							<input type="hidden" name="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>" value="<?php echo esc_attr( $this->value( $value ) ); ?>" class="sydney-connected-global" <?php $this->link( $value ); ?> />
 						</div>
 						<?php else : ?>
+						<?php
+						// The literal stored value — always kept in the <input> so WP Customizer's
+						// linkElements binding never sees a phantom change on section open.
+						$literal_color  = $this->value( $value );
+						// The display color shown in the swatch: resolved to the global hex when a
+						// global is connected, so the picker reflects the colour currently in use.
+						$display_color = $literal_color;
+
+						if ( isset( $this->settings['global'] ) ) {
+							$connected = $this->value( 'global' );
+
+							if ( $connected && 0 === strpos( $connected, 'global_color_' ) ) {
+								$palette_defaults = sydney_get_global_color_defaults();
+								$palette_default  = isset( $palette_defaults[ $connected ] ) ? $palette_defaults[ $connected ] : '';
+								$resolved         = get_theme_mod( $connected, $palette_default );
+
+								if ( $resolved ) {
+									$display_color = $resolved;
+								}
+							}
+						}
+						?>
 					<div class="sydney-color-control" data-control-id="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>">
-						<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $this->settings[ $value ]->default ); ?>" style="background-color: <?php echo esc_attr( $this->value( $value ) ); ?>;"></div>
-						<input type="text" name="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>" value="<?php echo esc_attr( $this->value( $value ) ); ?>" class="sydney-color-input" <?php $this->link( $value ); ?> />
+						<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $this->settings[ $value ]->default ); ?>" data-display-color="<?php echo esc_attr( $display_color ); ?>" style="background-color: <?php echo esc_attr( $display_color ); ?>;"></div>
+						<input type="text" name="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>" value="<?php echo esc_attr( $literal_color ); ?>" class="sydney-color-input" <?php $this->link( $value ); ?> />
 					</div>
 					<?php endif; ?>
 				<?php endforeach; ?>

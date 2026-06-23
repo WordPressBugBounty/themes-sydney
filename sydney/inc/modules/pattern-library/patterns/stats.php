@@ -11,7 +11,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 1', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"},"blockGap":"0"},"color":{"background":"#F4F5F7"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#F4F5F7;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:heading {"textAlign":"center","style":{"spacing":{"margin":{"bottom":"0","top":"0"}}}} -->
@@ -106,7 +106,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 2', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:heading {"textAlign":"center","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|60"}}}} -->
 <h2 class="wp-block-heading has-text-align-center" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--60)">Results that speak for themselves</h2>
@@ -178,7 +178,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 3', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaType":"image","verticalAlignment":"center","imageFill":true,"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-media-text alignfull is-stacked-on-mobile is-vertically-aligned-center is-image-fill-element" style="padding-top:0;padding-bottom:0"><figure class="wp-block-media-text__media"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=1600" alt="Agency team at work" style="object-position:50% 50%"/></figure><div class="wp-block-media-text__content"><!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
@@ -245,7 +245,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 4', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital', 'cover', 'overlay' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'cover', 'overlay', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format\u0026fit=crop\u0026w=1600","alt":"Digital agency workspace","dimRatio":80,"overlayColor":"global_color_6","isUserOverlayColor":true,"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><img class="wp-block-cover__image-background" alt="Digital agency workspace" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -311,7 +311,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 5', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital', 'separator', 'minimal' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'separator', 'minimal', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
 <div class="wp-block-group alignwide"><!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -381,7 +381,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 6', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital', 'image', 'grid' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'image', 'grid', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"center","width":"50%"} -->
@@ -455,7 +455,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 7', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital', 'cards', 'dark' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'cards', 'dark', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"center","width":"33.33%"} -->
@@ -532,7 +532,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 8', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'local', 'services' ),
+		'keywords'   => array( 'stats', 'local', 'services', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#F4F5F7"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#F4F5F7;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:heading {"textAlign":"center","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|40"}}}} -->
@@ -594,7 +594,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 9', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'local', 'services', 'dark' ),
+		'keywords'   => array( 'stats', 'local', 'services', 'dark', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -660,7 +660,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 10', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#ffffff"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#ffffff;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column -->
@@ -712,7 +712,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 11', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_1","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-1-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column -->
@@ -764,7 +764,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 12', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'agency', 'digital' ),
+		'keywords'   => array( 'stats', 'agency', 'digital', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center" style="margin-top:0;margin-bottom:0"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -835,7 +835,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 13', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'professional-corporate' ),
+		'keywords'   => array( 'stats', 'professional-corporate', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center" style="margin-top:0;margin-bottom:0"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -909,7 +909,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Stats 14', 'sydney' ),
 		'categories' => array( 'sydney-stats' ),
-		'keywords'   => array( 'stats', 'professional-corporate' ),
+		'keywords'   => array( 'stats', 'professional-corporate', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->

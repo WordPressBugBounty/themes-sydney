@@ -595,3 +595,23 @@ function sydney_setup_checklist_enable_for_new_users( $old_theme_name ) {
     update_option( 'sydney_setup_checklist_eligible', 1 );
 }
 add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );
+
+/**
+ * YITH Compare icon migration for existing installs.
+ *
+ * Treats any pre-existing `yith_woocompare_button_text` value as user-owned
+ * (written either by the old per-request theme code or by the user via
+ * YITH's settings UI) and sets the one-time flag so
+ * `sydney_set_yith_compare_button_icon()` never rewrites it. Hooked at
+ * priority 5 so it runs before that setup function (default priority 10)
+ * on the same `init` pass.
+ */
+function sydney_yith_compare_icon_migration() {
+	if ( get_option( 'sydney_yith_compare_icon_initialized' ) ) {
+		return;
+	}
+	if ( false !== get_option( 'yith_woocompare_button_text', false ) ) {
+		update_option( 'sydney_yith_compare_icon_initialized', true );
+	}
+}
+add_action( 'init', 'sydney_yith_compare_icon_migration', 5 );

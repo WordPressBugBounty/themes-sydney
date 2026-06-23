@@ -98,9 +98,6 @@ function sydney_setup() {
 		set_theme_mod( 'forked_owl_carousel', true );
 	}   
 
-	//Set the compare icon for YTIH button
-	update_option( 'yith_woocompare_button_text', sydney_get_svg_icon( 'icon-compare', false ) );
-
 	//Add theme support for appearance tools
 	add_theme_support( 'appearance-tools' );
 
@@ -144,6 +141,25 @@ function sydney_setup() {
 }
 endif; // sydney_setup
 add_action( 'after_setup_theme', 'sydney_setup' );
+
+/**
+ * Set the YITH WooCommerce Compare button text to Sydney's SVG icon once.
+ *
+ * Gated by a one-time flag so it fires regardless of install order
+ * (Sydney first then YITH Compare, or vice versa) and never overwrites
+ * customizations the user makes through YITH's settings UI afterwards.
+ */
+function sydney_set_yith_compare_button_icon() {
+	if ( get_option( 'sydney_yith_compare_icon_initialized' ) ) {
+		return;
+	}
+	if ( ! class_exists( 'YITH_Woocompare' ) ) {
+		return;
+	}
+	update_option( 'yith_woocompare_button_text', sydney_get_svg_icon( 'icon-compare', false ) );
+	update_option( 'sydney_yith_compare_icon_initialized', true );
+}
+add_action( 'init', 'sydney_set_yith_compare_button_icon' );
 
 /**
  * Register widget area.
@@ -278,7 +294,7 @@ function sydney_scripts() {
 	}
 
 	if ( !$is_amp ) {
-		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/functions.min.js', array(), '20240822', true );
+		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/functions.min.js', array(), '20260611', true );
 		
 		//Enqueue hero slider script only if the slider is in use
 		$slider_home = get_theme_mod('front_header_type','nothing');
@@ -552,6 +568,11 @@ require get_template_directory() . '/inc/extras.php';
 require get_template_directory() . '/inc/classes/class-sydney-page-metabox.php';
 
 /**
+ * Starter content (theme directory / Customizer preview)
+ */
+require get_template_directory() . '/inc/classes/class-sydney-starter-content.php';
+
+/**
  * Posts archive
  */
 require get_template_directory() . '/inc/classes/class-sydney-posts-archive.php';
@@ -729,11 +750,6 @@ function sydney_elementor_template_library() {
 	}
 }
 add_action( 'init', 'sydney_elementor_template_library' );
-
-/**
- * Premium modules
- */
-require get_template_directory() . '/inc/classes/class-sydney-modules.php';
 
 /**
  * Block styles

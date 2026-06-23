@@ -15,7 +15,7 @@
 
 		<?php if ( has_post_thumbnail() && ( $enable_featured || $enable_featured_all ) ) : ?>
 		<div class="entry-thumb">
-			<?php the_post_thumbnail('large-thumb'); ?>
+			<?php the_post_thumbnail('sydney-large-thumb'); ?>
 		</div>
 		<?php endif; ?>	
 

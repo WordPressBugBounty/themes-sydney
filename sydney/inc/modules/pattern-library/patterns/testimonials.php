@@ -10,7 +10,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 1', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'quote', 'single' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'quote', 'single', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","align":"center","className":"is-resized","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|40"}},"color":{"duotone":["rgba(255, 255, 255, 0.46)","rgba(255, 255, 255, 0.46)"]}}} -->
@@ -46,7 +46,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 2', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'grid', 'columns' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'grid', 'columns', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -210,7 +210,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 3', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'split', 'image' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'split', 'image', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center" style="margin-top:0;margin-bottom:0"><!-- wp:column {"verticalAlignment":"center","width":"50%"} -->
@@ -254,7 +254,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 4', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'dark', 'grid' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'dark', 'grid', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained","wideSize":"920px"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -364,7 +364,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 5', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'social-proof', 'centered' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'social-proof', 'centered', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|20"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center"}} -->
@@ -420,7 +420,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 6', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'asymmetric', 'light' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'asymmetric', 'light', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column {"width":"33.33%"} -->
@@ -538,7 +538,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 7', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'cover', 'fullwidth' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'cover', 'fullwidth', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=1600","dimRatio":85,"overlayColor":"global_color_6","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><img class="wp-block-cover__image-background" alt="" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-90 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","align":"center","className":"is-resized","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|40"}},"color":{"duotone":["rgba(255, 255, 255, 0.46)","rgba(255, 255, 255, 0.46)"]}}} -->
@@ -574,7 +574,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 8', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'dark', 'columns' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'dark', 'columns', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column -->
@@ -658,7 +658,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 9', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'border', 'stacked' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'border', 'stacked', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column {"width":"33.33%"} -->
@@ -733,7 +733,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 10', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'professional-corporate' ),
+		'keywords'   => array( 'testimonials', 'professional-corporate', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -833,7 +833,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 11', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'professional-corporate' ),
+		'keywords'   => array( 'testimonials', 'professional-corporate', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","align":"center","className":"is-resized","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}}} -->
@@ -869,7 +869,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 12', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'professional-corporate' ),
+		'keywords'   => array( 'testimonials', 'professional-corporate', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->
@@ -1023,7 +1023,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 13', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'professional-corporate' ),
+		'keywords'   => array( 'testimonials', 'professional-corporate', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
@@ -1089,7 +1089,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Testimonials 14', 'sydney' ),
 		'categories' => array( 'sydney-testimonials' ),
-		'keywords'   => array( 'testimonials', 'agency', 'digital', 'reviews', 'stacked' ),
+		'keywords'   => array( 'testimonials', 'agency', 'digital', 'reviews', 'stacked', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#1c1c1c"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#1c1c1c;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|20","margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}}},"textColor":"white"} -->

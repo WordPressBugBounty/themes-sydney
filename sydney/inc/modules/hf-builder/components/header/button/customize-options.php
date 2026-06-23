@@ -57,14 +57,20 @@ $wp_customize->add_control(
                     array(
                         '#customize-control-shfb_button_default_state_title',
                         '#customize-control-shfb_button_background',
+                        '#customize-control-shfb_button_background_hover',
                         '#customize-control-shfb_button',
+                        '#customize-control-shfb_button_hover',
                         '#customize-control-shfb_button_border',
+                        '#customize-control-shfb_button_border_hover',
 
 			            // Sticky State
 			            '#customize-control-shfb_button_sticky_title',
                         '#customize-control-shfb_button_sticky_background',
+                        '#customize-control-shfb_button_sticky_background_hover',
                         '#customize-control-shfb_button_sticky',
+                        '#customize-control-shfb_button_sticky_hover',
                         '#customize-control-shfb_button_sticky_border',
+                        '#customize-control-shfb_button_sticky_border_hover',
                         '#customize-control-shfb_button_layout_title',
                         '#customize-control-shfb_button_padding',
                         '#customize-control-shfb_button_margin'
@@ -176,10 +182,26 @@ $wp_customize->add_control( new Sydney_Text_Control( $wp_customize, 'shfb_button
 
 // Background Color.
 $wp_customize->add_setting(
+	'global_shfb_button_background_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
 	'shfb_button_background_color',
 	array(
 		'default'           => '#212121',
 		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'global_shfb_button_background_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage'
 	)
 );
@@ -192,22 +214,45 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button_background',
         array(
             'label'    => esc_html__( 'Background Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_background_color',
-                'hover'  => 'shfb_button_background_color_hover',
+                'global'  => 'global_shfb_button_background_color',
+                'setting' => 'shfb_button_background_color',
             ),
             'priority' => 31
         )
     )
 );
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_background_hover',
+        array(
+            'label'    => esc_html__( 'Background Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_background_color_hover',
+                'setting' => 'shfb_button_background_color_hover',
+            ),
+            'priority' => 31.5
+        )
+    )
+);
 
 // Text Color.
+$wp_customize->add_setting(
+	'global_shfb_button_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
 $wp_customize->add_setting(
 	'shfb_button_color',
 	array(
@@ -217,7 +262,15 @@ $wp_customize->add_setting(
 	)
 );
 
-// Background Color Hover.
+// Text Color Hover.
+$wp_customize->add_setting(
+	'global_shfb_button_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
 $wp_customize->add_setting(
 	'shfb_button_color_hover',
 	array(
@@ -227,27 +280,58 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button',
         array(
-            'label'    => esc_html__( 'Button Color', 'sydney' ),
+            'label'    => esc_html__( 'Text Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_color',
-                'hover'  => 'shfb_button_color_hover',
+                'global'  => 'global_shfb_button_color',
+                'setting' => 'shfb_button_color',
             ),
             'priority' => 32
+        )
+    )
+);
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_hover',
+        array(
+            'label'    => esc_html__( 'Button Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_color_hover',
+                'setting' => 'shfb_button_color_hover',
+            ),
+            'priority' => 32.5
         )
     )
 );
 
 // Border Color.
 $wp_customize->add_setting(
+	'global_shfb_button_border_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
 	'shfb_button_border_color',
 	array(
 		'default'           => '#212121',
 		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'global_shfb_button_border_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage'
 	)
 );
@@ -260,17 +344,32 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button_border',
         array(
             'label'    => esc_html__( 'Border Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_border_color',
-                'hover'  => 'shfb_button_border_color_hover',
+                'global'  => 'global_shfb_button_border_color',
+                'setting' => 'shfb_button_border_color',
             ),
             'priority' => 33
+        )
+    )
+);
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_border_hover',
+        array(
+            'label'    => esc_html__( 'Border Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_border_color_hover',
+                'setting' => 'shfb_button_border_color_hover',
+            ),
+            'priority' => 33.5
         )
     )
 );
@@ -298,10 +397,26 @@ $wp_customize->add_control(
 
 // Sticky Header - Background Color.
 $wp_customize->add_setting(
+	'global_shfb_button_sticky_background_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
 	'shfb_button_sticky_background_color',
 	array(
 		'default'           => '#212121',
 		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'global_shfb_button_sticky_background_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage'
 	)
 );
@@ -314,28 +429,60 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button_sticky_background',
         array(
             'label'    => esc_html__( 'Background Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_sticky_background_color',
-                'hover'  => 'shfb_button_sticky_background_color_hover',
+                'global'  => 'global_shfb_button_sticky_background_color',
+                'setting' => 'shfb_button_sticky_background_color',
             ),
 			'active_callback' => 'sydney_callback_sticky_header',
             'priority' => 68
         )
     )
 );
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_sticky_background_hover',
+        array(
+            'label'    => esc_html__( 'Background Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_sticky_background_color_hover',
+                'setting' => 'shfb_button_sticky_background_color_hover',
+            ),
+			'active_callback' => 'sydney_callback_sticky_header',
+            'priority' => 68.5
+        )
+    )
+);
 
 // Sticky Header - Text Color.
+$wp_customize->add_setting(
+	'global_shfb_button_sticky_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
 $wp_customize->add_setting(
 	'shfb_button_sticky_color',
 	array(
 		'default'           => '#FFF',
 		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'global_shfb_button_sticky_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage'
 	)
 );
@@ -348,18 +495,34 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button_sticky',
         array(
             'label'    => esc_html__( 'Text Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_sticky_color',
-                'hover'  => 'shfb_button_sticky_color_hover',
+                'global'  => 'global_shfb_button_sticky_color',
+                'setting' => 'shfb_button_sticky_color',
             ),
 			'active_callback' => 'sydney_callback_sticky_header',
             'priority' => 69
+        )
+    )
+);
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_sticky_hover',
+        array(
+            'label'    => esc_html__( 'Text Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_sticky_color_hover',
+                'setting' => 'shfb_button_sticky_color_hover',
+            ),
+			'active_callback' => 'sydney_callback_sticky_header',
+            'priority' => 69.5
         )
     )
 );
@@ -367,10 +530,26 @@ $wp_customize->add_control(
 
 // Sticky Header - Border Color.
 $wp_customize->add_setting(
+	'global_shfb_button_sticky_border_color',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
 	'shfb_button_sticky_border_color',
 	array(
 		'default'           => '#212121',
 		'sanitize_callback' => 'sydney_sanitize_hex_rgba',
+		'transport'         => 'postMessage'
+	)
+);
+$wp_customize->add_setting(
+	'global_shfb_button_sticky_border_color_hover',
+	array(
+		'default'           => '',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => 'postMessage'
 	)
 );
@@ -383,18 +562,34 @@ $wp_customize->add_setting(
 	)
 );
 $wp_customize->add_control(
-    new Sydney_Color_Group(
+    new Sydney_Alpha_Color(
         $wp_customize,
         'shfb_button_sticky_border',
         array(
             'label'    => esc_html__( 'Border Color', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
             'settings' => array(
-                'normal' => 'shfb_button_sticky_border_color',
-                'hover'  => 'shfb_button_sticky_border_color_hover',
+                'global'  => 'global_shfb_button_sticky_border_color',
+                'setting' => 'shfb_button_sticky_border_color',
             ),
 			'active_callback' => 'sydney_callback_sticky_header',
             'priority' => 70
+        )
+    )
+);
+$wp_customize->add_control(
+    new Sydney_Alpha_Color(
+        $wp_customize,
+        'shfb_button_sticky_border_hover',
+        array(
+            'label'    => esc_html__( 'Border Color (Hover)', 'sydney' ),
+            'section'  => 'sydney_section_hb_component__button',
+            'settings' => array(
+                'global'  => 'global_shfb_button_sticky_border_color_hover',
+                'setting' => 'shfb_button_sticky_border_color_hover',
+            ),
+			'active_callback' => 'sydney_callback_sticky_header',
+            'priority' => 70.5
         )
     )
 );
@@ -415,7 +610,7 @@ $wp_customize->add_control(
         array(
             'label'    => esc_html__( 'Layout', 'sydney' ),
             'section'  => 'sydney_section_hb_component__button',
-            'priority' => 70,
+            'priority' => 71,
             'separator' => 'before'
         )
     )
@@ -522,5 +717,40 @@ $wp_customize->add_control(
         )
     )
 );
+
+// Dynamically show/hide sticky button controls when the sticky header toggle changes in the Customizer panel.
+add_action( 'customize_controls_print_footer_scripts', 'sydney_button_sticky_controls_js' );
+function sydney_button_sticky_controls_js() {
+	$sticky_controls = array(
+		'shfb_button_sticky_title',
+		'shfb_button_sticky_background',
+		'shfb_button_sticky_background_hover',
+		'shfb_button_sticky',
+		'shfb_button_sticky_hover',
+		'shfb_button_sticky_border',
+		'shfb_button_sticky_border_hover',
+	);
+	?>
+	<script type="text/javascript">
+	( function( api ) {
+		api( 'enable_sticky_header', function( setting ) {
+			setting.bind( function( newval ) {
+				var controls = <?php echo wp_json_encode( $sticky_controls ); ?>;
+				controls.forEach( function( id ) {
+					var control = api.control( id );
+					if ( control ) {
+						if ( newval ) {
+							control.activate();
+						} else {
+							control.deactivate();
+						}
+					}
+				} );
+			} );
+		} );
+	} )( wp.customize );
+	</script>
+	<?php
+}
 
 // @codingStandardsIgnoreEnd WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

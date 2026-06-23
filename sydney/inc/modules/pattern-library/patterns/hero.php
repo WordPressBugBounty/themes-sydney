@@ -10,7 +10,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 1', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format\u0026fit=crop\u0026w=1600","alt":"Digital agency workspace","dimRatio":90,"overlayColor":"global_color_6","isUserOverlayColor":true,"minHeight":70,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 		<div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80);min-height:70vh"><img class="wp-block-cover__image-background" alt="Digital agency workspace" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-90 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"textAlign":"center","level":1,"style":{"color":{"text":"#ffffff"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}}} -->
 		<h1 class="wp-block-heading has-text-align-center has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:var(--wp--preset--spacing--30)">We build digital experiences that drive real growth.</h1>
@@ -34,7 +34,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 2', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 		<section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 		<div class="wp-block-columns alignwide are-vertically-aligned-center" style="margin-top:0;margin-bottom:0"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -68,7 +68,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 3', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 		<section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:heading {"textAlign":"center","level":1,"style":{"color":{"text":"#ffffff"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}}} -->
 		<h1 class="wp-block-heading has-text-align-center has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:var(--wp--preset--spacing--30)">We build digital experiences that drive real growth.</h1>
@@ -96,7 +96,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 4', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-light' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"backgroundColor":"global_color_7","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-7-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -155,7 +155,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 5', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format\u0026fit=crop\u0026w=1600","alt":"Digital agency workspace","dimRatio":90,"overlayColor":"global_color_6","isUserOverlayColor":true,"minHeight":80,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80);min-height:80vh"><img class="wp-block-cover__image-background" alt="Digital agency workspace" src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-90 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center","justifyContent":"center"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:group {"style":{"spacing":{"blockGap":"0","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
@@ -207,7 +207,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 6', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -277,7 +277,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 7', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency', 'digital' ),
+		'keywords'   => array( 'hero', 'agency', 'digital', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80\u0026w=1600\u0026auto=format\u0026fit=crop","alt":"Digital agency workspace","dimRatio":80,"overlayColor":"global_color_6","isUserOverlayColor":true,"focalPoint":{"x":0.5,"y":0.5},"minHeight":80,"minHeightUnit":"vh","contentPosition":"bottom center","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull has-custom-content-position is-position-bottom-center" style="padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);min-height:80vh"><img class="wp-block-cover__image-background" alt="Digital agency workspace" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&amp;w=1600&amp;auto=format&amp;fit=crop" style="object-position:50% 50%" data-object-fit="cover" data-object-position="50% 50%"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"wide","layout":{"type":"flex","orientation":"vertical","verticalAlignment":"bottom","justifyContent":"left"}} -->
 <div class="wp-block-group alignwide"><!-- wp:group {"layout":{"type":"constrained","contentSize":"750px","justifyContent":"left","wideSize":"750px"}} -->
@@ -330,7 +330,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 8', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"},"blockGap":"0","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","wideSize":"","contentSize":"100%"}} -->
 <div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:cover {"url":"https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format\u0026fit=crop\u0026w=1600","dimRatio":80,"customOverlayColor":"#111111","isUserOverlayColor":true,"minHeight":70,"minHeightUnit":"vh","contentPosition":"center center","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:70vh"><img class="wp-block-cover__image-background" alt="" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-80 has-background-dim" style="background-color:#111111"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
@@ -427,7 +427,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 9', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"},"blockGap":"0","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","wideSize":"100%"}} -->
 <div class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:cover {"url":"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format\u0026fit=crop\u0026w=1600","dimRatio":70,"customOverlayColor":"#111111","isUserOverlayColor":true,"minHeight":75,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80","left":"var:preset|spacing|50","right":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--80);padding-left:var(--wp--preset--spacing--50);min-height:75vh"><img class="wp-block-cover__image-background" alt="" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-70 has-background-dim" style="background-color:#111111"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"wide","layout":{"type":"constrained","contentSize":"768px"}} -->
@@ -498,7 +498,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 10', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"},"blockGap":"0"}},"layout":{"type":"constrained","wideSize":"","contentSize":"100%"}} -->
 <div class="wp-block-group alignfull" style="padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:cover {"url":"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format\u0026fit=crop\u0026w=1600","dimRatio":70,"customOverlayColor":"#111111","isUserOverlayColor":true,"minHeight":60,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--80);padding-left:var(--wp--preset--spacing--50);min-height:60vh"><img class="wp-block-cover__image-background" alt="" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-70 has-background-dim" style="background-color:#111111"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
@@ -585,7 +585,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 11', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-light' ),
 		'content'    => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaType":"image","verticalAlignment":"center","imageFill":true,"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7"} -->
 <div class="wp-block-media-text alignfull is-stacked-on-mobile is-vertically-aligned-center is-image-fill-element has-global-color-7-background-color has-background" style="padding-top:0;padding-bottom:0"><figure class="wp-block-media-text__media"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=1600" alt="Agency workspace" style="object-position:50% 50%"/></figure><div class="wp-block-media-text__content"><!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
@@ -625,7 +625,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 12', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaPosition":"right","mediaType":"image","mediaWidth":58,"verticalAlignment":"center","imageFill":true} -->
 <div class="wp-block-media-text alignfull has-media-on-the-right is-stacked-on-mobile is-vertically-aligned-center is-image-fill-element" style="grid-template-columns:auto 58%"><div class="wp-block-media-text__content"><!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
@@ -689,7 +689,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 13', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"dimRatio":0,"minHeight":85,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80);min-height:85vh"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -749,7 +749,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 14', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format\u0026fit=crop\u0026w=1600","alt":"Agency creative workspace","dimRatio":90,"overlayColor":"global_color_6","isUserOverlayColor":true,"minHeight":85,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);min-height:85vh"><img class="wp-block-cover__image-background" alt="Agency creative workspace" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-90 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"600","fontSize":"14px","letterSpacing":"0.1em"},"spacing":{"margin":{"bottom":"var:preset|spacing|30","top":"0"}},"color":{"text":"var:preset|color|global_color_1"}},"textColor":"global_color_1"} -->
 <p class="has-text-align-center has-global-color-1-color has-text-color" style="color:var(--wp--preset--color--global-color-1);margin-top:0;margin-bottom:var(--wp--preset--spacing--30);font-size:14px;font-style:normal;font-weight:600;letter-spacing:0.1em;text-transform:uppercase">Award-Winning Agency</p>
@@ -813,7 +813,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 15', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#ffffff"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-background" style="background-color:#ffffff;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -877,7 +877,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 16', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}},"color":{"background":"#ffffff"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-background" style="background-color:#ffffff;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"}}}} -->
 <div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -937,7 +937,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 17', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}},"dimensions":{"minHeight":""}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 <div class="wp-block-group alignwide"><!-- wp:image {"width":"208px","height":"208px","scale":"cover","sizeSlug":"full","linkDestination":"none","style":{"border":{"radius":"9999px","color":"rgba(255,255,255,0.3)","width":"4px"}}} -->
@@ -997,7 +997,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 18', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}},"dimensions":{"minHeight":""}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 <div class="wp-block-group"><!-- wp:image {"width":"112px","height":"112px","scale":"cover","sizeSlug":"full","linkDestination":"none","align":"center","className":"is-style-rounded","style":{"border":{"width":"4px","color":"var(\u002d\u002dsydney-global-color-8)"},"layout":{"selfStretch":"fit","flexSize":null},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|20"}}}} -->
@@ -1031,7 +1031,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 19', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format\u0026fit=crop\u0026w=1600","alt":"Team meeting","dimRatio":80,"overlayColor":"global_color_6","isUserOverlayColor":true,"minHeight":80,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);min-height:80vh"><img class="wp-block-cover__image-background" alt="Team meeting" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700"},"color":{"text":"var:preset|color|global_color_9"},"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
 <p class="has-text-align-center has-text-color" style="color:var(--wp--preset--color--global-color-9);margin-top:0;margin-bottom:0;font-style:normal;font-weight:700;text-transform:uppercase">Rated #1 Strategy Consultancy 2026</p>
@@ -1079,7 +1079,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 20', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|60","left":"var:preset|spacing|60"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center" style="margin-top:0;margin-bottom:0"><!-- wp:column {"verticalAlignment":"center"} -->
@@ -1121,7 +1121,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 21', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:cover {"url":"https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format\u0026fit=crop\u0026w=1600","alt":"Modern office","dimRatio":75,"overlayColor":"global_color_6","isUserOverlayColor":true,"minHeight":80,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80);min-height:80vh"><img class="wp-block-cover__image-background" alt="Modern office" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-global-color-6-background-color has-background-dim-80 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","justifyContent":"left"}} -->
 <div class="wp-block-group alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase","fontStyle":"normal","fontWeight":"700"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"textColor":"white"} -->
@@ -1155,7 +1155,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 22', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0"},"blockGap":"0","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"stretch"}} -->
 <section class="wp-block-group alignfull" style="margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0"><!-- wp:group {"style":{"layout":{"selfStretch":"fill","flexSize":null},"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}},"dimensions":{"minHeight":"80vh"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" style="min-height:80vh;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:cover {"url":"https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format\u0026fit=crop\u0026w=1600","alt":"Office building","dimRatio":0,"minHeight":80,"minHeightUnit":"vh","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}}},"layout":{"type":"constrained"}} -->
@@ -1217,7 +1217,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 23', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"backgroundColor":"white","layout":{"type":"constrained","wideSize":"1140px"}} -->
 <div class="wp-block-group alignfull has-white-background-color has-background" style="padding-top:var(--wp--preset--spacing--80);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--80);padding-left:var(--wp--preset--spacing--50)"><!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"constrained","wideSize":"700px"}} -->
 <div class="wp-block-group"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","letterSpacing":"3px","fontSize":"14px","fontStyle":"normal","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"textColor":"global_color_1"} -->
@@ -1256,7 +1256,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 24', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-dark' ),
 		'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"},"blockGap":"0"}},"layout":{"type":"constrained","wideSize":"100%"}} -->
 <div class="wp-block-group alignfull" style="padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:cover {"url":"https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format\u0026fit=crop\u0026w=1600","dimRatio":70,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":70,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80","left":"var:preset|spacing|50","right":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","wideSize":"700px"}} -->
 <div class="wp-block-cover alignfull" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--80);padding-left:var(--wp--preset--spacing--50);min-height:70vh"><img class="wp-block-cover__image-background" alt="" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&amp;fit=crop&amp;w=1600" data-object-fit="cover"/><span aria-hidden="true" class="wp-block-cover__background has-background-dim-70 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","style":{"typography":{"textTransform":"uppercase","letterSpacing":"3px","fontSize":"14px","fontStyle":"normal","fontWeight":"600"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"textColor":"white"} -->
@@ -1324,7 +1324,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 25', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-light' ),
 		'content'    => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaType":"image","verticalAlignment":"center","imageFill":true,"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_7"} -->
 <div class="wp-block-media-text alignfull is-stacked-on-mobile is-vertically-aligned-center is-image-fill-element has-global-color-7-background-color has-background" style="padding-top:0;padding-bottom:0"><figure class="wp-block-media-text__media"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=1600" alt="Agency workspace" style="object-position:50% 50%"/></figure><div class="wp-block-media-text__content"><!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
@@ -1364,7 +1364,7 @@ register_block_pattern(
 	array(
 		'title'      => __( 'Hero 26', 'sydney' ),
 		'categories' => array( 'sydney-hero' ),
-		'keywords'   => array( 'hero', 'agency' ),
+		'keywords'   => array( 'hero', 'agency', 'bg-white' ),
 		'content'    => '<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaPosition":"right","mediaType":"image","mediaWidth":58,"verticalAlignment":"center","imageFill":true} -->
 <div class="wp-block-media-text alignfull has-media-on-the-right is-stacked-on-mobile is-vertically-aligned-center is-image-fill-element" style="grid-template-columns:auto 58%"><div class="wp-block-media-text__content"><!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->

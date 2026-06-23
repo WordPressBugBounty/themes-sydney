@@ -172,7 +172,7 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 
 			if ( has_post_thumbnail() && $enable ) : ?>
 				<div class="entry-thumb">
-					<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('large-thumb'); ?></a>
+					<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('sydney-large-thumb'); ?></a>
 				</div>
 			<?php endif;
 		}

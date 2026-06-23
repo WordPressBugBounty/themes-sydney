@@ -503,11 +503,17 @@ jQuery(document).ready(function ($) {
 					var $colorInput = $colorControl.find('.sydney-color-input');
 					var customizeControl = wp.customize($colorInput.data('customize-setting-link'));					
 
+					// Seed Pickr from the resolved display colour (swatch) so it reflects the
+					// global colour visually. We do NOT seed from $colorInput.val() because
+					// that holds the literal stored mod; if a global is connected, writing that
+					// literal back via Pickr would re-introduce the stale-literal problem.
+					var pickrSeedColor = $colorPicker.data('display-color') || $colorInput.val() || '';
+
 					var pickr = new Pickr({
 						el: $colorPicker.get(0),
 						container: 'body',
 						theme: 'sydney',
-						default: $colorInput.val() || '',
+						default: pickrSeedColor,
 						//swatches: [],
 						position: 'bottom-end',
 						appClass: 'sydney-pcr-app',
@@ -549,7 +555,7 @@ jQuery(document).ready(function ($) {
 					pickr.on('change', function (color, source) {
 						if ( 'slider' === source ) {
 							$colorPicker.parent().prev('.sydney-global-control').find('.dashicons').removeClass('active');
-							$colorPicker.parent().prev('.sydney-global-control').find('.sydney-connected-global').val('');
+							$colorPicker.parent().prev('.sydney-global-control').find('.sydney-connected-global').val('').trigger('change');
 							$colorPicker.parent().prev('.sydney-global-control').find('.global-color').removeClass('active');
 						}
 					});
@@ -1425,6 +1431,50 @@ wp.customize.bind('ready', function () {
 			});
 	  	});
 	}
+
+	/**
+	 * Reconcile color swatches with their connected global color on load.
+	 *
+	 * The PHP control renders the resolved global color, but core linkElements
+	 * re-syncs the text input to the literal setting value once the control is
+	 * embedded (sections embed controls lazily, on expand). Update the display
+	 * only (swatch background + data-display-color attribute, which seeds the
+	 * Pickr default on first open) — never touch the input value or call .set(),
+	 * which would dirty the changeset on plain load or re-save the resolved hex
+	 * as the literal mod if Pickr is opened afterwards.
+	 */
+	wp.customize.control.each(function (control) {
+		control.deferred.embedded.done(function () {
+			control.container.find('.sydney-connected-global').each(function () {
+				var slot = jQuery(this).val();
+
+				if (!slot || 0 !== slot.indexOf('global_color_')) {
+					return;
+				}
+
+				var element = jQuery(this).data('customize-setting-link').replace('global_', '');
+
+				if (typeof wp.customize(slot) === 'undefined' || typeof wp.customize(element) === 'undefined') {
+					return;
+				}
+
+				var resolved = wp.customize(slot)();
+
+				if (!resolved || String(resolved).toLowerCase() === String(wp.customize(element)()).toLowerCase()) {
+					return;
+				}
+
+				var $colorControl = jQuery(this).closest('.color-options').find('.sydney-color-control[data-control-id="' + element + '"]');
+				var $picker = $colorControl.find('.sydney-color-picker');
+
+				$picker.css('background-color', resolved);
+				// Update the data attribute so Pickr seeds from the correct resolved
+				// colour on first open, without writing into the input (which holds the
+				// literal mod and must not be overwritten here).
+				$picker.data('display-color', resolved);
+			});
+		});
+	});
 });
 
 /**

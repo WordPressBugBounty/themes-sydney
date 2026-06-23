@@ -50,7 +50,7 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 			);
 
 			if ( $category ) {
-				return $modules[$category];
+				return isset( $modules[ $category ] ) ? $modules[ $category ] : array();
 			}
 		
 			//build array with all modules if no category is specified

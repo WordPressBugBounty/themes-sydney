@@ -986,26 +986,6 @@ Header
 	.mobile-header-item .align-right {
 		text-align: right;
 }
-	@media (max-width: 1024px) {
-		.bottom-header-row, .main-header {
-			display: none;
-	}
-		.mobile-header {
-			display: block;
-			padding-top: 15px;
-			padding-bottom: 15px;
-	}
-		.mobile-header .align-right {
-			justify-content: flex-end;
-			text-align: right;
-	}
-		.mobile-header .align-center {
-			text-align: center;
-	}
-		.sydney-offcanvas-menu {
-			display: block;
-	}
-}
 	.site-title {
 		margin: 0;
 }
@@ -1226,9 +1206,7 @@ Header
 		padding-bottom: 15px;
 	}
 	.mobile-header .align-right {
-		-webkit-box-pack: end;
-			-ms-flex-pack: end;
-				justify-content: flex-end;
+		justify-content: flex-end;
 		text-align: right;
 	}
 	.mobile-header .align-center {

@@ -2,6 +2,33 @@
  * Theme Dashboard
  *
  */
+/* Dashboard color tokens (WP 7.0 "Modern" admin scheme) */
+body {
+  --sydney-dashboard-primary: var(--wp-admin-theme-color, #3858e9);
+  --sydney-dashboard-primary-hover: var(--wp-admin-theme-color-darker-10, #2145e6);
+  --sydney-dashboard-primary-tint: #ebeefd;
+  --sydney-dashboard-primary-tint-light: #f5f7fe;
+  --sydney-dashboard-success: #4ab866;
+  --sydney-dashboard-success-hover: #3da556;
+  --sydney-dashboard-success-tint: #eff9f1;
+  --sydney-dashboard-danger: #cc1818;
+  --sydney-dashboard-danger-hover: #a31313;
+  --sydney-dashboard-danger-tint: #fcf0f0;
+  --sydney-dashboard-danger-tint-hover: #f8e0e0;
+  --sydney-dashboard-gray-900: #1e1e1e;
+  --sydney-dashboard-gray-700: #757575;
+  --sydney-dashboard-gray-600: #949494;
+  --sydney-dashboard-gray-400: #cccccc;
+  --sydney-dashboard-gray-300: #dddddd;
+  --sydney-dashboard-gray-100: #f0f0f0;
+}
+/* Color hooks for inline SVGs that use fill="currentColor" or stroke="currentColor" */
+.sydney-svg-accent {
+  color: var(--sydney-dashboard-primary);
+}
+.sydney-svg-muted {
+  color: var(--sydney-dashboard-gray-600);
+}
 /* override atss grid */
 .sydney-dashboard .atss-demos {
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
@@ -24,7 +51,7 @@
   content: '';
 }
 .sydney-dashboard .atss-demo-badge-pro {
-  background-color: #2271b1;
+  background-color: var(--sydney-dashboard-primary);
 }
 .sydney-dashboard .atss-demo-image figure img {
   position: absolute;
@@ -108,11 +135,11 @@
 }
 
 .bt-border-color-primary {
-  border-color: #2271b1 !important;
+  border-color: var(--sydney-dashboard-primary) !important;
 }
 
 .bt-text-color-grey {
-  color: #757575 !important;
+  color: var(--sydney-dashboard-gray-700) !important;
 }
 
 /* Animations */
@@ -257,42 +284,42 @@
 
 .sydney-dashboard .button-primary {
   color: #fff;
-  border-color: #2271b1;
-  background-color: #2271b1;
+  border-color: var(--sydney-dashboard-primary);
+  background-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard .button-primary:hover, .sydney-dashboard .button-primary:focus, .sydney-dashboard .button-primary:active {
   color: #fff;
-  border-color: #135e96;
-  background-color: #135e96;
+  border-color: var(--sydney-dashboard-primary-hover);
+  background-color: var(--sydney-dashboard-primary-hover);
 }
 
 .sydney-dashboard .button-secondary {
-  color: #2271b1;
-  border-color: #2271b1;
+  color: var(--sydney-dashboard-primary);
+  border-color: var(--sydney-dashboard-primary);
   background-color: #fff;
 }
 
 .sydney-dashboard .button-secondary:hover, .sydney-dashboard .button-secondary:focus, .sydney-dashboard .button-secondary:active {
-  color: #135e96;
-  border-color: #135e96;
-  background-color: #f0f4ff;
+  color: var(--sydney-dashboard-primary-hover);
+  border-color: var(--sydney-dashboard-primary-hover);
+  background-color: var(--sydney-dashboard-primary-tint-light);
 }
 
 .sydney-dashboard .button-warning {
   color: #fff;
-  border-color: #d63638;
-  background-color: #d63638;
+  border-color: var(--sydney-dashboard-danger);
+  background-color: var(--sydney-dashboard-danger);
 }
 
 .sydney-dashboard .button-warning:hover, .sydney-dashboard .button-warning:focus, .sydney-dashboard .button-warning:active {
   color: #fff;
-  border-color: #d42b2e;
-  background-color: #d42b2e;
+  border-color: var(--sydney-dashboard-danger-hover);
+  background-color: var(--sydney-dashboard-danger-hover);
 }
 
 .sydney-dashboard .button-simple {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   text-decoration: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -318,7 +345,7 @@
 }
 
 .sydney-dashboard .button-text {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   text-decoration: none;
   display: inline-block;
   vertical-align: top;
@@ -335,7 +362,7 @@
 }
 
 .sydney-dashboard .button-info {
-  color: #bbb;
+  color: var(--sydney-dashboard-gray-400);
   text-decoration: none;
   display: inline-block;
   vertical-align: top;
@@ -347,7 +374,7 @@
 }
 
 .sydney-dashboard .button-info:hover {
-  color: #777;
+  color: var(--sydney-dashboard-gray-700);
 }
 
 .sydney-dashboard .button-info:focus {
@@ -365,19 +392,19 @@
 
 .sydney-dashboard .button-pro-support {
   color: #fff;
-  border-color: #3fb28f;
-  background-color: #3fb28f;
+  border-color: var(--sydney-dashboard-success);
+  background-color: var(--sydney-dashboard-success);
 }
 
 .sydney-dashboard .button-pro-support:hover, .sydney-dashboard .button-pro-support:focus, .sydney-dashboard .button-pro-support:active {
   color: #fff;
-  border-color: #3caa89;
-  background-color: #3caa89;
+  border-color: var(--sydney-dashboard-success-hover);
+  background-color: var(--sydney-dashboard-success-hover);
 }
 
 .sydney-dashboard .button-outline {
-  color: #2271b1;
-  border-color: #2271b1;
+  color: var(--sydney-dashboard-primary);
+  border-color: var(--sydney-dashboard-primary);
   background: transparent;
 }
 
@@ -402,16 +429,16 @@
 }
 
 .sydney-dashboard-badge {
-  color: #99A5B8;
+  color: var(--sydney-dashboard-gray-600);
   padding: 3px 6px;
-  border: 1px solid #DFDFDF;
+  border: 1px solid var(--sydney-dashboard-gray-300);
   border-radius: 2px;
   font-weight: 700;
 }
 
 .sydney-dashboard-badge.sydney-dashboard-badge-pro {
-  color: #2271b1;
-  border-color: #2271b1;
+  color: var(--sydney-dashboard-primary);
+  border-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-link {
@@ -427,15 +454,15 @@
 }
 
 .sydney-dashboard-link.sydney-dashboard-link-danger {
-  color: #d24d4d !important;
+  color: var(--sydney-dashboard-danger) !important;
 }
 
 .sydney-dashboard-link.sydney-dashboard-link-info {
-  color: #2271b1 !important;
+  color: var(--sydney-dashboard-primary) !important;
 }
 
 .sydney-dashboard-link:hover, .sydney-dashboard-link:focus, .sydney-dashboard-link:active {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   opacity: 0.7;
 }
 
@@ -454,7 +481,7 @@
   font-size: 13px;
   line-height: 13px;
   font-weight: 500;
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   white-space: nowrap;
   -webkit-transition: ease opacity 300ms;
   transition: ease opacity 300ms;
@@ -466,7 +493,7 @@
 }
 
 .sydney-dashboard-external-link:hover, .sydney-dashboard-external-link:focus, .sydney-dashboard-external-link:active {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   opacity: 0.7;
 }
 
@@ -483,7 +510,7 @@
   font-size: 11px;
   line-height: 16px;
   padding: 3px 6px;
-  background-color: #1E1E1E;
+  background-color: var(--sydney-dashboard-gray-900);
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
@@ -503,7 +530,7 @@
   height: 0;
   border-style: solid;
   border-width: 4px 4px 4px 4px;
-  border-color: #1E1E1E transparent transparent transparent;
+  border-color: var(--sydney-dashboard-gray-900) transparent transparent transparent;
   opacity: 0;
   visibility: hidden;
   -webkit-transform: translate3d(-50%, 6px, 0);
@@ -561,22 +588,22 @@
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-activate-all {
   color: #FFF;
-  background-color: #3FB28F;
-  border-color: #3FB28F;
+  background-color: var(--sydney-dashboard-success);
+  border-color: var(--sydney-dashboard-success);
 }
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-activate-all:hover, .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-activate-all:focus, .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-activate-all:active {
-  background-color: #4bc29e;
+  background-color: var(--sydney-dashboard-success-hover);
 }
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-deactivate-all {
-  color: #FA1212;
-  background-color: #FFECEC;
-  border-color: #FA1212;
+  color: var(--sydney-dashboard-danger);
+  background-color: var(--sydney-dashboard-danger-tint);
+  border-color: var(--sydney-dashboard-danger);
 }
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-deactivate-all:hover, .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-deactivate-all:focus, .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-deactivate-all:active {
-  background-color: #f8e0e0;
+  background-color: var(--sydney-dashboard-danger-tint-hover);
 }
 
 /* sydney Dashboard Top Bar */
@@ -609,13 +636,13 @@
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-top-bar-infos .sydney-dashboard-top-bar-info-item + .sydney-dashboard-top-bar-info-item {
-  border-left: 1px solid #F0F0F0;
+  border-left: 1px solid var(--sydney-dashboard-gray-100);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-version {
   font-size: 13px;
   line-height: 13px;
-  color: #97A3B6;
+  color: var(--sydney-dashboard-gray-600);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-version .sydney-dashboard-badge {
@@ -640,7 +667,7 @@
           justify-content: center;
   width: 27px;
   height: 27px;
-  border: 1px solid #DFDFDF;
+  border: 1px solid var(--sydney-dashboard-gray-300);
   border-radius: 35px;
 }
 
@@ -660,7 +687,7 @@
   width: 16px;
   height: 16px;
   color: #FFF;
-  background-color: #FA1212;
+  background-color: var(--sydney-dashboard-danger);
   border-radius: 35px;
   font-size: 10px;
   line-height: 1;
@@ -680,7 +707,7 @@
   gap: 8px;
   font-size: 13px;
   line-height: 16px;
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   text-decoration: none;
 }
 
@@ -725,15 +752,15 @@
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:after {
-  background-color: #2271b1;
+  background-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link {
@@ -749,7 +776,7 @@
   line-height: 26px;
   padding: 6px 16px;
   border-bottom: 0;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
   -webkit-transition: ease color 200ms;
   transition: ease color 200ms;
 }
@@ -783,15 +810,15 @@
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link svg path, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link svg path, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link svg path, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link svg path {
-  fill: #2271b1;
+  fill: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:before, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link:before, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link:before, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link:before {
-  background-color: #2271b1;
+  background-color: var(--sydney-dashboard-primary);
   opacity: 1;
   visibility: visible;
 }
@@ -836,7 +863,7 @@
   gap: 20px;
   background-color: #FFF;
   padding: 20px;
-  border: 1px solid #F0F0F1;
+  border: 1px solid var(--sydney-dashboard-gray-100);
   border-radius: 4px;
   -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
           box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
@@ -889,7 +916,7 @@
   top: 73px;
   left: 20px;
   width: calc( 100% - 40px);
-  border-bottom: 1px solid #F0F0F1;
+  border-bottom: 1px solid var(--sydney-dashboard-gray-100);
 }
 
 /* sydney Dashboard Notice */
@@ -922,11 +949,11 @@
   height: 38px;
   font-size: 16px;
   line-height: 1em;
-  color: #A7AAAD;
+  color: var(--sydney-dashboard-gray-600);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-dismissable:hover {
-  color: #d63638;
+  color: var(--sydney-dashboard-danger);
 }
 
 /* Notifications Sidebar */
@@ -1024,7 +1051,7 @@
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header .sydney-dashboard-notifications-sidebar-header-content p {
   font-size: 13px;
   line-height: 18px;
-  color: #757575;
+  color: var(--sydney-dashboard-gray-700);
   margin: 0;
 }
 
@@ -1038,7 +1065,7 @@
   bottom: -10px;
   left: 20px;
   width: calc( 100% - 40px);
-  border-bottom: 1px solid #F0F0F1;
+  border-bottom: 1px solid var(--sydney-dashboard-gray-100);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-tabs + .sydney-dashboard-notifications-sidebar-body {
@@ -1068,7 +1095,7 @@
   display: block;
   font-size: 13px;
   line-height: 18px;
-  color: #757575;
+  color: var(--sydney-dashboard-gray-700);
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-date + .sydney-dashboard-notification-content {
@@ -1091,7 +1118,7 @@
 }
 
 .sydney-dashboard-notification .changelog-tag.changelog-added {
-  background-color: #73B189;
+  background-color: var(--sydney-dashboard-success);
 }
 
 .sydney-dashboard-notification .changelog-tag.changelog-changed {
@@ -1111,7 +1138,7 @@
   font-size: 13px;
   line-height: 21px;
   font-weight: 400;
-  color: #757575;
+  color: var(--sydney-dashboard-gray-700);
   margin-top: 5px;
 }
 
@@ -1180,14 +1207,14 @@
 .sydney-dashboard-hero .sydney-dashboard-hero-hello {
   font-size: 1rem;
   font-weight: 600;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-title {
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.2;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
   margin-top: 16px;
 }
 
@@ -1202,17 +1229,17 @@
 }
 
 .sydney-dashboard-hero-badge-free {
-  color: #3fb28f;
-  background-color: #def3ed;
+  color: var(--sydney-dashboard-success);
+  background-color: var(--sydney-dashboard-success-tint);
 }
 
 .sydney-dashboard-hero-badge-pro {
   color: #fff;
-  background-color: #2271b1;
+  background-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-desc {
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
   margin-top: 12px;
 }
 
@@ -1250,7 +1277,7 @@
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-warning {
-  color: #d63638;
+  color: var(--sydney-dashboard-danger);
   margin-top: 10px;
 }
 
@@ -1287,7 +1314,7 @@
           flex-direction: column;
   position: relative;
   padding: 20px;
-  border: 2px solid #F0F0F1;
+  border: 2px solid var(--sydney-dashboard-gray-100);
   border-radius: 4px;
   height: 100%;
   transition: ease box-shadow 300ms;
@@ -1363,11 +1390,11 @@
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon:hover svg path {
-  fill: #2271b1;
+  fill: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon:hover svg circle {
-  stroke: #2271b1;
+  stroke: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-feature-card:hover .sydney-dashboard-feature-card-link-icon {
@@ -1376,7 +1403,7 @@
 }
 
 .sydney-dashboard-feature-card:hover .sydney-dashboard-feature-card-link {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
   text-decoration: underline;
 }
 
@@ -1460,7 +1487,7 @@
   font-size: 24px;
   line-height: 34px;
   text-align: center;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
 }
 
 @media screen and (max-width: 991px) {
@@ -1572,12 +1599,12 @@
 }
 
 .sydney-dashboard-license-success span {
-  color: #0b890b;
+  color: var(--sydney-dashboard-success);
 }
 
 .sydney-dashboard-license-error {
   margin-top: 10px;
-  color: #d63638;
+  color: var(--sydney-dashboard-danger);
 }
 
 /* sydney Dashboard Module Card */
@@ -1621,8 +1648,8 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  color: #2271b1;
-  background-color: #E8ECFF;
+  color: var(--sydney-dashboard-primary);
+  background-color: var(--sydney-dashboard-primary-tint);
   padding: 7px;
   text-decoration: none;
 }
@@ -1644,7 +1671,7 @@
 }
 
 .sydney-dashboard-content-expand .sydney-dashboard-content-expand-content {
-  border: 1px solid #E8ECFF;
+  border: 1px solid var(--sydney-dashboard-primary-tint);
   padding: 10px 8px;
 }
 
@@ -1701,7 +1728,7 @@
   font-weight: 500;
   line-height: 23px;
   letter-spacing: 0em;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
   margin: 0;
 }
 
@@ -1713,7 +1740,7 @@
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a {
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -1726,7 +1753,7 @@
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a:hover {
-  color: #2271b1;
+  color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a:focus, .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a:active {
@@ -1769,7 +1796,7 @@
 .sydney-dashboard-freevspro-table__column strong {
   font-weight: 500;
   text-align: left;
-  color: #1e1e1e;
+  color: var(--sydney-dashboard-gray-900);
 }
 
 .sydney-dashboard-freevspro-table__column .sydney-dashboard-freevspro-table__icon {
@@ -1794,12 +1821,12 @@
 
 .sydney-dashboard-freevspro-table__column .dashicons-saved {
   text-indent: -2px;
-  color: #3FB28F;
+  color: var(--sydney-dashboard-success);
   background-color: rgba(63, 178, 143, 0.1);
 }
 
 .sydney-dashboard-freevspro-table__column .dashicons-no-alt {
-  color: #E62424;
+  color: var(--sydney-dashboard-danger);
   background-color: rgba(230, 36, 36, 0.05);
 }
 
@@ -1949,7 +1976,7 @@
   margin-right: 0;
 }
 .template-options a:hover {
-  color: #135e96;
+  color: var(--sydney-dashboard-primary-hover);
 }
 .template-item {
   flex: 0 0 calc(33.333% - 30px);
@@ -1977,8 +2004,8 @@
 }
 .template-part[data-part-active="active"] {
   border-style: solid;
-  color: #1e1e1e;
-  border-left: 3px solid #71b76d;
+  color: var(--sydney-dashboard-gray-900);
+  border-left: 3px solid var(--sydney-dashboard-success);
 }
 
 .template-part .edit-part {
@@ -1996,7 +2023,7 @@
   display: none;
 }
 .template-part[data-part-active="active"] .selected span {
-  color: #71b76d;
+  color: var(--sydney-dashboard-success);
 }
 .template-part-inner {
   width: 100%;
@@ -2013,7 +2040,7 @@
 }
 .delete-template:hover,
 .part-options .reset {
-  color: #b32d2e !important;
+  color: var(--sydney-dashboard-danger) !important;
 }
 .part-options-toggle {
   cursor:pointer;
@@ -2031,7 +2058,7 @@
 .page-builder-wrapper span:not(.page-builder-title),
 .part-options span {
 	cursor: pointer;
-	color: #007cba;
+	color: var(--sydney-dashboard-primary);
 	font-size: 13px;
   font-weight: 600;
 }
@@ -2166,7 +2193,7 @@
   font-size: 14px;
   border-radius: 14px;
   font-weight: normal;
-  color: #777;
+  color: var(--sydney-dashboard-gray-700);
   background-color: #eee;
 }
 
@@ -2374,7 +2401,7 @@
 }
 
 .sydney-display-conditions-modal-remove i {
-  color: #a00;
+  color: var(--sydney-dashboard-danger);
   font-size: 15px;
   width: auto;
   height: auto;
@@ -2484,8 +2511,8 @@
   transition: all 0.2s ease;
 }
 #add-new-template:hover {
-  border: 2px dashed #2271b1;
-  color: #2271b1;
+  border: 2px dashed var(--sydney-dashboard-primary);
+  color: var(--sydney-dashboard-primary);
 }
 .add-new-template-wrapper span span {
   display: block;
@@ -2557,8 +2584,8 @@
 	overflow: hidden;
 }
 .sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-category-box {
-	background: #f7fcfa;
-	border-color: #def3ed;
+	background: var(--sydney-dashboard-success-tint);
+	border-color: var(--sydney-dashboard-success-tint);
 }
 .sydney-setup-checklist-category-header {
 	display: flex;
@@ -2599,8 +2626,8 @@
 	background: #eee;
 }
 .sydney-setup-checklist-category-progress.is-state-done {
-	background: #3fb28f;
-	border: 1.5px solid #3fb28f;
+	background: var(--sydney-dashboard-success);
+	border: 1.5px solid var(--sydney-dashboard-success);
 }
 .sydney-setup-checklist-category-progress-fraction {
 	display: inline;
@@ -2625,7 +2652,7 @@
 	border-radius: 4px;
 }
 .sydney-setup-checklist-category-toggle:focus-visible {
-	outline: 2px solid #2271b1;
+	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
 .sydney-setup-checklist-category-toggle .dashicons {
@@ -2675,10 +2702,10 @@
 	transition: color 0.15s ease;
 }
 .sydney-setup-checklist-item-status:hover:not([disabled]) {
-	color: #2271b1;
+	color: var(--sydney-dashboard-primary);
 }
 .sydney-setup-checklist-item-status:focus-visible {
-	outline: 2px solid #2271b1;
+	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
 .sydney-setup-checklist-item-status[disabled] {
@@ -2691,16 +2718,16 @@
 	display: none;
 }
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status .ring {
-	fill: #3fb28f;
-	stroke: #3fb28f;
+	fill: var(--sydney-dashboard-success);
+	stroke: var(--sydney-dashboard-success);
 }
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status .check {
 	display: inline;
 	stroke: #fff;
 }
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status:hover:not([disabled]) .ring {
-	fill: #359a7c;
-	stroke: #359a7c;
+	fill: var(--sydney-dashboard-success-hover);
+	stroke: var(--sydney-dashboard-success-hover);
 }
 .sydney-setup-checklist-item-text {
 	flex: 1 1 auto;
@@ -2752,17 +2779,17 @@
 	background: transparent;
 	border: 0;
 	border-radius: 50%;
-	color: #757575;
+	color: var(--sydney-dashboard-gray-700);
 	cursor: pointer;
 	line-height: 0;
 	transition: color 0.15s ease, background 0.15s ease;
 }
 .sydney-setup-checklist-help:hover {
-	color: #2271b1;
-	background: #f0f6fc;
+	color: var(--sydney-dashboard-primary);
+	background: var(--sydney-dashboard-primary-tint-light);
 }
 .sydney-setup-checklist-help:focus-visible {
-	outline: 2px solid #2271b1;
+	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
 .sydney-setup-checklist-help .dashicons {
@@ -2813,7 +2840,7 @@
 	background: #000;
 }
 .sydney-setup-checklist-help-dialog-close:focus-visible {
-	outline: 2px solid #2271b1;
+	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
 .sydney-setup-checklist-help-dialog-close .dashicons {

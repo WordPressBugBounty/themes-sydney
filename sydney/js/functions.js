@@ -237,12 +237,26 @@ var sydney = sydney || {};
  * Back to top
  */
 sydney.backToTop = {
+	icon: null,
+
 	init: function() {
-		this.displayButton();	
+		this.icon = document.getElementsByClassName( 'go-top' )[0];
+
+		if ( typeof(this.icon) != 'undefined' && this.icon != null ) {
+			this.icon.addEventListener( 'click', function() {
+				window.scrollTo({
+					top: 0,
+					left: 0,
+					behavior: 'smooth',
+				});
+			} );
+		}
+
+		this.displayButton();
 	},
 
 	setup: function() {
-		const icon 	= document.getElementsByClassName( 'go-top' )[0];
+		const icon = this.icon;
 
 		if ( typeof(icon) != 'undefined' && icon != null ) {
 			var vertDist = window.pageYOffset;
@@ -254,14 +268,6 @@ sydney.backToTop = {
 			} else {
 				icon.classList.remove( 'show' );
 			}
-		
-			icon.addEventListener( 'click', function() {
-				window.scrollTo({
-					top: 0,
-					left: 0,
-					behavior: 'smooth',
-				});
-			} );
 		}
 	},
 
