@@ -5,6 +5,8 @@
  * @package Sydney
  */
 
+require get_template_directory() . '/inc/customizer/customizer-post-types.php';
+
 function sydney_customize_register( $wp_customize ) {
 	$wp_customize->remove_control( 'header_textcolor' );
     $wp_customize->remove_control( 'display_header_text' );
@@ -66,7 +68,7 @@ function sydney_customize_register( $wp_customize ) {
      * Callbacks and sanitize
      */
     require get_template_directory() . '/inc/customizer/callbacks.php';
-    require get_template_directory() . '/inc/customizer/sanitize.php';
+    require_once get_template_directory() . '/inc/customizer/sanitize.php';
 
     /**
      * Controls
@@ -103,6 +105,14 @@ function sydney_customize_register( $wp_customize ) {
     }
     
     $wp_customize->register_control_type( 'Sydney_Select2_Custom_Control'   );
+    $wp_customize->register_control_type( 'Sydney_Dimensions_Control' );
+    $wp_customize->register_control_type( 'Sydney_Radio_Buttons' );
+    $wp_customize->register_control_type( 'Sydney_Responsive_Slider' );
+$wp_customize->register_control_type( 'Sydney_Radio_Images' );
+    $wp_customize->register_control_type( 'Sydney_Alpha_Color' );
+    $wp_customize->register_control_type( 'Sydney_Color_Group' );
+$wp_customize->register_control_type( 'Sydney_Palette_Control' );
+$wp_customize->register_control_type( 'Sydney_Toggle_Control' );
     $wp_customize->register_control_type( '\Kirki\Control\sortable' );
     require get_template_directory() . '/inc/customizer/controls/display-conditions/class_sydney_display_conditions_control.php';
     require get_template_directory() . '/inc/customizer/controls/class_sydney_palette_control.php';
@@ -110,6 +120,14 @@ function sydney_customize_register( $wp_customize ) {
     /**
      * Options
      */
+    $wp_customize->add_panel(
+        'sydney_panel_global_styles',
+        array(
+            'title'    => esc_html__( 'Global Styles', 'sydney' ),
+            'priority' => 1,
+        )
+    );
+
     require get_template_directory() . '/inc/customizer/options/general.php';
     
     if ( get_option( 'sydney-update-header' ) ) {
@@ -696,7 +714,7 @@ function sydney_sanitize_selects( $input, $setting ){
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function sydney_customize_preview_js() {
-	wp_enqueue_script( 'sydney_customizer', get_template_directory_uri() . '/js/customizer.min.js', array( 'customize-preview' ), '20250314', true );
+	wp_enqueue_script( 'sydney_customizer', get_template_directory_uri() . '/js/customizer.min.js', array( 'customize-preview' ), '20260708', true );
 
     $post_type_array = sydney_get_posts_types_for_js();
 
@@ -716,7 +734,7 @@ require get_template_directory() . '/inc/customizer/controls/display-conditions/
 function sydney_customize_footer_scripts() {
     
     wp_enqueue_style( 'sydney-customizer-styles', get_template_directory_uri() . '/css/customizer.min.css', '', '20240622' );
-    wp_enqueue_script( 'sydney-customizer-scripts', get_template_directory_uri() . '/js/customize-controls.min.js', array( 'jquery', 'jquery-ui-core' ), '20240604', true );
+    wp_enqueue_script( 'sydney-customizer-scripts', get_template_directory_uri() . '/js/customize-controls.min.js', array( 'jquery', 'jquery-ui-core' ), '20260710', true );
     
     $post_type_array = sydney_get_posts_types_for_js();
 
@@ -764,6 +782,9 @@ function sydney_customize_footer_scripts() {
             'post_types' => $post_type_array,
             'ajax_url'   => admin_url( 'admin-ajax.php' ),
             'ajax_nonce' => wp_create_nonce( 'sydney_ajax_nonce' ),
+            'fonts_rest_url' => esc_url_raw( rest_url( 'sydney/v1/google-fonts' ) ),
+            'rest_nonce'     => wp_create_nonce( 'wp_rest' ),
+            'loading_fonts_text' => esc_html__( 'Loading fonts…', 'sydney' ),
             'sortable_config' => $sortable_config,
             'customizer_upgrade_link_with_utm_content_markup' => sydney_admin_upgrade_link(
                 'https://athemes.com/sydney-upgrade',

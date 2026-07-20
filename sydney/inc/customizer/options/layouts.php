@@ -3,22 +3,15 @@
  * Page headers module options
  */
 
-$args       = array(
-	'public' => true,
-);
-$post_types = get_post_types( $args, 'objects' );
+$post_types = sydney_get_customizer_post_types();
 
-//Remove unwanted post types
-$unset_types = array(
-	'product',
-	'attachment',
-	'e-landing-page',
-	'elementor_library',
-	'athemes_hf',
-);
-
-foreach ( $unset_types as $unset_type ) {
-	unset( $post_types[ $unset_type ] );
+//Re-add post and page: they are excluded from the generated panels but keep
+//their layout/sidebar controls here (post is remapped to the Blog singles section).
+foreach ( array( 'post', 'page' ) as $builtin ) {
+	$object = get_post_type_object( $builtin );
+	if ( $object ) {
+		$post_types[ $builtin ] = $object;
+	}
 }
 
 //Loop through the post types

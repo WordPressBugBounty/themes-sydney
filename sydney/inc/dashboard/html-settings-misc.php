@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="sydney-dashboard-module-card">
 		<div class="sydney-dashboard-module-card-header bt-align-items-center">
 			<div class="sydney-dashboard-module-card-header-info">
-				<h2 class="bt-m-0 bt-mb-10px"><?php echo esc_html__( 'Improve Sydney', 'sydney' ); ?></h2>
+				<h2 class="bt-m-0 bt-mb-20px"><?php echo esc_html__( 'Improve Sydney', 'sydney' ); ?></h2>
 				<p class="bt-text-color-grey"><?php esc_html_e( 'By allowing us to track usage data, we can better help you, as we will know which WordPress configurations, themes, and plugins we should test. No sensitive data is collected.', 'sydney' ); ?></p>
 			</div>
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">

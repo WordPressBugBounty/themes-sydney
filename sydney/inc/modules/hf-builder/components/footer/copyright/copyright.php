@@ -10,8 +10,7 @@
 
 <div class="shfb-builder-item shfb-component-copyright" data-component-id="copyright">
     <?php $this->customizer_edit_button(); 
-    /* translators: %1$1s, %2$2s theme copyright tags*/
-    $credits 	= get_theme_mod( 'footer_credits', sprintf( esc_html__( '%1$1s. Proudly powered by %2$2s', 'sydney' ), '{copyright} {year} {site_title}', '{theme_author}' ) );
+    $credits 	= get_theme_mod( 'footer_credits', sydney_get_footer_credits_default() );
 
     $tags 		= array( '{theme_author}', '{site_title}', '{copyright}', '{year}' );
     $replace 	= array( '<a rel="nofollow" href="https://athemes.com/theme/sydney/">' . esc_html__( 'Sydney', 'sydney' ) . '</a>', get_bloginfo( 'name' ), '&copy;', date('Y') );

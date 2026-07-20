@@ -56,6 +56,10 @@ class Sydney_Header_Footer_Builder {
         // The order '1000' is required here to make sure BP features will be registered as well.
         add_action( 'customize_register', array( $this, 'customizer_options' ), 1000 );
 
+        // Column options are registered only for existing columns; this lets core
+        // create/save settings for columns added mid-session (#446).
+        add_filter( 'customize_dynamic_setting_args', array( $this, 'dynamic_column_setting_args' ), 10, 2 );
+
         add_action( 'customize_controls_print_footer_scripts', function(){ $this->header_builder_admin_grid( 'header' ); } );
         add_action( 'customize_controls_print_footer_scripts', function(){ $this->header_builder_admin_grid( 'footer' ); } );
 
@@ -300,7 +304,7 @@ class Sydney_Header_Footer_Builder {
         wp_enqueue_script( 'jquery-ui-sortable' );
 
         wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20250404' );
-        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20250404', true );
+        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20260709', true );
         wp_localize_script( 'sydney-shfb', 'sydney_hfb', array(
             'rows' => array(
                 'defaults' => array(
@@ -313,6 +317,7 @@ class Sydney_Header_Footer_Builder {
                     'below_footer_row' => $this::get_row_default_value( 'below_footer_row' ),
                 ),
             ),
+            'column_options' => self::get_column_options_js_data(),
             'components' => array(
 
                 /**
@@ -598,14 +603,121 @@ class Sydney_Header_Footer_Builder {
     }
 
     /**
+     * Canonical builder rows per area.
+     *
+     * @param string $area 'header' or 'footer'.
+     * @return array Row ids.
+     */
+    public static function get_rows( $area ) {
+        $rows = array(
+            'header' => array( 'above_header_row', 'main_header_row', 'below_header_row', 'mobile_offcanvas' ),
+            'footer' => array( 'above_footer_row', 'main_footer_row', 'below_footer_row' ),
+        );
+
+        return isset( $rows[ $area ] ) ? $rows[ $area ] : array();
+    }
+
+    /**
+     * Theme mod key storing a row layout.
+     *
+     * @param string $row  Row id.
+     * @param string $area 'header' or 'footer'.
+     * @return string
+     */
+    public static function get_row_theme_mod_key( $row, $area ) {
+        return ( $area === 'footer' ? 'sydney_footer_row__' : 'sydney_header_row__' ) . $row;
+    }
+
+    /**
+     * Components registry, self-populating when read before/outside the `init`
+     * hook that normally calls set_components_data() (REST/MCP requests).
+     *
+     * @return array { desktop, mobile, footer } arrays of {id,label}.
+     */
+    public function get_components_registry() {
+        if ( empty( $this->desktop_components ) && empty( $this->mobile_components ) && empty( $this->footer_components ) ) {
+            $this->set_components_data();
+        }
+
+        return array(
+            'desktop' => is_array( $this->desktop_components ) ? $this->desktop_components : array(),
+            'mobile'  => is_array( $this->mobile_components ) ? $this->mobile_components : array(),
+            'footer'  => is_array( $this->footer_components ) ? $this->footer_components : array(),
+        );
+    }
+
+    /**
      * Get Row Data
      */
     public static function get_row_data( $row, $area ) {
-        if( $area === 'footer' ) {
-            return json_decode( get_theme_mod( 'sydney_footer_row__' . $row, Sydney_Header_Footer_Builder::get_row_default_value( $row ) ) );
+        return json_decode( get_theme_mod( self::get_row_theme_mod_key( $row, $area ), Sydney_Header_Footer_Builder::get_row_default_value( $row ) ) );
+    }
+
+    /**
+     * Count the columns present in a decoded row layout value.
+     *
+     * The row value is an object keyed by device (desktop, mobile, ...);
+     * each device holds an array of columns. The row column count is the
+     * maximum across devices.
+     *
+     * @param mixed $data Decoded row layout value.
+     * @return int Column count, 0 when the value is empty or invalid.
+     */
+    public static function count_columns_in_row_value( $data ) {
+        $count = 0;
+
+        foreach ( (array) $data as $columns ) {
+            if ( is_array( $columns ) ) {
+                $count = max( $count, count( $columns ) );
+            }
         }
 
-        return json_decode( get_theme_mod( 'sydney_header_row__' . $row, Sydney_Header_Footer_Builder::get_row_default_value( $row ) ) );
+        return $count;
+    }
+
+    /**
+     * Get the number of columns used by a row in the saved layout.
+     *
+     * @param string $row  Row ID.
+     * @param string $area 'header' or 'footer'.
+     * @return int Column count, clamped to 1-6.
+     */
+    public static function get_row_used_columns_count( $row, $area ) {
+        $data = self::get_row_data( $row, $area );
+
+        if ( ! is_object( $data ) && ! is_array( $data ) ) {
+            $data = json_decode( self::get_row_default_value( $row ) );
+        }
+
+        return max( 1, min( 6, self::count_columns_in_row_value( $data ) ) );
+    }
+
+    /**
+     * Get the number of columns to register customizer options for.
+     *
+     * Maximum of the saved layout and the changeset/POSTed layout, so
+     * columns added during the current session keep their options on the
+     * next pane load and columns emptied mid-session keep registering
+     * until the removal is published (#446).
+     *
+     * @param string $row          Row ID.
+     * @param string $area         'header' or 'footer'.
+     * @param object $wp_customize Optional. WP_Customize_Manager (duck-typed).
+     * @return int Column count, clamped to 1-6.
+     */
+    public static function get_row_registered_columns_count( $row, $area, $wp_customize = null ) {
+        $count = self::get_row_used_columns_count( $row, $area );
+
+        if ( is_object( $wp_customize ) && method_exists( $wp_customize, 'unsanitized_post_values' ) ) {
+            $post_values = $wp_customize->unsanitized_post_values();
+            $mod_key     = self::get_row_theme_mod_key( $row, $area );
+
+            if ( isset( $post_values[ $mod_key ] ) && is_string( $post_values[ $mod_key ] ) ) {
+                $count = max( $count, self::count_columns_in_row_value( json_decode( $post_values[ $mod_key ] ) ) );
+            }
+        }
+
+        return max( 1, min( 6, $count ) );
     }
 
     /**
@@ -1282,6 +1394,127 @@ class Sydney_Header_Footer_Builder {
         }
 
         return $default;
+    }
+
+    /**
+     * Provide setting args for dynamically-created HF Builder column settings.
+     *
+     * Column settings are only registered for columns present in the saved
+     * layout (#446). When the user adds a column mid-session, the customizer
+     * pane creates the settings client-side and this filter lets core
+     * recognize, sanitize and save them.
+     *
+     * @param false|array $args       Setting args, or false if not recognized.
+     * @param string      $setting_id Setting ID.
+     * @return false|array
+     */
+    public function dynamic_column_setting_args( $args, $setting_id ) {
+        if ( 0 !== strpos( $setting_id, 'sydney_header_row__' ) && 0 !== strpos( $setting_id, 'sydney_footer_row__' ) ) {
+            return $args;
+        }
+
+        // The \1 backreference ties the row to its area (rejects e.g. sydney_header_row__main_footer_row_...).
+        $pattern = '/^sydney_(header|footer)_row__((?:above|main|below)_\1_row)_column([1-6])_(tabs|(?:vertical_alignment|inner_layout|horizontal_alignment|elements_spacing|padding|margin)_(?:desktop|tablet|mobile))$/';
+
+        if ( ! preg_match( $pattern, $setting_id, $matches ) ) {
+            return $args;
+        }
+
+        $row    = $matches[2];
+        $column = (int) $matches[3];
+        $option = $matches[4];
+
+        if ( 'tabs' === $option ) {
+            return array(
+                'type'              => 'theme_mod',
+                'default'           => '',
+                'sanitize_callback' => 'esc_attr',
+            );
+        }
+
+        $base         = preg_replace( '/_(?:desktop|tablet|mobile)$/', '', $option );
+        $setting_args = array(
+            'type'      => 'theme_mod',
+            'transport' => 'postMessage',
+        );
+
+        switch ( $base ) {
+            case 'elements_spacing':
+                $setting_args['default']           = 25;
+                $setting_args['sanitize_callback'] = 'absint';
+                break;
+
+            case 'padding':
+            case 'margin':
+                $setting_args['default']           = '{ "unit": "px", "linked": false, "top": "", "right": "", "bottom": "", "left": "" }';
+                $setting_args['sanitize_callback'] = 'sydney_sanitize_text';
+                break;
+
+            default:
+                $setting_args['default']           = self::get_row_column_default_customizer_value( $row, $column, $base );
+                $setting_args['sanitize_callback'] = 'sydney_sanitize_text';
+                break;
+        }
+
+        return $setting_args;
+    }
+
+    /**
+     * Data the customizer pane JS needs to create column option
+     * sections/settings/controls for columns added mid-session (#446).
+     *
+     * @return array
+     */
+    public static function get_column_options_js_data() {
+        $rows  = array( 'above_header_row', 'main_header_row', 'below_header_row', 'above_footer_row', 'main_footer_row', 'below_footer_row' );
+        $kinds = array( 'vertical_alignment', 'inner_layout', 'horizontal_alignment' );
+
+        $defaults = array();
+        foreach ( $rows as $row ) {
+            for ( $i = 1; $i <= 6; $i++ ) {
+                foreach ( $kinds as $kind ) {
+                    $defaults[ $row ][ $i ][ $kind ] = self::get_row_column_default_customizer_value( $row, $i, $kind );
+                }
+            }
+        }
+
+        return array(
+            'panels'             => array(
+                'header' => 'sydney_panel_header',
+                'footer' => 'sydney_panel_footer',
+            ),
+            'section_type'       => 'sydney-section-hidden',
+            /* translators: %s: column number. */
+            'section_title'      => esc_html__( 'Column %s', 'sydney' ),
+            'defaults'           => $defaults,
+            'dimensions_default' => '{ "unit": "px", "linked": false, "top": "", "right": "", "bottom": "", "left": "" }',
+            'strings'            => array(
+                'general'              => esc_html__( 'General', 'sydney' ),
+                'style'                => esc_html__( 'Style', 'sydney' ),
+                'vertical_alignment'   => esc_html__( 'Vertical Alignment', 'sydney' ),
+                'inner_layout'         => esc_html__( 'Inner Elements Layout', 'sydney' ),
+                'horizontal_alignment' => esc_html__( 'Horizontal Alignment', 'sydney' ),
+                'elements_spacing'     => esc_html__( 'Elements Spacing', 'sydney' ),
+                'padding'              => __( 'Padding', 'sydney' ),
+                'margin'               => __( 'Margin', 'sydney' ),
+            ),
+            'choices'            => array(
+                'vertical_alignment'   => array(
+                    'top'    => esc_html__( 'Top', 'sydney' ),
+                    'middle' => esc_html__( 'Middle', 'sydney' ),
+                    'bottom' => esc_html__( 'Bottom', 'sydney' ),
+                ),
+                'inner_layout'         => array(
+                    'stack'  => esc_html__( 'Stack', 'sydney' ),
+                    'inline' => esc_html__( 'Inline', 'sydney' ),
+                ),
+                'horizontal_alignment' => array(
+                    'start'  => esc_html__( 'Start', 'sydney' ),
+                    'center' => esc_html__( 'Center', 'sydney' ),
+                    'end'    => esc_html__( 'End', 'sydney' ),
+                ),
+            ),
+        );
     }
 
     /**

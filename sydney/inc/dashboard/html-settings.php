@@ -17,17 +17,22 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="sydney-dashboard-card sydney-dashboard-card-top-spacing sydney-dashboard-card-tabs-divider">
             <div class="sydney-dashboard-card-body sydney-dashboard-card-body-content-with-dividers">
 
-                <?php 
+                <?php
                 // Load License section.
                 require get_template_directory() . '/inc/dashboard/html-settings-general.php';
                 ?>
 
-                <?php 
+                <?php
+                // Load AI Abilities section (right after the Get Sydney Pro row).
+                require get_template_directory() . '/inc/dashboard/html-settings-abilities.php';
+                ?>
+
+                <?php
                 // Load Misc section (Usage Tracking).
                 require get_template_directory() . '/inc/dashboard/html-settings-misc.php';
                 ?>
 
-                <?php 
+                <?php
                 // Load Wizard section.
                 require get_template_directory() . '/inc/dashboard/html-settings-wizard.php';
                 ?>

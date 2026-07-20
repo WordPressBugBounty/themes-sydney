@@ -44,6 +44,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.extraNavigation();
       this.showHideBuilder();
       this.showHideBuilderTop();
+      this.watchRowLayoutSettings();
     },
     jsonDecode: function jsonDecode(value) {
       return JSON.parse(value.replace(/'/g, '"').replace(';', ''));
@@ -894,6 +895,197 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         self.builderGridContent();
       });
     },
+    watchRowLayoutSettings: function watchRowLayoutSettings() {
+      var _this = this,
+        rowSettings = ['sydney_header_row__above_header_row', 'sydney_header_row__main_header_row', 'sydney_header_row__below_header_row', 'sydney_footer_row__above_footer_row', 'sydney_footer_row__main_footer_row', 'sydney_footer_row__below_footer_row'];
+      rowSettings.forEach(function (settingId) {
+        var builderType = settingId.indexOf('footer') !== -1 ? 'footer' : 'header',
+          rowId = settingId.replace('sydney_' + builderType + '_row__', '');
+        wp.customize(settingId, function (setting) {
+          setting.bind(function (to) {
+            var value = _this.jsonDecode(to),
+              count = 0;
+            if (!value) {
+              return;
+            }
+            Object.keys(value).forEach(function (device) {
+              if (value[device] && value[device].length > count) {
+                count = value[device].length;
+              }
+            });
+            _this.ensureColumnOptions(builderType, rowId, count);
+          });
+        });
+      });
+    },
+    ensureColumnOptions: function ensureColumnOptions(builderType, rowId, count) {
+      var _this = this,
+        api = wp.customize,
+        data = typeof sydney_hfb !== 'undefined' ? sydney_hfb.column_options : false;
+      if (!data) {
+        return;
+      }
+      count = Math.min(6, parseInt(count, 10) || 0);
+      for (var i = 1; i <= count; i++) {
+        var sectionId = 'sydney_' + builderType + '_row__' + rowId + '_column' + i;
+        if (typeof api.section(sectionId) !== 'undefined') {
+          continue;
+        }
+        _this.createColumnSettings(rowId, i, sectionId, data);
+        _this.createColumnSection(builderType, i, sectionId, data);
+        _this.createColumnControls(rowId, i, sectionId, data);
+      }
+    },
+    createColumnSetting: function createColumnSetting(id, defaultValue) {
+      var api = wp.customize;
+      if (api.has(id)) {
+        return;
+      }
+      api.create(id, id, defaultValue, {
+        transport: 'postMessage',
+        previewer: api.previewer
+      });
+    },
+    createColumnSettings: function createColumnSettings(rowId, i, sectionId, data) {
+      var _this = this,
+        devices = ['desktop', 'tablet', 'mobile'],
+        rowDefaults = data.defaults[rowId] ? data.defaults[rowId][i] : false;
+      if (!rowDefaults) {
+        return;
+      }
+      _this.createColumnSetting(sectionId + '_tabs', '');
+      devices.forEach(function (device) {
+        _this.createColumnSetting(sectionId + '_vertical_alignment_' + device, rowDefaults.vertical_alignment);
+        _this.createColumnSetting(sectionId + '_inner_layout_' + device, rowDefaults.inner_layout);
+        _this.createColumnSetting(sectionId + '_horizontal_alignment_' + device, rowDefaults.horizontal_alignment);
+        _this.createColumnSetting(sectionId + '_elements_spacing_' + device, 25);
+        _this.createColumnSetting(sectionId + '_padding_' + device, data.dimensions_default);
+        _this.createColumnSetting(sectionId + '_margin_' + device, data.dimensions_default);
+      });
+    },
+    createColumnSection: function createColumnSection(builderType, i, sectionId, data) {
+      var api = wp.customize,
+        section = new api.Section(sectionId, {
+          type: data.section_type,
+          title: data.section_title.replace('%s', i),
+          panel: data.panels[builderType],
+          customizeAction: '',
+          active: true
+        });
+      api.section.add(section);
+    },
+    createColumnControls: function createColumnControls(rowId, i, sectionId, data) {
+      var api = wp.customize,
+        rowDefaults = data.defaults[rowId][i],
+        dimensionValues = {
+          raw: data.dimensions_default,
+          unit: 'px',
+          linked: false,
+          top: '',
+          right: '',
+          bottom: '',
+          left: ''
+        };
+      var addControl = function (id, params) {
+        if (typeof api.control(id) !== 'undefined') {
+          return;
+        }
+        params.id = id;
+        api.control.add(new api.Control(id, params));
+      };
+      var radioControl = function (kind, priority) {
+        var base = sectionId + '_' + kind,
+          def = rowDefaults[kind];
+        addControl(base, {
+          type: 'sydney-radio-buttons',
+          section: sectionId,
+          priority: priority,
+          label: data.strings[kind],
+          settings: {
+            desktop: base + '_desktop',
+            tablet: base + '_tablet',
+            mobile: base + '_mobile'
+          },
+          choices: data.choices[kind],
+          is_responsive: true,
+          devices: ['desktop', 'tablet', 'mobile'],
+          values: {
+            desktop: def,
+            tablet: def,
+            mobile: def
+          },
+          desc_position: 'before-buttons'
+        });
+      };
+      var dimensionsControl = function (kind, priority) {
+        var base = sectionId + '_' + kind;
+        addControl(base, {
+          type: 'sydney-dimensions-control',
+          section: sectionId,
+          priority: priority,
+          label: data.strings[kind],
+          settings: {
+            desktop: base + '_desktop',
+            tablet: base + '_tablet',
+            mobile: base + '_mobile'
+          },
+          units: ['px', '%', 'rem', 'em', 'vw', 'vh'],
+          sides: {
+            top: true,
+            right: true,
+            bottom: true,
+            left: true
+          },
+          link_values_toggle: true,
+          is_responsive: true,
+          values: {
+            desktop: dimensionValues,
+            tablet: dimensionValues,
+            mobile: dimensionValues
+          }
+        });
+      };
+
+      // Tabs (server-rendered control type: provide prebuilt content).
+      var generalConnected = JSON.stringify(['#customize-control-' + sectionId + '_vertical_alignment', '#customize-control-' + sectionId + '_inner_layout', '#customize-control-' + sectionId + '_horizontal_alignment', '#customize-control-' + sectionId + '_elements_spacing']),
+        designConnected = JSON.stringify(['#customize-control-' + sectionId + '_padding', '#customize-control-' + sectionId + '_margin']),
+        tabsContent = '<li id="customize-control-' + sectionId + '_tabs" class="customize-control customize-control-sydney-tab-control">' + '<div class="control-tabs">' + "<div class=\"control-tab control-tab-general active\" data-connected='" + generalConnected + "'>" + data.strings.general + '</div>' + "<div class=\"control-tab control-tab-design\" data-connected='" + designConnected + "'>" + data.strings.style + '</div>' + '</div></li>';
+      addControl(sectionId + '_tabs', {
+        type: 'sydney-tab-control',
+        section: sectionId,
+        priority: 10,
+        content: tabsContent,
+        settings: {
+          'default': sectionId + '_tabs'
+        }
+      });
+      radioControl('vertical_alignment', 20);
+      radioControl('inner_layout', 25);
+      radioControl('horizontal_alignment', 30);
+      addControl(sectionId + '_elements_spacing', {
+        type: 'sydney-responsive-slider',
+        section: sectionId,
+        priority: 30,
+        label: data.strings.elements_spacing,
+        settings: {
+          size_desktop: sectionId + '_elements_spacing_desktop',
+          size_tablet: sectionId + '_elements_spacing_tablet',
+          size_mobile: sectionId + '_elements_spacing_mobile'
+        },
+        is_responsive: true,
+        separator: false,
+        values: {
+          desktop: 25,
+          tablet: 25,
+          mobile: 25
+        },
+        min: 0,
+        max: 150,
+        step: 1
+      });
+      dimensionsControl('padding', 32);
+      dimensionsControl('margin', 32);
+    },
     builderCustomColumns: function builderCustomColumns() {
       var _this = this,
         options = ['sydney_header_row__above_header_row_columns', 'sydney_header_row__main_header_row_columns', 'sydney_header_row__below_header_row_columns', 'sydney_footer_row__above_footer_row_columns_desktop', 'sydney_footer_row__main_footer_row_columns_desktop', 'sydney_footer_row__below_footer_row_columns_desktop'];
@@ -1165,6 +1357,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         $above_row = $('#_customize-input-sydney_header_row__above_header_row'),
         $main_row = $('#_customize-input-sydney_header_row__main_header_row'),
         $below_row = $('#_customize-input-sydney_header_row__below_header_row');
+
+      // Presets set options on main columns 1-3 and below columns 1-2 —
+      // make sure those exist before calling .set() on them (#446).
+      _this.ensureColumnOptions('header', 'main_header_row', 3);
+      _this.ensureColumnOptions('header', 'below_header_row', 2);
 
       // Set some others customizer settings.
       if (preset === 'header_layout_1') {

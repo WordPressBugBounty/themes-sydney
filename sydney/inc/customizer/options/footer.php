@@ -659,7 +659,7 @@ $wp_customize->add_setting(
 	'footer_credits',
 	array(
 		'sanitize_callback' => 'sydney_sanitize_text',
-		'default'           => sprintf( esc_html__( '%1$1s. Proudly powered by %2$2s', 'sydney' ), '{copyright} {year} {site_title}', '{theme_author}' ), // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+		'default'           => sydney_get_footer_credits_default(),
 		'transport'         => 'postMessage',
 	)       
 );

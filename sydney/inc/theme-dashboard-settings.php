@@ -179,7 +179,7 @@ function sydney_dashboard_settings( $settings ) {
 		array(
 			'name'          => esc_html__( 'Typography Options', 'sydney' ),
 			'type'          => 'free',
-			'customize_uri' => admin_url( '/customize.php?autofocus[panel]=sydney_panel_typography' ),
+			'customize_uri' => admin_url( '/customize.php?autofocus[panel]=sydney_panel_global_styles' ),
 		),  
 		array(
 			'name'          => esc_html__( 'Buttons', 'sydney' ),

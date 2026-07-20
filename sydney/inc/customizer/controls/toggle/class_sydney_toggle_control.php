@@ -14,32 +14,49 @@ class Sydney_Toggle_Control extends WP_Customize_Control {
 	public $separator = false;
 
 	/**
-	 * Render the control in the customizer
+	 * Export data to the JS template.
 	 */
-	public function render_content(){
-	?>
+	public function to_json() {
+		parent::to_json();
 
-		<?php if ( 'before' === $this->separator ) : ?>
+		$this->json['id']        = $this->id;
+		$this->json['value']     = $this->value();
+		// Parity with checked( $this->value() ): checked iff (string) value === '1'.
+		$this->json['checked']   = ( (string) $this->value() === '1' );
+		$this->json['separator'] = $this->separator;
+	}
+
+	/**
+	 * Rendering is handled by the JS template (content_template).
+	 */
+	public function render_content() {}
+
+	/**
+	 * Underscore template, printed once per control type.
+	 */
+	public function content_template() {
+		?>
+		<# if ( 'before' === data.separator ) { #>
 			<hr class="sydney-cust-divider before">
-		<?php endif; ?>
+		<# } #>
 
 		<div class="toggle-switch-control">
 			<div class="toggle-switch">
-				<input type="checkbox" id="<?php echo esc_attr($this->id); ?>" name="<?php echo esc_attr($this->id); ?>" class="toggle-switch-checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?>>
-				<label class="toggle-switch-label" for="<?php echo esc_attr( $this->id ); ?>" tabindex="0">
+				<input type="checkbox" id="{{ data.id }}" name="{{ data.id }}" class="toggle-switch-checkbox" value="{{ data.value }}" data-customize-setting-key-link="default" <# if ( data.checked ) { #>checked<# } #>>
+				<label class="toggle-switch-label" for="{{ data.id }}" tabindex="0">
 					<span class="toggle-switch-inner"></span>
 					<span class="toggle-switch-switch"></span>
 				</label>
 			</div>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<?php if( !empty( $this->description ) ) { ?>
-				<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-			<?php } ?>
+			<span class="customize-control-title">{{ data.label }}</span>
+			<# if ( data.description ) { #>
+				<span class="customize-control-description">{{ data.description }}</span>
+			<# } #>
 		</div>
 
-		<?php if ( 'after' === $this->separator ) : ?>
+		<# if ( 'after' === data.separator ) { #>
 			<hr class="sydney-cust-divider">
-		<?php endif; ?>
-	<?php
+		<# } #>
+		<?php
 	}
 }

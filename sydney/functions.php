@@ -337,7 +337,7 @@ function sydney_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 	
-	wp_enqueue_style( 'sydney-style-min', get_template_directory_uri() . '/css/styles.min.css', '', '20250404' );
+	wp_enqueue_style( 'sydney-style-min', get_template_directory_uri() . '/css/styles.min.css', '', '20260720' );
 
 	wp_enqueue_style( 'sydney-style', get_stylesheet_uri(), '', '20230821' );
 }
@@ -479,24 +479,6 @@ function sydney_header_clone() {
 add_action('sydney_before_header', 'sydney_header_clone');
 
 /**
- * Get image alt
- */
-function sydney_get_image_alt( $image ) {
-    global $wpdb;
-
-    if( empty( $image ) ) {
-        return false;
-    }
-
-    $attachment  = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid=%s;", strtolower( $image ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    $id   = ( ! empty( $attachment ) ) ? $attachment[0] : 0;
-
-    $alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
-
-    return $alt;
-}
-
-/**
  * Get SVG code for specific theme icon
  */
 function sydney_get_svg_icon( $icon, $echo = false ) { //phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.echoFound
@@ -570,7 +552,7 @@ require get_template_directory() . '/inc/classes/class-sydney-page-metabox.php';
 /**
  * Starter content (theme directory / Customizer preview)
  */
-require get_template_directory() . '/inc/classes/class-sydney-starter-content.php';
+require get_template_directory() . '/inc/starter-content/class-sydney-starter-content.php';
 
 /**
  * Posts archive
@@ -591,6 +573,11 @@ require get_template_directory() . '/inc/classes/class-sydney-header.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer/customizer.php';
+
+/**
+ * AI Abilities (self-gated by the Dashboard > Settings toggles).
+ */
+require get_template_directory() . '/inc/abilities/bootstrap.php';
 
 /**
  * Load Jetpack compatibility file.
@@ -719,6 +706,7 @@ require get_template_directory() . '/inc/dashboard/class-dashboard.php';
 
 require get_template_directory() . '/inc/dashboard/class-setup-checklist.php';
 require get_template_directory() . '/inc/dashboard/class-setup-checklist-rest.php';
+require get_template_directory() . '/inc/customizer/controls/typography/class-sydney-google-fonts-rest.php';
 
 /**
  * Theme dashboard settings.

@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="sydney-dashboard-module-card">
 		<div class="sydney-dashboard-module-card-header bt-align-items-center">
 			<div class="sydney-dashboard-module-card-header-info">
-				<h2 class="bt-m-0 bt-mb-10px"><?php echo esc_html__( 'Site Wizard', 'sydney' ); ?></h2>
+				<h2 class="bt-m-0 bt-mb-20px"><?php echo esc_html__( 'Site Wizard', 'sydney' ); ?></h2>
 				<p class="bt-text-color-grey"><?php esc_html_e( 'Relaunch the site wizard to set up a fresh template for your site, allowing you to easily incorporate new color and font presets, as well as additional features.', 'sydney' ); ?></p>
 			</div>
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">

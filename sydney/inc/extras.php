@@ -338,11 +338,19 @@ function sydney_append_gotop_html() {
 add_action('wp_footer', 'sydney_append_gotop_html', 1);
 
 /**
+ * Supported social networks: the URL substrings sydney_get_social_network()
+ * recognizes. A profile URL matching none of these renders no icon.
+ */
+function sydney_get_social_networks() {
+	return array( 'bsky', 'bluesky', 'threads', 'mastodon', 'feed', 'maps', 'facebook', 'twitter', 'x.com', 'instagram', 'github', 'linkedin', 'youtube', 'xing', 'flickr', 'dribbble', 'vk', 'weibo', 'vimeo', 'mix', 'behance', 'spotify', 'soundcloud', 'twitch', 'bandcamp', 'etsy', 'pinterest', 'amazon', 'tiktok', 'telegram', 'whatsapp', 'wa.me', 't.me', 'discord', 'goodreads' );
+}
+
+/**
  * Get social network
  */
 function sydney_get_social_network( $social ) {
 
-	$networks = array( 'bsky', 'bluesky', 'threads', 'mastodon', 'feed', 'maps', 'facebook', 'twitter', 'x.com', 'instagram', 'github', 'linkedin', 'youtube', 'xing', 'flickr', 'dribbble', 'vk', 'weibo', 'vimeo', 'mix', 'behance', 'spotify', 'soundcloud', 'twitch', 'bandcamp', 'etsy', 'pinterest', 'amazon', 'tiktok', 'telegram', 'whatsapp', 'wa.me', 't.me', 'discord', 'goodreads' );
+	$networks = sydney_get_social_networks();
 
 	foreach ( $networks as $network ) {
 		$found = strpos( $social, $network );
@@ -383,12 +391,23 @@ if ( ! function_exists( 'sydney_social_profile' ) ) {
 }
 
 /**
+ * Default footer credits string. Single source for the customizer option,
+ * the classic footer output, the HF copyright component, and the abilities
+ * definition map (pinned there by AbilitiesDefinitionsCanonTest).
+ *
+ * @return string
+ */
+function sydney_get_footer_credits_default() {
+	/* translators: %1$1s, %2$2s theme copyright tags*/
+	return sprintf( esc_html__( '%1$1s. Proudly powered by %2$2s', 'sydney' ), '{copyright} {year} {site_title}', '{theme_author}' );
+}
+
+/**
  * Footer credits
  */
 function sydney_footer_credits() {
 
-	/* translators: %1$1s, %2$2s theme copyright tags*/
-	$credits    = get_theme_mod( 'footer_credits', sprintf( esc_html__( '%1$1s. Proudly powered by %2$2s', 'sydney' ), '{copyright} {year} {site_title}', '{theme_author}' ) );
+	$credits    = get_theme_mod( 'footer_credits', sydney_get_footer_credits_default() );
 
 	$tags       = array( '{theme_author}', '{site_title}', '{copyright}', '{year}' );
 	$replace    = array( '<a rel="nofollow" href="https://athemes.com/theme/sydney/">' . esc_html__( 'Sydney', 'sydney' ) . '</a>', get_bloginfo( 'name' ), '&copy;', gmdate('Y') );

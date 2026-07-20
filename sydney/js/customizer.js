@@ -712,10 +712,29 @@
 		
 			var output = 'input::placeholder {color:' + to + ';opacity:1;} input:-ms-input-placeholder {color:' + to + ';} input::-ms-input-placeholder {color:' + to + ';}';
 
-			$( 'head' ).append( '<style id="sydney-customizer-styles-color_forms_placeholder">' + output + '</style>' )			
+			$( 'head' ).append( '<style id="sydney-customizer-styles-color_forms_placeholder">' + output + '</style>' )
 		} );
-	} );	
-	
+	} );
+
+	// Modern WPForms live preview: mirror the Forms colors onto --wpforms-*
+	// on <body> so modern-engine forms update in the preview (the generic
+	// selectors above only cover classic native inputs and non-WPForms forms).
+	wp.customize( 'color_forms_borders', function( value ) {
+		value.bind( function( to ) {
+			document.body.style.setProperty( '--wpforms-field-border-color', to );
+		} );
+	} );
+	wp.customize( 'color_forms_background', function( value ) {
+		value.bind( function( to ) {
+			document.body.style.setProperty( '--wpforms-field-background-color', to );
+		} );
+	} );
+	wp.customize( 'color_forms_text', function( value ) {
+		value.bind( function( to ) {
+			document.body.style.setProperty( '--wpforms-field-text-color', to );
+		} );
+	} );
+
 
 	var $types = syd_data.post_types;
 	$.each($types, function (index, value) {

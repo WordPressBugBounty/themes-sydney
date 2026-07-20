@@ -6,6 +6,7 @@ import {
   __experimentalVStack as VStack,
 } from "@wordpress/components";
 import { close } from "@wordpress/icons";
+import apiFetch from "@wordpress/api-fetch";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { STORE_NAME } from "../store/index.js";
@@ -37,6 +38,15 @@ export function PatternLibraryModal({ onClose, onInsert }) {
 
   function handleInsert(pattern, blocks) {
     trackPatternInsert(pattern.name);
+    apiFetch({
+      path: "/sydney/v1/pattern-insert",
+      method: "POST",
+      data: { pattern: pattern.name },
+    }).catch((error) => {
+      // Quiet failure — usage telemetry is never load-bearing for the insert.
+      // eslint-disable-next-line no-console
+      console.error("Sydney pattern library: failed to track pattern insert", error);
+    });
     onInsert(pattern, blocks);
   }
 

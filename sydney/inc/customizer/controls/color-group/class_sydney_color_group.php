@@ -15,30 +15,51 @@ class Sydney_Color_Group extends WP_Customize_Control {
 		wp_enqueue_script( 'sydney-pickr', get_template_directory_uri() . '/js/pickr.min.js', array( 'jquery' ), '1.8.2', true );
 	}
 
-	public function render_content() {
+	/**
+	 * Export data to the JS template.
+	 */
+	public function to_json() {
+		parent::to_json();
+
+		$colors = array();
+		foreach ( array_keys( $this->settings ) as $index => $key ) {
+			$colors[] = array(
+				'key'     => $key,
+				'id'      => $this->settings[ $key ]->id,
+				'default' => $this->settings[ $key ]->default,
+				'value'   => $this->value( $key ),
+				'tooltip' => 0 === $index ? __( 'Normal', 'sydney' ) : __( 'Hover', 'sydney' ),
+			);
+		}
+
+		$this->json['colors']           = $colors;
+		$this->json['remove_bordertop'] = (bool) $this->remove_bordertop;
+	}
+
+	/**
+	 * Rendering is handled by the JS template (content_template).
+	 */
+	public function render_content() {}
+
+	/**
+	 * Underscore template, printed once per control type.
+	 */
+	public function content_template() {
 		?>
-			<div class="sydney-color-group<?php echo ( $this->remove_bordertop ) ? ' border-top-none' : ''; ?>">
-				<?php if ( $this->label ) { ?>
-					<div class="sydney-color-title"><?php echo esc_html( $this->label ); ?></div>
-				<?php } ?>
-				<div class="sydney-color-controls">
-					<?php foreach ( array_keys( $this->settings ) as $key => $value ) : ?>
-						<div class="sydney-color-control" data-control-id="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>">
-							<div class="sydney-color-tooltip">
-								<?php
-									if ( $key === 0 ) {
-										esc_html_e( 'Normal', 'sydney' );
-									} else {
-										esc_html_e( 'Hover', 'sydney' );
-									}
-								?>
-							</div>
-							<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $this->settings[ $value ]->default ); ?>" style="background-color: <?php echo esc_attr( $this->value( $value ) ); ?>;"></div>
-							<input type="text" name="<?php echo esc_attr( $this->settings[ $value ]->id ); ?>" value="<?php echo esc_attr( $this->value( $value ) ); ?>" class="sydney-color-input" <?php $this->link( $value ); ?> />
-						</div>
-					<?php endforeach; ?>
-				</div>
+		<div class="sydney-color-group<# if ( data.remove_bordertop ) { #> border-top-none<# } #>">
+			<# if ( data.label ) { #>
+				<div class="sydney-color-title">{{ data.label }}</div>
+			<# } #>
+			<div class="sydney-color-controls">
+				<# _.each( data.colors, function( color ) { #>
+					<div class="sydney-color-control" data-control-id="{{ color.id }}">
+						<div class="sydney-color-tooltip">{{ color.tooltip }}</div>
+						<div class="sydney-color-picker" data-default-color="{{ color.default }}" style="background-color: {{ color.value }};"></div>
+						<input type="text" name="{{ color.id }}" value="{{ color.value }}" class="sydney-color-input" data-customize-setting-link="{{ color.id }}" />
+					</div>
+				<# } ); #>
 			</div>
-		<?php 
+		</div>
+		<?php
 	}
 }

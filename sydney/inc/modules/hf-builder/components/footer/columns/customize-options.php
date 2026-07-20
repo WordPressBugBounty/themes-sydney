@@ -14,8 +14,10 @@
 
 foreach( $this->footer_rows as $row ) {
 
-    // Up to 6 columns.
-    for( $i=1; $i<=6; $i++ ) {
+    // Register options only for columns used by the layout — saved or in the current changeset (#446).
+    $used_columns = Sydney_Header_Footer_Builder::get_row_registered_columns_count( $row['id'], 'footer', $wp_customize );
+
+    for( $i=1; $i<=$used_columns; $i++ ) {
         $section_id = 'sydney_footer_row__' . $row['id'] . '_column' . $i;
 
         // Section.

@@ -37,29 +37,51 @@ class Sydney_Palette_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Render the control in the customizer
+	 * Export data to the JS template.
 	 */
-	public function render_content() {
-		?>
-			<div class="sydney-custom-palettes-wrapper">
-				<?php if( !empty( $this->label ) ) { ?>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php } ?>
-				<?php if( !empty( $this->description ) ) { ?>
-					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-				<?php } ?>
+	public function to_json() {
+		parent::to_json();
 
-				<div class="sydney-custom-palette">
-					<?php foreach ( $this->settings as $setting_id => $setting ) {
-						$val     = $this->value( $setting_id );
-						$default = $setting->default; ?>
-						<div class="sydney-color-control sydney-global-color-control">
-							<div class="sydney-color-picker" data-default-color="<?php echo esc_attr( $default ); ?>" style="background-color: <?php echo esc_attr( $val ); ?>;"></div>
-							<input type="text" value="<?php echo esc_attr( $val ); ?>" class="sydney-color-input" <?php $this->link( $setting_id ); ?> />
-						</div>
-					<?php } ?>
-				</div>
+		$colors = array();
+		foreach ( array_keys( $this->settings ) as $key ) {
+			$colors[] = array(
+				'key'     => $key,
+				'id'      => $this->settings[ $key ]->id,
+				'default' => $this->settings[ $key ]->default,
+				'value'   => $this->value( $key ),
+			);
+		}
+
+		$this->json['colors'] = $colors;
+	}
+
+	/**
+	 * Rendering is handled by the JS template (content_template).
+	 */
+	public function render_content() {}
+
+	/**
+	 * Underscore template, printed once per control type.
+	 */
+	public function content_template() {
+		?>
+		<div class="sydney-custom-palettes-wrapper">
+			<# if ( data.label ) { #>
+				<span class="customize-control-title">{{ data.label }}</span>
+			<# } #>
+			<# if ( data.description ) { #>
+				<span class="customize-control-description">{{ data.description }}</span>
+			<# } #>
+
+			<div class="sydney-custom-palette">
+				<# _.each( data.colors, function( color ) { #>
+					<div class="sydney-color-control sydney-global-color-control">
+						<div class="sydney-color-picker" data-default-color="{{ color.default }}" style="background-color: {{ color.value }};"></div>
+						<input type="text" value="{{ color.value }}" class="sydney-color-input" data-customize-setting-link="{{ color.id }}" />
+					</div>
+				<# } ); #>
 			</div>
-        <?php
+		</div>
+		<?php
 	}
 }

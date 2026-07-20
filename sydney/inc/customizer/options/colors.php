@@ -5,6 +5,10 @@
  * @package Sydney
  */
 
+// Move the core Colors section into the Global Styles panel.
+$wp_customize->get_section( 'colors' )->panel    = 'sydney_panel_global_styles';
+$wp_customize->get_section( 'colors' )->priority = 10;
+
 //Global Palette
 $wp_customize->add_setting( 'global_palette_title',
 	array(

@@ -67,6 +67,8 @@ class Sydney_Dashboard
 
         add_action( 'wp_ajax_sydney_option_switcher_handler', array( $this, 'ajax_option_switcher_handler' ) );
 
+        add_action( 'wp_ajax_sydney_abilities_mode', array( $this, 'ajax_abilities_mode' ) );
+
         add_action( 'wp_ajax_sydney_module_activation_handler', array( $this, 'ajax_module_activation_handler' ) );
         add_action( 'wp_ajax_sydney_module_activation_all_handler', array( $this, 'ajax_module_activation_all_handler' ) );
         add_action( 'wp_ajax_sydney_setup_checklist_toggle',    array( $this, 'ajax_setup_checklist_toggle' ) );
@@ -238,7 +240,7 @@ class Sydney_Dashboard
     public function admin_enqueue_scripts($hook)
     {
 
-        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260610');
+        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260619');
 
         if (is_rtl()) {
             wp_enqueue_style('sydney-dashboard-rtl', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard-rtl.min.css', array(), '20260610');
@@ -561,11 +563,47 @@ class Sydney_Dashboard
         // Convert string to integer (1 or 0).
         $activate = ( $activate === 'true' ) ? 1 : 0;
 
-        if ( empty( $option_id ) ) {
+        // Only options this endpoint is meant to toggle; a generic
+        // update_option( $option_id, ... ) would let any nonce-holding admin
+        // session flip arbitrary boolean options (e.g. the abilities write
+        // gate) outside their dedicated handlers.
+        $allowed_options = array(
+            'sydney-usage-tracking-enabled',
+        );
+
+        if ( ! in_array( $option_id, $allowed_options, true ) ) {
             wp_send_json_error();
         }
 
         update_option( $option_id, $activate );
+
+        wp_send_json_success();
+    }
+
+    /**
+     * Set the AI Abilities mode from the Settings radio.
+     *
+     * Maps a single 3-way choice to the two gating options so the radio stays a
+     * single atomic control:
+     *   off   -> enabled 0, allow-writes 0
+     *   read  -> enabled 1, allow-writes 0
+     *   write -> enabled 1, allow-writes 1
+     */
+    public function ajax_abilities_mode() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error();
+        }
+
+        $mode = ( isset( $_POST['mode'] ) ) ? sanitize_text_field( wp_unslash( $_POST['mode'] ) ) : '';
+
+        if ( ! in_array( $mode, array( 'off', 'read', 'write' ), true ) ) {
+            wp_send_json_error();
+        }
+
+        update_option( 'sydney-abilities-enabled', ( 'off' === $mode ) ? 0 : 1 );
+        update_option( 'sydney-abilities-allow-writes', ( 'write' === $mode ) ? 1 : 0 );
 
         wp_send_json_success();
     }

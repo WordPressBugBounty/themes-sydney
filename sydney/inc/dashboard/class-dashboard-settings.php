@@ -147,6 +147,7 @@ function sydney_dashboard_settings()
 	$settings['settings'] = array(
 		'general'     => esc_html__('License', 'sydney'),
 		'misc'        => esc_html__('Misc', 'sydney'),
+		'abilities'   => esc_html__('AI Abilities', 'sydney'),
 	);
 
 	//
@@ -255,7 +256,7 @@ function sydney_dashboard_settings()
 		'title'      => esc_html__('Typography', 'sydney'),
 		'desc'       => esc_html__('Set the global font size, style and library.', 'sydney'),
 		'link_label' => esc_html__('Customize', 'sydney'),
-		'link_url'   => add_query_arg('autofocus[panel]', 'sydney_panel_typography', admin_url('customize.php')),
+		'link_url'   => add_query_arg('autofocus[panel]', 'sydney_panel_global_styles', admin_url('customize.php')),
 	);
 
 	$settings['features'][] = array(

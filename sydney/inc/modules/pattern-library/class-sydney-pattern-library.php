@@ -13,6 +13,9 @@ if ( ! class_exists( 'Sydney_Modules' ) || ! Sydney_Modules::is_module_active( '
 	return;
 }
 
+// Usage tracking (issue #440): monthly used-pattern buckets + snapshot filter.
+require_once __DIR__ . '/class-sydney-pattern-library-tracking.php';
+
 if ( ! function_exists( 'sydney_remove_core_patterns' ) ) {
 	/**
 	 * Remove WordPress core block patterns so only Sydney's curated library shows.
@@ -91,12 +94,50 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-			if ( is_admin() && ! wp_doing_ajax() && ! wp_doing_cron() ) {
+			if ( $this->should_register_on_init() ) {
 				add_action( 'init', array( $this, 'register_patterns' ) );
 			}
 			add_action( 'rest_api_init', array( $this, 'register_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
+		}
+
+		/**
+		 * Whether this request needs patterns registered on `init`.
+		 *
+		 * Patterns are only ever read in three request types:
+		 * 1. wordpress.org pattern previews (issue #412): wp-themes.com renders
+		 *    each preview via a plain front-end request carrying a `pattern_name`
+		 *    query var. Without registering here, the .org "Patterns" section
+		 *    shows empty boxes.
+		 * 2. Block-editor admin screens, where WP builds the editor settings
+		 *    from the pattern registry during page render (pre-6.0 WP relies
+		 *    on this; newer WP preloads via REST).
+		 * 3. REST requests, including the editor's preloaded
+		 *    /wp/v2/block-patterns call. Covered by the separate
+		 *    rest_api_init hook in the constructor, not by this check.
+		 *
+		 * Everything else (plain front-end views, unrelated admin screens such
+		 * as plugins.php) skips registration so the pattern files are not
+		 * loaded on requests where nothing reads them.
+		 *
+		 * @return bool
+		 */
+		public function should_register_on_init() {
+			// wp-themes.com preview request. Existence check only; the value is never read.
+			if ( isset( $_GET['pattern_name'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				return true;
+			}
+
+			if ( ! is_admin() || wp_doing_ajax() || wp_doing_cron() ) {
+				return false;
+			}
+
+			global $pagenow;
+
+			$editor_screens = array( 'post.php', 'post-new.php', 'site-editor.php', 'widgets.php', 'customize.php' );
+
+			return in_array( $pagenow, $editor_screens, true );
 		}
 
 		/**
@@ -317,6 +358,23 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 					),
 				)
 			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-insert',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'rest_track_pattern_insert' ),
+					'permission_callback' => array( $this, 'rest_pattern_insert_permissions_check' ),
+					'show_in_index'       => false,
+					'args'                => array(
+						'pattern' => array(
+							'required' => true,
+							'type'     => 'string',
+						),
+					),
+				)
+			);
 		}
 
 		/**
@@ -402,6 +460,42 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 			);
 
 			return rest_ensure_response( array( 'recently_used' => $sanitized ) );
+		}
+
+		/**
+		 * REST permission gate for the pattern-insert tracking route:
+		 * logged-in editors only. Mirrors rest_favorites_permissions_check().
+		 *
+		 * @return bool
+		 */
+		public function rest_pattern_insert_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * POST handler — record a pattern insert in the monthly usage buckets.
+		 *
+		 * Same pattern-name format rule as the favorites/recently-used
+		 * sanitizers; anything else is rejected outright rather than
+		 * silently dropped, so the client ping surfaces mistakes.
+		 *
+		 * @param \WP_REST_Request $request REST request.
+		 * @return \WP_REST_Response|\WP_Error
+		 */
+		public function rest_track_pattern_insert( $request ) {
+			$pattern = $request->get_param( 'pattern' );
+
+			if ( ! is_string( $pattern ) || ! preg_match( '#^sydney(-pro)?/[a-z0-9_-]+$#', $pattern ) ) {
+				return new WP_Error(
+					'sydney_pattern_library_invalid_pattern',
+					__( 'Invalid pattern name.', 'sydney' ),
+					array( 'status' => 400 )
+				);
+			}
+
+			Sydney_Pattern_Library_Tracking::record_insert( $pattern );
+
+			return rest_ensure_response( array( 'tracked' => true ) );
 		}
 
 		/**

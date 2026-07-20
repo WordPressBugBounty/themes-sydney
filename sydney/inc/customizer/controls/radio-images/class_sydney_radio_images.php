@@ -17,113 +17,114 @@ class Sydney_Radio_Images extends WP_Customize_Control {
 
 	public $is_responsive;
 
-	public function render_content() {
+	/**
+	 * Export data to the JS template.
+	 */
+	public function to_json() {
+		parent::to_json();
 
-		$responsive = $this->is_responsive ? '' : 'noresponsive';
-		$desktop = $this->is_responsive ? '_desktop' : '';
+		$choices = array();
+		foreach ( $this->choices as $value => $args ) {
+			$choices[] = array(
+				'value'  => $value,
+				'label'  => $args['label'],
+				'url'    => sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ),
+				'is_pro' => ! empty( $args['is_pro'] ),
+			);
+		}
 
-		if ( empty( $this->choices ) )
-			return; ?>
+		$devices = array();
+		$values  = array();
+		if ( $this->is_responsive ) {
+			foreach ( array( 'desktop', 'tablet', 'mobile' ) as $device ) {
+				if ( isset( $this->settings[ $device ] ) ) {
+					$devices[]         = $device;
+					$values[ $device ] = $this->value( $device );
+				}
+			}
+		} else {
+			$values['default'] = $this->value();
+		}
 
-		<?php if ( !empty( $this->label ) ) : ?>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-		<?php endif; ?>
+		$this->json['id']            = $this->id;
+		$this->json['choices']       = $choices;
+		$this->json['devices']       = $devices;
+		$this->json['values']        = $values;
+		$this->json['is_responsive'] = (bool) $this->is_responsive;
+		$this->json['cols']          = $this->cols;
+		$this->json['class']         = $this->class;
+		$this->json['desc_below']    = (bool) $this->desc_below;
+	}
 
-		<?php if ( !empty( $this->description ) && !$this->desc_below ) : ?>
-			<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-		<?php endif; ?>
+	/**
+	 * Rendering is handled by the JS template (content_template).
+	 */
+	public function render_content() {}
 
-		<div class="sydney-control-wrapper">
-			<?php if ( $this->is_responsive ) : ?>
-				<ul class="sydney-devices-preview alt-position">
-					<?php if( isset( $this->settings[ 'desktop' ] ) ) : ?>
-					<li class="desktop"><button type="button" class="preview-desktop active" data-device="desktop"><i class="dashicons dashicons-desktop"></i></button></li>
-					<?php endif; ?>
-					<?php if( isset( $this->settings[ 'tablet' ] ) ) : ?>
-					<li class="tablet"><button type="button" class="preview-tablet" data-device="tablet"><i class="dashicons dashicons-tablet"></i></button></li>
-					<?php endif; ?>
-					<?php if( isset( $this->settings[ 'mobile' ] ) ) : ?>
-					<li class="mobile"><button type="button" class="preview-mobile" data-device="mobile"><i class="dashicons dashicons-smartphone"></i></button></li>
-					<?php endif; ?>
-				</ul>
-			<?php endif; ?>
+	/**
+	 * Underscore template, printed once per control type.
+	 */
+	public function content_template() {
+		?>
+		<# if ( data.choices.length ) { #>
+			<# if ( data.label ) { #>
+				<span class="customize-control-title">{{ data.label }}</span>
+			<# } #>
+			<# if ( data.description && ! data.desc_below ) { #>
+				<span class="description customize-control-description">{{ data.description }}</span>
+			<# } #>
+			<div class="sydney-control-wrapper">
+				<# if ( data.is_responsive ) { #>
+					<ul class="sydney-devices-preview alt-position">
+						<# if ( -1 !== data.devices.indexOf( 'desktop' ) ) { #>
+						<li class="desktop"><button type="button" class="preview-desktop active" data-device="desktop"><i class="dashicons dashicons-desktop"></i></button></li>
+						<# } #>
+						<# if ( -1 !== data.devices.indexOf( 'tablet' ) ) { #>
+						<li class="tablet"><button type="button" class="preview-tablet" data-device="tablet"><i class="dashicons dashicons-tablet"></i></button></li>
+						<# } #>
+						<# if ( -1 !== data.devices.indexOf( 'mobile' ) ) { #>
+						<li class="mobile"><button type="button" class="preview-mobile" data-device="mobile"><i class="dashicons dashicons-smartphone"></i></button></li>
+						<# } #>
+					</ul>
+				<# } #>
 
-			<div id="<?php echo esc_attr( "input_{$this->id}{$desktop}" ); ?>" class="sydney-radio-images-wrapper responsive-control-desktop active sydney-radio-images-col-<?php echo esc_attr( $this->cols ); ?> <?php echo esc_attr( $this->class ); ?> <?php echo esc_attr( $responsive ); ?>">
-				<?php foreach ( $this->choices as $value => $args ) : ?>
-
-					<label for="<?php echo esc_attr( "{$this->id}{$desktop}-{$value}" ); ?>"<?php echo ( isset( $args[ 'is_pro' ] ) && $args[ 'is_pro' ] ) ? ' class="is-pro"' : ''; ?>>
-						<input type="radio" value="<?php echo esc_attr( $value ); ?>" name="<?php echo esc_attr( "_customize-radio-{$this->id}{$desktop}" ); ?>" id="<?php echo esc_attr( "{$this->id}{$desktop}-{$value}" ); ?>" <?php $this->is_responsive ? $this->link( 'desktop' ) : $this->link(); ?> <?php checked( $this->is_responsive ? $this->value( 'desktop' ) : $this->value(), $value ); ?> /> 
-						<span class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></span>
-						<figure><img src="<?php echo esc_url( sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ) ); ?>" title="<?php echo esc_attr( $args['label'] ); ?>" alt="<?php echo esc_attr( $args['label'] ); ?>" /></figure>
-						<span class="label-tooltip"><?php echo esc_html( $args['label'] ); ?></span>
-					</label>
-
-				<?php endforeach; ?>
-
-			</div><!-- .image -->
-
-			<script type="text/javascript">
-				jQuery( document ).ready( function() {
-					jQuery( '#<?php echo esc_attr( "input_{$this->id}{$desktop}" ); ?>' ).buttonset();
-					jQuery( '#<?php echo esc_attr( "input_{$this->id}{$desktop}" ); ?>' ).find( 'label' ).removeClass( 'ui-button' );
-				} );
-			</script>
-
-			<?php if ( $this->is_responsive ) : ?>
-				<?php if( isset( $this->settings[ 'tablet' ] ) ) : ?>
-
-					<div id="<?php echo esc_attr( "input_{$this->id}_tablet" ); ?>" class="sydney-radio-images-wrapper responsive-control-tablet<?php echo ( ! isset( $this->settings[ 'mobile' ] ) ? ' show-mobile' : '' ); ?>">
-						<?php foreach ( $this->choices as $value => $args ) : ?>
-
-							<label for="<?php echo esc_attr( "{$this->id}_tablet-{$value}" ); ?>">
-								<input type="radio" value="<?php echo esc_attr( $value ); ?>" name="<?php echo esc_attr( "_customize-radio-{$this->id}_tablet" ); ?>" id="<?php echo esc_attr( "{$this->id}_tablet-{$value}" ); ?>" <?php $this->link( 'tablet' ); ?> <?php checked( $this->value( 'tablet' ), $value ); ?> /> 
-								<span class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></span>
-								<figure><img src="<?php echo esc_url( sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ) ); ?>" title="<?php echo esc_attr( $args['label'] ); ?>" alt="<?php echo esc_attr( $args['label'] ); ?>" /></figure>
-								<span class="label-tooltip"><?php echo esc_html( $args['label'] ); ?></span>
+				<#
+				var groups = data.is_responsive ? data.devices : [ 'default' ];
+				_.each( groups, function( device ) {
+					var suffix = ( 'default' === device ) ? '' : '_' + device;
+					var cls;
+					if ( 'default' === device ) {
+						cls = 'responsive-control-desktop active noresponsive';
+					} else {
+						cls = 'responsive-control-' + device;
+						if ( 'desktop' === device ) { cls += ' active'; }
+						if ( 'tablet' === device && -1 === data.devices.indexOf( 'mobile' ) ) { cls += ' show-mobile'; }
+					}
+					// Only the desktop/default wrapper carried the col + custom class in the PHP-rendered markup.
+					if ( 'default' === device || 'desktop' === device ) {
+						cls += ' sydney-radio-images-col-' + data.cols;
+						if ( data.class ) { cls += ' ' + data.class; }
+					}
+				#>
+					<div id="input_{{ data.id }}{{ suffix }}" class="sydney-radio-images-wrapper {{ cls }}">
+						<# _.each( data.choices, function( choice ) { #>
+							<label for="{{ data.id }}{{ suffix }}-{{ choice.value }}"<# if ( choice.is_pro ) { #> class="is-pro"<# } #>>
+								<input type="radio" value="{{ choice.value }}" name="_customize-radio-{{ data.id }}{{ suffix }}" id="{{ data.id }}{{ suffix }}-{{ choice.value }}" data-customize-setting-key-link="{{ device }}" <# if ( String( choice.value ) === String( data.values[ device ] ) ) { #>checked<# } #> />
+								<span class="screen-reader-text">{{ choice.label }}</span>
+								<figure><img src="{{ choice.url }}" title="{{ choice.label }}" alt="{{ choice.label }}" /></figure>
+								<span class="label-tooltip">{{ choice.label }}</span>
 							</label>
+						<# } ); #>
+					</div>
+				<# } ); #>
 
-						<?php endforeach; ?>
-					</div><!-- .image -->
-
-					<script type="text/javascript">
-						jQuery( document ).ready( function() {
-							jQuery( '#<?php echo esc_attr( "input_{$this->id}_tablet" ); ?>' ).buttonset();
-							jQuery( '#<?php echo esc_attr( "input_{$this->id}_tablet" ); ?>' ).find( 'label' ).removeClass( 'ui-button' );
-						} );
-					</script>
-
-				<?php endif; ?>
-				<?php if( isset( $this->settings[ 'mobile' ] ) ) : ?>
-
-					<div id="<?php echo esc_attr( "input_{$this->id}_mobile" ); ?>" class="sydney-radio-images-wrapper responsive-control-mobile">
-						<?php foreach ( $this->choices as $value => $args ) : ?>
-
-							<label for="<?php echo esc_attr( "{$this->id}_mobile-{$value}" ); ?>">
-								<input type="radio" value="<?php echo esc_attr( $value ); ?>" name="<?php echo esc_attr( "_customize-radio-{$this->id}_mobile" ); ?>" id="<?php echo esc_attr( "{$this->id}_mobile-{$value}" ); ?>" <?php $this->link( 'mobile' ); ?> <?php checked( $this->value( 'mobile' ), $value ); ?> /> 
-								<span class="screen-reader-text"><?php echo esc_html( $args['label'] ); ?></span>
-								<figure><img src="<?php echo esc_url( sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ) ); ?>" title="<?php echo esc_attr( $args['label'] ); ?>" alt="<?php echo esc_attr( $args['label'] ); ?>" /></figure>
-								<span class="label-tooltip"><?php echo esc_html( $args['label'] ); ?></span>
-							</label>
-
-						<?php endforeach; ?>
-					</div><!-- .image -->
-
-					<script type="text/javascript">
-						jQuery( document ).ready( function() {
-							jQuery( '#<?php echo esc_attr( "input_{$this->id}_mobile" ); ?>' ).buttonset();
-							jQuery( '#<?php echo esc_attr( "input_{$this->id}_mobile" ); ?>' ).find( 'label' ).removeClass( 'ui-button' );
-						} );
-					</script>
-
-				<?php endif; ?>
-			<?php endif; ?>
-
-			<?php if ( !empty( $this->description ) && $this->desc_below ) : ?>
-				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-			<?php endif; ?>
-		</div>
-
-	<?php }
+				<# if ( data.description && data.desc_below ) { #>
+					<span class="description customize-control-description">{{ data.description }}</span>
+				<# } #>
+			</div>
+		<# } #>
+		<?php
+	}
 
 	/**
 	 * Loads the jQuery UI Button script and hooks our custom styles in.

@@ -5,26 +5,8 @@
  * @package Sydney
  */
 
-//Get post types
-$args       = array(
-	'public' => true,
-);
-$post_types = get_post_types( $args, 'objects' );
-
-//Remove unwanted post types
-$unset_types = array(
-	'page',
-	'post',
-	'product',
-	'attachment',
-	'e-landing-page',
-	'elementor_library',
-	'athemes_hf',
-);
-
-foreach ( $unset_types as $unset_type ) {
-	unset( $post_types[ $unset_type ] );
-}
+//Get post types (capability-filtered: viewable + has_archive, dedicated panels excluded)
+$post_types = sydney_get_customizer_post_types();
 
 //Register panels and sections
 foreach ( $post_types as $current_post_type ) {

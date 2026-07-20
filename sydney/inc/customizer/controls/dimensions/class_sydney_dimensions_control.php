@@ -12,170 +12,103 @@ class Sydney_Dimensions_Control extends WP_Customize_Control {
     public $link_values_toggle;
     public $is_responsive;
 
-	/**
-	 * Render the control in the customizer
-	 */
-	public function render_content(){
-        $value = array(
-            'desktop' => $this->value( 'desktop' ) ? json_decode( $this->value( 'desktop' ) ) : '',
-            'tablet'  => $this->value( 'tablet' ) ? json_decode( $this->value( 'tablet' ) ) : '',
-            'mobile'  => $this->value( 'mobile' ) ? json_decode( $this->value( 'mobile' ) ) : '',
-        );
+    /**
+     * Export data to the JS template.
+     */
+    public function to_json() {
+        parent::to_json();
 
-        // Responsive identifier
-        $responsive = '';
-		if ( !$this->is_responsive ) {
-			$responsive = 'noresponsive';
-		}
-        
-        ?>
+        $devices = $this->is_responsive ? array( 'desktop', 'tablet', 'mobile' ) : array( 'desktop' );
+        $values  = array();
+
+        foreach ( $devices as $device ) {
+            $raw     = $this->value( $device );
+            $decoded = $raw ? json_decode( $raw ) : null;
+
+            $values[ $device ] = array(
+                'raw'    => $raw ? $raw : '',
+                'unit'   => isset( $decoded->unit ) ? $decoded->unit : 'px',
+                'linked' => ! empty( $decoded->linked ),
+                'top'    => isset( $decoded->top ) ? $decoded->top : '',
+                'right'  => isset( $decoded->right ) ? $decoded->right : '',
+                'bottom' => isset( $decoded->bottom ) ? $decoded->bottom : '',
+                'left'   => isset( $decoded->left ) ? $decoded->left : '',
+            );
+        }
+
+        $this->json['units']              = $this->units;
+        $this->json['sides']              = $this->sides;
+        $this->json['link_values_toggle'] = (bool) $this->link_values_toggle;
+        $this->json['is_responsive']      = (bool) $this->is_responsive;
+        $this->json['values']             = $values;
+    }
+
+	/**
+	 * Rendering is handled by the JS template (content_template).
+	 */
+	public function render_content() {}
+
+	/**
+	 * Underscore template, printed once per control type.
+	 */
+	public function content_template() {
+		?>
+		<#
+		var devices    = data.is_responsive ? [ 'desktop', 'tablet', 'mobile' ] : [ 'desktop' ];
+		var sideLabels = {
+			top: '<?php echo esc_js( __( 'Top', 'sydney' ) ); ?>',
+			right: '<?php echo esc_js( __( 'Right', 'sydney' ) ); ?>',
+			bottom: '<?php echo esc_js( __( 'Bottom', 'sydney' ) ); ?>',
+			left: '<?php echo esc_js( __( 'Left', 'sydney' ) ); ?>'
+		};
+		#>
 		<div class="sydney-control-wrapper">
             <div class="sydney-dimensions-control">
-                <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-                <?php if( !empty( $this->description ) ) { ?>
-                    <span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-                <?php } ?>
+                <span class="customize-control-title">{{ data.label }}</span>
+                <# if ( data.description ) { #>
+                    <span class="customize-control-description">{{ data.description }}</span>
+                <# } #>
                 <div class="sydney-dimensions-wrapper">
                     <div class="sydney-dimensions-header">
-                        <div class="sydney-dimensions-units responsive-control-desktop active" data-device-type="desktop">
-                            <select class="sydney-dimensions-unit">
-                            <?php foreach( $this->units as $unit ) : ?>
-                                <option value="<?php echo esc_attr( $unit ); ?>" <?php selected( $unit, $value[ 'desktop' ]->unit, true ); ?>><?php echo esc_html( $unit ); ?></option>
-                            <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <?php if( $this->link_values_toggle ) : ?>
-                            <div class="sydney-dimensions-link-values <?php echo ( $value[ 'desktop' ]->linked ? 'linked ' : '' ); ?>responsive-control-desktop active" data-device-type="desktop">
-                                <button type="button" class="sydney-dimensions-link-btn" title="<?php esc_attr_e( 'Link values together', 'sydney' ); ?>">
-                                    <i class="sydney-dimensions-icon sydney-dimensions-icon-link dashicons dashicons-admin-links"></i>
-                                    <i class="sydney-dimensions-icon sydney-dimensions-icon-unlink dashicons dashicons-editor-unlink"></i>
-                                </button>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ( $this->is_responsive ) : ?>
-                            <div class="sydney-dimensions-units responsive-control-tablet" data-device-type="tablet">
+                        <# _.each( devices, function( device ) { #>
+                            <div class="sydney-dimensions-units responsive-control-{{ device }}<# if ( 'desktop' === device ) { #> active<# } #>" data-device-type="{{ device }}">
                                 <select class="sydney-dimensions-unit">
-                                <?php foreach( $this->units as $unit ) : ?>
-                                    <option value="<?php echo esc_attr( $unit ); ?>" <?php selected( $unit, $value[ 'tablet' ]->unit, true ); ?>><?php echo esc_html( $unit ); ?></option>
-                                <?php endforeach; ?>
+                                <# _.each( data.units, function( unit ) { #>
+                                    <option value="{{ unit }}" <# if ( unit === data.values[ device ].unit ) { #>selected<# } #>>{{ unit }}</option>
+                                <# } ); #>
                                 </select>
                             </div>
-                            <?php if( $this->link_values_toggle ) : ?>
-                                <div class="sydney-dimensions-link-values <?php echo ( $value[ 'tablet' ]->linked ? 'linked ' : '' ); ?>responsive-control-tablet" data-device-type="tablet">
+                            <# if ( data.link_values_toggle ) { #>
+                                <div class="sydney-dimensions-link-values <# if ( data.values[ device ].linked ) { #>linked <# } #>responsive-control-{{ device }}<# if ( 'desktop' === device ) { #> active<# } #>" data-device-type="{{ device }}">
                                     <button type="button" class="sydney-dimensions-link-btn" title="<?php esc_attr_e( 'Link values together', 'sydney' ); ?>">
                                         <i class="sydney-dimensions-icon sydney-dimensions-icon-link dashicons dashicons-admin-links"></i>
-                                        <i class="sydney-dimensions-icon sydney-dimensions-icon-unlink dashicons dashicons-editor-unlink"></i>   
+                                        <i class="sydney-dimensions-icon sydney-dimensions-icon-unlink dashicons dashicons-editor-unlink"></i>
                                     </button>
                                 </div>
-                            <?php endif; ?>
-                            <div class="sydney-dimensions-units responsive-control-mobile" data-device-type="mobile">
-                                <select class="sydney-dimensions-unit">
-                                <?php foreach( $this->units as $unit ) : ?>
-                                    <option value="<?php echo esc_attr( $unit ); ?>" <?php selected( $unit, $value[ 'mobile' ]->unit, true ); ?>><?php echo esc_html( $unit ); ?></option>
-                                <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <?php if( $this->link_values_toggle ) : ?>
-                                <div class="sydney-dimensions-link-values <?php echo ( $value[ 'mobile' ]->linked ? 'linked ' : '' ); ?>responsive-control-mobile" data-device-type="mobile">
-                                    <button type="button" class="sydney-dimensions-link-btn" title="<?php esc_attr_e( 'Link values together', 'sydney' ); ?>">
-                                        <i class="sydney-dimensions-icon sydney-dimensions-icon-link dashicons dashicons-admin-links"></i>
-                                        <i class="sydney-dimensions-icon sydney-dimensions-icon-unlink dashicons dashicons-editor-unlink"></i>    
-                                    </button>
-                                </div>
-                            <?php endif; ?>
+                            <# } #>
+                        <# } ); #>
+                        <# if ( data.is_responsive ) { #>
                             <ul class="sydney-devices-preview">
                                 <li class="desktop"><button type="button" class="preview-desktop active" data-device="desktop"><i class="dashicons dashicons-desktop"></i></button></li>
                                 <li class="tablet"><button type="button" class="preview-tablet" data-device="tablet"><i class="dashicons dashicons-tablet"></i></button></li>
                                 <li class="mobile"><button type="button" class="preview-mobile" data-device="mobile"><i class="dashicons dashicons-smartphone"></i></button></li>
                             </ul>
-                        <?php endif; ?>
+                        <# } #>
                     </div>
-                    <div class="sydney-dimensions-inputs responsive-control-desktop active" data-device-type="desktop">
-                        <?php if( isset( $this->sides[ 'top' ] ) && $this->sides[ 'top' ] ) : ?>
-                            <div class="sydney-dimensions-input-wrapper">
-                                <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'desktop' ]->top ); ?>" data-side="top" class="sydney-dimensions-input" />
-                                <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Top', 'sydney' ); ?></label>
-                            </div>
-                        <?php endif; ?>
-                        <?php if( isset( $this->sides[ 'right' ] ) && $this->sides[ 'right' ] ) : ?>
-                            <div class="sydney-dimensions-input-wrapper">
-                                <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'desktop' ]->right ); ?>" data-side="right" class="sydney-dimensions-input" />
-                                <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Right', 'sydney' ); ?></label>
-                            </div>
-                        <?php endif; ?>
-                        <?php if( isset( $this->sides[ 'bottom' ] ) && $this->sides[ 'bottom' ] ) : ?>
-                            <div class="sydney-dimensions-input-wrapper">
-                                <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'desktop' ]->bottom ); ?>" data-side="bottom" class="sydney-dimensions-input" />
-                                <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Bottom', 'sydney' ); ?></label>
-                            </div>
-                        <?php endif; ?>
-                        <?php if( isset( $this->sides[ 'left' ] ) && $this->sides[ 'left' ] ) : ?>
-                            <div class="sydney-dimensions-input-wrapper">
-                                <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'desktop' ]->left ); ?>" data-side="left" class="sydney-dimensions-input" />
-                                <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Left', 'sydney' ); ?></label>
-                            </div>
-                        <?php endif; ?>
-                        <input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link( 'desktop' ); ?> class="sydney-dimensions-value" />
-                    </div>
-                    <?php if( $this->is_responsive ) : ?>
-                        <div class="sydney-dimensions-inputs responsive-control-tablet" data-device-type="tablet">
-                            <?php if( isset( $this->sides[ 'top' ] ) && $this->sides[ 'top' ] ) : ?>
+                    <# _.each( devices, function( device ) { #>
+                        <div class="sydney-dimensions-inputs responsive-control-{{ device }}<# if ( 'desktop' === device ) { #> active<# } #>" data-device-type="{{ device }}">
+                            <# _.each( [ 'top', 'right', 'bottom', 'left' ], function( side ) { if ( data.sides[ side ] ) { #>
                                 <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'tablet' ]->top ); ?>" data-side="top" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Top', 'sydney' ); ?></label>
+                                    <input type="number" min="-500" max="500" value="{{ data.values[ device ][ side ] }}" data-side="{{ side }}" class="sydney-dimensions-input" />
+                                    <label class="sydney-dimensions-input-label">{{ sideLabels[ side ] }}</label>
                                 </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'right' ] ) && $this->sides[ 'right' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'tablet' ]->right ); ?>" data-side="right" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Right', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'bottom' ] ) && $this->sides[ 'bottom' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'tablet' ]->bottom ); ?>" data-side="bottom" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Bottom', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'left' ] ) && $this->sides[ 'left' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'tablet' ]->left ); ?>" data-side="left" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Left', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link( 'tablet' ); ?> class="sydney-dimensions-value" />
+                            <# } } ); #>
+                            <input type="hidden" value="{{ data.values[ device ].raw }}" data-customize-setting-key-link="{{ device }}" class="sydney-dimensions-value" />
                         </div>
-                        <div class="sydney-dimensions-inputs responsive-control-mobile" data-device-type="mobile">
-                            <?php if( isset( $this->sides[ 'top' ] ) && $this->sides[ 'top' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'mobile' ]->top ); ?>" data-side="top" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Top', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'right' ] ) && $this->sides[ 'right' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'mobile' ]->right ); ?>" data-side="right" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Right', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'bottom' ] ) && $this->sides[ 'bottom' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'mobile' ]->bottom ); ?>" data-side="bottom" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Bottom', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( isset( $this->sides[ 'left' ] ) && $this->sides[ 'left' ] ) : ?>
-                                <div class="sydney-dimensions-input-wrapper">
-                                    <input type="number" min="-500" max="500" value="<?php echo esc_attr( $value[ 'mobile' ]->left ); ?>" data-side="left" class="sydney-dimensions-input" />
-                                    <label class="sydney-dimensions-input-label"><?php echo esc_html__( 'Left', 'sydney' ); ?></label>
-                                </div>
-                            <?php endif; ?>
-                            <input type="hidden" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link( 'mobile' ); ?> class="sydney-dimensions-value" />
-                        </div>
-                    <?php endif; ?>
+                    <# } ); #>
                 </div>
             </div>
         </div>
-	<?php
+		<?php
 	}
 }

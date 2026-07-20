@@ -5,14 +5,6 @@
  * @package Sydney
  */
 
-$wp_customize->add_panel(
-	'sydney_panel_typography',
-	array(
-		'title'         => esc_html__( 'Typography', 'sydney'),
-		'priority'      => 11,
-	)
-);
-
 /**
  * Headings
  */
@@ -20,7 +12,8 @@ $wp_customize->add_section(
 	'sydney_section_typography_headings',
 	array(
 		'title'      => esc_html__( 'Headings', 'sydney'),
-		'panel'      => 'sydney_panel_typography',
+		'panel'      => 'sydney_panel_global_styles',
+		'priority'   => 20,
 	)
 );
 
@@ -461,7 +454,8 @@ $wp_customize->add_section(
 	'sydney_section_typography_body',
 	array(
 		'title'      => esc_html__( 'Body', 'sydney'),
-		'panel'      => 'sydney_panel_typography',
+		'panel'      => 'sydney_panel_global_styles',
+		'priority'   => 30,
 	)
 );
 

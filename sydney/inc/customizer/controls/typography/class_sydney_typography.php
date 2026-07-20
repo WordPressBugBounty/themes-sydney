@@ -9,10 +9,6 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 		 */
 		private $fontList = false;
 		/**
-		 * Static property to store font data in memory
-		 */
-		private static $cached_fonts = null;
-		/**
 		 * The saved font values decoded from json
 		 */
 		private $fontValues = [];
@@ -57,20 +53,16 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 			wp_enqueue_style( 'sydney-select2-css', get_template_directory_uri() . '/inc/customizer/controls/typography/select2.min.css', array(), '4.0.13', 'all' );
 		}
 		/**
-		 * Export our List of Google Fonts to JavaScript
+		 * Export control data to JavaScript. The fonts catalog is intentionally
+		 * NOT exported — it is fetched on demand from sydney/v1/google-fonts.
 		 */
 		public function to_json() {
 			parent::to_json();
-			$this->json['sydneyfontslist'] = $this->fontList;
 		}
 		/**
 		 * Render the control in the customizer
 		 */
 		public function render_content() {
-			$fontCounter = 0;
-			$isFontInList = false;
-			$fontListStr = '';
-
 			if( !empty($this->fontList) ) {
 				?>
 				<?php if( !empty( $this->label ) ) { ?>
@@ -85,24 +77,9 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 						<div class="font-control-title"><strong><?php esc_html_e( 'Font family', 'sydney' ) ?></strong></div>
 
 						<select class="google-fonts-list" control-name="<?php echo esc_attr( $this->id ); ?>">
-							<?php
-								foreach( $this->fontList as $key => $value ) {
-									$fontCounter++;
-									$fontListStr .= '<option value="' . $value->family . '" ' . selected( $this->fontValues->font, $value->family, false ) . '>' . $value->family . '</option>';
-									if ( $this->fontValues->font === $value->family ) {
-										$isFontInList = true;
-									}
-									if ( is_int( $this->fontCount ) && $fontCounter === $this->fontCount ) {
-										break;
-									}
-								}
-								if ( !$isFontInList && $this->fontListIndex ) {
-									// If the default or saved font value isn't in the list of displayed fonts, add it to the top of the list as the default font
-									$fontListStr = '<option value="' . $this->fontList[$this->fontListIndex]->family . '" ' . selected( $this->fontValues->font, $this->fontList[$this->fontListIndex]->family, false ) . '>' . $this->fontList[$this->fontListIndex]->family . ' (default)</option>' . $fontListStr;
-								}
-								// Display our list of font options
-								echo $fontListStr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							?>
+							<?php if ( ! empty( $this->fontValues->font ) ) : ?>
+								<option value="<?php echo esc_attr( $this->fontValues->font ); ?>" selected='selected'><?php echo esc_html( $this->fontValues->font ); ?></option>
+							<?php endif; ?>
 						</select>
 					</div>
 
@@ -170,38 +147,9 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 		}
 
 		/**
-		 * Return the list of Google Fonts from our json file.
+		 * Return the list of Google Fonts (delegates to the shared catalog provider).
 		 */
 		public function get_google_fonts() {
-			// Check if we have the fonts cached in memory
-			if ( null !== self::$cached_fonts ) {
-				return self::$cached_fonts;
-			}
-
-			// Try to get from transient cache
-			$cached_fonts = get_transient( 'sydney_google_fonts_list' );
-			if ( false !== $cached_fonts ) {
-				self::$cached_fonts = $cached_fonts;
-				return $cached_fonts;
-			}
-
-			// If not in cache, read from file
-			require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-			require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
-
-			$fontFile = get_parent_theme_file_path('/inc/customizer/controls/typography/google-fonts-alphabetical.json');
-
-			$file_system = new WP_Filesystem_Direct( false );
-			$content = json_decode( $file_system->get_contents( $fontFile ) );
-			
-			$fonts = $content->items;
-			
-			// Cache the fonts for 24 hours
-			set_transient( 'sydney_google_fonts_list', $fonts, DAY_IN_SECONDS );
-			
-			// Store in memory for current request
-			self::$cached_fonts = $fonts;
-			
-			return $fonts;
+			return Sydney_Google_Fonts_REST::get_catalog();
 		}
 	}

@@ -579,7 +579,8 @@ $wp_customize->add_section(
 	'sydney_section_buttons',
 	array(
 		'title'      => esc_html__( 'Buttons', 'sydney'),
-		'panel'      => 'sydney_panel_general',
+		'panel'      => 'sydney_panel_global_styles',
+		'priority'   => 40,
 	)
 );
 

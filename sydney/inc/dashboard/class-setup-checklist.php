@@ -114,7 +114,7 @@ class Sydney_Setup_Checklist {
 					'typography' => array(
 						'title'        => esc_html__( 'Typography', 'sydney' ),
 						'description'  => esc_html__( 'Choose fonts and sizes for your site.', 'sydney' ),
-						'action_url'   => $this->customizer_link( 'sydney_panel_typography', 'panel' ),
+						'action_url'   => $this->customizer_link( 'sydney_panel_global_styles', 'panel' ),
 						'action_label' => esc_html__( 'Customize', 'sydney' ),
 						'help_image'   => $help_image( 'typography' ),
 					),

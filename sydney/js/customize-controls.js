@@ -33,6 +33,134 @@ jQuery(document).ready(function ($) {
 		is_header_builder_component_section = $( '.control-section.open' ).attr( 'id' ).indexOf( 'sydney_section_hb_component_' ) !== -1 ? true : false;
 		is_footer_builder_section 			= $( '.control-section.open' ).attr( 'id' ) === 'sub-accordion-section-sydney_section_fb_wrapper' ? true : false;
 		is_footer_builder_component_section = $( '.control-section.open' ).attr( 'id' ).indexOf( 'sydney_section_fb_component_' ) !== -1 ? true : false;
+
+		// Pre-tag the builder's panel pane so core exits to the main interface
+		// in ONE animation: when the section collapses, core sees the panel's
+		// skip-transition class, collapses the panel itself in the same cycle,
+		// and transitions the section pane directly against the root pane
+		// (see Section.onChangeExpanded / _animateChangeExpanded in core).
+		// This must happen before the click, hence mouseover/focus.
+		if ( is_header_builder_section ) {
+			sydneyTagBuilderPanelForExit( 'sydney_panel_header', true );
+		}
+		if ( is_footer_builder_section ) {
+			sydneyTagBuilderPanelForExit( 'sydney_panel_footer', true );
+		}
+	} );
+
+	// Hover/focus without a click: undo the exit pre-tagging. A lingering
+	// skip-transition class is dangerous — any section collapse inside a
+	// skip-tagged panel makes core collapse the whole panel.
+	$( document ).on( 'mouseleave focusout', '.customize-section-back', function() {
+		sydneyTagBuilderPanelForExit( 'sydney_panel_header', false );
+		sydneyTagBuilderPanelForExit( 'sydney_panel_footer', false );
+	} );
+
+	function sydneyTagBuilderPanelForExit( panelId, tag ) {
+		var panel = wp.customize.panel( panelId );
+
+		if ( typeof panel === 'undefined' ) {
+			return;
+		}
+
+		panel.contentContainer.toggleClass( 'skip-transition', tag && panel.expanded() );
+	}
+
+	// Collapse a panel only after the section pane's slide-out transition has
+	// finished. Core collapses the section itself when the back button is
+	// clicked; starting the panel collapse while that animation is still
+	// running is a race that can leave the customizer pane blank. The section
+	// state is already false by the time we run, so a collapse completeCallback
+	// would fire immediately — we have to wait for the transition itself.
+	function sydneyCollapsePanelAfterSection( sectionId, panelId ) {
+		var section = wp.customize.section( sectionId );
+		var panel   = wp.customize.panel( panelId );
+
+		if ( typeof section === 'undefined' || typeof panel === 'undefined' ) {
+			return;
+		}
+
+		var container = section.contentContainer;
+		var done = false;
+
+		function finish() {
+			if ( done ) {
+				return;
+			}
+			done = true;
+			container.off( 'transitionend', onTransitionEnd );
+			panel.collapse();
+		}
+
+		function onTransitionEnd( e ) {
+			// Ignore transitions bubbling up from children of the pane.
+			if ( e.target === container[ 0 ] ) {
+				finish();
+			}
+		}
+
+		container.on( 'transitionend', onTransitionEnd );
+
+		// Fallback: core's pane transition is 180ms; if transitionend never
+		// fires (e.g. reduced motion), still return to the main interface.
+		setTimeout( finish, 400 );
+	}
+
+	// Enter the builders straight from the main interface in ONE animation:
+	// replicate core's autoExpandSoleSection choreography (panel pane
+	// pre-tagged with current-panel + skip-transition) so the wrapper section
+	// expands directly against the root pane instead of sliding through the
+	// panel pane first.
+	var sydney_builder_wrappers = {
+		'sydney_section_hb_wrapper': 'sydney_panel_header',
+		'sydney_section_fb_wrapper': 'sydney_panel_footer'
+	};
+
+	$.each( sydney_builder_wrappers, function( sectionId, panelId ) {
+		wp.customize.section( sectionId, function( section ) {
+			var originalExpand = section.expand;
+
+			section.expand = function( params ) {
+				var panel = wp.customize.panel( panelId );
+
+				if ( typeof panel !== 'undefined' && ! panel.expanded() ) {
+					// Mirror the sibling collapse core performs on the normal
+					// panel-expand path we are skipping.
+					wp.customize.section.each( function( other ) {
+						if ( other.panel() !== panelId ) {
+							other.collapse( { duration: 0 } );
+						}
+					} );
+					wp.customize.panel.each( function( otherPanel ) {
+						if ( otherPanel.id !== panelId ) {
+							otherPanel.collapse( { duration: 0 } );
+						}
+					} );
+
+					// With current-panel pre-added, the panel expands without its
+					// own pane animation; the section then animates against the
+					// root pane (skip-transition, see _animateChangeExpanded).
+					panel.contentContainer.addClass( 'current-panel skip-transition' );
+					panel.contentContainer.closest( '.wp-full-overlay' ).addClass( 'in-sub-panel' );
+					panel.expand();
+					wp.customize.state( 'expandedPanel' ).set( panel );
+
+					// The tag must not outlive the expand animation: any section
+					// collapse inside a skip-tagged panel makes core collapse the
+					// whole panel. Exiting re-tags on back-button hover instead.
+					params = params || {};
+					var userCompleteCallback = params.completeCallback;
+					params.completeCallback = function() {
+						panel.contentContainer.removeClass( 'skip-transition' );
+						if ( userCompleteCallback ) {
+							userCompleteCallback();
+						}
+					};
+				}
+
+				return originalExpand.call( section, params );
+			};
+		} );
 	} );
 
 	// If hidden section content is active, focus on the previous section (from global variable)
@@ -79,16 +207,12 @@ jQuery(document).ready(function ($) {
 
 		if( is_header_builder_section ) {
 			wp.customize.section( 'sydney_section_hb_wrapper' ).collapse();
-			setTimeout(function(){
-				wp.customize.panel( 'sydney_panel_header' ).collapse();
-			}, 10);
+			sydneyCollapsePanelAfterSection( 'sydney_section_hb_wrapper', 'sydney_panel_header' );
 		}
-		
+
 		if( is_footer_builder_section ) {
 			wp.customize.section( 'sydney_section_fb_wrapper' ).collapse();
-			setTimeout(function(){
-				wp.customize.panel( 'sydney_panel_footer' ).collapse();
-			}, 10);
+			sydneyCollapsePanelAfterSection( 'sydney_section_fb_wrapper', 'sydney_panel_footer' );
 		}
 
 		if( ! is_any_header_footer_section && ! is_footer_builder_component_section && ! is_header_builder_component_section && is_hidden_section_content && previous_section !== '' ) {
@@ -139,18 +263,69 @@ jQuery( document ).ready( function() {
 jQuery(document).ready(function ($) {
   "use strict";
 
+  var sydneyFontsCatalog = null;
+  var sydneyFontsRequest = null;
+
+  // One catalog request per customizer session, shared by all typography controls.
+  function sydneyFetchFontsCatalog() {
+    if (!sydneyFontsRequest) {
+      sydneyFontsRequest = $.ajax({
+        url: syd_data.fonts_rest_url,
+        method: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('X-WP-Nonce', syd_data.rest_nonce);
+        }
+      }).then(function (list) {
+        sydneyFontsCatalog = list;
+        return list;
+      });
+    }
+    return sydneyFontsRequest;
+  }
+
+  // Build the family select2 from the fetched catalog: saved font pre-selected,
+  // "(default)" entry prepended when the saved font is not in the catalog.
+  function sydneyPopulateFamilySelect($select, catalog) {
+    if ($select.data('sydney-populated')) {
+      return;
+    }
+    $select.data('sydney-populated', true);
+
+    var saved = $select.val();
+    var savedInCatalog = false;
+    var data = [];
+
+    $.each(catalog, function (i, font) {
+      if (font.family === saved) {
+        savedInCatalog = true;
+      }
+      data.push({ id: font.family, text: font.family });
+    });
+
+    if (saved && !savedInCatalog) {
+      data.unshift({ id: saved, text: saved + ' (default)' });
+    }
+
+    if ($select.hasClass('select2-hidden-accessible')) {
+      $select.select2('destroy');
+    }
+    $select.empty();
+    $select.select2({ data: data });
+    // Restore the selection in the UI without firing our change handlers.
+    $select.val(saved).trigger('change.select2');
+  }
+
   function normalisePrimary(value) {
     return 'regular' === value ? '400' : value;
   }
 
-  function getFontVariants(controlName, fontFamily) {
-    var control = _wpCustomizeSettings.controls[controlName];
-    if (!control || !control.sydneyfontslist) {
+  function getFontVariants(fontFamily) {
+    if (!sydneyFontsCatalog) {
       return null;
     }
-    for (var i = 0; i < control.sydneyfontslist.length; i++) {
-      if (control.sydneyfontslist[i].family === fontFamily) {
-        return control.sydneyfontslist[i];
+    for (var i = 0; i < sydneyFontsCatalog.length; i++) {
+      if (sydneyFontsCatalog[i].family === fontFamily) {
+        return sydneyFontsCatalog[i];
       }
     }
     return null;
@@ -178,7 +353,8 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  // Init Select2 on the family selector.
+  // Init Select2 on the family selector (renders the saved font only until the
+  // catalog arrives).
   $('.google-fonts-list').each(function () {
     if (!$(this).hasClass('select2-hidden-accessible')) {
       $(this).select2();
@@ -196,15 +372,62 @@ jQuery(document).ready(function ($) {
     }
   });
 
-  // Family change: rebuild primary + extras, update category.
-  $('.google-fonts-list').on('change', function () {
+  // Prefetch when a section containing a typography control is first expanded,
+  // then populate that control's family dropdowns.
+  wp.customize.bind('ready', function () {
+    wp.customize.control.each(function (control) {
+      if ('sydney-google_fonts' !== control.params.type) {
+        return;
+      }
+      var sectionId = control.section();
+      if (!sectionId) {
+        return;
+      }
+      wp.customize.section(sectionId, function (section) {
+        var prefetch = function (expanded) {
+          if (!expanded) {
+            return;
+          }
+          sydneyFetchFontsCatalog().then(function (catalog) {
+            control.container.find('.google-fonts-list').each(function () {
+              sydneyPopulateFamilySelect($(this), catalog);
+            });
+          });
+        };
+        prefetch(section.expanded());
+        section.expanded.bind(prefetch);
+      });
+    });
+  });
+
+  // Fallback trigger + loading state: opening the dropdown before the catalog
+  // arrived starts/awaits the fetch and reopens once populated.
+  $(document).on('select2:opening', '.google-fonts-list', function () {
+    var $select = $(this);
+    if ($select.data('sydney-populated') || $select.data('sydney-loading')) {
+      return;
+    }
+    $select.data('sydney-loading', true);
+    $select.append($('<option></option>').prop('disabled', true).text(syd_data.loading_fonts_text));
+    sydneyFetchFontsCatalog().then(function (catalog) {
+      var select2Instance = $select.data('select2');
+      var wasOpen = select2Instance && select2Instance.isOpen();
+      sydneyPopulateFamilySelect($select, catalog);
+      if (wasOpen) {
+        $select.select2('open');
+      }
+    });
+  });
+
+  // Family change: rebuild primary + extras, update category. (Delegated: works
+  // for controls rendered at any time.)
+  $(document).on('change', '.google-fonts-list', function () {
     var $container = $(this).closest('.google_fonts_select_control');
     var $primary = $container.find('.google-fonts-regularweight-style');
     var $extras = $container.find('.google-fonts-extraweights-style');
     var selectedFont = $(this).val();
-    var customizerControlName = $(this).attr('control-name');
 
-    var font = getFontVariants(customizerControlName, selectedFont);
+    var font = getFontVariants(selectedFont);
     if (!font) {
       return;
     }
@@ -236,26 +459,29 @@ jQuery(document).ready(function ($) {
   });
 
   // Primary change: rebuild extras so the new primary is excluded and the
-  // previous primary becomes selectable again.
-  $('.google-fonts-regularweight-style').on('change', function () {
-    var $container = $(this).closest('.google_fonts_select_control');
+  // previous primary becomes selectable again. Awaits the catalog so a weight
+  // change made before any dropdown was opened still rebuilds correctly.
+  $(document).on('change', '.google-fonts-regularweight-style', function () {
+    var $this = $(this);
+    var $container = $this.closest('.google_fonts_select_control');
     var $extras = $container.find('.google-fonts-extraweights-style');
     var $family = $container.find('.google-fonts-list');
-    var customizerControlName = $family.attr('control-name');
 
-    var font = getFontVariants(customizerControlName, $family.val());
-    if (!font) {
-      return;
-    }
+    sydneyFetchFontsCatalog().then(function () {
+      var font = getFontVariants($family.val());
+      if (!font) {
+        return;
+      }
 
-    var previousExtras = $extras.val() || [];
-    rebuildExtras($extras, font.variants, $(this).val(), previousExtras);
+      var previousExtras = $extras.val() || [];
+      rebuildExtras($extras, font.variants, $this.val(), previousExtras);
 
-    sydneyGetAllSelects($container);
+      sydneyGetAllSelects($container);
+    });
   });
 
   // Catch-all sync: any change inside the control writes the JSON payload.
-  $('.google_fonts_select_control').on('change', 'select', function () {
+  $(document).on('change', '.google_fonts_select_control select', function () {
     sydneyGetAllSelects($(this).closest('.google_fonts_select_control'));
   });
 
@@ -279,7 +505,7 @@ jQuery(document).ready(function ($) {
 
   let clickFlag = false;
 
-$('.sydney-devices-preview button').on('click', function () {
+$(document).on('click', '.sydney-devices-preview button', function () {
 	if (clickFlag) {
 		clickFlag = false;
 		return false;
@@ -420,175 +646,142 @@ jQuery(document).ready(function ($) {
 /* Color Control */
 jQuery(document).ready(function ($) {
 
-	var $colorControls = $('.sydney-color-control');
+	if ('undefined' === typeof Pickr) {
+		return;
+	}
 
-	if ($colorControls.length && Pickr) {
+	// Populate dropdowns already in the DOM at boot (PHP-rendered controls).
+	// Converted controls populate in their ready() when they render.
+	$('.global-colors-dropdown').each(function () {
+		wp.customize.sydneyPopulateGlobalDropdown($(this));
+	});
 
-		var getCurrentSwatches = function () {
-			var colors = [];
-			$('#customize-control-custom_palette .sydney-color-input').each(function () {
-				colors.push($(this).val().toLowerCase());
-			});
-			return colors;
+	// Select a global color from the dropdown (delegated: dropdowns render on section expand)
+	$(document).on('click', '.global-colors-dropdown .global-color', function () {
+		var $this = $(this);
+		var element = $this.parent().data('element');
+		var $globalInput = $this.parent().next('.sydney-connected-global');
+
+		//add active class to dashicon
+		$this.parent().prev('.dashicons').addClass('active');
+
+		//add active class
+		$this.toggleClass('active').siblings().removeClass('active');
+
+		if ( $this.hasClass('active') ) {
+			$globalInput.val($this.data('global-setting'));
+			sydneyChangeElementColors(element, $this.data('color'));
+		} else {
+			$globalInput.val('');
+			$this.parent().prev('.dashicons').removeClass('active');
 		}
 
-		//add the swatches to the dropdown
-		var swatch = $('.global-colors-dropdown');
-		swatch.each(function () {
-			var colors = getCurrentSwatches();
-			var $this = $(this);
-			
-			var element = $this.data('element');
+		$globalInput.trigger('change');
+	});
 
-			var $globalInput = $this.next('.sydney-connected-global').val();
+	//toggle the swatches
+	$(document).on('click', '.sydney-global-control .dashicons-admin-site-alt3', function () {
 
-			$.each(colors, function (index, value) {
-				$this.append('<div class="global-color" data-global-setting="global_color_' + (index+1) + '" data-color="' + value + '"><span style="display:flex;align-items:center;"><span class="color-circle" style="background-color:' + value + '"></span>Global color ' + (index+1) + '</span><span class="color-value">' + value + '</span></div>');
-			
-				if ( $globalInput == 'global_color_' + (index+1) ) {
-					$this.find('.global-color').eq(index).addClass('active');
+		$(this).next('.global-colors-dropdown').toggleClass('show');
 
-					$this.prev('.dashicons').addClass('active');
-				}
-			});
+		//close other swatches
+		$('.global-colors-dropdown').not($(this).next('.global-colors-dropdown')).removeClass('show');
+	});
 
-			$this.on('click', '.global-color', function () {
-				var $this 	= $(this);
-				var $globalInput = $this.parent().next('.sydney-connected-global');
+	//close the swatches when clicking outside
+	$(document).on('click', function (e) {
+		if ( !$(e.target).closest('.sydney-global-control').length ) {
+			$('.global-colors-dropdown').removeClass('show');
+		}
+	});
 
-				//add active class to dashicon
-				$this.parent().prev('.dashicons').addClass('active');
+	// Lazy Pickr init (delegated: swatches render on section expand)
+	$(document).on('click', '.sydney-color-control .sydney-color-picker', function () {
 
-				//add active class
-				$this.toggleClass('active').siblings().removeClass('active');
+		var $colorPicker = $(this);
 
-				if ( $this.hasClass('active') ) {
-					$globalInput.val($this.data('global-setting'));
-					sydneyChangeElementColors(element, $this.data('color'));
-				} else {
-					$globalInput.val('');
-					$this.parent().prev('.dashicons').removeClass('active');
-				}
-				
-				$globalInput.trigger('change');
-			} );
+		if ($colorPicker.data('pickr')) {
+			return;
+		}
+
+		var $colorControl = $colorPicker.closest('.sydney-color-control');
+		var $colorInput = $colorControl.find('.sydney-color-input');
+		var customizeControl = wp.customize($colorInput.data('customize-setting-link'));
+
+		var pickrSeedColor = $colorPicker.data('display-color') || $colorInput.val() || '';
+
+		var pickr = new Pickr({
+			el: $colorPicker.get(0),
+			container: 'body',
+			theme: 'sydney',
+			default: pickrSeedColor,
+			//swatches: [],
+			position: 'bottom-end',
+			appClass: 'sydney-pcr-app',
+			sliders: 'h',
+			useAsButton: true,
+			components: {
+				hue: true,
+				preview: true,
+				opacity: true,
+				interaction: {
+					input: true,
+					clear: true,
+				},
+			},
+			i18n: {
+				'btn:clear': 'Default',
+			},
 		});
 
-		//toggle the swatches
-		$('.sydney-global-control .dashicons').on('click', function () {
-			
-			$(this).next('.global-colors-dropdown').toggleClass('show');
+		pickr.on('change', function (color) {
 
-			//close other swatches
-			$('.global-colors-dropdown').not($(this).next('.global-colors-dropdown')).removeClass('show');
+			var colorCode;
+
+			if (color.a === 1) {
+				pickr.setColorRepresentation('HEX');
+				colorCode = color.toHEXA().toString(0);
+			} else {
+				pickr.setColorRepresentation('RGBA');
+				colorCode = color.toRGBA().toString(0);
+			}
+
+			$colorPicker.css({ 'background-color': colorCode });
+			$colorInput.val(colorCode);
+			customizeControl.set(colorCode);
+
 		});
 
-		//close the swatches when clicking outside
-		$(document).on('click', function (e) {
-			if ( !$(e.target).closest('.sydney-global-control').length ) {
-				$('.global-colors-dropdown').removeClass('show');
+		// Disconnect global if manually changed
+		pickr.on('change', function (color, source) {
+			if ( 'slider' === source ) {
+				$colorPicker.parent().prev('.sydney-global-control').find('.dashicons').removeClass('active');
+				$colorPicker.parent().prev('.sydney-global-control').find('.sydney-connected-global').val('').trigger('change');
+				$colorPicker.parent().prev('.sydney-global-control').find('.global-color').removeClass('active');
 			}
 		});
 
-		$colorControls.each(function () {
+		pickr.on('clear', function () {
 
-			var $colorControl = $(this);
-			var $colorPicker = $colorControl.find('.sydney-color-picker');
-			var inited;
-			
-			$colorPicker.on('click', function () {
+			var defaultColor = $colorPicker.data('default-color');
 
-				if (!inited) {
-
-					var $colorInput = $colorControl.find('.sydney-color-input');
-					var customizeControl = wp.customize($colorInput.data('customize-setting-link'));					
-
-					// Seed Pickr from the resolved display colour (swatch) so it reflects the
-					// global colour visually. We do NOT seed from $colorInput.val() because
-					// that holds the literal stored mod; if a global is connected, writing that
-					// literal back via Pickr would re-introduce the stale-literal problem.
-					var pickrSeedColor = $colorPicker.data('display-color') || $colorInput.val() || '';
-
-					var pickr = new Pickr({
-						el: $colorPicker.get(0),
-						container: 'body',
-						theme: 'sydney',
-						default: pickrSeedColor,
-						//swatches: [],
-						position: 'bottom-end',
-						appClass: 'sydney-pcr-app',
-						sliders: 'h',
-						useAsButton: true,
-						components: {
-							hue: true,
-							preview: true,
-							opacity: true,
-							interaction: {
-								input: true,
-								clear: true,
-							},
-						},
-						i18n: {
-							'btn:clear': 'Default',
-						},
-					});
-
-					pickr.on('change', function (color) {
-
-						var colorCode;
-
-						if (color.a === 1) {
-							pickr.setColorRepresentation('HEX');
-							colorCode = color.toHEXA().toString(0);
-						} else {
-							pickr.setColorRepresentation('RGBA');
-							colorCode = color.toRGBA().toString(0);
-						}
-
-						$colorPicker.css({ 'background-color': colorCode });
-						$colorInput.val(colorCode);
-						customizeControl.set(colorCode);
-
-					});
-
-					// Disconnect global if manually changed
-					pickr.on('change', function (color, source) {
-						if ( 'slider' === source ) {
-							$colorPicker.parent().prev('.sydney-global-control').find('.dashicons').removeClass('active');
-							$colorPicker.parent().prev('.sydney-global-control').find('.sydney-connected-global').val('').trigger('change');
-							$colorPicker.parent().prev('.sydney-global-control').find('.global-color').removeClass('active');
-						}
-					});
-
-					pickr.on('clear', function () {
-
-						var defaultColor = $colorPicker.data('default-color');
-
-						if (defaultColor) {
-							pickr.setColor(defaultColor);
-						} else {
-							$colorPicker.css({ 'background-color': 'white' });
-							$colorInput.val('');
-							customizeControl.set('');
-						}
-
-					});
-
-					$colorPicker.data('pickr', pickr);
-
-					setTimeout(function () {
-						pickr.show();
-					});
-
-					inited = true;
-
-				}
-
-			});
+			if (defaultColor) {
+				pickr.setColor(defaultColor);
+			} else {
+				$colorPicker.css({ 'background-color': 'white' });
+				$colorInput.val('');
+				customizeControl.set('');
+			}
 
 		});
 
-	}
+		$colorPicker.data('pickr', pickr);
+
+		setTimeout(function () {
+			pickr.show();
+		});
+	});
+
 });
 
 
@@ -653,28 +846,29 @@ jQuery(document).ready(function ($) {
  */
 
 jQuery(document).ready(function ($) {
-  var footerCols = $('#customize-control-footer_widget_areas').find('input:checked');
-  toggleLinks(footerCols);
-  $('#customize-control-footer_widget_areas').find('input').change(function () {
-    toggleLinks($(this));
-  });
-
-  function toggleLinks(el) {
-    if ('3' === $(el).val() || 'col3-bigleft' === $(el).val() || 'col3-bigright' === $(el).val()) {
+  // Value-driven (was a DOM read of the footer_widget_areas control, which
+  // no longer has DOM at boot now that radio-images render on section expand).
+  function toggleLinks(val) {
+    if ('3' === val || 'col3-bigleft' === val || 'col3-bigright' === val) {
       $('.footer-widget-area-link-1, .footer-widget-area-link-2, .footer-widget-area-link-3').show();
       $('.footer-widget-area-link-4').hide();
-    } else if ('4' === $(el).val() || 'col4-bigleft' === $(el).val() || 'col4-bigright' === $(el).val()) {
+    } else if ('4' === val || 'col4-bigleft' === val || 'col4-bigright' === val) {
       $('.footer-widget-area-link-1, .footer-widget-area-link-2, .footer-widget-area-link-3, .footer-widget-area-link-4').show();
-    } else if ('2' === $(el).val() || 'col2-bigleft' === $(el).val() || 'col2-bigright' === $(el).val()) {
+    } else if ('2' === val || 'col2-bigleft' === val || 'col2-bigright' === val) {
       $('.footer-widget-area-link-1, .footer-widget-area-link-2').show();
       $('.footer-widget-area-link-4, .footer-widget-area-link-3').hide();
-    } else if ('1' === $(el).val()) {
+    } else if ('1' === val) {
       $('.footer-widget-area-link-1').show();
       $('.footer-widget-area-link-4, .footer-widget-area-link-2, .footer-widget-area-link-3').hide();
     } else {
       $('.footer-widget-area-link-1, .footer-widget-area-link-2, .footer-widget-area-link-3, .footer-widget-area-link-4').hide();
     }
   }
+
+  wp.customize('footer_widget_areas', function (setting) {
+    toggleLinks(setting.get());
+    setting.bind(toggleLinks);
+  });
 });
 /**
  * Palettes
@@ -989,30 +1183,26 @@ jQuery(document).ready(function ($) {
  jQuery(document).ready(function ($) {
   "use strict";
 
-  $('.customize-control-sydney-toggle-control').each(function () {
-    
-    $(this).find('label').on('keydown', function (event) {
-      var enterPressed = (event.key === 'Enter' || event.keyCode === 13);
+  // Delegated: toggle control DOM is rendered on section expand
+  $(document).on('keydown', '.customize-control-sydney-toggle-control label', function (event) {
+    var enterPressed = (event.key === 'Enter' || event.keyCode === 13);
 
-      if (!enterPressed) { 
-        return; 
-      }
+    if (!enterPressed) {
+      return;
+    }
 
-      $( this ).click();
-    });
+    $( this ).click();
   });
 
-  $('.customize-control-sydney-radio-buttons').each(function () {
-    
-    $(this).find('label').on('keydown', function (event) {
-      var enterPressed = (event.key === 'Enter' || event.keyCode === 13);
+  // Delegated: radio-buttons control DOM is rendered on section expand
+  $(document).on('keydown', '.customize-control-sydney-radio-buttons label', function (event) {
+    var enterPressed = (event.key === 'Enter' || event.keyCode === 13);
 
-      if (!enterPressed) { 
-        return; 
-      }
+    if (!enterPressed) {
+      return;
+    }
 
-      $( this ).click();
-    });
+    $( this ).click();
   });
 
 });
@@ -1372,20 +1562,10 @@ var sydneyChangeElementColors = function (element, color, palette) {
 
 	} else {
 
-		var $control = jQuery('#customize-control-' + element);
-
-		if ($control.length && $control.hasClass('global-color-connected')) {
-
-			var $picker = $control.find('.sydney-color-picker');
-
-			if ($picker.data('pickr')) {
-				$picker.data('pickr').setColor(color);
-				wp.customize(element).set(color);
-			} else {
-				$picker.css('background-color', color);
-				wp.customize(element).set(color);
-			}
-
+		// Control not rendered yet (deferred embed): update the setting directly;
+		// the swatch renders from live values when its section opens.
+		if (typeof wp.customize(element) !== 'undefined') {
+			wp.customize(element).set(color);
 		}
 
 	}
@@ -1399,21 +1579,23 @@ wp.customize.bind('ready', function () {
 	for (let i = 1; i <= 9; i++) {
 		wp.customize('global_color_' + i, function (control) {
 			control.bind(function (value) {
-				let elements = [];
-	
-				jQuery('.sydney-connected-global').each(function () {
-					if (jQuery(this).val() === 'global_color_' + i) {
-						elements.push(jQuery(this).data('customize-setting-link').replace('global_', ''));
+				// Connected elements: derived from the global_* settings themselves,
+				// not from rendered inputs (controls may not be embedded yet).
+				wp.customize.each(function (setting) {
+					if (0 !== setting.id.indexOf('global_') || /^global_color_\d+$/.test(setting.id)) {
+						return;
 					}
-				});
-	
-				for (const element of elements) {
+					if (setting.get() !== 'global_color_' + i) {
+						return;
+					}
+					var element = setting.id.replace('global_', '');
 					if (typeof wp.customize(element) !== 'undefined') {
 						sydneyChangeElementColors(element, value);
 					}
-				}
+				});
 
-				// Update global color dropdown
+				// Update global color dropdown (rendered ones only; unrendered
+				// dropdowns populate fresh from settings when their control embeds)
 				jQuery('.global-colors-dropdown').each(function () {
 					var $dropdown = jQuery(this);
 					$dropdown.find('.global-color').each(function () {
@@ -1609,16 +1791,143 @@ jQuery(document).ready(function($) {
 /* Dimensions Control */
 (function ($) {
 
+	/**
+	 * Base class for JS-templated controls: empty container at boot, rendered
+	 * from their Underscore template when the containing section is first expanded.
+	 */
+	wp.customize.SydneyDeferredControl = wp.customize.Control.extend({
+		embed: function () {
+			var control = this,
+				sectionId = control.section();
+
+			if (!sectionId) {
+				return;
+			}
+
+			wp.customize.section(sectionId, function (section) {
+				if (section.expanded() || wp.customize.settings.autofocus.control === control.id) {
+					control.actuallyEmbed();
+				} else {
+					section.expanded.bind(function (expanded) {
+						if (expanded) {
+							control.actuallyEmbed();
+						}
+					});
+				}
+			});
+		},
+
+		actuallyEmbed: function () {
+			var control = this;
+			if ('resolved' === control.deferred.embedded.state()) {
+				return;
+			}
+			control.renderContent();
+			control.deferred.embedded.resolve();
+		},
+
+		focus: function (args) {
+			this.actuallyEmbed();
+			wp.customize.Control.prototype.focus.call(this, args);
+		}
+	});
+
+	wp.customize.controlConstructor['sydney-toggle-control'] = wp.customize.SydneyDeferredControl;
+	wp.customize.controlConstructor['sydney-dimensions-control'] = wp.customize.SydneyDeferredControl;
+	wp.customize.controlConstructor['sydney-radio-buttons'] = wp.customize.SydneyDeferredControl;
+	wp.customize.controlConstructor['sydney-responsive-slider'] = wp.customize.SydneyDeferredControl;
+
+	wp.customize.controlConstructor['sydney-radio-image'] = wp.customize.SydneyDeferredControl.extend({
+		// jQuery UI buttonset must re-run per control once its DOM exists
+		// (was inline <script> per instance in the PHP-rendered markup).
+		ready: function () {
+			this.container.find('.sydney-radio-images-wrapper').each(function () {
+				jQuery(this).buttonset();
+				jQuery(this).find('label').removeClass('ui-button');
+			});
+		}
+	});
+
+	/**
+	 * Render a section's deferred controls BEFORE core starts the expand
+	 * animation. Core's pane handler is bound first on section.expanded, so
+	 * without this it measures and slides in a still-empty pane and the
+	 * controls visibly pop in mid-transition. Rendering here happens in the
+	 * same click task, just ahead of the state change — the boot-time
+	 * deferral win is untouched.
+	 */
+	var sydneyOriginalSectionExpand = wp.customize.Section.prototype.expand;
+	wp.customize.Section.prototype.expand = function ( params ) {
+		var section = this;
+
+		if ( ! section.expanded() ) {
+			_.each( section.controls(), function ( control ) {
+				if ( 'function' === typeof control.actuallyEmbed ) {
+					control.actuallyEmbed();
+				}
+			} );
+		}
+
+		return sydneyOriginalSectionExpand.call( section, params );
+	};
+
+	/**
+	 * Global color swatches for the connected-global dropdowns.
+	 * Settings-based (the palette control's DOM is not available at boot
+	 * once controls render lazily).
+	 */
+	wp.customize.sydneyGetGlobalSwatches = function () {
+		var colors = [];
+		for (var i = 1; i <= 9; i++) {
+			var setting = wp.customize('global_color_' + i);
+			if (setting) {
+				colors.push(String(setting.get()).toLowerCase());
+			}
+		}
+		return colors;
+	};
+
+	wp.customize.sydneyPopulateGlobalDropdown = function ($dropdown) {
+		if ($dropdown.data('populated')) {
+			return;
+		}
+		$dropdown.data('populated', true);
+
+		var colors = wp.customize.sydneyGetGlobalSwatches();
+		var connected = $dropdown.next('.sydney-connected-global').val();
+
+		jQuery.each(colors, function (index, value) {
+			$dropdown.append('<div class="global-color" data-global-setting="global_color_' + (index + 1) + '" data-color="' + value + '"><span style="display:flex;align-items:center;"><span class="color-circle" style="background-color:' + value + '"></span>Global color ' + (index + 1) + '</span><span class="color-value">' + value + '</span></div>');
+
+			if (connected == 'global_color_' + (index + 1)) {
+				$dropdown.find('.global-color').eq(index).addClass('active');
+				$dropdown.prev('.dashicons').addClass('active');
+			}
+		});
+	};
+
+	wp.customize.controlConstructor['sydney-color-group-control'] = wp.customize.SydneyDeferredControl;
+
+	wp.customize.controlConstructor['sydney-multicolor-control'] = wp.customize.SydneyDeferredControl;
+
+	wp.customize.controlConstructor['sydney-alpha-color'] = wp.customize.SydneyDeferredControl.extend({
+		ready: function () {
+			this.container.find('.global-colors-dropdown').each(function () {
+				wp.customize.sydneyPopulateGlobalDropdown(jQuery(this));
+			});
+		}
+	});
+
 	const Sydney_Dimensions_Control = {
 		init: function () {
 			this.events();
 		},
 
-		// Events
+		// Events (delegated: control DOM is rendered on section expand)
 		events: function () {
-			$('.sydney-dimensions-control').find('.sydney-dimensions-input').on('input', this.setDimensionValue.bind(this));
-			$('.sydney-dimensions-control').find('.sydney-dimensions-unit').on('change', this.unitSelectHandler.bind(this));
-			$('.sydney-dimensions-control').find('.sydney-dimensions-link-btn').on('click', this.toggleLinkValues.bind(this));
+			$(document).on('input', '.sydney-dimensions-control .sydney-dimensions-input', this.setDimensionValue.bind(this));
+			$(document).on('change', '.sydney-dimensions-control .sydney-dimensions-unit', this.unitSelectHandler.bind(this));
+			$(document).on('click', '.sydney-dimensions-control .sydney-dimensions-link-btn', this.toggleLinkValues.bind(this));
 		},
 
 		// Change dimension

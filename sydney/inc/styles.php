@@ -44,18 +44,38 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		/**
 		 * Constructor
 		 */
-		public function __construct() { 
+		public function __construct() {
 			$this->customizer_js = array();
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'print_styles' ) );
+
+			// Cache invalidation: flush the cached base CSS on every event
+			// that can change what build_base_css() generates. The signature
+			// check in get_cached_base_css() self-heals anything missed here.
+			add_action( 'customize_save_after', array( $this, 'flush_css_cache' ) );
+			add_action( 'after_switch_theme', array( $this, 'flush_css_cache' ) );
+			add_action( 'switch_theme', array( $this, 'flush_css_cache' ) );
+			add_action( 'activated_plugin', array( $this, 'flush_css_cache' ) );
+			add_action( 'deactivated_plugin', array( $this, 'flush_css_cache' ) );
+			add_action( 'upgrader_process_complete', array( $this, 'flush_css_cache' ) );
+			// HF Builder background images are stored as attachment IDs and
+			// resolved to URLs at generation time; media-library edits change
+			// the URL without any theme-mod write.
+			add_action( 'attachment_updated', array( $this, 'flush_css_cache' ) );
+			add_action( 'delete_attachment', array( $this, 'flush_css_cache' ) );
+
+			add_action( 'updated_option', array( $this, 'maybe_flush_on_option_change' ) );
+			add_action( 'added_option', array( $this, 'maybe_flush_on_option_change' ) );
+			add_action( 'deleted_option', array( $this, 'maybe_flush_on_option_change' ) );
 		}
 
 		/**
-		 * Output all custom CSS
+		 * Build the cacheable base CSS. Pure function of saved settings
+		 * (theme mods, active modules); request-dependent chunks are
+		 * placeholder tokens replaced later by replace_context_tokens().
 		 */
-		public function output_css( $custom = false ) {
+		private function build_base_css() {
 
-            $is_amp = sydney_is_amp();
 
             $custom = '';
         
@@ -65,34 +85,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
                 $custom .= ".yith-placeholder > * { opacity:1!important;left:0!important;}"."\n";
             }
         
-            //Get thumbnails for shop and shop archives
-            $shop_thumb = get_the_post_thumbnail_url( get_option( 'woocommerce_shop_page_id' ) );
-            if ( class_exists( 'Woocommerce' ) && is_product_category() ) {
-                global $wp_query;
-                $cat            = $wp_query->get_queried_object();
-                $thumbnail_id   = get_term_meta( $cat->term_id, 'thumbnail_id', true );
-                $shop_archive_thumb = wp_get_attachment_url( $thumbnail_id );
-            }
-        
-            if ( class_exists( 'Woocommerce' ) && is_shop() && $shop_thumb ) {
-                $custom .= ".header-image { background-image:url(" . esc_url($shop_thumb) . ")!important;display:block;}"."\n"; 
-                $custom .= ".site-header { background-color:transparent;}" . "\n";
-                $custom .= "@media only screen and (max-width: 1024px) { .sydney-hero-area .header-image { height:300px!important; }}" . "\n";
-                $shop_overlay = get_theme_mod( 'hide_overlay_shop' );
-                if ( $shop_overlay ) {
-                    $custom .= ".header-image .overlay { background-color:transparent;}" . "\n";
-                }
-            } elseif ( class_exists( 'Woocommerce' ) && is_product_category() && $shop_archive_thumb ) {
-                $custom .= ".header-image { background-image:url(" . esc_url($shop_archive_thumb) . ")!important;display:block;}"."\n"; 
-                if ( !$is_amp ) {
-                    $custom .= ".site-header { background-color:transparent;}" . "\n";
-                }
-                $custom .= "@media only screen and (max-width: 1024px) { .sydney-hero-area .header-image { height:300px!important; }}" . "\n";
-            } elseif ( $is_amp || (get_theme_mod('front_header_type','nothing') === 'nothing' && is_front_page()) || (get_theme_mod('site_header_type') === 'nothing' && !is_front_page()) ) {
-                $menu_bg_color = get_theme_mod( 'menu_bg_color', '#263246' );
-                $rgba   = $this->hex2rgba($menu_bg_color, 0.9);
-                $custom .= ".site-header { background-color:" . esc_attr($rgba) . ";}" . "\n";
-            }
+            $custom .= '/*SYDNEY_CTX_1*/';
         
             $wc_button_hover = get_theme_mod( 'wc_button_hover', 0 );
             if ( $wc_button_hover ) {
@@ -117,15 +110,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
         
             
       
-        $post;
-            if ( isset( $post ) ) {
-                $elementor_page = get_post_meta( $post->ID, '_elementor_edit_mode', true );
-                if ( !$elementor_page ) {
-                    $custom .= "html { scroll-behavior: smooth;}" . "\n";
-                }
-            } else {
-                $custom .= "html { scroll-behavior: smooth;}" . "\n";
-            }   
+            $custom .= '/*SYDNEY_CTX_2*/';
 
             //Header image
             $header_bg_size = get_theme_mod('header_bg_size','cover');  
@@ -151,10 +136,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
                 $custom .= ".header-wrap .container > .row { display: block; }"."\n";
             }   
         
-            //AMP
-            if ( 'sticky' === $sticky_menu && $is_amp ) {
-                $custom .= ".site-header { position: -webkit-sticky;position: sticky;}"."\n";
-            }
+            $custom .= '/*SYDNEY_CTX_3*/';
         
         
             //__COLORS
@@ -173,12 +155,12 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
             //Primary color
             $primary_color = 'var(--sydney-global-color-1)';
-            $custom .= ".llms-student-dashboard .llms-button-secondary:hover,.llms-button-action:hover,.read-more-gt,.widget-area .widget_fp_social a,#mainnav ul li a:hover, .sydney_contact_info_widget span, .roll-team .team-content .name,.roll-team .team-item .team-pop .team-social li:hover a,.roll-infomation li.address:before,.roll-infomation li.phone:before,.roll-infomation li.email:before,.roll-testimonials .name,.roll-button.border,.roll-button:hover,.roll-icon-list .icon i,.roll-icon-list .content h3 a:hover,.roll-icon-box.white .content h3 a,.roll-icon-box .icon i,.roll-icon-box .content h3 a:hover,.switcher-container .switcher-icon a:focus,.go-top:hover,.hentry .meta-post a:hover,#mainnav > ul > li > a.active, #mainnav > ul > li > a:hover, button:hover, input[type=\"button\"]:hover, input[type=\"reset\"]:hover, input[type=\"submit\"]:hover, .text-color, .social-menu-widget a, .social-menu-widget a:hover, .archive .team-social li a, a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,.classic-alt .meta-post a,.single .hentry .meta-post a, .content-area.modern .hentry .meta-post span:before, .content-area.modern .post-cat { color:" . esc_attr($primary_color) . "}"."\n";
-            $custom .= ".llms-student-dashboard .llms-button-secondary,.llms-button-action,.woocommerce #respond input#submit,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button,.project-filter li a.active, .project-filter li a:hover,.preloader .pre-bounce1, .preloader .pre-bounce2,.roll-team .team-item .team-pop,.roll-progress .progress-animate,.roll-socials li a:hover,.roll-project .project-item .project-pop,.roll-project .project-filter li.active,.roll-project .project-filter li:hover,.roll-button.light:hover,.roll-button.border:hover,.roll-button,.roll-icon-box.white .icon,.owl-theme .owl-controls .owl-page.active span,.owl-theme .owl-controls.clickable .owl-page:hover span,.go-top,.bottom .socials li:hover a,.sidebar .widget:before,.blog-pagination ul li.active,.blog-pagination ul li:hover a,.content-area .hentry:after,.text-slider .maintitle:after,.error-wrap #search-submit:hover,#mainnav .sub-menu li:hover > a,#mainnav ul li ul:after, button, input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"], .panel-grid-cell .widget-title:after, .cart-amount { background-color:" . esc_attr($primary_color) . "}"."\n";
-            $custom .= ".llms-student-dashboard .llms-button-secondary,.llms-student-dashboard .llms-button-secondary:hover,.llms-button-action,.llms-button-action:hover,.roll-socials li a:hover,.roll-socials li a,.roll-button.light:hover,.roll-button.border,.roll-button,.roll-icon-list .icon,.roll-icon-box .icon,.owl-theme .owl-controls .owl-page span,.comment .comment-detail,.widget-tags .tag-list a:hover,.blog-pagination ul li,.error-wrap #search-submit:hover,textarea:focus,input[type=\"text\"]:focus,input[type=\"password\"]:focus,input[type=\"date\"]:focus,input[type=\"number\"]:focus,input[type=\"email\"]:focus,input[type=\"url\"]:focus,input[type=\"search\"]:focus,input[type=\"tel\"]:focus, button, input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"], .archive .team-social li a { border-color:" . esc_attr($primary_color) . "}"."\n";
+            $custom .= ".llms-student-dashboard .llms-button-secondary:hover,.llms-button-action:hover,.facts-section.style2 .roll-counter i,.roll-team.type-b.style2 .team-item .team-social li:hover a,.portfolio-section.style2 .project-filter li a:hover,.timeline-section.style2 .timeline .icon .fa::before, .style1 .plan-icon, .style3 .plan-icon, .roll-team.type-b .team-social li a,#mainnav ul li a:hover, .sydney_contact_info_widget span, .roll-team .team-content .name,.roll-team .team-item .team-pop .team-social li:hover a,.roll-infomation li.address:before,.roll-infomation li.phone:before,.roll-infomation li.email:before,.roll-button.border,.roll-button:hover,.roll-icon-list .icon i,.roll-icon-list .content h3 a:hover,.roll-icon-box.white .content h3 a,.roll-icon-box .icon i,.roll-icon-box .content h3 a:hover,.switcher-container .switcher-icon a:focus,.go-top:hover,.hentry .meta-post a:hover,#mainnav > ul > li > a.active, #mainnav > ul > li > a:hover, button:hover, input[type=\"button\"]:hover, input[type=\"reset\"]:hover, input[type=\"submit\"]:hover, .text-color, .social-menu-widget a, .social-menu-widget a:hover, .archive .team-social li a, a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .classic-alt .meta-post a, .single .meta-post a, .header-contact .fa,.social-navigation li a:hover,.widget_sydney_testimonials .fa-quote-left,.timeline-section.style2 .timeline-date, .content-area.modern .hentry .meta-post span:before, .content-area.modern .post-cat,.content-area.modern .read-more-gt { color:" . esc_attr($primary_color) . "}"."\n";
+            $custom .= ".sydney-post-sharing .sharing-element:hover,.llms-student-dashboard .llms-button-secondary,.llms-button-action,.roll-team.type-b.style2 .avatar::after,.project-filter li a.active, .project-filter li a:hover,.woocommerce a.button,.woocommerce button.button,.woocommerce input.button,.project-filter li.active, .project-filter li:hover,.roll-team.type-b .team-item .team-social li:hover a,.preloader .pre-bounce1, .preloader .pre-bounce2,.roll-team .team-item .team-pop,.roll-progress .progress-animate,.roll-socials li a:hover,.roll-project .project-item .project-pop,.roll-project .project-filter li.active,.roll-project .project-filter li:hover,.roll-button.light:hover,.roll-button.border:hover,.roll-button,.roll-icon-box.white .icon,.owl-theme .owl-controls .owl-page.active span,.owl-theme .owl-controls.clickable .owl-page:hover span,.go-top,.bottom .socials li:hover a,.sidebar .widget:before,.blog-pagination ul li.active,.blog-pagination ul li:hover a,.content-area .hentry:after,.text-slider .maintitle:after,.error-wrap #search-submit:hover,#mainnav .sub-menu li:hover > a,#mainnav ul li ul:after, button, input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"], .panel-grid-cell .widget-title:after, .social-section.style2 .social-menu-widget li a:hover, .count-number, .cart-amount, .sydney-video.vid-lightbox .toggle-popup,.footer-contact .widget-title:after,.fp-contact .fa,.pricing-section.style4 .plan-item.featured-plan .plan-header, .woocommerce .widget_price_filter .ui-slider .ui-slider-range { background-color:" . esc_attr($primary_color) . "}"."\n";
+            $custom .= ".llms-student-dashboard .llms-button-secondary,.llms-student-dashboard .llms-button-secondary:hover,.llms-button-action,.llms-button-action:hover,.owl-theme .owl-controls .owl-page:hover span,.owl-theme .owl-controls .owl-page.active span,.roll-team.type-b .team-social li a,.roll-socials li a:hover,.roll-socials li a,.roll-button.light:hover,.roll-button.border,.roll-button,.roll-icon-list .icon,.roll-icon-box .icon,.comment .comment-detail,.widget-tags .tag-list a:hover,.blog-pagination ul li,.error-wrap #search-submit:hover,textarea:focus,input[type=\"text\"]:focus,input[type=\"password\"]:focus,input[type=\"date\"]:focus,input[type=\"number\"]:focus,input[type=\"email\"]:focus,input[type=\"url\"]:focus,input[type=\"search\"]:focus,input[type=\"tel\"]:focus, button, input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"], .archive .team-social li a,.latest-news-wrapper.carousel.style2 .meta-post a:hover { border-color:" . esc_attr($primary_color) . "}"."\n";
 
 			//Primary color SVGs
-            $custom .= ".sydney_contact_info_widget span { fill:" . esc_attr( $primary_color ) . ";}" . "\n";
+            $custom .= ".sydney_contact_info_widget span, .header-contact-info svg, .site-header .cart-contents:hover svg, .site-header .header-account:hover svg { fill:" . esc_attr( $primary_color ) . ";}" . "\n";
             $custom .= ".go-top:hover svg { stroke:" . esc_attr( $primary_color ) . ";}" . "\n";
         
             //Menu background
@@ -228,26 +210,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
             $custom .= ".page-wrap { padding-top:" . intval($pw_top_padding) . "px;}"."\n"; 
             $custom .= ".page-wrap { padding-bottom:" . intval($pw_bottom_padding) . "px;}"."\n";   
 
-			if ( is_singular() ) {
-                $post_type = get_post_type();
-
-                //Boxed content
-                $boxed = get_theme_mod( $post_type . '_boxed_content', 'unboxed' );
-                if ( $boxed === 'boxed' ) {
-                    $custom .= "body.singular .content-inner { padding: 60px; background-color: #fff; box-shadow: 0 0 15px 0 rgba(0,0,0,0.05);}"."\n";
-                    $custom .= "@media only screen and (max-width: 767px) { body.singular .content-inner {padding: 20px;} }" . "\n";
-                }
-            }
-
-			//Archive boxed content (applies to all archives: blog, CPT archives, taxonomies, etc.)
-			if ( is_archive() || is_home() ) {
-                $boxed = get_theme_mod( 'blog_archive_boxed_content', 'unboxed' );
-                
-                if ( $boxed === 'boxed' ) {
-                    $custom .= "body.archive .content-inner, body.blog .content-inner, body.home .content-inner { padding: 60px; background-color: #fff; box-shadow: 0 0 15px 0 rgba(0,0,0,0.05);}"."\n";
-                    $custom .= "@media only screen and (max-width: 767px) { body.archive .content-inner, body.blog .content-inner, body.home .content-inner {padding: 20px;} }" . "\n";
-                }
-            }
+            $custom .= '/*SYDNEY_CTX_4*/';
         
             $text_slide = get_theme_mod('textslider_slide', 0);
             if ( $text_slide ) {
@@ -275,9 +238,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
                 }"."\n";        
             }
         
-            if ( $is_amp ) {
-                $custom .= ".go-top { bottom: 30px;opacity:1;visibility:visible;}" . "\n";
-            }
+            $custom .= '/*SYDNEY_CTX_5*/';
         
             /* Start porting */
             /* Back to top */
@@ -360,16 +321,16 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$button_text_transform = get_theme_mod( 'button_text_transform', 'uppercase' );
 			$custom .= "button,.roll-button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { text-transform:" . esc_attr( $button_text_transform ) . ";}" . "\n";
 
-			$custom .= $this->get_background_color_css( 'button_background_color', '', 'button,.wp-element-button,div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button,.roll-button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );         
-			$custom .= $this->get_background_color_css( 'button_background_color_hover', '', 'button:hover,.wp-element-button:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover' );         
+			$custom .= $this->get_background_color_css( 'button_background_color', '', 'button,.wp-element-button,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button,.roll-button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );         
+			$custom .= $this->get_background_color_css( 'button_background_color_hover', '', 'button:hover,.wp-element-button:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover' );         
 
-			$custom .= $this->get_color_css( 'button_color', '', 'button,#sidebar-footer a.wp-block-button__link,.wp-element-button,div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button,.checkout-button.button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );            
-			$custom .= $this->get_color_css( 'button_color_hover', '', 'button:hover,#sidebar-footer .wp-block-button__link:hover,.wp-element-button:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover' );          
+			$custom .= $this->get_color_css( 'button_color', '', 'button,#sidebar-footer a.wp-block-button__link,.wp-element-button,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button,.checkout-button.button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );            
+			$custom .= $this->get_color_css( 'button_color_hover', '', 'button:hover,#sidebar-footer .wp-block-button__link:hover,.wp-element-button:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover' );          
 
 			$button_border_color = get_theme_mod( 'button_border_color', '' );
 			$button_border_color_hover = get_theme_mod( 'button_border_color_hover', '' );
-			$custom .= ".is-style-outline .wp-block-button__link, div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button, .roll-button, .wp-block-button__link.is-style-outline,button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { border-color:" . esc_attr( $button_border_color ) . ";}" . "\n";
-			$custom .= "button:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-block) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type=\"button\"]:hover,input[type=\"reset\"]:hover,input[type=\"submit\"]:hover { border-color:" . esc_attr( $button_border_color_hover ) . ";}" . "\n";
+			$custom .= ".is-style-outline .wp-block-button__link, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button, .roll-button, .wp-block-button__link.is-style-outline,button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { border-color:" . esc_attr( $button_border_color ) . ";}" . "\n";
+			$custom .= "button:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type=\"button\"]:hover,input[type=\"reset\"]:hover,input[type=\"submit\"]:hover { border-color:" . esc_attr( $button_border_color_hover ) . ";}" . "\n";
 
             //Blog
             $list_image_size = get_theme_mod( 'archive_featured_image_size_desktop', 30 );
@@ -408,8 +369,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
             $single_post_header_spacing = get_theme_mod( 'single_post_header_spacing', 40 );
             $custom .= ".single .entry-header { margin-bottom:" . esc_attr( $single_post_header_spacing ) . "px;}" . "\n";
 
-            $single_post_image_spacing = get_theme_mod( 'single_post_header_spacing', 38 );
-            $custom .= ".single .entry-thumb { margin-bottom:" . esc_attr( $single_post_header_spacing ) . "px;}" . "\n";
+            $single_post_image_spacing = get_theme_mod( 'single_post_image_spacing', 38 );
+            $custom .= ".single .entry-thumb { margin-bottom:" . esc_attr( $single_post_image_spacing ) . "px;}" . "\n";
 
 
             $single_post_meta_spacing = get_theme_mod( 'single_post_meta_spacing', 24 );
@@ -462,9 +423,14 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= $this->get_color_css( 'main_header_submenu_color', '', '.bottom-header-row #mainnav ul ul li a,.bottom-header-row #mainnav ul ul li:hover a, .main-header #mainnav ul ul li:hover a,.main-header #mainnav ul ul li a' );
 				$custom .= $this->get_fill_css( 'main_header_submenu_color', '', '.bottom-header-row #mainnav ul ul li svg, .main-header #mainnav ul ul li svg' );
 
-				$header_icons_size = get_theme_mod( 'header_icons_size' );
-				$custom .= ".header-item .sydney-svg-icon { width:" . esc_attr( $header_icons_size ) . "px;height:" . esc_attr( $header_icons_size ) . "px;}" . "\n";
-				$custom .= ".header-item .sydney-svg-icon svg { max-height:" . esc_attr( $header_icons_size - 2 ) . "px;}" . "\n";
+				$header_icons_size = absint( get_theme_mod( 'header_icons_size', 16 ) );
+				if ( ! $header_icons_size ) {
+					// get_theme_mod() returns a stored empty string as-is, bypassing
+					// the registered default above, so re-apply it here.
+					$header_icons_size = 16;
+				}
+				$custom .= ".header-item .sydney-svg-icon { width:" . $header_icons_size . "px;height:" . $header_icons_size . "px;}" . "\n";
+				$custom .= ".header-item .sydney-svg-icon svg { max-height:" . max( 0, $header_icons_size - 2 ) . "px;}" . "\n";
 				
 				$custom .= $this->get_background_color_css( 'search_bar_background_color', '', '.header-search-form' );
 
@@ -472,8 +438,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= $this->get_color_css( 'submenu_items_hover', '', '#mainnav .sub-menu li:hover>a, .main-header #mainnav ul ul li:hover>a' );
 
 				//Header mini cart
-				$custom .= $this->get_color_css( 'color_body_text', '', '.main-header-cart .count-number' );
-				$custom .= $this->get_background_color_rgba_css( 'color_body_text', '#212121', '.main-header-cart .widget_shopping_cart .widgettitle:after, .main-header-cart .widget_shopping_cart .woocommerce-mini-cart__buttons:before', '0.1' );
+				$custom .= $this->get_color_css( 'body_text_color', '', '.main-header-cart .count-number' );
+				$custom .= $this->get_background_color_rgba_css( 'body_text_color', '#233452', '.main-header-cart .widget_shopping_cart .widgettitle:after, .main-header-cart .widget_shopping_cart .woocommerce-mini-cart__buttons:before', '0.1' );
 
 				//Mobile menu
 				$mobile_menu_alignment = get_theme_mod( 'mobile_menu_alignment', 'left' );
@@ -557,11 +523,11 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$body_font      = json_decode( $body_font, true );
 			$headings_font  = json_decode( $headings_font, true );
 			
-			if ( 'System default' !== $body_font['font'] ) {
+			if ( 'System default' !== $body_font['font'] && 'google' === get_theme_mod( 'fonts_library', 'google' ) ) {
 				$custom .= 'body { font-family:' . esc_attr( $body_font['font'] ) . ',' . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";   
 			}
 			
-			if ( 'System default' !== $headings_font['font'] ) {
+			if ( 'System default' !== $headings_font['font'] && 'google' === get_theme_mod( 'fonts_library', 'google' ) ) {
 				$custom .= 'h1,h2,h3,h4,h5,h6,.site-title { font-family:' . esc_attr( $headings_font['font'] ) . ',' . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
 			}
 
@@ -573,7 +539,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
                 $menu_text_transform = get_theme_mod( 'menu_items_text_transform' );
 
-                if ( 'System default' !== $menu_font['font'] ) {
+                if ( 'System default' !== $menu_font['font'] && 'google' === get_theme_mod( 'fonts_library', 'google' ) ) {
                     $custom .= '#mainnav > div > ul > li > a { font-family:' . esc_attr( $menu_font['font'] ) . ',' . esc_attr( $menu_font['category'] ) . '; font-weight: ' . esc_attr( $menu_font['regularweight'] ) . ';}' . "\n";   
                 }
 
@@ -645,12 +611,12 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 			$custom .= $this->get_color_css( 'single_product_sale_color', '', '.wc-block-grid__product-onsale, span.onsale' );
 			$custom .= $this->get_background_color_css( 'single_product_sale_background_color', '', '.wc-block-grid__product-onsale, span.onsale' );
-			$custom .= $this->get_color_css( 'shop_product_product_title', '', 'ul.wc-block-grid__products li.wc-block-grid__product .wc-block-grid__product-title, ul.wc-block-grid__products li.wc-block-grid__product .woocommerce-loop-product__title, ul.wc-block-grid__products li.product .wc-block-grid__product-title, ul.wc-block-grid__products li.product .woocommerce-loop-product__title, ul.products li.wc-block-grid__product .wc-block-grid__product-title, ul.products li.wc-block-grid__product .woocommerce-loop-product__title, ul.products li.product .wc-block-grid__product-title, ul.products li.product .woocommerce-loop-product__title, ul.products li.product .woocommerce-loop-category__title, .woocommerce-loop-product__title .botiga-wc-loop-product__title' );
+			$custom .= $this->get_color_css( 'shop_product_product_title', '', 'ul.wc-block-grid__products li.wc-block-grid__product .wc-block-grid__product-title, ul.wc-block-grid__products li.wc-block-grid__product .woocommerce-loop-product__title, ul.wc-block-grid__products li.product .wc-block-grid__product-title, ul.wc-block-grid__products li.product .woocommerce-loop-product__title, ul.products li.wc-block-grid__product .wc-block-grid__product-title, ul.products li.wc-block-grid__product .woocommerce-loop-product__title, ul.products li.product .wc-block-grid__product-title, ul.products li.product .woocommerce-loop-product__title, ul.products li.product .woocommerce-loop-category__title, .woocommerce-loop-product__title .sydney-wc-loop-product__title' );
 
-			$custom .= $this->get_color_css( 'color_body_text', '', 'a.wc-forward:not(.checkout-button)' );
+			$custom .= $this->get_color_css( 'body_text_color', '', 'a.wc-forward:not(.checkout-button)' );
 			$custom .= $this->get_color_css( 'color_link_hover', '', 'a.wc-forward:not(.checkout-button):hover' );
 			$custom .= $this->get_color_css( 'button_color_hover', '', '.woocommerce-pagination li .page-numbers:hover' );
-			$custom .= $this->get_border_color_rgba_css( 'color_body_text', '#212121', '.woocommerce-sorting-wrapper', '0.1' );
+			$custom .= $this->get_border_color_rgba_css( 'body_text_color', '#233452', '.woocommerce-sorting-wrapper', '0.1' );
 
             $shop_categories_alignment = get_theme_mod( 'shop_categories_alignment', 'center' );
 			$custom .= "ul.products li.product-category .woocommerce-loop-category__title { text-align:" . esc_attr( $shop_categories_alignment ) . ";}" . "\n";
@@ -718,14 +684,21 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$custom .= $this->get_color_css( 'color_heading_5', '', 'h5' );
 			$custom .= $this->get_color_css( 'color_heading_6', '', 'h6' );            
 
-			$custom .= $this->get_color_css( 'color_forms_text', '', 'div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-block) .wpforms-form select, div.wpforms-container-full:not(.wpforms-block) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="number"]:focus, input[type="tel"]:focus, input[type="date"]:focus, textarea:focus, select:focus, .woocommerce .select2-container .select2-selection--single:focus, .woocommerce-page .select2-container .select2-selection--single:focus,.select2-container--default .select2-selection--single .select2-selection__rendered,.wp-block-search .wp-block-search__input,.wp-block-search .wp-block-search__input:focus' );
-			$custom .= $this->get_background_color_css( 'color_forms_background', '', 'div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-block) .wpforms-form select, div.wpforms-container-full:not(.wpforms-block) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type="text"]' );
+			$custom .= $this->get_color_css( 'color_forms_text', '', 'div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="number"]:focus, input[type="tel"]:focus, input[type="date"]:focus, textarea:focus, select:focus, .woocommerce .select2-container .select2-selection--single:focus, .woocommerce-page .select2-container .select2-selection--single:focus,.select2-container--default .select2-selection--single .select2-selection__rendered,.wp-block-search .wp-block-search__input,.wp-block-search .wp-block-search__input:focus' );
+			$custom .= $this->get_background_color_css( 'color_forms_background', '', 'div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type="text"]' );
 			$color_forms_borders    = get_theme_mod( 'color_forms_borders' );
-			$custom .= "div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-block) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-block) .wpforms-form select, div.wpforms-container-full:not(.wpforms-block) .wpforms-form textarea,input[type=\"text\"],input[type=\"email\"],input[type=\"url\"],input[type=\"password\"],input[type=\"search\"],input[type=\"number\"],input[type=\"tel\"],input[type=\"range\"],input[type=\"date\"],input[type=\"month\"],input[type=\"week\"],input[type=\"time\"],input[type=\"datetime\"],input[type=\"datetime-local\"],input[type=\"color\"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-account fieldset,.woocommerce-account .woocommerce-form-login, .woocommerce-account .woocommerce-form-register,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type=\"text\"],.wp-block-search .wp-block-search__input { border-color:" . esc_attr( $color_forms_borders ) . ";}" . "\n";
+			$custom .= "div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type=\"text\"],input[type=\"email\"],input[type=\"url\"],input[type=\"password\"],input[type=\"search\"],input[type=\"number\"],input[type=\"tel\"],input[type=\"range\"],input[type=\"date\"],input[type=\"month\"],input[type=\"week\"],input[type=\"time\"],input[type=\"datetime\"],input[type=\"datetime-local\"],input[type=\"color\"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-account fieldset,.woocommerce-account .woocommerce-form-login, .woocommerce-account .woocommerce-form-register,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type=\"text\"],.wp-block-search .wp-block-search__input { border-color:" . esc_attr( $color_forms_borders ) . ";}" . "\n";
 			$color_forms_placeholder    = get_theme_mod( 'color_forms_placeholder' );
 			$custom .= "input::placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";opacity:1;}" . "\n";
 			$custom .= "input:-ms-input-placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";}" . "\n";
 			$custom .= "input::-ms-input-placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";}" . "\n";
+
+			// Modern WPForms engine: theme defaults via --wpforms-* custom
+			// properties (overridable per-form in the builder). No-op when
+			// WPForms is inactive so no dead variables ship.
+			if ( function_exists( 'wpforms' ) ) {
+				$custom .= $this->sydney_wpforms_css_vars();
+			}
 
             /* End porting */
 
@@ -750,23 +723,387 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= '.site { display:flex;flex-direction:column;min-height:100vh; } .site #content { flex:1; } .admin-bar .site {min-height:calc(100vh - 32px);}';
 			}
         
-            $custom = apply_filters( 'sydney_custom_css', $custom );
+			// Extension point for additional settings-only CSS (Sydney Pro's
+			// options class, child themes). Hooked output is CACHED with the
+			// base: it must depend only on saved settings, never on the
+			// current request. Request-dependent CSS belongs in the
+			// per-request 'sydney_custom_css' filter instead.
+			return apply_filters( 'sydney_base_css', $custom );
+		}
 
-			$custom = $this->minify( $custom );
+		/**
+		 * Map Sydney design tokens onto WPForms' --wpforms-* custom properties.
+		 *
+		 * Emitted on `body` (not :root) so it acts as a theme default for the
+		 * modern render engine while a per-form builder setting (scoped to
+		 * #wpforms-{id}) still overrides it via the natural cascade. Structural
+		 * values mirror Sydney's field rule (css/styles.css); color values
+		 * reference Sydney's global-color CSS vars with literal fallbacks so
+		 * they resolve whether or not the CSS-variable palette is enabled.
+		 *
+		 * Pure builder — the caller guards on function_exists( 'wpforms' ).
+		 *
+		 * @since 2.69
+		 * @return string CSS declaration block.
+		 */
+		private function sydney_wpforms_css_vars() {
+			$vars  = 'body{';
+			// Structural — match Sydney's field rule (css/styles.css).
+			$vars .= '--wpforms-field-border-color:var(--sydney-border-color,#e2e2e2);';
+			$vars .= '--wpforms-field-border-size:1px;';
+			$vars .= '--wpforms-field-border-radius:0;';
+			$vars .= '--wpforms-field-text-color:var(--sydney-text-color,#4f5b66);';
+			$vars .= '--wpforms-field-background-color:#ffffff;';
+			$vars .= '--wpforms-label-color:var(--sydney-headings-color,#333333);';
+			// Field sizing — match Sydney's field metrics (50px tall, 20px h-padding, 16px).
+			$vars .= '--wpforms-field-size-font-size:16px;';
+			$vars .= '--wpforms-field-size-input-height:50px;';
+			$vars .= '--wpforms-field-size-padding-h:20px;';
+			// Buttons — track the Customizer button background (falls back to global color 1).
+			$vars .= '--wpforms-button-background-color:var(--sydney-button-background,var(--sydney-global-color-1));';
+			$vars .= '--wpforms-button-text-color:#ffffff;';
+			$vars .= '--wpforms-button-border-color:var(--sydney-button-background,var(--sydney-global-color-1));';
+			// Button radius — same mod the theme applies to every button.
+			$vars .= '--wpforms-button-border-radius:' . intval( get_theme_mod( 'buttons_radius' ) ) . 'px;';
 
-			return $custom;
+			// Customizer "Forms" color controls override the field defaults for
+			// modern forms (classic keeps its scoped rule). Emitted last so they
+			// win over the token defaults above; a per-form builder value still
+			// beats these via #wpforms-{id}. Only emit set controls so unset
+			// ones keep the defaults.
+			$forms_text   = get_theme_mod( 'color_forms_text' );
+			$forms_bg     = get_theme_mod( 'color_forms_background' );
+			$forms_border = get_theme_mod( 'color_forms_borders' );
+			if ( $forms_border ) {
+				$vars .= '--wpforms-field-border-color:' . esc_attr( $forms_border ) . ';';
+			}
+			if ( $forms_bg ) {
+				$vars .= '--wpforms-field-background-color:' . esc_attr( $forms_bg ) . ';';
+			}
+			if ( $forms_text ) {
+				$vars .= '--wpforms-field-text-color:' . esc_attr( $forms_text ) . ';';
+			}
+			$vars .= '}';
+
+			// Button sizing — track the theme's responsive button settings
+			// (same mods + defaults as the //Buttons block above). WPForms
+			// sizes buttons via a fixed height with zero vertical padding, so
+			// the height token carries the theme's vertical padding instead
+			// (24px line-height + padding both sides + 1px borders).
+			$devices = array(
+				'desktop' => '@media (min-width: 992px)',
+				'tablet'  => '@media (min-width: 576px) and (max-width:  991px)',
+				'mobile'  => '@media (max-width: 575px)',
+			);
+			foreach ( $devices as $device => $media ) {
+				$font_size = intval( get_theme_mod( 'button_font_size_' . $device, 14 ) );
+				$padding_h = intval( get_theme_mod( 'button_left_right_padding_' . $device, 35 ) );
+				$padding_v = intval( get_theme_mod( 'button_top_bottom_padding_' . $device, 12 ) );
+
+				$vars .= $media . '{body{'
+					. '--wpforms-button-size-font-size:' . $font_size . 'px;'
+					. '--wpforms-button-size-padding-h:' . $padding_h . 'px;'
+					. '--wpforms-button-size-height:' . ( 24 + 2 * $padding_v + 2 ) . 'px;'
+					. '}}';
+			}
+
+			// Text transform has no --wpforms-* variable; scoped rule at a
+			// specificity that beats WPForms' container reset.
+			$button_text_transform = get_theme_mod( 'button_text_transform', 'uppercase' );
+			$vars .= 'div.wpforms-container-full.wpforms-render-modern button[type=submit],'
+				. 'div.wpforms-container-full.wpforms-render-modern input[type=submit],'
+				. 'div.wpforms-container-full.wpforms-render-modern .wpforms-page-button'
+				. '{text-transform:' . esc_attr( $button_text_transform ) . ';}';
+
+			return $vars;
+		}
+
+		/**
+		 * Output all custom CSS.
+		 *
+		 * Public contract unchanged: always generates fresh, filtered,
+		 * minified CSS (the cache is consulted only by print_styles()),
+		 * so external callers keep getting exactly today's output.
+		 */
+		public function output_css( $custom = false ) {
+			return $this->assemble( $this->build_base_css() );
+		}
+
+		/**
+		 * Turn a base CSS blob into the final output: contextual chunks
+		 * replace their placeholder tokens in place (cascade order is part
+		 * of the contract), then the third-party filter and the minifier
+		 * run — both per-request, never cached.
+		 */
+		private function assemble( $base ) {
+			$custom = $this->replace_context_tokens( $base );
+			$custom = apply_filters( 'sydney_custom_css', $custom );
+
+			return $this->minify( $custom );
+		}
+
+		/**
+		 * Replace the SYDNEY_CTX_n placeholder tokens with the live
+		 * contextual chunks. Tokens are plain CSS comments, so a missed
+		 * replacement degrades to "chunk absent for one request" (the
+		 * minifier strips comments), never to broken CSS.
+		 */
+		private function replace_context_tokens( $css ) {
+			for ( $n = 1; $n <= 5; $n++ ) {
+				$css = str_replace( '/*SYDNEY_CTX_' . $n . '*/', $this->get_contextual_css_chunk( $n ), $css );
+			}
+
+			return $css;
+		}
+
+		/**
+		 * Transient key for the cached base CSS.
+		 *
+		 * Keyed by stylesheet (parent and child themes have separate theme
+		 * mods) and by text direction (the HF Builder bakes is_rtl() into
+		 * column and offcanvas CSS; LTR and RTL pages can coexist on
+		 * multilingual sites, so each direction gets its own stable entry).
+		 */
+		private function cache_key() {
+			return 'sydney_base_css_' . md5( get_stylesheet() ) . ( is_rtl() ? '_rtl' : '_ltr' );
+		}
+
+		/**
+		 * Validity signature stored inside the transient and recomputed on
+		 * every read, so theme updates, child-theme switches, module toggles
+		 * and the centered-menu branding gate self-heal the cache even when
+		 * no flush hook fired. Bump 'schema' when CSS-generation code changes
+		 * within a release cycle.
+		 */
+		private function cache_signature() {
+			$data = array(
+				'schema'   => 2,
+				'theme'    => wp_get_theme( get_template() )->get( 'Version' ),
+				'child'    => get_stylesheet(),
+				'hfb'      => Sydney_Modules::is_module_active( 'hf-builder' ),
+				'branding' => (bool) ( get_bloginfo( 'description' ) || get_bloginfo( 'name' ) || get_theme_mod( 'site_logo' ) ),
+			);
+
+			// Extensions contributing CSS via 'sydney_base_css' add their own
+			// validity inputs here (e.g. Pro version, Pro feature toggles) so
+			// their cached output self-heals like the free theme's.
+			$data = apply_filters( 'sydney_css_cache_signature_data', $data );
+
+			return md5( wp_json_encode( $data ) );
+		}
+
+		/**
+		 * Read the cached base CSS. Returns false on miss, malformed value
+		 * or stale signature.
+		 */
+		private function get_cached_base_css() {
+			$cached = get_transient( $this->cache_key() );
+
+			if ( ! is_array( $cached ) || ! isset( $cached['sig'], $cached['css'] ) || $cached['sig'] !== $this->cache_signature() ) {
+				return false;
+			}
+
+			return $cached['css'];
+		}
+
+		/**
+		 * Store the base CSS. The TTL keeps the transient out of autoload
+		 * (expiration-less transients are stored with autoload=yes — ~100KB
+		 * on every request) and backstops write paths that cannot be hooked
+		 * (raw SQL edits of theme mods).
+		 */
+		private function set_cached_base_css( $css ) {
+			set_transient(
+				$this->cache_key(),
+				array(
+					'sig' => $this->cache_signature(),
+					'css' => $css,
+				),
+				WEEK_IN_SECONDS
+			);
+		}
+
+		/**
+		 * Whether to skip the cache entirely (never read, never write).
+		 *
+		 * The Customizer preview must always generate fresh: get_theme_mod()
+		 * returns unsaved changeset values there, and the preview JS
+		 * (sydney_theme_options) depends on side effects of generation.
+		 * SCRIPT_DEBUG covers local development, where the theme version in
+		 * the signature does not change between code edits. The filter is
+		 * the documented escape hatch for plugins that vary mods per request
+		 * (e.g. via core's theme_mod_{$name} filters).
+		 */
+		private function cache_bypass() {
+			return is_customize_preview()
+				|| ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )
+				|| ! apply_filters( 'sydney_enable_css_cache', true );
+		}
+
+		/**
+		 * Delete the cached base CSS — both text-direction variants, since a
+		 * flush event on a multilingual site must invalidate LTR and RTL alike.
+		 */
+		public function flush_css_cache() {
+			$prefix = 'sydney_base_css_' . md5( get_stylesheet() );
+
+			delete_transient( $prefix . '_ltr' );
+			delete_transient( $prefix . '_rtl' );
+		}
+
+		/**
+		 * Flush the CSS cache when a watched option is written.
+		 *
+		 * theme_mods_{stylesheet} covers every write path to theme mods
+		 * (Customizer publish, scheduled changesets via cron, starter-site
+		 * imports, WP-CLI, remove_theme_mods()); sydney-modules covers module
+		 * toggles; blogname/blogdescription cover the centered-menu branding
+		 * gate. Matching at fire time (instead of registering dynamic
+		 * update_option_{name} hooks) keeps the constructor free of
+		 * get_stylesheet() calls at file-require time.
+		 *
+		 * @param string $option Option name being written.
+		 */
+		public function maybe_flush_on_option_change( $option ) {
+			$watched = array(
+				'theme_mods_' . get_stylesheet(),
+				'sydney-modules',
+				'blogname',
+				'blogdescription',
+			);
+
+			if ( in_array( $option, $watched, true ) ) {
+				$this->flush_css_cache();
+			}
 		}
 
 		/**
 		 * Print styles
+		 *
+		 * The only cache consumer: on a normal front-end request the base
+		 * CSS comes from the transient; contextual chunks, the
+		 * sydney_custom_css filter and the minifier always run live.
 		 */
 		public function print_styles() {
 
-			$custom = $this->output_css();
+			if ( $this->cache_bypass() ) {
+				$base = $this->build_base_css();
+			} else {
+				$base = $this->get_cached_base_css();
+
+				if ( false === $base ) {
+					$base = $this->build_base_css();
+					$this->set_cached_base_css( $base );
+				}
+			}
+
+			$custom = $this->assemble( $base );
 
 			wp_add_inline_style( 'sydney-style-min', $custom );
 
 			wp_localize_script( 'sydney_customizer', 'sydney_theme_options', $this->customizer_js );
+		}
+
+		/**
+		 * Contextual CSS chunks — the only parts of the dynamic CSS that
+		 * depend on the current request (conditional tags, queried objects,
+		 * AMP). Computed live on every request; everything else is cacheable.
+		 *
+		 * Bodies are moved verbatim from output_css(); behavior must not change.
+		 *
+		 * @param int $n Chunk number (1-5).
+		 * @return string CSS for this chunk in the current request context.
+		 */
+		private function get_contextual_css_chunk( $n ) {
+			$custom = '';
+			$is_amp = sydney_is_amp();
+
+			switch ( $n ) {
+				case 1:
+					//Get thumbnails for shop and shop archives
+					$shop_thumb = get_the_post_thumbnail_url( get_option( 'woocommerce_shop_page_id' ) );
+					if ( class_exists( 'Woocommerce' ) && is_product_category() ) {
+						global $wp_query;
+						$cat            = $wp_query->get_queried_object();
+						$thumbnail_id   = get_term_meta( $cat->term_id, 'thumbnail_id', true );
+						$shop_archive_thumb = wp_get_attachment_url( $thumbnail_id );
+					}
+
+					if ( class_exists( 'Woocommerce' ) && is_shop() && $shop_thumb ) {
+						$custom .= ".header-image { background-image:url(" . esc_url($shop_thumb) . ")!important;display:block;}"."\n";
+						$custom .= ".site-header { background-color:transparent;}" . "\n";
+						$custom .= "@media only screen and (max-width: 1024px) { .sydney-hero-area .header-image { height:300px!important; }}" . "\n";
+						$shop_overlay = get_theme_mod( 'hide_overlay_shop' );
+						if ( $shop_overlay ) {
+							$custom .= ".header-image .overlay { background-color:transparent;}" . "\n";
+						}
+					} elseif ( class_exists( 'Woocommerce' ) && is_product_category() && $shop_archive_thumb ) {
+						$custom .= ".header-image { background-image:url(" . esc_url($shop_archive_thumb) . ")!important;display:block;}"."\n";
+						if ( !$is_amp ) {
+							$custom .= ".site-header { background-color:transparent;}" . "\n";
+						}
+						$custom .= "@media only screen and (max-width: 1024px) { .sydney-hero-area .header-image { height:300px!important; }}" . "\n";
+					} elseif ( $is_amp || (get_theme_mod( 'front_header_type', apply_filters( 'sydney_front_header_type_default', 'nothing' ) ) === 'nothing' && is_front_page()) || (get_theme_mod('site_header_type') === 'nothing' && !is_front_page()) ) {
+						$menu_bg_color = get_theme_mod( 'menu_bg_color', '#263246' );
+						$rgba   = $this->hex2rgba($menu_bg_color, 0.9);
+						$custom .= ".site-header { background-color:" . esc_attr($rgba) . ";}" . "\n";
+					}
+					break;
+
+				case 2:
+					// Only emit smooth-scroll CSS when a post object is available
+					// and the page isn't an Elementor layout. `global $post` is
+					// required for the isset() check to see the queried post.
+					global $post;
+					if ( isset( $post ) ) {
+						$elementor_page = get_post_meta( $post->ID, '_elementor_edit_mode', true );
+						if ( !$elementor_page ) {
+							$custom .= "html { scroll-behavior: smooth;}" . "\n";
+						}
+					} else {
+						$custom .= "html { scroll-behavior: smooth;}" . "\n";
+					}
+					break;
+
+				case 3:
+					//AMP
+					$sticky_menu = get_theme_mod( 'sticky_menu', 'sticky' );
+					if ( 'sticky' === $sticky_menu && $is_amp ) {
+						$custom .= ".site-header { position: -webkit-sticky;position: sticky;}"."\n";
+					}
+					break;
+
+				case 4:
+					if ( is_singular() ) {
+						$post_type = get_post_type();
+
+						//Boxed content
+						$boxed = get_theme_mod( $post_type . '_boxed_content', 'unboxed' );
+						if ( $boxed === 'boxed' ) {
+							$custom .= "body.singular .content-inner, body.wp-singular .content-inner { padding: 60px; background-color: #fff; box-shadow: 0 0 15px 0 rgba(0,0,0,0.05);}"."\n";
+							$custom .= "@media only screen and (max-width: 767px) { body.singular .content-inner, body.wp-singular .content-inner {padding: 20px;} }" . "\n";
+						}
+					}
+
+					//Archive boxed content (applies to all archives: blog, CPT archives, taxonomies, etc.)
+					if ( is_archive() || is_home() ) {
+						$boxed = get_theme_mod( 'blog_archive_boxed_content', 'unboxed' );
+
+						if ( $boxed === 'boxed' ) {
+							$custom .= "body.archive .content-inner, body.blog .content-inner, body.home .content-inner { padding: 60px; background-color: #fff; box-shadow: 0 0 15px 0 rgba(0,0,0,0.05);}"."\n";
+							$custom .= "@media only screen and (max-width: 767px) { body.archive .content-inner, body.blog .content-inner, body.home .content-inner {padding: 20px;} }" . "\n";
+						}
+					}
+					break;
+
+				case 5:
+					if ( $is_amp ) {
+						$custom .= ".go-top { bottom: 30px;opacity:1;visibility:visible;}" . "\n";
+					}
+					break;
+			}
+
+			return $custom;
 		}
 
 		/**
@@ -877,11 +1214,13 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 	/**
 	 * Get border color CSS
 	 */
-	public static function get_border_color_css( $setting, $default, $selector, $global_default = '' ) {
+	public static function get_border_color_css( $setting = '', $default = '', $selector = '', $important = false, $global_default = '' ) {
 		$mod = get_theme_mod( $setting, $default );
 		$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
 
-		return $selector . '{ border-color:' . esc_attr( $mod ) . ';}' . "\n";
+		Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'border-color', '', $important );
+
+		return $selector . '{ border-color:' . esc_attr( $mod ) . ( $important ? '!important' : '' ) . ';}' . "\n";
 	}
 		
 	/**
@@ -946,7 +1285,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		}
 		
 		//Max width
-		public static function get_max_width_css( $setting, $defaults, $selector ) {
+		public static function get_max_width_css( $setting, $defaults, $selector, $units = 'px' ) {
 			$devices    = array( 
 				'desktop'   => '@media (min-width: 992px)',
 				'tablet'    => '@media (min-width: 576px) and (max-width:  991px)',
@@ -957,7 +1296,25 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 			foreach ( $devices as $device => $media ) {
 				$mod = get_theme_mod( $setting . '_' . $device, $defaults[$device] );
-				$css .= $media . ' { ' . $selector . ' { max-width:' . intval( $mod ) . 'px;} }' . "\n";    
+				$css .= $media . ' { ' . $selector . ' { max-width:' . intval( $mod ) . $units . ';} }' . "\n";    
+			}
+
+			return $css;
+		}
+
+		//Min height
+		public static function get_min_height_css( $setting, $defaults, $selector ) {
+			$devices    = array(
+				'desktop'   => '@media (min-width: 992px)',
+				'tablet'    => '@media (min-width: 576px) and (max-width:  991px)',
+				'mobile'    => '@media (max-width: 575px)',
+			);
+
+			$css = '';
+
+			foreach ( $devices as $device => $media ) {
+				$mod = get_theme_mod( $setting . '_' . $device, $defaults[$device] );
+				$css .= $media . ' { ' . $selector . ' { min-height:' . intval( $mod ) . 'px;} }' . "\n";
 			}
 
 			return $css;
