@@ -152,7 +152,7 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				'sydney/get-hf-component-settings',
 				array(
 					'label'            => __( 'Get header/footer component settings', 'sydney' ),
-					'description'      => __( 'Read the content and functional settings of one header or footer builder component (e.g. a button\'s text and link). Use before sydney/update-hf-component-settings to see the writable setting keys.', 'sydney' ),
+					'description'      => __( 'Read the content and functional settings of one header or footer builder component (e.g. a button\'s text and link). Use before sydney/update-hf-component-settings to see the writable setting keys. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row.', 'sydney' ),
 					'input_schema'     => array(
 						'type'       => 'object',
 						'required'   => array( 'area', 'component_id' ),
@@ -285,7 +285,7 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				array(
 					'write' => true,
 					'label'            => __( 'Update header/footer component settings', 'sydney' ),
-					'description'      => __( 'Set the content and functional settings of one header or footer builder component. Only curated settings are writable; the raw HTML component is not.', 'sydney' ),
+					'description'      => __( 'Set the content and functional settings of one header or footer builder component. Only curated settings are writable; the raw HTML component is not. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row.', 'sydney' ),
 					'input_schema'     => array(
 						'type'                 => 'object',
 						// Top-level only: reject any property other than the three below.

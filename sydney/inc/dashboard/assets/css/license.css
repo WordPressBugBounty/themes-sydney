@@ -1,0 +1,145 @@
+/**
+ * aThemes shared license UI — button loading spinner + result modal.
+ */
+
+/* Secondary license metadata (the plan level) shown inline after the status value — muted so
+   the semantic state color stays the only color signal on the row. */
+.athemes-license-level {
+	font-size: inherit;
+	font-weight: 400;
+	color: #646970;
+}
+
+/* Button loading state — keep the label visible and show the spinner after it. */
+.athemes-license-loading {
+	position: relative;
+	padding-right: 34px !important;
+	pointer-events: none;
+	opacity: 0.9;
+}
+
+.athemes-license-loading::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 12px;
+	width: 14px;
+	height: 14px;
+	margin-top: -7px;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	opacity: 0.75;
+	animation: athemes-license-spin 0.6s linear infinite;
+}
+
+@keyframes athemes-license-spin {
+	to {
+		transform: rotate( 360deg );
+	}
+}
+
+/* Result modal. */
+.athemes-modal-overlay {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba( 0, 0, 0, 0.5 );
+	z-index: 100000;
+}
+
+.athemes-modal {
+	position: relative;
+	width: calc( 100% - 40px );
+	max-width: 400px;
+	padding: 34px 28px 30px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 10px 40px rgba( 0, 0, 0, 0.2 );
+	text-align: center;
+	animation: athemes-modal-in 0.15s ease-out;
+	box-sizing: border-box;
+}
+
+.athemes-modal .athemes-modal__ok {
+	min-width: 83px;
+	border-radius: 4px;
+}
+
+.athemes-modal .athemes-modal__ok:focus {
+	box-shadow: none;
+	outline: none;
+} 
+
+.athemes-modal__actions {
+	display: flex;
+	justify-content: center;
+	margin-top: 22px;
+}
+
+@keyframes athemes-modal-in {
+	from {
+		opacity: 0;
+		transform: translateY( 8px );
+	}
+}
+
+.athemes-modal__icon {
+	position: relative;
+	width: 48px;
+	height: 48px;
+	margin: 0 auto 20px;
+	border-radius: 50%;
+}
+
+.athemes-modal--success .athemes-modal__icon {
+	background: #edfaef;
+}
+
+.athemes-modal--error .athemes-modal__icon {
+	background: #fcf0f1;
+}
+
+.athemes-modal--success .athemes-modal__icon::after {
+	content: "";
+	position: absolute;
+	left: 18px;
+	top: 11px;
+	width: 8px;
+	height: 16px;
+	border: solid #00a32a;
+	border-width: 0 3px 3px 0;
+	transform: rotate( 45deg );
+}
+
+.athemes-modal--error .athemes-modal__icon::before {
+	content: "";
+	position: absolute;
+	left: 22px;
+	top: 13px;
+	width: 4px;
+	height: 15px;
+	background: #d63638;
+	border-radius: 2px;
+}
+
+.athemes-modal--error .athemes-modal__icon::after {
+	content: "";
+	position: absolute;
+	left: 22px;
+	top: 32px;
+	width: 4px;
+	height: 4px;
+	background: #d63638;
+	border-radius: 50%;
+}
+
+.athemes-modal__message {
+	font-size: 15px;
+	line-height: 1.5;
+	color: #1d2327;
+	max-width: 90%;
+	margin: 0 auto;
+}

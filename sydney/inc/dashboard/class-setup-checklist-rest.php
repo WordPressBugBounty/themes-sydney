@@ -77,7 +77,7 @@ class Sydney_Setup_Checklist_REST {
 			return new WP_Error( 'sydney_setup_invalid', __( 'Checklist unavailable.', 'sydney' ), array( 'status' => 500 ) );
 		}
 
-		if ( ! $this->slug_is_valid( $slug ) ) {
+		if ( ! $checklist->has_item( $slug ) ) {
 			return new WP_Error( 'sydney_setup_unknown_item', __( 'Unknown checklist item.', 'sydney' ), array( 'status' => 404 ) );
 		}
 
@@ -106,18 +106,6 @@ class Sydney_Setup_Checklist_REST {
 
 		unset( $result['ok'] );
 		return rest_ensure_response( $result );
-	}
-
-	/**
-	 * Validate that the slug exists in the current item registry.
-	 */
-	private function slug_is_valid( $slug ) {
-		foreach ( Sydney_Setup_Checklist::instance()->items() as $category ) {
-			if ( isset( $category['items'][ $slug ] ) ) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
 

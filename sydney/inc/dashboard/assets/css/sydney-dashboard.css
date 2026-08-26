@@ -2,25 +2,135 @@
  * Theme Dashboard
  *
  */
-/* Dashboard color tokens (WP 7.0 "Modern" admin scheme) */
+/* Dashboard design tokens. Every custom property lives here; components read
+   them, they never declare their own. */
 body {
+  /* Color (WP 7.0 "Modern" admin scheme) */
   --sydney-dashboard-primary: var(--wp-admin-theme-color, #3858e9);
   --sydney-dashboard-primary-hover: var(--wp-admin-theme-color-darker-10, #2145e6);
   --sydney-dashboard-primary-tint: #ebeefd;
   --sydney-dashboard-primary-tint-light: #f5f7fe;
+  --sydney-dashboard-primary-tint-border: #d3daf9;
+  --sydney-dashboard-primary-tint-border-light: #dde3fa;
   --sydney-dashboard-success: #4ab866;
   --sydney-dashboard-success-hover: #3da556;
   --sydney-dashboard-success-tint: #eff9f1;
+  /* One red and one tint are authored; the state shades mix off them. */
   --sydney-dashboard-danger: #cc1818;
-  --sydney-dashboard-danger-hover: #a31313;
+  --sydney-dashboard-danger-hover: color-mix(in srgb, var(--sydney-dashboard-danger) 80%, #000);
   --sydney-dashboard-danger-tint: #fcf0f0;
-  --sydney-dashboard-danger-tint-hover: #f8e0e0;
+  --sydney-dashboard-danger-tint-hover: color-mix(in srgb, var(--sydney-dashboard-danger) 13.5%, #fff);
+  --sydney-dashboard-warning: #f6ca45;
+  --sydney-dashboard-info: #967be3;
   --sydney-dashboard-gray-900: #1e1e1e;
   --sydney-dashboard-gray-700: #757575;
   --sydney-dashboard-gray-600: #949494;
   --sydney-dashboard-gray-400: #cccccc;
   --sydney-dashboard-gray-300: #dddddd;
   --sydney-dashboard-gray-100: #f0f0f0;
+
+  /* Surface, text and border roles. Components reach for these, not for a gray
+     rung, so a palette change lands in one place. */
+  --sydney-dashboard-surface: #fff;
+  --sydney-dashboard-surface-sunken: #f7f7f7;
+  --sydney-dashboard-surface-sunken-light: #fafbfc;
+  --sydney-dashboard-on-accent: #fff;
+  --sydney-dashboard-border: var(--sydney-dashboard-gray-300);
+  --sydney-dashboard-border-subtle: var(--sydney-dashboard-gray-100);
+  --sydney-dashboard-border-strong: var(--sydney-dashboard-gray-400);
+
+  /* Scrims */
+  --sydney-dashboard-scrim: rgba(0, 0, 0, 0.5);
+  --sydney-dashboard-scrim-strong: rgba(0, 0, 0, 0.7);
+  --sydney-dashboard-scrim-light: rgba(255, 255, 255, 0.7);
+  --sydney-dashboard-veil-dark: rgba(30, 30, 30, 0.9);
+
+  /* Third-party brand */
+  --sydney-dashboard-brand-elementor: #92003b;
+
+  /* Radius */
+  --sydney-dashboard-radius-sm: 4px;
+  --sydney-dashboard-radius-md: 6px;
+  --sydney-dashboard-radius-lg: 8px;
+  --sydney-dashboard-radius-pill: 999px;
+  --sydney-dashboard-radius-circle: 50%;
+
+  /* Elevation. One tinted family - pure-black shadows read as grey haze over
+     the admin's off-white background. */
+  --sydney-dashboard-shadow-sm: 0 1px 2px rgba(28, 32, 40, 0.15);
+  --sydney-dashboard-shadow-md: 0 8px 16px rgba(28, 32, 40, 0.05);
+  --sydney-dashboard-shadow-card: 0 1px 2px rgba(28, 32, 40, 0.05), 0 10px 28px -20px rgba(28, 32, 40, 0.28);
+  --sydney-dashboard-shadow-popover: 0 18px 44px -14px rgba(28, 32, 40, 0.3), 0 2px 6px rgba(28, 32, 40, 0.06);
+  --sydney-dashboard-shadow-modal: 0 12px 48px rgba(28, 32, 40, 0.25);
+  --sydney-dashboard-shadow-sidebar: -10px 12px 14px rgba(28, 32, 40, 0.05);
+
+  /* Space (4px scale, index = multiplier) */
+  --sydney-dashboard-space-1: 4px;
+  --sydney-dashboard-space-2: 8px;
+  --sydney-dashboard-space-3: 12px;
+  --sydney-dashboard-space-4: 16px;
+  --sydney-dashboard-space-5: 20px;
+  --sydney-dashboard-space-6: 24px;
+  --sydney-dashboard-space-7: 28px;
+  --sydney-dashboard-space-8: 32px;
+  --sydney-dashboard-space-9: 36px;
+  --sydney-dashboard-space-10: 40px;
+  --sydney-dashboard-space-12: 48px;
+  --sydney-dashboard-space-15: 60px;
+  --sydney-dashboard-space-17: 68px;
+  --sydney-dashboard-space-26: 104px;
+  --sydney-dashboard-space-40: 160px;
+
+  /* Derived so a bleed can't drift from the padding it cancels */
+  --sydney-dashboard-space-1-neg: calc(-1 * var(--sydney-dashboard-space-1));
+  --sydney-dashboard-space-4-neg: calc(-1 * var(--sydney-dashboard-space-4));
+  --sydney-dashboard-space-5-neg: calc(-1 * var(--sydney-dashboard-space-5));
+  --sydney-dashboard-space-7-neg: calc(-1 * var(--sydney-dashboard-space-7));
+  --sydney-dashboard-space-8-neg: calc(-1 * var(--sydney-dashboard-space-8));
+  --sydney-dashboard-space-10-neg: calc(-1 * var(--sydney-dashboard-space-10));
+
+  /* Optical 1px corrections - off the scale on purpose */
+  --sydney-dashboard-nudge: 1px;
+  --sydney-dashboard-nudge-neg: calc(-1 * var(--sydney-dashboard-nudge));
+
+  /* Type */
+  --sydney-dashboard-font-size-xs: 11px;
+  --sydney-dashboard-font-size-sm: 12px;
+  --sydney-dashboard-font-size-base: 13px;
+  --sydney-dashboard-font-size-md: 14px;
+  --sydney-dashboard-font-size-lg: 16px;
+  --sydney-dashboard-font-size-xl: 18px;
+  --sydney-dashboard-font-size-2xl: 20px;
+  --sydney-dashboard-font-size-3xl: 24px;
+  --sydney-dashboard-font-weight-normal: 400;
+  --sydney-dashboard-font-weight-medium: 500;
+  --sydney-dashboard-font-weight-semibold: 600;
+  --sydney-dashboard-font-weight-bold: 700;
+  --sydney-dashboard-line-height-tight: 1.2;
+  --sydney-dashboard-line-height-snug: 1.4;
+
+  /* Motion */
+  --sydney-dashboard-duration-fast: 150ms;
+  --sydney-dashboard-duration-base: 200ms;
+  --sydney-dashboard-duration-slow: 300ms;
+  --sydney-dashboard-ease-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layers. Only the page-level stacking order is tokenised; the 1 and 2 that
+     order children inside a component stay local to it. */
+  --sydney-dashboard-z-dropdown: 30;
+  --sydney-dashboard-z-sidebar: 1000;
+  --sydney-dashboard-z-overlay: 9999;
+  --sydney-dashboard-z-modal: 999999;
+
+  /* Layout */
+  --sydney-dashboard-container-max: 1280px;
+  --sydney-dashboard-card-min: 320px;
+  --sydney-dashboard-admin-bar-height: 32px;
+
+  /* Template part icon box size, and that size plus the gap to the text, which
+     is what .part-icon turns into its right margin. */
+  --sydney-dashboard-part-icon-size: 36px;
+  --sydney-dashboard-part-icon-offset: 50px;
 }
 /* Color hooks for inline SVGs that use fill="currentColor" or stroke="currentColor" */
 .sydney-svg-accent {
@@ -37,7 +147,7 @@ body {
   width: 100%;
 }
 .sydney-dashboard .atss-demo-name {
-  font-size: 16px !important;
+  font-size: var(--sydney-dashboard-font-size-lg) !important;
 }
 .sydney-dashboard .atss-demo-data {
   flex-direction: column;
@@ -64,8 +174,20 @@ body {
   object-fit: cover;
   object-position: top;
 }
+.sydney-dashboard .atss-demo-item {
+  border: 2px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-lg);
+}
+/* Restates the plugin's imported outline, which the shorthand above outranks. */
+.sydney-dashboard .atss-demo-item-imported {
+  border-color: var(--sydney-dashboard-primary);
+}
+/* Nests inside the 2px border, so it sits a step below the card's radius. */
+.sydney-dashboard .atss-demo-image img {
+  border-radius: var(--sydney-dashboard-radius-md) var(--sydney-dashboard-radius-md) 0 0;
+}
 
-/* Helpers */
+/* Helpers. All !important by design. px-named classes are deprecated aliases. */
 .bt-m-0 {
   margin: 0 !important;
 }
@@ -74,24 +196,26 @@ body {
   margin-top: 0 !important;
 }
 
-.bt-mt-10px {
-  margin-top: 10px !important;
+.bt-mt-2 {
+  margin-top: var(--sydney-dashboard-space-2) !important;
 }
 
+.bt-mt-5,
 .bt-mt-20px {
-  margin-top: 20px !important;
+  margin-top: var(--sydney-dashboard-space-5) !important;
 }
 
 .bt-mb-0 {
   margin-bottom: 0 !important;
 }
 
-.bt-mb-10px {
-  margin-bottom: 10px !important;
+.bt-mb-2 {
+  margin-bottom: var(--sydney-dashboard-space-2) !important;
 }
 
+.bt-mb-5,
 .bt-mb-20px {
-  margin-bottom: 20px !important;
+  margin-bottom: var(--sydney-dashboard-space-5) !important;
 }
 
 .bt-pt-0 {
@@ -99,7 +223,7 @@ body {
 }
 
 .bt-p-relative {
-  position: relative;
+  position: relative !important;
 }
 
 .bt-d-none {
@@ -107,31 +231,39 @@ body {
 }
 
 .bt-d-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: flex !important;
 }
 .bt-d-block {
   display: block !important;
 }
 .bt-justify-content-between {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+          justify-content: space-between !important;
 }
 
 .bt-align-items-center {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+          align-items: center !important;
+}
+
+.bt-align-items-end {
+          align-items: flex-end !important;
+}
+
+.bt-flex-center {
+  display: flex !important;
+          align-items: center !important;
+}
+
+.bt-inline-flex-center {
+  display: inline-flex !important;
+          align-items: center !important;
 }
 
 .bt-zindex-2 {
-  z-index: 2;
+  z-index: 2 !important;
 }
 
 .bt-font-weight-500 {
-  font-weight: 500;
+  font-weight: var(--sydney-dashboard-font-weight-medium) !important;
 }
 
 .bt-border-color-primary {
@@ -143,78 +275,59 @@ body {
 }
 
 /* Animations */
-@-webkit-keyframes sydney-spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
 @keyframes sydney-spin {
   100% {
-    -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
 }
 
 /* Grid */
 .sydney-dashboard-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  gap: 20px;
+  gap: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-column {
-  -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
 }
 
 @media (min-width: 768px) {
   .sydney-dashboard-column.sydney-dashboard-column-4 {
-    -ms-flex-preferred-size: calc( 50% - 10px);
         flex-basis: calc( 50% - 10px);
   }
 }
 
 @media (min-width: 1025px) {
   .sydney-dashboard-column.sydney-dashboard-column-2 {
-    -ms-flex-preferred-size: calc( 16.6666% - 10px);
         flex-basis: calc( 16.6666% - 10px);
   }
   .sydney-dashboard-column.sydney-dashboard-column-3 {
-    -ms-flex-preferred-size: calc( 30% - 10px);
         flex-basis: calc( 30% - 10px);
   }
   .sydney-dashboard-column.sydney-dashboard-column-4 {
-    -ms-flex-preferred-size: calc( 33.333333% - 14px);
         flex-basis: calc( 33.333333% - 14px);
   }
   .sydney-dashboard-column.sydney-dashboard-column-9 {
-    -ms-flex-preferred-size: calc( 70% - 10px);
         flex-basis: calc( 70% - 10px);
   }
   .sydney-dashboard-column.sydney-dashboard-column-10 {
-    -ms-flex-preferred-size: calc( 83.333% - 10px);
         flex-basis: calc( 83.333% - 10px);
   }
 }
 
 @media (min-width: 1600px) {
   .sydney-dashboard-column.sydney-dashboard-column-3 {
-    -ms-flex-preferred-size: calc( 25% - 10px);
         flex-basis: calc( 25% - 10px);
   }
   .sydney-dashboard-column.sydney-dashboard-column-9 {
-    -ms-flex-preferred-size: calc( 75% - 10px);
         flex-basis: calc( 75% - 10px);
   }
 }
 
 /* Hide Notices */
 #wpbody-content {
-  padding-bottom: 25px;
+  padding-bottom: var(--sydney-dashboard-space-6);
 }
 
 #wpbody-content .notice {
@@ -223,19 +336,16 @@ body {
 
 /* General */
 .sydney-dashboard {
-  padding: 20px 20px 20px 0px;
-  -webkit-box-sizing: border-box;
+  padding: var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5) 0;
           box-sizing: border-box;
 }
 
 .sydney-dashboard * {
-  -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 
 .sydney-dashboard * *:before,
 .sydney-dashboard * *:after {
-  -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 
@@ -253,43 +363,55 @@ body {
 }
 
 .sydney-dashboard .button {
-  padding: 12px 24px;
-  font-size: 14px;
+  padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-6);
+  font-size: var(--sydney-dashboard-font-size-md);
   line-height: 20px;
   margin-bottom: 0;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   text-align: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
 }
 
 .sydney-dashboard .button:focus {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .sydney-dashboard .button .dashicons {
-  margin-right: 2px;
+  margin-right: var(--sydney-dashboard-space-1);
+}
+
+/* Core's branch-7 rule paints button dashicons with the admin accent. */
+body.wp-core-ui .sydney-dashboard .button .dashicons {
+  color: inherit;
+}
+
+/*
+* WP 7.0 sets `line-height: 1.9` on Dashicons inside admin buttons
+* (wp-includes/css/buttons.css), a ratio tuned for the icon's native 20px
+* font-size. Dashboard icons inherit the button's font-size instead, so 1.9
+* yields a line box taller than the button's own text line and the button grows
+* when a spinner is injected. Mirror core's selector list so the icon always
+* sits on the button's line: same specificity as core, printed later.
+*/
+.sydney-dashboard .button .dashicons,
+.sydney-dashboard .button-primary .dashicons,
+.sydney-dashboard .button-secondary .dashicons {
+  line-height: inherit;
 }
 
 .sydney-dashboard .button-medium {
-  padding: 8px 16px;
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-4);
 }
 
 .sydney-dashboard .button-primary {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-primary);
   background-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard .button-primary:hover, .sydney-dashboard .button-primary:focus, .sydney-dashboard .button-primary:active {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-primary-hover);
   background-color: var(--sydney-dashboard-primary-hover);
 }
@@ -297,7 +419,7 @@ body {
 .sydney-dashboard .button-secondary {
   color: var(--sydney-dashboard-primary);
   border-color: var(--sydney-dashboard-primary);
-  background-color: #fff;
+  background-color: var(--sydney-dashboard-surface);
 }
 
 .sydney-dashboard .button-secondary:hover, .sydney-dashboard .button-secondary:focus, .sydney-dashboard .button-secondary:active {
@@ -307,13 +429,13 @@ body {
 }
 
 .sydney-dashboard .button-warning {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-danger);
   background-color: var(--sydney-dashboard-danger);
 }
 
 .sydney-dashboard .button-warning:hover, .sydney-dashboard .button-warning:focus, .sydney-dashboard .button-warning:active {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-danger-hover);
   background-color: var(--sydney-dashboard-danger-hover);
 }
@@ -321,27 +443,22 @@ body {
 .sydney-dashboard .button-simple {
   color: var(--sydney-dashboard-primary);
   text-decoration: none;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  grid-gap: 4px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  gap: var(--sydney-dashboard-space-1);
           align-items: center;
 }
 
 .sydney-dashboard .button-simple:focus {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .sydney-dashboard .button-simple span {
-  font-weight: 500;
+  font-weight: var(--sydney-dashboard-font-weight-medium);
   text-decoration: underline;
 }
 
 .sydney-dashboard .button-simple i {
-  font-size: 14px;
+  font-size: var(--sydney-dashboard-font-size-md);
 }
 
 .sydney-dashboard .button-text {
@@ -352,12 +469,11 @@ body {
 }
 
 .sydney-dashboard .button-text i {
-  font-size: 18px;
+  font-size: var(--sydney-dashboard-font-size-xl);
   line-height: 24px;
 }
 
 .sydney-dashboard .button-text:focus {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
@@ -369,7 +485,7 @@ body {
 }
 
 .sydney-dashboard .button-info i {
-  font-size: 18px;
+  font-size: var(--sydney-dashboard-font-size-xl);
   line-height: 24px;
 }
 
@@ -378,26 +494,23 @@ body {
 }
 
 .sydney-dashboard .button-info:focus {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .sydney-dashboard .button-disabled {
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   pointer-events: none;
 }
 
 .sydney-dashboard .button-pro-support {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-success);
   background-color: var(--sydney-dashboard-success);
 }
 
 .sydney-dashboard .button-pro-support:hover, .sydney-dashboard .button-pro-support:focus, .sydney-dashboard .button-pro-support:active {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   border-color: var(--sydney-dashboard-success-hover);
   background-color: var(--sydney-dashboard-success-hover);
 }
@@ -414,26 +527,37 @@ body {
   font-size: inherit;
 }
 
+/*
+* Same class of bug as the button mirror rule above, but the trigger here is
+* core's own `.dashicons { line-height: 1; }` (wp-includes/css/dashicons.css),
+* not the WP 7.0 button rule. `.sydney-dashboard-link` sets its own font-size
+* /line-height pair per context (e.g. 13px/20px on feature-card actions); the
+* icon's font-size already inherits that via the rule above, but with no
+* line-height declared here the icon falls back to core's 1, collapsing the
+* row when a spinner replaces the link's text. Inherit the link's own
+* line-height instead so swapping text for an icon never changes row height.
+*/
+.sydney-dashboard .sydney-dashboard-link .dashicons {
+  line-height: inherit;
+}
+
 .sydney-dashboard .dashicons-update-alt {
-  -webkit-animation: sydney-spin 4s linear infinite;
           animation: sydney-spin 4s linear infinite;
-  margin-right: 4px;
+  margin-right: var(--sydney-dashboard-space-1);
 }
 
 .sydney-ajax-progress {
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   pointer-events: none;
 }
 
 .sydney-dashboard-badge {
   color: var(--sydney-dashboard-gray-600);
-  padding: 3px 6px;
-  border: 1px solid var(--sydney-dashboard-gray-300);
-  border-radius: 2px;
-  font-weight: 700;
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-1);
+  border: 1px solid var(--sydney-dashboard-border);
+  border-radius: var(--sydney-dashboard-radius-sm);
+  font-weight: var(--sydney-dashboard-font-weight-bold);
 }
 
 .sydney-dashboard-badge.sydney-dashboard-badge-pro {
@@ -442,15 +566,10 @@ body {
 }
 
 .sydney-dashboard-link {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
   text-decoration: none;
-  -webkit-transition: ease color 300ms, ease opacity 300ms;
-  transition: ease color 300ms, ease opacity 300ms;
+  transition: ease color var(--sydney-dashboard-duration-slow), ease opacity var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dashboard-link.sydney-dashboard-link-danger {
@@ -466,31 +585,38 @@ body {
   opacity: 0.7;
 }
 
+/* Doubled class + !important to beat .sydney-dashboard-link-info. */
+.sydney-dashboard-link.sydney-dashboard-customize-link {
+  color: var(--sydney-dashboard-gray-700) !important;
+}
+
+.sydney-dashboard-link.sydney-dashboard-customize-link:hover,
+.sydney-dashboard-link.sydney-dashboard-customize-link:focus,
+.sydney-dashboard-link.sydney-dashboard-customize-link:active {
+  color: var(--sydney-dashboard-primary) !important;
+}
+
 .sydney-dashboard-link.loading {
   outline: none;
   text-decoration: none;
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .sydney-dashboard-external-link {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  gap: 8px;
-  font-size: 13px;
+  gap: var(--sydney-dashboard-space-2);
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 13px;
-  font-weight: 500;
+  font-weight: var(--sydney-dashboard-font-weight-medium);
   color: var(--sydney-dashboard-primary);
   white-space: nowrap;
   text-decoration: none;
-  -webkit-transition: ease opacity 300ms;
-  transition: ease opacity 300ms;
+  transition: ease opacity var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dashboard-external-link svg {
   position: relative;
-  top: 1px;
+  top: -1px;
 }
 
 .sydney-dashboard-external-link:hover, .sydney-dashboard-external-link:focus, .sydney-dashboard-external-link:active {
@@ -508,18 +634,16 @@ body {
   position: absolute;
   bottom: calc( 100% + 11px);
   left: 50%;
-  color: #FFF;
-  font-size: 11px;
+  color: var(--sydney-dashboard-on-accent);
+  font-size: var(--sydney-dashboard-font-size-xs);
   line-height: 16px;
-  padding: 3px 6px;
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-1);
   background-color: var(--sydney-dashboard-gray-900);
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate3d(-50%, 6px, 0);
           transform: translate3d(-50%, 6px, 0);
-  -webkit-transition: ease opacity 300ms, ease transform 300ms;
-  transition: ease opacity 300ms, ease transform 300ms;
+  transition: ease opacity var(--sydney-dashboard-duration-slow), ease transform var(--sydney-dashboard-duration-slow);
   z-index: 2;
 }
 
@@ -535,27 +659,20 @@ body {
   border-color: var(--sydney-dashboard-gray-900) transparent transparent transparent;
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate3d(-50%, 6px, 0);
           transform: translate3d(-50%, 6px, 0);
-  -webkit-transition: ease opacity 300ms, ease transform 300ms;
-  transition: ease opacity 300ms, ease transform 300ms;
+  transition: ease opacity var(--sydney-dashboard-duration-slow), ease transform var(--sydney-dashboard-duration-slow);
   z-index: 2;
 }
 
 .sydney-dashboard-pro-tooltip:hover:before, .sydney-dashboard-pro-tooltip:hover:after {
   opacity: 1;
   visibility: visible;
-  -webkit-transform: translate3d(-50%, 0, 0);
           transform: translate3d(-50%, 0, 0);
 }
 
 .sydney-dashboard-activate-button,
 .sydney-dashboard-deactivate-button {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
 }
 
@@ -570,26 +687,23 @@ body {
 }
 
 .sydney-dahsboard-modules-global-actions {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  gap: 10px;
+  gap: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all {
-  padding: 4px 12px;
-  font-size: 14px;
-  font-weight: 400;
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-3);
+  font-size: var(--sydney-dashboard-font-size-md);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
   line-height: 20px;
-  border: 1px solid #CCC;
-  border-radius: 4px;
+  border: 1px solid var(--sydney-dashboard-border-strong);
+  border-radius: var(--sydney-dashboard-radius-sm);
   text-decoration: none;
-  -webkit-transition: ease color 300ms, ease background-color 300ms;
-  transition: ease color 300ms, ease background-color 300ms;
+  transition: ease color var(--sydney-dashboard-duration-slow), ease background-color var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dahsboard-modules-global-actions .sydney-dashboard-module-activation-all.sydney-dahsboard-modules-activate-all {
-  color: #FFF;
+  color: var(--sydney-dashboard-on-accent);
   background-color: var(--sydney-dashboard-success);
   border-color: var(--sydney-dashboard-success);
 }
@@ -610,88 +724,59 @@ body {
 
 /* sydney Dashboard Top Bar */
 .sydney-dashboard-top-bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
           justify-content: space-between;
-  background-color: #FFF;
-  margin: -20px -20px 20px -20px;
-  padding: 18px 20px;
-}
-
-.sydney-dashboard-top-bar .sydney-dashboard-top-bar-infos {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  background-color: var(--sydney-dashboard-surface);
+  margin: var(--sydney-dashboard-space-5-neg) var(--sydney-dashboard-space-5-neg) var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5-neg);
+  padding: var(--sydney-dashboard-space-4) var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-top-bar-infos .sydney-dashboard-top-bar-info-item {
-  padding: 0 10px;
+  padding: 0 var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-top-bar-infos .sydney-dashboard-top-bar-info-item + .sydney-dashboard-top-bar-info-item {
-  border-left: 1px solid var(--sydney-dashboard-gray-100);
+  border-left: 1px solid var(--sydney-dashboard-border-subtle);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-version {
-  font-size: 13px;
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 13px;
   color: var(--sydney-dashboard-gray-600);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-version .sydney-dashboard-badge {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  margin-left: 5px;
+  margin-left: var(--sydney-dashboard-space-1);
   font-size: 9px;
   line-height: 10px;
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-notifications {
   position: relative;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
   width: 27px;
   height: 27px;
-  border: 1px solid var(--sydney-dashboard-gray-300);
-  border-radius: 35px;
+  border: 1px solid var(--sydney-dashboard-border);
+  border-radius: var(--sydney-dashboard-radius-pill);
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-notifications .sydney-dashboard-notifications-count {
   position: absolute;
   top: -8px;
   right: -7px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
   width: 16px;
   height: 16px;
-  color: #FFF;
+  color: var(--sydney-dashboard-on-accent);
   background-color: var(--sydney-dashboard-danger);
-  border-radius: 35px;
-  font-size: 10px;
+  border-radius: var(--sydney-dashboard-radius-pill);
+  font-size: var(--sydney-dashboard-font-size-xs);
   line-height: 1;
 }
 
@@ -700,14 +785,10 @@ body {
 }
 
 .sydney-dashboard-top-bar .sydney-dashboard-theme-website {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: var(--sydney-dashboard-space-2);
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 16px;
   color: var(--sydney-dashboard-primary);
   text-decoration: none;
@@ -715,50 +796,65 @@ body {
 
 /* sydney Dashboard Tabs Nav Items */
 .sydney-dashboard-tabs-nav {
-  padding: 0 20px;
+  padding: 0 var(--sydney-dashboard-space-5);
   margin-bottom: -100%;
-  -webkit-transform: translate3d(0, 100%, 0);
           transform: translate3d(0, 100%, 0);
 }
 
 .sydney-dashboard-tabs-nav ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
+  position: relative;
   display: flex;
   padding: 0;
 }
 
-.sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link {
-  position: relative;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 16px;
-  color: #6D7175;
-  text-decoration: none;
-  -webkit-transition: ease color 300ms;
-  transition: ease color 300ms;
-  outline: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link:after {
+/* Top, offset and width are measured from the active link by sydney-dashboard.js;
+   top lands the bar on .sydney-dashboard-card-tabs-divider, so both stay 2px. */
+.sydney-dashboard-tabs-nav ul:after {
   content: '';
   position: absolute;
-  bottom: 0;
+  top: var(--sydney-dashboard-tabs-indicator-top, 100%);
   left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: transparent;
-  border-radius: 4px 4px 0 0;
+  width: var(--sydney-dashboard-tabs-indicator-width, 0);
+  height: 2px;
+  background-color: var(--sydney-dashboard-primary);
+          transform: translate3d(var(--sydney-dashboard-tabs-indicator-offset, 0), 0, 0);
+  opacity: 0;
+}
+
+.sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-indicator-ready ul:after {
+  opacity: 1;
+  transition: ease transform var(--sydney-dashboard-duration-base), ease width var(--sydney-dashboard-duration-base), ease opacity var(--sydney-dashboard-duration-base);
+}
+
+.sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link {
+  position: relative;
+  font-size: var(--sydney-dashboard-font-size-md);
+  line-height: 20px;
+  padding: var(--sydney-dashboard-space-4);
+  color: var(--sydney-dashboard-gray-700);
+  text-decoration: none;
+  transition: ease color var(--sydney-dashboard-duration-slow);
+  outline: none;
+          box-shadow: none;
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link {
   color: var(--sydney-dashboard-primary);
 }
 
+/* Stands in for the sliding bar until the script has measured it. */
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
   background-color: var(--sydney-dashboard-primary);
+}
+
+.sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-indicator-ready .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:after {
+  content: none;
 }
 
 .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link {
@@ -767,32 +863,26 @@ body {
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--sydney-dashboard-font-size-xl);
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
   line-height: 26px;
-  padding: 6px 16px;
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-4);
   border-bottom: 0;
   color: var(--sydney-dashboard-gray-900);
-  -webkit-transition: ease color 200ms;
-  transition: ease color 200ms;
+  transition: ease color var(--sydney-dashboard-duration-base);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link svg {
-  margin-right: 8px;
+  margin-right: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link svg path {
-  -webkit-transition: ease fill 200ms;
-  transition: ease fill 200ms;
+  transition: ease fill var(--sydney-dashboard-duration-base);
 }
 
-.sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item .sydney-dashboard-tabs-nav-link:after {
+.sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons ul:after, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link:after {
   content: none;
 }
 
@@ -804,11 +894,10 @@ body {
   background-color: transparent;
   width: 4px;
   height: 100%;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--sydney-dashboard-radius-sm) var(--sydney-dashboard-radius-sm) 0;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: ease opacity 200ms;
-  transition: ease opacity 200ms;
+  transition: ease opacity var(--sydney-dashboard-duration-base);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item.active .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:hover .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:focus .sydney-dashboard-tabs-nav-link, .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-with-icons .sydney-dashboard-tabs-nav-item:active .sydney-dashboard-tabs-nav-link {
@@ -827,20 +916,16 @@ body {
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-vertical {
   padding: 0;
-  margin-left: -20px;
+  margin-left: var(--sydney-dashboard-space-5-neg);
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-vertical ul {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
   margin: 0;
 }
 
 .sydney-dashboard-tabs-nav.sydney-dashboard-tabs-nav-no-negative-margin {
   margin-bottom: 0;
-  -webkit-transform: none;
           transform: none;
 }
 
@@ -855,24 +940,19 @@ body {
 
 /* sydney Dashboard Card */
 .sydney-dashboard-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
-  gap: 20px;
-  background-color: #FFF;
-  padding: 20px;
-  border: 1px solid var(--sydney-dashboard-gray-100);
-  border-radius: 4px;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
-          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+  gap: var(--sydney-dashboard-space-3);
+  background-color: var(--sydney-dashboard-surface);
+  padding: var(--sydney-dashboard-space-5);
+  border-radius: var(--sydney-dashboard-radius-md);
+          box-shadow: var(--sydney-dashboard-shadow-sm);
 }
 
-.sydney-dashboard-card .sydney-dashboard-card-header h2 {
-  font-size: 20px;
+.sydney-dashboard-card .sydney-dashboard-card-header h2,
+.sydney-dashboard-card-section h2,
+.sydney-dashboard-module-card h2 {
+  font-size: var(--sydney-dashboard-font-size-lg);
   line-height: 30px;
   margin: 0;
 }
@@ -883,29 +963,28 @@ body {
 }
 
 .sydney-dashboard-card .sydney-dashboard-card-body p + p {
-  margin-top: 15px;
+  margin-top: var(--sydney-dashboard-space-4);
 }
 
 .sydney-dashboard-card .sydney-dashboard-card-body p + a {
-  margin-top: 20px;
+  margin-top: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-card .sydney-dashboard-card-body.sydney-dashboard-card-body-content-with-dividers > div + div {
-  padding-top: 25px;
-  margin-top: 25px;
-  border-top: 1px solid #D9D9D9;
+  padding-top: var(--sydney-dashboard-space-6);
+  margin-top: var(--sydney-dashboard-space-6);
+  border-top: 1px solid var(--sydney-dashboard-border);
 }
 
 .sydney-dashboard-card + .sydney-dashboard-card {
-  margin-top: 20px;
+  margin-top: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-card.sydney-dashboard-card-top-spacing {
-  padding: 106px 20px 20px 20px;
+  padding: var(--sydney-dashboard-space-26) var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-card.sydney-dashboard-card-no-box-shadow {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
@@ -916,17 +995,18 @@ body {
 .sydney-dashboard-card.sydney-dashboard-card-tabs-divider:before {
   content: '';
   position: absolute;
+  /* Lands the line on the tabs indicator, which the script measures off the active link. */
   top: 73px;
   left: 20px;
   width: calc( 100% - 40px);
-  border-bottom: 1px solid var(--sydney-dashboard-gray-100);
+  border-bottom: 2px solid var(--sydney-dashboard-border-subtle);
 }
 
 /* sydney Dashboard Notice */
 .sydney-dashboard-notice {
   display: none;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-notice.show {
@@ -939,18 +1019,12 @@ body {
   z-index: 1;
   top: 0;
   right: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
   width: 38px;
   height: 38px;
-  font-size: 16px;
+  font-size: var(--sydney-dashboard-font-size-lg);
   line-height: 1em;
   color: var(--sydney-dashboard-gray-600);
 }
@@ -962,39 +1036,34 @@ body {
 /* Notifications Sidebar */
 .sydney-dashboard-notifications-sidebar {
   position: fixed;
-  top: calc( 32px + 64px);
+  top: calc(var(--sydney-dashboard-admin-bar-height) + 64px);
   right: 0;
   width: 100%;
   max-width: 500px;
   height: calc( 100vh - 92px);
-  background-color: #FFF;
-  -webkit-box-shadow: -10px 12px 14px rgba(0, 0, 0, 0.05);
-          box-shadow: -10px 12px 14px rgba(0, 0, 0, 0.05);
+  background-color: var(--sydney-dashboard-surface);
+          box-shadow: var(--sydney-dashboard-shadow-sidebar);
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0);
-  -webkit-transition: ease transform 300ms, ease opacity 300ms;
-  transition: ease transform 300ms, ease opacity 300ms;
-  z-index: 1000;
-  transition: all 0.3s;
+  transition: ease transform var(--sydney-dashboard-duration-slow), ease opacity var(--sydney-dashboard-duration-slow);
+  z-index: var(--sydney-dashboard-z-sidebar);
+  transition: all var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dashboard-notifications-sidebar.scrolled {
-  top: 32px !important;
+  top: var(--sydney-dashboard-admin-bar-height) !important;
   height: 100%;
 }
 
 .sydney-dashboard-notifications-sidebar.opened {
   opacity: 1;
   visibility: visible;
-  -webkit-transform: none;
           transform: none;
 }
 
 .sydney-dashboard-notifications-sidebar.closing {
   opacity: 0;
-  -webkit-transform: translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0);
 }
 
@@ -1002,8 +1071,7 @@ body {
   position: absolute;
   top: 15px;
   right: 15px;
-  -webkit-transition: ease opacity 300ms;
-  transition: ease opacity 300ms;
+  transition: ease opacity var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-close:hover {
@@ -1011,32 +1079,22 @@ body {
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  gap: 10px;
-  background-color: #EAEEF2;
-  padding: 20px 22px;
+  gap: var(--sydney-dashboard-space-2);
+  background-color: var(--sydney-dashboard-primary-tint);
+  padding: var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header .sydney-dashboard-notifications-sidebar-header-icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: #FFF;
-  border: 1px solid #EBEDEF;
-  border-radius: 35px;
+  background-color: var(--sydney-dashboard-surface);
+  border: 1px solid var(--sydney-dashboard-border);
+  border-radius: var(--sydney-dashboard-radius-pill);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header .sydney-dashboard-notifications-sidebar-header-icon svg {
@@ -1045,14 +1103,14 @@ body {
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header .sydney-dashboard-notifications-sidebar-header-content h3 {
-  font-size: 16px;
+  font-size: var(--sydney-dashboard-font-size-lg);
   line-height: 26px;
-  font-weight: 600;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
   margin: 0;
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-header .sydney-dashboard-notifications-sidebar-header-content p {
-  font-size: 13px;
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 18px;
   color: var(--sydney-dashboard-gray-700);
   margin: 0;
@@ -1068,7 +1126,7 @@ body {
   bottom: -10px;
   left: 20px;
   width: calc( 100% - 40px);
-  border-bottom: 1px solid var(--sydney-dashboard-gray-100);
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-tabs + .sydney-dashboard-notifications-sidebar-body {
@@ -1076,7 +1134,7 @@ body {
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-body {
-  padding: 20px;
+  padding: var(--sydney-dashboard-space-5);
   overflow-y: auto;
   max-height: calc( 100vh - 180px);
 }
@@ -1086,36 +1144,36 @@ body {
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-body::-webkit-scrollbar-track {
-  background: #e2e2e2;
+  background: var(--sydney-dashboard-gray-300);
 }
 
 .sydney-dashboard-notifications-sidebar .sydney-dashboard-notifications-sidebar-body::-webkit-scrollbar-thumb {
-  background-color: #CCC;
+  background-color: var(--sydney-dashboard-gray-400);
 }
 
 /* Notifications (card) */
 .sydney-dashboard-notification .sydney-dashboard-notification-date {
   display: block;
-  font-size: 13px;
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 18px;
   color: var(--sydney-dashboard-gray-700);
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-date + .sydney-dashboard-notification-content {
-  margin-top: 20px;
+  margin-top: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-notification .changelog-tag {
   display: inline-block;
-  font-size: 10px;
+  font-size: var(--sydney-dashboard-font-size-xs);
   line-height: 18px;
-  color: #FFF;
-  padding: 0px 10px;
-  background-color: #CCC;
-  border-radius: 3px;
+  color: var(--sydney-dashboard-on-accent);
+  padding: 0 var(--sydney-dashboard-space-2);
+  background-color: var(--sydney-dashboard-gray-400);
+  border-radius: var(--sydney-dashboard-radius-sm);
   text-transform: uppercase;
-  font-weight: 600;
-  margin: 6px 10px 0 0;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  margin: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-2) 0 0;
   min-width: 70px;
   text-align: center;
 }
@@ -1125,11 +1183,11 @@ body {
 }
 
 .sydney-dashboard-notification .changelog-tag.changelog-changed {
-  background-color: #F6CA45;
+  background-color: var(--sydney-dashboard-warning);
 }
 
 .sydney-dashboard-notification .changelog-tag.changelog-fixed {
-  background-color: #967BE3;
+  background-color: var(--sydney-dashboard-info);
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-content li:has(.changelog-fixed) {
@@ -1138,11 +1196,11 @@ body {
 
 .sydney-dashboard-notification .changelog-description {
   display: block;
-  font-size: 13px;
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 21px;
-  font-weight: 400;
+  font-weight: var(--sydney-dashboard-font-weight-normal);
   color: var(--sydney-dashboard-gray-700);
-  margin-top: 5px;
+  margin-top: var(--sydney-dashboard-space-1);
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-content ul {
@@ -1150,83 +1208,64 @@ body {
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-content ul li {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
           align-items: flex-start;
-  font-size: 16px;
+  font-size: var(--sydney-dashboard-font-size-lg);
   line-height: 26px;
-  color: #101517;
+  color: var(--sydney-dashboard-gray-900);
 }
 
 .sydney-dashboard-notification .sydney-dashboard-notification-content ul li + li {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #E7E7E7;
+  margin-top: var(--sydney-dashboard-space-4);
+  padding-top: var(--sydney-dashboard-space-4);
+  border-top: 1px solid var(--sydney-dashboard-border);
 }
 
 .sydney-dashboard-notification + .sydney-dashboard-notification {
-  margin: 20px -20px 0px;
-  padding: 20px 20px 0px;
-  border-top: 1px solid #E7E7E7;
+  margin: var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5-neg) 0;
+  padding: var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-5) 0;
+  border-top: 1px solid var(--sydney-dashboard-border);
 }
 
 /* sydney Dashboard Hero */
 .sydney-dashboard-hero {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
           justify-content: space-between;
-  background-color: #FFF;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  background-color: var(--sydney-dashboard-surface);
+  border-radius: var(--sydney-dashboard-radius-sm);
+  margin-bottom: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-content {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
           flex: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
           align-items: flex-start;
-  padding: 30px 24px;
+  padding: var(--sydney-dashboard-space-7) var(--sydney-dashboard-space-6);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-hello {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
   color: var(--sydney-dashboard-gray-900);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-title {
   font-size: 2rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  line-height: var(--sydney-dashboard-line-height-tight);
   color: var(--sydney-dashboard-gray-900);
-  margin-top: 16px;
+  margin-top: var(--sydney-dashboard-space-4);
 }
 
 .sydney-dashboard-hero-badge {
-  font-size: 12px;
+  font-size: var(--sydney-dashboard-font-size-sm);
   line-height: 1em;
-  font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 50px;
+  font-weight: var(--sydney-dashboard-font-weight-medium);
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-2);
+  border-radius: var(--sydney-dashboard-radius-pill);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -1237,69 +1276,50 @@ body {
 }
 
 .sydney-dashboard-hero-badge-pro {
-  color: #fff;
+  color: var(--sydney-dashboard-on-accent);
   background-color: var(--sydney-dashboard-primary);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-desc {
   color: var(--sydney-dashboard-gray-900);
-  margin-top: 12px;
+  margin-top: var(--sydney-dashboard-space-3);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-customize-button {
-  margin-top: 24px;
+  margin-top: var(--sydney-dashboard-space-6);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-actions {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  grid-gap: 10px;
-  margin-top: 25px;
+  gap: var(--sydney-dashboard-space-2);
+  margin-top: var(--sydney-dashboard-space-6);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-actions .button {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  grid-gap: 4px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  gap: var(--sydney-dashboard-space-1);
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  padding: 12px 18px;
+  padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-4);
   line-height: 1em;
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-button {
   text-decoration: none;
-  padding: 12px 18px;
-  border-radius: 2px;
+  padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-4);
+  border-radius: var(--sydney-dashboard-radius-sm);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-warning {
   color: var(--sydney-dashboard-danger);
-  margin-top: 10px;
-}
-
-.sydney-dashboard-hero .sydney-dashboard-hero-notion {
-  color: #697b96;
-  margin-top: 10px;
+  margin-top: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-image {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
           justify-content: flex-end;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
           align-items: flex-end;
-  margin: 15px 38px 0 38px;
+  margin: var(--sydney-dashboard-space-4) var(--sydney-dashboard-space-9) 0 var(--sydney-dashboard-space-9);
 }
 
 .sydney-dashboard-hero .sydney-dashboard-hero-image img {
@@ -1308,23 +1328,17 @@ body {
 
 /* sydney Dashboard Feature Card */
 .sydney-dashboard-feature-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
   position: relative;
-  padding: 20px;
-  border: 2px solid var(--sydney-dashboard-gray-100);
-  border-radius: 4px;
+  padding: var(--sydney-dashboard-space-4);
+  border: 2px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-lg);
   height: 100%;
-  transition: ease box-shadow 300ms;
+  transition: ease box-shadow var(--sydney-dashboard-duration-slow);
 }
 .sydney-dashboard-feature-card:hover {
-  -webkit-box-shadow: 0px 8px 12px 0px rgba(240,240,241,0.7);
-  box-shadow: 0px 8px 12px 0px rgba(240,240,241,0.7);
+  box-shadow: var(--sydney-dashboard-shadow-md);
 }
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-image {
   max-width: 40px;
@@ -1337,22 +1351,23 @@ body {
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-image.sydney-dashboard-feature-card-image-rounded {
-  border-radius: 100%;
+  border-radius: var(--sydney-dashboard-radius-circle);
   overflow: hidden;
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-image + div {
-  margin-top: 10px;
+  margin-top: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-title {
-  padding-right: 32px;
-  margin-bottom: 4px;
+  padding-right: var(--sydney-dashboard-space-8);
+  margin-bottom: var(--sydney-dashboard-space-1);
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-title h3 {
-  font-size: 16px;
-  line-height: 1.4;
+  font-size: var(--sydney-dashboard-font-size-md);
+  font-weight: var(--sydney-dashboard-font-weight-medium);
+  line-height: var(--sydney-dashboard-line-height-snug);
   margin: 0;
 }
 
@@ -1361,14 +1376,12 @@ body {
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-actions {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  gap: 15px;
+  gap: var(--sydney-dashboard-space-4);
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-link {
-  font-size: 13px;
+  font-size: var(--sydney-dashboard-font-size-base);
   line-height: 20px;
 }
 
@@ -1378,13 +1391,11 @@ body {
   right: 20px;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: ease opacity 300ms;
-  transition: ease opacity 300ms;
+  transition: ease opacity var(--sydney-dashboard-duration-slow);
 }
 
-.sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon svg path {
-  -webkit-transition: ease fill 300ms;
-  transition: ease fill 300ms;
+.sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon svg {
+  transition: ease color var(--sydney-dashboard-duration-slow);
 }
 
 .sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon.sydney-dashboard-feature-card-link-icon-always-visible {
@@ -1392,13 +1403,10 @@ body {
   visibility: visible !important;
 }
 
-.sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon:hover svg path {
-  fill: var(--sydney-dashboard-primary);
+.sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon:hover svg {
+  color: var(--sydney-dashboard-primary);
 }
 
-.sydney-dashboard-feature-card .sydney-dashboard-feature-card-link-icon:hover svg circle {
-  stroke: var(--sydney-dashboard-primary);
-}
 
 .sydney-dashboard-feature-card:hover .sydney-dashboard-feature-card-link-icon {
   opacity: 1;
@@ -1415,12 +1423,12 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-gap: 20px;
+  gap: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-starter-sites .button {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: var(--sydney-dashboard-space-2);
+  padding-bottom: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-starter-sites-locked {
@@ -1430,14 +1438,8 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
           align-items: flex-start;
 }
 
@@ -1449,12 +1451,12 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--sydney-dashboard-surface);
   opacity: 0.9;
 }
 
 .sydney-dashboard-starter-sites-locked .button {
-  padding: 10px 30px;
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-7);
 }
 
 .sydney-dashboard-starter-sites-notice {
@@ -1463,31 +1465,21 @@ body {
   top: 125px;
   width: 80%;
   min-height: 275px;
-  border: 1px solid #e4e4e4;
-  background-color: #fff;
-  -webkit-box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05);
-          box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
-  padding: 70px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  border: 1px solid var(--sydney-dashboard-border);
+  background-color: var(--sydney-dashboard-surface);
+          box-shadow: var(--sydney-dashboard-shadow-md);
+  border-radius: var(--sydney-dashboard-radius-sm);
+  padding: var(--sydney-dashboard-space-17);
   display: flex;
-  grid-gap: 30px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  gap: var(--sydney-dashboard-space-7);
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
 }
 
 .sydney-dashboard-starter-sites-notice-text {
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: var(--sydney-dashboard-font-weight-bold);
+  font-size: var(--sydney-dashboard-font-size-3xl);
   line-height: 34px;
   text-align: center;
   color: var(--sydney-dashboard-gray-900);
@@ -1501,12 +1493,12 @@ body {
     position: relative;
   }
   .sydney-dashboard-starter-sites-notice {
-    padding: 50px;
+    padding: var(--sydney-dashboard-space-12);
     top: auto;
     width: 100%;
   }
   .sydney-dashboard-starter-sites-notice-text {
-    font-size: 20px;
+    font-size: var(--sydney-dashboard-font-size-2xl);
   }
   .sydney-dashboard-starter-sites {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -1514,70 +1506,38 @@ body {
 }
 
 /* sydney License Field */
-.sydney-dashboard-license-wrapper h2 {
-  font-size: 20px;
-  line-height: 30px;
-  margin: 0;
-}
-
 .sydney-dashboard-license-form {
-  margin-top: 10px;
+  margin-top: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-license-form form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  grid-gap: 10px;
+  gap: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-license-form form input {
   width: 400px;
   max-width: 100%;
-  padding-left: 36px;
+  padding-left: var(--sydney-dashboard-space-9);
   min-height: 36px;
 }
-
-.sydney-dashboard-license-form form input::-webkit-input-placeholder {
-  opacity: 0.75;
-}
-
-.sydney-dashboard-license-form form input::-moz-placeholder {
-  opacity: 0.75;
-}
-
-.sydney-dashboard-license-form form input:-ms-input-placeholder {
-  opacity: 0.75;
-}
-
-.sydney-dashboard-license-form form input::-ms-input-placeholder {
-  opacity: 0.75;
-}
-
 .sydney-dashboard-license-form form input::placeholder {
   opacity: 0.75;
 }
 
 .sydney-dashboard-license-form form button {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  grid-gap: 2px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
+  gap: var(--sydney-dashboard-space-1);
           align-items: center;
   line-height: 1em;
   min-height: 36px;
-  padding: 10px 40px !important;
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-10) !important;
 }
 
 .sydney-license-key-input {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
@@ -1586,19 +1546,16 @@ body {
   z-index: 1;
   top: 50%;
   left: 10px;
-  -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  margin-top: -1px;
-  font-size: 20px !important;
-  color: #5C5F62;
+  margin-top: var(--sydney-dashboard-nudge-neg);
+  font-size: var(--sydney-dashboard-font-size-2xl) !important;
+  color: var(--sydney-dashboard-gray-700);
 }
 
 .sydney-dashboard-license-success {
-  margin-top: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  margin-top: var(--sydney-dashboard-space-2);
   display: flex;
-  grid-gap: 5px;
+  gap: var(--sydney-dashboard-space-1);
 }
 
 .sydney-dashboard-license-success span {
@@ -1606,29 +1563,19 @@ body {
 }
 
 .sydney-dashboard-license-error {
-  margin-top: 10px;
+  margin-top: var(--sydney-dashboard-space-2);
   color: var(--sydney-dashboard-danger);
 }
 
 /* sydney Dashboard Module Card */
 .sydney-dashboard-module-card .sydney-dashboard-module-card-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
           justify-content: space-between;
-  gap: 37px;
-}
-
-.sydney-dashboard-module-card .sydney-dashboard-module-card-header h2 {
-  font-size: 20px;
-  line-height: 20px;
-  margin: 0;
+  gap: var(--sydney-dashboard-space-9);
 }
 
 .sydney-dashboard-module-card .sydney-dashboard-module-card-header .sydney-dashboard-module-card-header-actions {
-  padding-top: 30px;
+  padding-top: var(--sydney-dashboard-space-7);
 }
 .sydney-dashboard-container {
   width: 100%;
@@ -1637,89 +1584,76 @@ body {
 
 @media (min-width: 1280px) {
   .sydney-dashboard-container {
-      max-width:1280px
+      max-width: var(--sydney-dashboard-container-max)
   }
 }
-/* sydney Dashboard Content Expand */
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-title .sydney-dashboard-content-expand-link {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+/* Sydney Dashboard Disclosure */
+.sydney-dashboard-disclosure {
+  max-width: 700px;
+}
+
+.sydney-dashboard-disclosure-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sydney-dashboard-space-1);
   color: var(--sydney-dashboard-primary);
-  background-color: var(--sydney-dashboard-primary-tint);
-  padding: 7px;
-  text-decoration: none;
+  font-size: var(--sydney-dashboard-font-size-md);
+  cursor: pointer;
+  /* Both halves of hiding the native triangle. */
+  list-style: none;
 }
 
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-title .sydney-dashboard-content-expand-link:after {
-  content: '';
-  background-image: url(../../img/dashboard/chevron.svg);
-  background-size: 15px;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  margin-left: auto;
+.sydney-dashboard-disclosure-summary::-webkit-details-marker {
+  display: none;
 }
 
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-title .sydney-dashboard-content-expand-link svg {
-  margin-right: 6px;
+.sydney-dashboard-disclosure-summary:hover {
+  color: var(--sydney-dashboard-primary-hover);
 }
 
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-content {
-  border: 1px solid var(--sydney-dashboard-primary-tint);
-  padding: 10px 8px;
+.sydney-dashboard-disclosure-summary:focus-visible {
+  outline: 2px solid var(--sydney-dashboard-primary);
+  outline-offset: 2px;
+  border-radius: var(--sydney-dashboard-radius-sm);
 }
 
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  gap: 5px;
+.sydney-dashboard-disclosure-chevron {
+  transform: rotate(-90deg);
+  transition: transform var(--sydney-dashboard-duration-base) ease;
+}
+
+.sydney-dashboard-disclosure[open] .sydney-dashboard-disclosure-chevron {
+  transform: none;
+}
+
+.sydney-dashboard-disclosure-content {
+  margin-top: var(--sydney-dashboard-space-2);
+  padding: var(--sydney-dashboard-space-4);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-md);
+  color: var(--sydney-dashboard-gray-700);
+}
+
+.sydney-dashboard-disclosure-content p {
   margin: 0;
-}
-
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-list li {
-  color: #6D7175;
-  margin: 0;
-}
-
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-list li svg {
-  margin-top: 5px;
-  margin-right: 7px;
-  min-width: 8px;
-}
-
-.sydney-dashboard-content-expand .sydney-dashboard-content-expand-list li a {
-  padding-left: 5px;
 }
 
 /* Free Vs Pro Table */
 .sydney-dashboard-freevspro-table__item {
-  border: 1px solid #e5e5e5;
-  border-radius: 6px;
-  background: #fff;
-  margin-bottom: 20px;
+  border: 1px solid var(--sydney-dashboard-border);
+  border-radius: var(--sydney-dashboard-radius-md);
+  background: var(--sydney-dashboard-surface);
+  margin-bottom: var(--sydney-dashboard-space-5);
 }
 
 .sydney-dashboard-freevspro-table__header {
   position: sticky;
   top: 50px;
   z-index: 1;
-  border-radius: 6px 6px 0 0;
-  background-color: #f7f7f7;
-  border-bottom: 1px solid #f7f7f7;
+  border-radius: var(--sydney-dashboard-radius-md) var(--sydney-dashboard-radius-md) 0 0;
+  background-color: var(--sydney-dashboard-surface-sunken);
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
 }
 
 .sydney-dashboard-freevspro-table__header .sydney-dashboard-freevspro-table__column {
@@ -1727,8 +1661,8 @@ body {
 }
 
 .sydney-dashboard-freevspro-table__header strong {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: var(--sydney-dashboard-font-size-2xl);
+  font-weight: var(--sydney-dashboard-font-weight-medium);
   line-height: 23px;
   letter-spacing: 0em;
   color: var(--sydney-dashboard-gray-900);
@@ -1736,22 +1670,17 @@ body {
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column strong {
-  font-size: 14px;
-  font-weight: 400;
+  font-size: var(--sydney-dashboard-font-size-md);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
   line-height: 20px;
   letter-spacing: 0em;
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a {
   color: var(--sydney-dashboard-gray-900);
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
   text-decoration: none;
-  -webkit-transition: none;
   transition: none;
 }
 
@@ -1760,44 +1689,34 @@ body {
 }
 
 .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a:focus, .sydney-dashboard-freevspro-table__body .sydney-dashboard-freevspro-table__column a:active {
-  -webkit-box-shadow: none;
           box-shadow: none;
 }
 
 .sydney-dashboard-freevspro-table__body .dashicons-external {
   width: auto;
   height: auto;
-  font-size: 16px;
-  margin-left: 3px;
-  -webkit-transition: none;
+  font-size: var(--sydney-dashboard-font-size-lg);
+  margin-left: var(--sydney-dashboard-space-1);
   transition: none;
 }
 
 .sydney-dashboard-freevspro-table__row {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .sydney-dashboard-freevspro-table__column {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
           justify-content: flex-start;
   width: 100%;
   max-width: 275px;
-  padding: 17px 23px;
+  padding: var(--sydney-dashboard-space-4) var(--sydney-dashboard-space-6);
   text-align: center;
-  border-bottom: 1px solid #f7f7f7;
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
 }
 
 .sydney-dashboard-freevspro-table__column strong {
-  font-weight: 500;
+  font-weight: var(--sydney-dashboard-font-weight-medium);
   text-align: left;
   color: var(--sydney-dashboard-gray-900);
 }
@@ -1806,8 +1725,8 @@ body {
   text-align: center;
   width: 30px;
   height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
+  border-radius: var(--sydney-dashboard-radius-circle);
+  font-size: var(--sydney-dashboard-font-size-2xl);
   line-height: 30px;
 }
 
@@ -1815,42 +1734,40 @@ body {
   text-align: center;
   width: 20px;
   height: 20px;
-  font-size: 20px;
+  font-size: var(--sydney-dashboard-font-size-2xl);
   line-height: 20px;
   opacity: 0.3;
-  -webkit-transform: scaleX(-1);
           transform: scaleX(-1);
 }
 
 .sydney-dashboard-freevspro-table__column .dashicons-saved {
   text-indent: -2px;
   color: var(--sydney-dashboard-success);
-  background-color: rgba(63, 178, 143, 0.1);
+  background-color: var(--sydney-dashboard-success-tint);
 }
 
 .sydney-dashboard-freevspro-table__column .dashicons-no-alt {
   color: var(--sydney-dashboard-danger);
-  background-color: rgba(230, 36, 36, 0.05);
+  background-color: var(--sydney-dashboard-danger-tint);
 }
 
 .sydney-dashboard-freevspro-table__column.sydney-dashboard-freevspro-table__column--feature {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--sydney-dashboard-font-size-lg);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
   line-height: 20px;
   letter-spacing: 0em;
   max-width: none;
   text-align: left;
-  -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  grid-gap: 6px;
+  gap: var(--sydney-dashboard-space-1);
 }
 
 .sydney-dashboard-freevspro-table__spacing {
-  margin-left: 10px;
+  margin-left: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-freevspro-table__desc {
-  font-size: 12px;
+  font-size: var(--sydney-dashboard-font-size-sm);
   font-style: italic;
   width: 100%;
   opacity: 0.5;
@@ -1871,7 +1788,7 @@ body {
     top: auto;
   }
   .sydney-dashboard-freevspro-table__header strong {
-    font-size: 16px;
+    font-size: var(--sydney-dashboard-font-size-lg);
   }
   .sydney-dashboard-freevspro-table-responsive {
     max-width: 100%;
@@ -1879,15 +1796,11 @@ body {
   }
   .sydney-dashboard-freevspro-table__column--feature:first-child {
     text-align: left;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
             justify-content: flex-start;
   }
   .sydney-dashboard-freevspro-table__column {
-    padding: 15px 10px;
+    padding: var(--sydney-dashboard-space-4) var(--sydney-dashboard-space-2);
     text-align: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
             justify-content: center;
     max-width: 100px;
   }
@@ -1897,39 +1810,256 @@ body {
   }
 }
 .sydney-dashboard-notification-version {
-  margin: 10px 5px 0 0;
+  margin: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-1) 0 0;
   display: inline-block;
 }
 
 /* Templates Builder */
 .template-builder-wrapper {
-  background-color: #f7f7f7;
-  padding: 30px 0 30px 30px;
-  margin-top: -32px;
+  padding: var(--sydney-dashboard-space-7) var(--sydney-dashboard-space-5) 0;
+  margin: var(--sydney-dashboard-space-8-neg) var(--sydney-dashboard-space-5-neg) 0;
 }
-.template-builder-wrapper .template-builder-pro-notice {
-  display: inline-block;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  box-shadow: 0 0 10px #efefef;
-  padding: 14px 20px;
-  margin: 10px 0 20px;
+.template-builder-header {
+  gap: var(--sydney-dashboard-space-7);
+  margin-bottom: var(--sydney-dashboard-space-6);
 }
-.template-builder-wrapper .intro {
+.template-builder-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sydney-dashboard-space-3);
+  /* Side margin must stay the inverse of .template-builder-wrapper's side padding. */
+  margin: 0 var(--sydney-dashboard-space-5-neg);
+  padding: 0 var(--sydney-dashboard-space-5) var(--sydney-dashboard-space-4);
+  background-color: var(--sydney-dashboard-surface);
+}
+/* The heading above it is screen-reader-only, so the description leads the
+   block and drops the admin default top margin along with the h2's spacing. */
+.template-builder-header p {
+  margin: 0;
+  font-size: var(--sydney-dashboard-font-size-md);
+}
+.template-builder-tutorial {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: var(--sydney-dashboard-space-2);
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-4);
+  border: 1px solid var(--sydney-dashboard-border);
+  /* Box of .wp-core-ui .button - radius, border-box and the 40px floor that
+     decides that button's height - so this stands level with one anywhere. */
+  border-radius: 2px;
+  box-sizing: border-box;
+  min-height: 40px;
+  background-color: var(--sydney-dashboard-surface);
+  color: var(--sydney-dashboard-gray-700);
+  font-size: var(--sydney-dashboard-font-size-md);
+  line-height: 20px;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  text-decoration: none;
+  transition: ease border-color var(--sydney-dashboard-duration-slow), ease color var(--sydney-dashboard-duration-slow);
+}
+.template-builder-tutorial svg {
+  border: 1px solid var(--sydney-dashboard-border);
+  border-radius: var(--sydney-dashboard-radius-circle);
+  /* Border inside the 20px, so the icon does not outgrow the text line. */
+  box-sizing: border-box;
+  transition: ease border-color var(--sydney-dashboard-duration-slow);
+}
+.template-builder-tutorial:hover,
+.template-builder-tutorial:focus,
+.template-builder-tutorial:active {
+  border-color: var(--sydney-dashboard-gray-600);
+  color: var(--sydney-dashboard-gray-900);
+  text-decoration: none;
+}
+.template-builder-tutorial:hover svg,
+.template-builder-tutorial:focus svg,
+.template-builder-tutorial:active svg {
+  border-color: var(--sydney-dashboard-gray-600);
+}
+/* Shared confirm dialog for destructive actions. Native <dialog>, so the
+   backdrop, focus trapping and Esc handling come from the browser. */
+.sydney-confirm-dialog {
+  position: fixed;
+  width: calc(100% - 40px);
+  max-width: 400px;
+  padding: var(--sydney-dashboard-space-8) var(--sydney-dashboard-space-7) var(--sydney-dashboard-space-7);
+  border: 0;
+  border-radius: var(--sydney-dashboard-radius-lg);
+  background-color: var(--sydney-dashboard-surface);
+  box-shadow: var(--sydney-dashboard-shadow-modal);
+  text-align: center;
+  box-sizing: border-box;
+  animation: sydney-confirm-dialog-in var(--sydney-dashboard-duration-fast) ease-out;
+}
+/* Belt and braces for browsers without <dialog>, where the UA
+   `dialog:not([open])` rule is missing and the box would show inline. */
+.sydney-confirm-dialog:not([open]) {
+  display: none;
+}
+.sydney-confirm-dialog::backdrop {
+  background-color: var(--sydney-dashboard-scrim);
+}
+@keyframes sydney-confirm-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.sydney-confirm-dialog .sydney-confirm-dialog-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 0 var(--sydney-dashboard-space-3);
+  color: var(--sydney-dashboard-danger);
 }
-.template-builder-wrapper .intro span {
-  margin-right: 10px;
-  font-size: 20px;
+.sydney-confirm-dialog .sydney-confirm-dialog-title {
+  margin: 0 0 var(--sydney-dashboard-space-2);
+  padding: 0;
+  font-size: var(--sydney-dashboard-font-size-lg);
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  line-height: var(--sydney-dashboard-line-height-snug);
+  color: var(--sydney-dashboard-gray-900);
+}
+.sydney-confirm-dialog .sydney-confirm-dialog-message {
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: 15px;
+  color: var(--sydney-dashboard-gray-700);
+}
+.sydney-confirm-dialog .sydney-confirm-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--sydney-dashboard-space-3);
+  margin-top: var(--sydney-dashboard-space-5);
+}
+.sydney-confirm-dialog .sydney-confirm-dialog-actions .button {
+  min-width: 83px;
+  border-radius: var(--sydney-dashboard-radius-sm);
+  text-align: center;
+}
+/* Same box as the confirm dialog, minus the destructive framing: settings are
+   read left to right, so the title and the fields both align left. */
+.sydney-options-dialog {
+  text-align: start;
+  padding-top: var(--sydney-dashboard-space-7);
+}
+.sydney-options-dialog .sydney-options-dialog-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sydney-dashboard-space-3);
+  margin-top: var(--sydney-dashboard-space-5);
+}
+.sydney-options-dialog .sydney-options-dialog-field {
+  display: flex;
+  align-items: center;
+  gap: var(--sydney-dashboard-space-2);
+  margin: 0;
+  cursor: pointer;
+  color: var(--sydney-dashboard-gray-700);
+}
+.sydney-options-dialog .sydney-options-dialog-field input {
+  margin: 0;
+  flex-shrink: 0;
+}
+.sydney-options-dialog .sydney-confirm-dialog-actions {
+  justify-content: flex-end;
+}
+.sydney-video-dialog {
+  /* Sized by the video, not the confirm copy. The header and the frame run to
+     the edges, so the dialog clips them to its own radius. */
+  max-width: 800px;
+  padding: 0;
+  overflow: hidden;
+}
+/* Header, close box and hover all match .sydney-display-conditions-modal-header. */
+.sydney-video-dialog-header {
+  position: relative;
+  height: 50px;
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
+  background-color: var(--sydney-dashboard-surface);
+}
+.sydney-video-dialog-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sydney-dashboard-gray-700);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--sydney-dashboard-duration-base);
+}
+.sydney-video-dialog-close:hover,
+.sydney-video-dialog-close:focus {
+  opacity: 1;
+}
+.sydney-video-dialog-body {
+  padding: var(--sydney-dashboard-space-5);
+}
+.sydney-video-dialog-iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--sydney-dashboard-radius-md);
+  background-color: #000;
+}
+.template-builder-wrapper .template-builder-pro-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sydney-dashboard-space-5);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
+  /* Matches the #template-builder well below it, so the two read as one set. */
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-md);
+  padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-5);
+  /* Leads the panel, so the wrapper's own top padding is the only space above it. */
+  margin: 0 0 var(--sydney-dashboard-space-5);
+}
+.template-builder-pro-notice p {
+  margin: 0;
+  /* Sized up to lg; keeps the h4's weight and line-height so the notice reads
+     at the same level as the card titles it introduces. 600 is wp-admin's own
+     weight for h4. */
+  font-size: var(--sydney-dashboard-font-size-lg);
+  line-height: var(--sydney-dashboard-line-height-snug);
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+}
+.template-builder-pro-notice-actions {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: var(--sydney-dashboard-space-3);
 }
 #template-builder {
-  display:flex;
-  gap:30px;
-  flex-wrap:wrap;
-  margin-bottom:30px;
+  display: grid;
+  /* 320px is the narrowest a card can be before its action icons wrap, so below
+     the breakpoint fit as many columns as that allows. Capped at 3 above it,
+     otherwise very wide screens would keep adding columns. */
+  grid-template-columns: repeat(auto-fit, minmax(var(--sydney-dashboard-card-min), 1fr));
+  gap: var(--sydney-dashboard-space-5);
+  /* Inset matches the gap, so the cards sit evenly inside the well. */
+  padding: var(--sydney-dashboard-space-5);
+  margin-bottom: var(--sydney-dashboard-space-6);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-md);
 }
-#template-builder[data-pro="false"] .template-item {
+@media (min-width: 1366px) {
+  #template-builder {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+#template-builder[data-pro="false"] .template-item,
+#template-builder[data-pro="false"] .add-new-template-wrapper {
   position: relative;
 }
 #template-builder .tb-upgrade-overlay {
@@ -1943,36 +2073,80 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  transition: all 0.3s;
+  background-color: var(--sydney-dashboard-veil-dark);
+  color: var(--sydney-dashboard-on-accent);
+  /* Covers .template-item edge to edge, so it follows that radius. */
+  border-radius: var(--sydney-dashboard-radius-lg);
+  transition: all var(--sydney-dashboard-duration-slow);
 }
-#template-builder[data-pro="false"] .template-item .dashicons-lock {
-  font-size: 34px;
+/* The veil spans the card's padding too, so the gutter is put back here. */
+#template-builder .tb-upgrade-overlay > div {
+  padding: 0 var(--sydney-dashboard-space-5);
 }
-#template-builder[data-pro="false"] .template-item:hover .tb-upgrade-overlay {
+#template-builder .tb-upgrade-overlay p {
+  /* Caps the measure short of the card's inner width, so the copy keeps a
+     readable line length instead of running edge to edge. */
+  max-width: 36ch;
+  margin: var(--sydney-dashboard-space-3) auto var(--sydney-dashboard-space-4);
+  color: inherit;
+  /* Add Template's wrapper is semibold for its label; the caption must not inherit it. */
+  font-weight: var(--sydney-dashboard-font-weight-normal);
+}
+#template-builder[data-pro="false"] .template-item:hover .tb-upgrade-overlay,
+#template-builder[data-pro="false"] .add-new-template-wrapper:hover .tb-upgrade-overlay {
   opacity: 1;
 }
 .template-name {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 25px;
+  /* Matches the action icons, which are the tallest thing in this row. Without
+     it the Global card - whose actions are hidden - sits a pixel higher. */
+  min-height: 20px;
+  margin-bottom: var(--sydney-dashboard-space-3);
+}
+/* Both title branches share a line-height, so a card with the editable name
+   is exactly as tall as the Global card that renders plain text. */
+.template-name h4,
+.template-name input {
+  line-height: var(--sydney-dashboard-line-height-snug);
+}
+.template-name h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.07em;
 }
 .template-name input {
-  padding-left: 0;
+  padding: 0;
+  margin: 0;
   border: none;
-  border-bottom: 2px solid #e3e3ec;
   border-radius: 0;
+  min-height: auto;
+  height: auto;
+  font-size: 1.07em;
+}
+.template-name input::placeholder {
+  font-weight: var(--sydney-dashboard-font-weight-normal);
+}
+.template-name input:focus,
+.template-name input:active {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.template-name input:focus {
+  /* First shadow masks the gap in the card's own background. */
+  box-shadow: 0 4px 0 0 var(--sydney-dashboard-surface), 0 6px 0 0 var(--sydney-dashboard-primary);
 }
 .template-options {
   display: flex;
 }
 .template-options a {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  margin-right: 10px;
-  color: #6d7175;
+  margin-right: var(--sydney-dashboard-space-3);
+  color: var(--sydney-dashboard-gray-700);
   position: relative;
 }
 .template-options a:last-child {
@@ -1982,35 +2156,82 @@ body {
   color: var(--sydney-dashboard-primary-hover);
 }
 .template-item {
-  flex: 0 0 calc(33.333% - 30px);
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px #efefef;
+  /* Grid items default to min-width:auto, which would let long names widen the column. */
+  min-width: 0;
+  background-color: var(--sydney-dashboard-surface);
+  padding: var(--sydney-dashboard-space-7);
+  border: 2px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-lg);
 }
 .template-part {
-  border:2px dashed #e3e3ec;
-  margin-bottom:10px;
-  padding:10px;
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
+  padding: var(--sydney-dashboard-space-4) 0;
   display:flex;
   justify-content:space-between;
-  height: 50px;
   align-items: center;
   position: relative;
-  color: #6d7175;
+  color: var(--sydney-dashboard-gray-700);
 }
-.template-part .not-selected {
-  cursor: pointer;
+.part-icon {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sydney-dashboard-part-icon-size);
+  height: var(--sydney-dashboard-part-icon-size);
+  margin-right: calc(var(--sydney-dashboard-part-icon-offset) - var(--sydney-dashboard-part-icon-size));
+  border-radius: var(--sydney-dashboard-radius-md);
+  background-color: var(--sydney-dashboard-primary-tint-light);
+  border: 1px solid var(--sydney-dashboard-primary-tint-border-light);
+  color: var(--sydney-dashboard-gray-600);
 }
-.template-part:last-of-type {
-  margin-bottom: 0;
+/* Direct child only - .part-icon-check nests inside .part-icon, and a descendant
+   selector would size its checkmark to the part glyph too. */
+.part-icon > svg {
+  display: block;
+}
+.part-icon-check {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: var(--sydney-dashboard-radius-circle);
+  background-color: var(--sydney-dashboard-primary);
+  border: 2px solid var(--sydney-dashboard-surface);
+  color: var(--sydney-dashboard-on-accent);
+}
+.template-part[data-part-active="active"] .part-icon {
+  background-color: var(--sydney-dashboard-primary-tint);
+  border-color: var(--sydney-dashboard-primary-tint-border);
+  color: var(--sydney-dashboard-primary);
+}
+.template-part[data-part-active="active"] .part-icon-check {
+  display: flex;
+}
+/* Class, not :last-of-type - the free upsell overlay is the card's last div. */
+.template-part.footer {
+  border-bottom: none;
+}
+.template-part.header {
+  border-top: 1px solid var(--sydney-dashboard-border-subtle);
 }
 .template-part[data-part-active="active"] {
-  border-style: solid;
   color: var(--sydney-dashboard-gray-900);
-  border-left: 3px solid var(--sydney-dashboard-success);
 }
 
+/* Options are stored on the assigned part, so there is nothing to open until
+   one is set. */
+.template-part .header-options {
+  display: none;
+}
+.template-part[data-part-active="active"] .header-options {
+  display: flex;
+}
 .template-part .edit-part {
   display: none;
 }
@@ -2018,101 +2239,285 @@ body {
   position: relative;
   top: 3px;
 }
+/* flex, not inline - the row is a .part-menu-item and has to keep laying its
+   icon and label out. */
 .template-part[data-part-active="active"] .edit-part {
-  display: inline;
-}
-.template-part[data-part-active="active"] .select-existing,
-.template-part[data-part-active="active"] .select-page-builder {
-  display: none;
-}
-.template-part[data-part-active="active"] .selected span {
-  color: var(--sydney-dashboard-success);
+  display: flex;
 }
 .template-part-inner {
   width: 100%;
+  /* Lets the title and sub-label truncate instead of widening the row. */
+  min-width: 0;
   position: relative;
 }
-.part-options {
-  display:flex;
-  gap:10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-}
-.delete-template:hover,
-.part-options .reset {
+.delete-template:hover {
   color: var(--sydney-dashboard-danger) !important;
 }
 .part-options-toggle {
   cursor:pointer;
-  height: 50px;
-  width: 50px;
-  margin: -10px -12px -10px 0;
-  text-align: center;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-.part-options-toggle span {
-  line-height: 50px;
-  transform: rotate(90deg);
-}
-.page-builder-wrapper span:not(.page-builder-title),
-.part-options span {
-	cursor: pointer;
-	color: var(--sydney-dashboard-primary);
-	font-size: 13px;
-  font-weight: 600;
-}
-.page-builder-wrapper .page-builder-title {
-  color: #6d7175;
-  margin-bottom: 12px;
-}
-.page-builder-wrapper svg {
-  width: 20px;
-  margin-right: 5px;
+  /* Anchors the open menu's arrow. */
   position: relative;
-  top: 4px;
+  /* Stretches to the row instead of hardcoding a height, so it keeps spanning
+     the full row as the icon size or a second title line changes it. The
+     negative margins reach back over .template-part's vertical padding. */
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin: var(--sydney-dashboard-space-4-neg) 0;
+  text-align: center;
+  border-top-right-radius: var(--sydney-dashboard-radius-lg);
+  border-bottom-right-radius: var(--sydney-dashboard-radius-lg);
+}
+/* Part menu: one popover per row, anchored under it, sliding between the
+   top-level menu, the existing-parts list and the builder choice. Only the
+   panel in view is measurable as a height, which is why the JS sets it. */
+/* Arrow pointing back at the ellipsis the menu opened from. Drawn by the toggle
+   rather than by .part-menu, which clips its own overflow, and hung off the
+   toggle rather than off the row so it stays centred on the icon - the toggle is
+   a flex item and gives up part of its width when the row is tight. Above the
+   menu, so its fill hides the length of border-top it crosses. */
+.template-part.part-menu-open .part-options-toggle::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 6px);
+  left: 50%;
+  z-index: calc(var(--sydney-dashboard-z-dropdown) + 1);
+  width: 11px;
+  height: 11px;
+  background-color: var(--sydney-dashboard-surface);
+  border-top: 1px solid var(--sydney-dashboard-border-subtle);
+  border-left: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: 2px 0 0 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.part-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: var(--sydney-dashboard-z-dropdown);
+  width: 220px;
+  overflow: hidden;
+  background-color: var(--sydney-dashboard-surface);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-lg);
+  box-shadow: var(--sydney-dashboard-shadow-popover);
+  transition: height var(--sydney-dashboard-duration-slow) var(--sydney-dashboard-ease-emphasized);
+}
+.part-menu.open {
+  display: block;
+}
+.part-menu-track {
+  display: flex;
+  /* flex-start, so a short panel is not stretched to the tallest one and the
+     height the JS reads off it stays the height it will be shown at. */
+  align-items: flex-start;
+  width: 300%;
+  transition: transform var(--sydney-dashboard-duration-slow) var(--sydney-dashboard-ease-emphasized);
+}
+.part-menu-panel {
+  box-sizing: border-box;
+  width: 33.3333%;
+  padding: var(--sydney-dashboard-space-1);
+}
+.part-menu[data-view="list"] .part-menu-track {
+  transform: translateX(-33.3333%);
+}
+.part-menu[data-view="builder"] .part-menu-track {
+  transform: translateX(-66.6666%);
+}
+.part-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sydney-dashboard-space-2);
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-3);
+  border-radius: var(--sydney-dashboard-radius-lg);
+  color: var(--sydney-dashboard-gray-700);
+  font-size: var(--sydney-dashboard-font-size-base);
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  cursor: pointer;
+}
+.part-menu-item:hover {
+  background-color: var(--sydney-dashboard-primary-tint-light);
+  color: var(--sydney-dashboard-gray-900);
+}
+/* Direct child only - the trailing chevron keeps its own colour, and the
+   builder rows carry a brand-coloured icon. */
+.part-menu-item > svg {
+  flex: 0 0 auto;
+  color: var(--sydney-dashboard-gray-600);
+}
+/* Registry icons carry their own width/height; these two come from the theme
+   sprite, which ships a viewBox only. */
+.part-menu-item.create-new > svg {
+  width: 16px;
+  height: 16px;
+}
+/* Reversed: the cloned reset icon's arrowhead points counter-clockwise. */
+.part-menu-item .part-menu-spinner {
+  animation: sydney-spin 1.5s linear infinite reverse;
+}
+.part-menu-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Colour alone sets it apart from the rows it sits above - it keeps their size. */
+.part-menu-back {
+  color: var(--sydney-dashboard-gray-600);
+}
+.part-menu-divider {
+  height: 1px;
+  margin: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-2);
+  background-color: var(--sydney-dashboard-gray-100);
+}
+.part-menu-empty {
+  padding: var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-3);
+  color: var(--sydney-dashboard-gray-600);
+  font-size: var(--sydney-dashboard-font-size-base);
+}
+.part-options .reset,
+.part-options .reset > svg {
+  color: var(--sydney-dashboard-danger);
+}
+.part-options .reset:hover {
+  background-color: var(--sydney-dashboard-danger-tint);
+  color: var(--sydney-dashboard-danger);
+}
+/* Caps the list instead of the popover, so the panel the JS measures already
+   accounts for the scroll. */
+.existing-parts-list {
+  max-height: 146px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* Block rather than flex: these rows carry no icon, and a generated part name
+   is long enough that it has to truncate instead of wrapping the row. */
+.existing-parts-item {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.existing-parts-list::-webkit-scrollbar {
+  width: 8px;
+}
+.existing-parts-list::-webkit-scrollbar-thumb {
+  background-color: var(--sydney-dashboard-gray-300);
+  border: 2px solid var(--sydney-dashboard-surface);
+  border-radius: var(--sydney-dashboard-radius-lg);
+}
+.existing-parts-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Same quiet secondary text as .part-sub-label. The padding is alignment with
+   the item rows below it, not type. */
+.page-builder-wrapper .page-builder-title {
+  padding: var(--sydney-dashboard-space-1) var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-2);
+  color: var(--sydney-dashboard-gray-600);
+  font-size: 11.5px;
+  line-height: var(--sydney-dashboard-line-height-snug);
 }
 .page-builder-wrapper .elementor svg {
-  fill: #92003B;
+  fill: var(--sydney-dashboard-brand-elementor);
 }
-.page-builder-wrapper,
-.existing-parts-wrapper {
-  position: absolute;
-  display: none;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  padding: 15px;
-  box-shadow: 0 5px 10px #00000029;
-  z-index: 11;
-  top: 100%;
-  border-radius: 10px;
+/* Separates the card's heading block from the part rows below it. */
+.template-applies {
+  display: flex;
+  align-items: center;
+  gap: var(--sydney-dashboard-space-2);
+  margin: var(--sydney-dashboard-space-4) 0;
+  font-size: var(--sydney-dashboard-font-size-base);
 }
-.page-builder-wrapper span {
-  display: block;
-  margin-bottom: 7px;
+/* Long condition lists ellipsise instead of squeezing the Edit Rules link. */
+.template-applies-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.existing-parts-wrapper select {
-  width: 100%;
+.template-applies-text.sydney-display-conditions-modal-toggle {
+  cursor: pointer;
+}
+/* Same colours as the duplicate and delete icons in .template-options. */
+.template-applies-edit {
+  display: inline-flex;
+          align-items: center;
+      flex-shrink: 0;
+  color: var(--sydney-dashboard-gray-700);
+  text-decoration: none;
+}
+.template-applies-edit:hover,
+.template-applies-edit:focus {
+  color: var(--sydney-dashboard-primary-hover);
+}
+.template-applies-label {
+  color: var(--sydney-dashboard-gray-700);
+}
+.template-applies-value {
+  color: var(--sydney-dashboard-gray-900);
+}
+/* Global states its scope as a sentence, with no label to contrast against. */
+.template-item[data-id="global"] .template-applies-value {
+  color: var(--sydney-dashboard-gray-700);
+}
+/* No Edit Rules link on Global, so nothing to protect by ellipsising. */
+.template-item[data-id="global"] .template-applies-text {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
 }
 .part-title {
-  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  font-size: var(--sydney-dashboard-font-size-md);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.part-title .dashicons {
-  margin-right: 5px;
-  position: relative;
-  top: 1px;
-  font-size: 16px;
+/* What renders in this slot while nothing is assigned here. A set part signals
+   itself through the icon treatment, so it drops the sub-label instead. */
+.part-sub-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sydney-dashboard-space-1);
+  margin-top: var(--sydney-dashboard-nudge);
+  overflow: hidden;
+  color: var(--sydney-dashboard-gray-600);
+  font-size: 11.5px;
+  /* Admin-wide line-height is a length (18.2px), which would push the two-line
+     title block past the icon and make unset rows taller than set ones. */
+  line-height: var(--sydney-dashboard-line-height-snug);
+  white-space: nowrap;
+}
+.part-sub-label svg {
+  flex: 0 0 auto;
+  transform: translateY(-2px);
+}
+.part-sub-label-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--sydney-dashboard-font-size-base);
+}
+/* The arrow means "falls through from somewhere else", so an assigned template
+   name - which is the slot's own value - is shown without it. */
+.part-sub-label--assigned svg {
+  display: none;
+}
+/* Clicking a part opens its options, as the old "Select ..." label did. */
+.template-part .part-title,
+.template-part .part-sub-label {
+  cursor: pointer;
 }
 .sydney-display-conditions-control {
   display: inline;
 }
 .sydney-display-conditions-control-buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
@@ -2123,40 +2528,33 @@ body {
 
 .sydney-display-conditions-modal {
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   display: none;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
   position: fixed;
-  z-index: 999999;
+  z-index: var(--sydney-dashboard-z-modal);
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--sydney-dashboard-scrim);
 }
 .sydney-display-conditions-modal .sydney-button-close {
   top: 15px;
   right: 15px;
 }
 .select2-container {
-  z-index: 999999 !important;
+  z-index: var(--sydney-dashboard-z-modal) !important;
 }
 .sydney-display-conditions-modal.open {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .sydney-display-conditions-modal .select2-container--default .select2-selection--single {
   padding: 0;
   height: 32px;
+  border-color: var(--sydney-dashboard-border-strong);
 }
 
 .sydney-display-conditions-modal .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -2168,150 +2566,98 @@ body {
 }
 
 .sydney-display-conditions-modal .select2-container--default .select2-selection--single .select2-selection__clear {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -1px;
   height: 100%;
   padding: 0;
 }
 
 .sydney-display-conditions-modal .select2-container--default .select2-selection--single .select2-selection__clear span {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
   width: 14px;
   height: 14px;
-  font-size: 14px;
-  border-radius: 14px;
-  font-weight: normal;
+  font-size: var(--sydney-dashboard-font-size-md);
+  border-radius: var(--sydney-dashboard-radius-circle);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
   color: var(--sydney-dashboard-gray-700);
-  background-color: #eee;
+  background-color: var(--sydney-dashboard-gray-100);
 }
 
 .sydney-display-conditions-modal-outer {
   position: relative;
   overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
   width: 600px;
   max-height: 80vh;
-  min-height: 300px;
-  background-color: #fff;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 50px 200px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 50px 200px rgba(0, 0, 0, 0.2);
+  background-color: var(--sydney-dashboard-surface);
+  border-radius: var(--sydney-dashboard-radius-lg);
+          box-shadow: var(--sydney-dashboard-shadow-modal);
+  animation: sydney-confirm-dialog-in var(--sydney-dashboard-duration-fast) ease-out;
 }
 
 .sydney-display-conditions-modal-header {
   position: relative;
-  -ms-flex-negative: 0;
       flex-shrink: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  padding-left: 20px;
-  padding-right: 70px;
+  padding-left: var(--sydney-dashboard-space-5);
+  padding-right: var(--sydney-dashboard-space-17);
   height: 50px;
-  border-bottom: 1px solid #eee;
-  background-color: #fdfdfd;
+  border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
+  background-color: var(--sydney-dashboard-surface);
 }
 
 .sydney-display-conditions-modal-header h3 {
-  font-size: 14px;
+  font-size: var(--sydney-dashboard-font-size-md);
   margin: 0;
 }
 
-.sydney-display-conditions-modal-header i {
+.sydney-display-conditions-modal-header .sydney-button-close {
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
   width: 50px;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
   opacity: 0.5;
-  -webkit-transition: opacity .2s;
-  transition: opacity .2s;
+  transition: opacity var(--sydney-dashboard-duration-base);
 }
 
-.sydney-display-conditions-modal-header i:hover {
+.sydney-display-conditions-modal-header .sydney-button-close:hover {
   opacity: 1;
 }
 
 .sydney-display-conditions-modal-content {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
           flex: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
   max-height: 80vh;
   overflow: auto;
-  padding: 25px;
+  padding: var(--sydney-dashboard-space-6);
 }
 
 .sydney-display-conditions-modal-content ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
 }
 
 .sydney-display-conditions-modal-content ul li {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
           flex: 1;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  margin-bottom: 20px;
-}
-
-.sydney-display-conditions-modal-content ul li + li {
-  padding-bottom: 20px;
-  border-bottom: 1px dashed #ccc;
+  margin-bottom: var(--sydney-dashboard-space-5);
 }
 
 .sydney-display-conditions-modal-content ul li.hidden {
@@ -2320,9 +2666,7 @@ body {
 
 .sydney-display-conditions-select2-type {
   width: 125px;
-  -ms-flex-negative: 0;
       flex-shrink: 0;
-  -ms-flex-preferred-size: 125px;
       flex-basis: 125px;
 }
 
@@ -2331,22 +2675,15 @@ body {
   position: absolute;
   left: 6px;
   top: 50%;
-  margin-top: -6px;
-  font-size: 12px;
-  line-height: 14px;
+  transform: translateY(-50%);
+  font-size: var(--sydney-dashboard-font-size-sm);
+  line-height: 1;
   width: 14px;
   height: 14px;
-  border-radius: 2px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  border-radius: var(--sydney-dashboard-radius-sm);
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: #e5e5e5;
+  background-color: var(--sydney-dashboard-gray-300);
 }
 
 .sydney-display-conditions-select2-type[data-type="exclude"] .select2-selection:before {
@@ -2354,19 +2691,16 @@ body {
 }
 
 .sydney-display-conditions-select2-type .select2-container .select2-selection--single .select2-selection__rendered {
-  padding-left: 25px;
-  padding-right: 20px;
+  padding-left: var(--sydney-dashboard-space-7);
+  padding-right: var(--sydney-dashboard-space-5);
 }
 
 .sydney-display-conditions-select2-groupped {
   width: calc(100% - 125px - 10px - 32px);
-  -ms-flex-preferred-size: calc(100% - 125px - 10px - 32px);
-      flex-basis: calc(100% - 125px - 10px - 32px);
-  display: -webkit-box;
-  display: -ms-flexbox;
+  flex-basis: calc(100% - 125px - 10px - 24px);
   display: flex;
-  grid-gap: 10px;
-  margin-left: 10px;
+  gap: var(--sydney-dashboard-space-2);
+  margin-left: var(--sydney-dashboard-space-2);
 }
 
 .sydney-display-conditions-select2-condition {
@@ -2374,50 +2708,77 @@ body {
 }
 
 .sydney-display-conditions-select2-id {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 50%;
           flex: 1 0 50%;
   max-width: 50%;
 }
 
-.sydney-display-conditions-modal-remove {
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
+/* Dropdown is appended to body, so it is matched by its own class, not the modal. */
+.select2-dropdown.sydney-dc-dropdown .select2-results > .select2-results__options {
+  max-height: 340px;
+}
+
+/* Takes the id select's slot - the two are mutually exclusive per condition. */
+.sydney-display-conditions-schedule {
+          flex: 1 0 50%;
+  max-width: 50%;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+          flex-direction: column;
+  gap: var(--sydney-dashboard-space-1);
+}
+
+/* Outranks core's .hidden, which the display above would otherwise beat. */
+.sydney-display-conditions-schedule.hidden {
+  display: none;
+}
+
+.sydney-display-conditions-schedule-field {
+  display: flex;
+          flex-direction: column;
+}
+
+.sydney-display-conditions-schedule-field span {
+  font-size: var(--sydney-dashboard-font-size-sm);
+  color: var(--sydney-dashboard-gray-700);
+}
+
+.sydney-display-conditions-schedule-field input[type=datetime-local] {
+  width: 100%;
+  min-height: 32px;
+}
+
+.sydney-display-conditions-schedule-note {
+  font-size: var(--sydney-dashboard-font-size-xs);
+  color: var(--sydney-dashboard-gray-700);
+}
+
+.sydney-display-conditions-modal-hint {
+  margin: 0 0 var(--sydney-dashboard-space-4);
+  font-size: var(--sydney-dashboard-font-size-sm);
+  color: var(--sydney-dashboard-gray-700);
+}
+
+.sydney-display-conditions-modal-remove {
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 32px;
   opacity: 0.5;
-  -webkit-transition: opacity .2s;
-  transition: opacity .2s;
+  transition: opacity var(--sydney-dashboard-duration-base);
 }
 
 .sydney-display-conditions-modal-remove:hover {
   opacity: 1;
 }
 
-.sydney-display-conditions-modal-remove i {
+.sydney-display-conditions-modal-remove svg {
   color: var(--sydney-dashboard-danger);
-  font-size: 15px;
-  width: auto;
-  height: auto;
-  line-height: 1em;
 }
 
 .sydney-display-conditions-modal-content-footer {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  grid-gap: 15px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
+  gap: var(--sydney-dashboard-space-4);
           justify-content: center;
 }
 
@@ -2427,45 +2788,38 @@ body {
 }
 
 .sydney-display-conditions-modal-footer {
-  -ms-flex-negative: 0;
       flex-shrink: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
           justify-content: center;
-  height: 60px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-top: 1px solid #eee;
-  background-color: #f7f7f7;
+  height: 80px;
+  padding-left: var(--sydney-dashboard-space-5);
+  padding-right: var(--sydney-dashboard-space-5);
+  border-top: 1px solid var(--sydney-dashboard-border-subtle);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
 }
 
 .sydney-display-conditions-modal-footer .sydney-button-save {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: var(--sydney-dashboard-space-5);
+  padding-right: var(--sydney-dashboard-space-5);
 }
 
 .template-options .tooltip {
   visibility: hidden;
   width: 80px;
-  font-size: 13px;
-  background-color: #1c1c1c;
-  color: #fff;
+  font-size: var(--sydney-dashboard-font-size-base);
+  background-color: var(--sydney-dashboard-gray-900);
+  color: var(--sydney-dashboard-on-accent);
   text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
+  border-radius: var(--sydney-dashboard-radius-md);
+  padding: var(--sydney-dashboard-space-1) 0;
   position: absolute;
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -40px;
+  margin-left: var(--sydney-dashboard-space-10-neg);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity var(--sydney-dashboard-duration-slow);
 }
 
 .template-options .tooltip::after {
@@ -2473,10 +2827,10 @@ body {
   position: absolute;
   top: 100%;
   left: 50%;
-  margin-left: -5px;
+  margin-left: var(--sydney-dashboard-space-1-neg);
   border-width: 5px;
   border-style: solid;
-  border-color: #1c1c1c transparent transparent transparent;
+  border-color: var(--sydney-dashboard-gray-900) transparent transparent transparent;
 }
 
 .template-options a:hover .tooltip {
@@ -2484,43 +2838,43 @@ body {
   opacity: 1;
 }
 
-.tutorial-video {
-  margin-bottom: 24px;
-  color: #3c434a;
-}
-.tutorial-video span {
-  position: relative;
-  top: 2px;
-  font-size: 16px !important;
-}
-
 .add-new-template-wrapper {
   order: 99;
+  min-width: 0;
   text-align: center;
-  align-self: center;
-  font-weight: 600;
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
 }
 #add-new-template {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  width: 120px;
-  border-radius: 50%;
-  border: 2px dashed #e3e3ec;
+  gap: var(--sydney-dashboard-space-3);
+  /* Fills the grid row alongside the template cards; the floor is for when it
+     wraps onto a row of its own. */
+  height: 100%;
+  min-height: 220px;
+  padding: var(--sydney-dashboard-space-6);
+  border-radius: var(--sydney-dashboard-radius-lg);
+  border: 2px dashed var(--sydney-dashboard-border);
   cursor: pointer;
-  color: #6d7175;
-  transition: all 0.2s ease;
+  color: var(--sydney-dashboard-gray-700);
+  transition: all var(--sydney-dashboard-duration-base) ease;
 }
 #add-new-template:hover {
   border: 2px dashed var(--sydney-dashboard-primary);
   color: var(--sydney-dashboard-primary);
+  background-color: var(--sydney-dashboard-primary-tint-light);
 }
-.add-new-template-wrapper span span {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 26px !important;
+#add-new-template .add-new-template-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--sydney-dashboard-radius-circle);
+  background-color: var(--sydney-dashboard-surface);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
 }
 
 .sydney-elementor-iframe-wrapper {
@@ -2529,34 +2883,33 @@ body {
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 9999;
-  background-color: rgba(0,0,0,0.7)
+  z-index: var(--sydney-dashboard-z-overlay);
+  background-color: var(--sydney-dashboard-scrim-strong);
+  display: grid;
+  place-items: center;
 }
 
 .sydney-elementor-iframe-wrapper iframe {
-  position: relative;
   width: 94%;
-  height: 90%;
-  top: 5%;
-  left: 3%
+  height: 88%;
 }
 
 .sydney-elementor-iframe-wrapper .sydney-editor-close {
   position: absolute;
   top: 5%;
   right: 3%;
-  z-index: 9999;
-  margin-right: -30px
+  z-index: var(--sydney-dashboard-z-overlay);
+  margin-right: var(--sydney-dashboard-space-7-neg)
 }
 
 .sydney-elementor-iframe-wrapper .sydney-editor-close svg {
-  fill: #fff;
+  fill: var(--sydney-dashboard-on-accent);
   width: 20px;
   height: 20px
 }
 
 .sydney-dashboard-feature-card.sydney-dashboard-feature-card-plugin {
-  gap: 10px;
+  gap: var(--sydney-dashboard-space-2);
   height: 100%;
 }
 
@@ -2566,24 +2919,21 @@ body {
 
 /* Setup Checklist */
 .sydney-setup-checklist-intro {
-	margin-bottom: 24px;
+	margin-bottom: var(--sydney-dashboard-space-6);
 }
 .sydney-setup-checklist-intro h2 {
-	font-size: 20px;
+	font-size: var(--sydney-dashboard-font-size-2xl);
 	line-height: 30px;
-	margin: 0 0 8px;
+	margin: 0 0 var(--sydney-dashboard-space-2);
 }
 .sydney-setup-checklist-intro p {
 	margin: 0;
 	max-width: 70ch;
 }
-.sydney-setup-checklist-category {
-	margin-bottom: 20px;
-}
 .sydney-setup-checklist-category-box {
-	border: 1px solid #e5e5e5;
-	border-radius: 6px;
-	background: #fff;
+	border: 1px solid var(--sydney-dashboard-border);
+	border-radius: var(--sydney-dashboard-radius-md);
+	background: var(--sydney-dashboard-surface);
 	overflow: hidden;
 }
 .sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-category-box {
@@ -2593,10 +2943,10 @@ body {
 .sydney-setup-checklist-category-header {
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	padding: 12px 20px;
+	gap: var(--sydney-dashboard-space-3);
+	padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-5);
 	margin: 0;
-	border-bottom: 1px solid #f7f7f7;
+	border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
 }
 .sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-category-header {
 	border-bottom: 0;
@@ -2605,8 +2955,8 @@ body {
 	cursor: pointer;
 }
 .sydney-setup-checklist-category-label {
-	font-size: 16px;
-	line-height: 1.4;
+	font-size: var(--sydney-dashboard-font-size-lg);
+	line-height: var(--sydney-dashboard-line-height-snug);
 	margin: 0;
 }
 .sydney-setup-checklist-category-progress {
@@ -2616,21 +2966,22 @@ body {
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	border-radius: 50%;
+	border-radius: var(--sydney-dashboard-radius-circle);
 	flex-shrink: 0;
-	font-size: 11px;
-	font-weight: 500;
+	font-size: var(--sydney-dashboard-font-size-xs);
+	font-weight: var(--sydney-dashboard-font-weight-medium);
 	line-height: 1;
 	font-variant-numeric: tabular-nums;
 	box-sizing: border-box;
 }
 .sydney-setup-checklist-category-progress.is-state-empty,
 .sydney-setup-checklist-category-progress.is-state-partial {
-	background: #eee;
+	background: var(--sydney-dashboard-surface-sunken);
 }
 .sydney-setup-checklist-category-progress.is-state-done {
 	background: var(--sydney-dashboard-success);
 	border: 1.5px solid var(--sydney-dashboard-success);
+	color: var(--sydney-dashboard-on-accent);
 }
 .sydney-setup-checklist-category-progress-fraction {
 	display: inline;
@@ -2649,22 +3000,22 @@ body {
 	margin-left: auto;
 	background: transparent;
 	border: 0;
-	padding: 4px;
+	padding: var(--sydney-dashboard-space-1);
 	cursor: pointer;
 	line-height: 0;
-	border-radius: 4px;
+	border-radius: var(--sydney-dashboard-radius-sm);
 }
 .sydney-setup-checklist-category-toggle:focus-visible {
 	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
-.sydney-setup-checklist-category-toggle .dashicons {
-	transition: transform 0.2s ease;
+.sydney-setup-checklist-category-toggle svg {
+	transition: transform var(--sydney-dashboard-duration-base) ease;
 }
 .sydney-setup-checklist-category.is-fully-done .sydney-setup-checklist-category-toggle {
 	display: inline-flex;
 }
-.sydney-setup-checklist-category.is-fully-done:not(.is-collapsed) .sydney-setup-checklist-category-toggle .dashicons {
+.sydney-setup-checklist-category.is-fully-done:not(.is-collapsed) .sydney-setup-checklist-category-toggle svg {
 	transform: rotate(180deg);
 }
 .sydney-setup-checklist-category.is-fully-done.is-collapsed .sydney-setup-checklist-items {
@@ -2679,9 +3030,9 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	padding: 16px 20px;
-	border-bottom: 1px solid #f7f7f7;
-	column-gap: 12px;
+	padding: var(--sydney-dashboard-space-4) var(--sydney-dashboard-space-5);
+	border-bottom: 1px solid var(--sydney-dashboard-border-subtle);
+	column-gap: var(--sydney-dashboard-space-3);
 	row-gap: 0;
 }
 .sydney-setup-checklist-item:last-child {
@@ -2694,15 +3045,15 @@ body {
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	color: #c8c8c8;
+	color: var(--sydney-dashboard-gray-400);
 	background: transparent;
 	border: 0;
 	padding: 0;
 	margin: 0;
 	line-height: 0;
 	cursor: pointer;
-	border-radius: 50%;
-	transition: color 0.15s ease;
+	border-radius: var(--sydney-dashboard-radius-circle);
+	transition: color var(--sydney-dashboard-duration-fast) ease;
 }
 .sydney-setup-checklist-item-status:hover:not([disabled]) {
 	color: var(--sydney-dashboard-primary);
@@ -2726,7 +3077,7 @@ body {
 }
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status .check {
 	display: inline;
-	stroke: #fff;
+	stroke: var(--sydney-dashboard-on-accent);
 }
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-status:hover:not([disabled]) .ring {
 	fill: var(--sydney-dashboard-success-hover);
@@ -2737,9 +3088,6 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-.sydney-setup-checklist-item-title {
-	font-weight: 500;
-}
 .sydney-setup-checklist-item.is-done .sydney-setup-checklist-item-title {
 	text-decoration: line-through;
 }
@@ -2748,14 +3096,14 @@ body {
 	opacity: 0.5;
 }
 .sydney-setup-checklist-item-desc {
-	font-size: 13px;
-	margin-top: 5px;
+	font-size: var(--sydney-dashboard-font-size-base);
+	margin-top: var(--sydney-dashboard-space-1);
 }
 .sydney-setup-checklist-item-actions {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: var(--sydney-dashboard-space-3);
 }
 .sydney-setup-checklist-item-actions .button,
 .sydney-setup-checklist-item-actions .button-primary,
@@ -2763,13 +3111,9 @@ body {
 	min-width: 115px;
 	text-align: center;
 }
-.sydney-setup-checklist-item-actions .dashicons {
-	font-size: 16px;
-	width: 16px;
-	height: 16px;
-	line-height: 1;
+.sydney-setup-checklist-item-actions svg {
 	vertical-align: middle;
-	margin-right: 4px;
+	margin-right: var(--sydney-dashboard-space-1);
 }
 .sydney-setup-checklist-help {
 	display: inline-flex;
@@ -2781,11 +3125,11 @@ body {
 	margin: 0;
 	background: transparent;
 	border: 0;
-	border-radius: 50%;
+	border-radius: var(--sydney-dashboard-radius-circle);
 	color: var(--sydney-dashboard-gray-700);
 	cursor: pointer;
 	line-height: 0;
-	transition: color 0.15s ease, background 0.15s ease;
+	transition: color var(--sydney-dashboard-duration-fast) ease, background var(--sydney-dashboard-duration-fast) ease;
 }
 .sydney-setup-checklist-help:hover {
 	color: var(--sydney-dashboard-primary);
@@ -2795,32 +3139,29 @@ body {
 	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
 }
-.sydney-setup-checklist-help .dashicons {
-	font-size: 20px;
-	width: 20px;
-	height: 20px;
+.sydney-setup-checklist-help svg {
 	margin: 0;
 }
 .sydney-setup-checklist-help-dialog {
 	position: fixed;
 	padding: 0;
 	border: 0;
-	border-radius: 8px;
-	background: #fff;
-	box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+	border-radius: var(--sydney-dashboard-radius-lg);
+	background: var(--sydney-dashboard-surface);
+	box-shadow: var(--sydney-dashboard-shadow-modal);
 	max-width: min(960px, 92vw);
 	max-height: 92vh;
 	overflow: visible;
 }
 .sydney-setup-checklist-help-dialog::backdrop {
-	background: rgba(0, 0, 0, 0.55);
+	background: var(--sydney-dashboard-scrim);
 }
 .sydney-setup-checklist-help-dialog-image {
 	display: block;
 	width: 100%;
 	height: auto;
 	max-height: 92vh;
-	border-radius: 8px;
+	border-radius: var(--sydney-dashboard-radius-lg);
 }
 .sydney-setup-checklist-help-dialog-close {
 	position: absolute;
@@ -2830,26 +3171,21 @@ body {
 	height: 32px;
 	padding: 0;
 	border: 0;
-	border-radius: 50%;
-	background: #1d2327;
-	color: #fff;
+	border-radius: var(--sydney-dashboard-radius-circle);
+	background: var(--sydney-dashboard-gray-900);
+	color: var(--sydney-dashboard-on-accent);
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	box-shadow: var(--sydney-dashboard-shadow-sm);
 }
 .sydney-setup-checklist-help-dialog-close:hover {
-	background: #000;
+	background: var(--sydney-dashboard-gray-900);
 }
 .sydney-setup-checklist-help-dialog-close:focus-visible {
 	outline: 2px solid var(--sydney-dashboard-primary);
 	outline-offset: 2px;
-}
-.sydney-setup-checklist-help-dialog-close .dashicons {
-	font-size: 18px;
-	width: 18px;
-	height: 18px;
 }
 @media (max-width: 720px) {
 	.sydney-setup-checklist-item-actions {

@@ -21,9 +21,7 @@ if (!defined('ABSPATH')) {
                 <h2><?php echo esc_html__( 'Customize your site', 'sydney' ); ?></h2>
                 <a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="sydney-dashboard-external-link" target="_blank">
                     <?php echo esc_html__( 'Go To Customizer', 'sydney' ); ?>
-                    <svg class="sydney-svg-accent" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.4375 0H8.25C7.94531 0 7.66406 0.1875 7.54688 0.492188C7.42969 0.773438 7.5 1.10156 7.71094 1.3125L8.67188 2.27344L4.14844 6.79688C3.84375 7.07812 3.84375 7.57031 4.14844 7.85156C4.28906 7.99219 4.47656 8.0625 4.6875 8.0625C4.875 8.0625 5.0625 7.99219 5.20312 7.85156L9.72656 3.32812L10.6875 4.28906C10.8281 4.42969 11.0156 4.5 11.2266 4.5C11.3203 4.5 11.4141 4.5 11.5078 4.45312C11.8125 4.33594 12 4.05469 12 3.75V0.5625C12 0.257812 11.7422 0 11.4375 0ZM9.1875 7.5C8.85938 7.5 8.625 7.75781 8.625 8.0625V10.6875C8.625 10.8047 8.53125 10.875 8.4375 10.875H1.3125C1.19531 10.875 1.125 10.8047 1.125 10.6875V3.5625C1.125 3.46875 1.19531 3.375 1.3125 3.375H3.9375C4.24219 3.375 4.5 3.14062 4.5 2.8125C4.5 2.50781 4.24219 2.25 3.9375 2.25H1.3125C0.585938 2.25 0 2.85938 0 3.5625V10.6875C0 11.4141 0.585938 12 1.3125 12H8.4375C9.14062 12 9.75 11.4141 9.75 10.6875V8.0625C9.75 7.75781 9.49219 7.5 9.1875 7.5Z" fill="currentColor"/>
-                    </svg>
+                    <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                 </a>
             </div>
             <div class="sydney-dashboard-card-body">
@@ -43,10 +41,7 @@ if (!defined('ABSPATH')) {
                                 <div class="sydney-dashboard-feature-card-actions">
                                     <?php if( isset( $feature[ 'docs_link' ] ) ) : ?>
                                         <a href="<?php echo esc_url( $feature[ 'docs_link' ] ); ?>" class="sydney-dashboard-feature-card-link-icon" title="<?php echo esc_attr__( 'Documentation', 'sydney' ); ?>" target="_blank">
-                                            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="10" cy="10" r="9.5" stroke="#757575"/>
-                                                <path d="M8.79004 12.1689V11.769C8.79004 11.4559 8.82601 11.1829 8.89795 10.9502C8.96989 10.7174 9.09049 10.4995 9.25977 10.2964C9.42904 10.089 9.65755 9.87321 9.94531 9.64893C10.2415 9.41618 10.4764 9.21517 10.6499 9.0459C10.8276 8.87663 10.9546 8.70736 11.0308 8.53809C11.1112 8.36458 11.1514 8.16357 11.1514 7.93506C11.1514 7.57536 11.0286 7.30241 10.7832 7.11621C10.542 6.92578 10.2013 6.83057 9.76123 6.83057C9.37191 6.83057 9.00586 6.88558 8.66309 6.99561C8.32031 7.10563 7.98177 7.24316 7.64746 7.4082L7.12061 6.29102C7.5057 6.07943 7.92253 5.91016 8.37109 5.7832C8.82389 5.65202 9.32113 5.58643 9.86279 5.58643C10.7261 5.58643 11.3926 5.7959 11.8623 6.21484C12.3363 6.63379 12.5732 7.18604 12.5732 7.87158C12.5732 8.24821 12.514 8.57194 12.3955 8.84277C12.277 9.10938 12.1014 9.35693 11.8687 9.58545C11.6401 9.80973 11.363 10.0467 11.0371 10.2964C10.7705 10.508 10.5653 10.6921 10.4214 10.8486C10.2817 11.001 10.1844 11.1554 10.1294 11.312C10.0786 11.4686 10.0532 11.6569 10.0532 11.877V12.1689H8.79004ZM8.54883 14.2129C8.54883 13.8659 8.6377 13.6226 8.81543 13.4829C8.9974 13.339 9.21956 13.2671 9.48193 13.2671C9.73584 13.2671 9.95378 13.339 10.1357 13.4829C10.3177 13.6226 10.4087 13.8659 10.4087 14.2129C10.4087 14.5514 10.3177 14.7969 10.1357 14.9492C9.95378 15.0973 9.73584 15.1714 9.48193 15.1714C9.21956 15.1714 8.9974 15.0973 8.81543 14.9492C8.6377 14.7969 8.54883 14.5514 8.54883 14.2129Z" fill="#757575"/>
-                                            </svg>
+                                            <?php echo sydney_dashboard_icon( 'help', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                         </a>
                                     <?php endif; ?>                                 
                                     <?php if( ! isset( $feature[ 'module' ] ) ) : ?>
@@ -56,7 +51,7 @@ if (!defined('ABSPATH')) {
                                             </a>
                                         <?php endif; ?>
                                     <?php elseif ( Sydney_Modules::is_module_active( $feature['module'] ) ) : ?>
-                                        <a href="#" class="sydney-dashboard-link sydney-dashboard-link-danger sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="false">
+                                        <a href="#" class="sydney-dashboard-link sydney-dashboard-link-danger sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="false"<?php echo isset( $feature['redirect_url'] ) ? ' data-module-redirect="' . esc_url( $feature['redirect_url'] ) . '"' : ''; ?>>
                                             <?php echo esc_html__( 'Deactivate', 'sydney' ); ?>
                                         </a>
                                         <?php if( isset( $feature[ 'link_url' ] ) ) : ?>
@@ -69,7 +64,7 @@ if (!defined('ABSPATH')) {
                                             <?php echo esc_html( Sydney_Modules::get_dependency_message( $feature ) ); ?>
                                         </span>                                        
                                     <?php else : ?>
-                                        <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true">
+                                        <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true"<?php echo isset( $feature['redirect_url'] ) ? ' data-module-redirect="' . esc_url( $feature['redirect_url'] ) . '"' : ''; ?>>
                                             <?php echo esc_html__( 'Activate', 'sydney' ); ?>
                                         </a>
                                         <?php if( isset( $feature[ 'link_url' ] ) ) : ?>
@@ -95,9 +90,7 @@ if (!defined('ABSPATH')) {
                 <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
                     <a href="<?php echo esc_url( $this->settings['upgrade_pro_module'] ); ?>" class="sydney-dashboard-external-link" target="_blank">
                         <?php echo esc_html__( 'Upgrade To Pro', 'sydney' ); ?>
-                        <svg class="sydney-svg-accent" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.4375 0H8.25C7.94531 0 7.66406 0.1875 7.54688 0.492188C7.42969 0.773438 7.5 1.10156 7.71094 1.3125L8.67188 2.27344L4.14844 6.79688C3.84375 7.07812 3.84375 7.57031 4.14844 7.85156C4.28906 7.99219 4.47656 8.0625 4.6875 8.0625C4.875 8.0625 5.0625 7.99219 5.20312 7.85156L9.72656 3.32812L10.6875 4.28906C10.8281 4.42969 11.0156 4.5 11.2266 4.5C11.3203 4.5 11.4141 4.5 11.5078 4.45312C11.8125 4.33594 12 4.05469 12 3.75V0.5625C12 0.257812 11.7422 0 11.4375 0ZM9.1875 7.5C8.85938 7.5 8.625 7.75781 8.625 8.0625V10.6875C8.625 10.8047 8.53125 10.875 8.4375 10.875H1.3125C1.19531 10.875 1.125 10.8047 1.125 10.6875V3.5625C1.125 3.46875 1.19531 3.375 1.3125 3.375H3.9375C4.24219 3.375 4.5 3.14062 4.5 2.8125C4.5 2.50781 4.24219 2.25 3.9375 2.25H1.3125C0.585938 2.25 0 2.85938 0 3.5625V10.6875C0 11.4141 0.585938 12 1.3125 12H8.4375C9.14062 12 9.75 11.4141 9.75 10.6875V8.0625C9.75 7.75781 9.49219 7.5 9.1875 7.5Z" fill="currentColor"/>
-                        </svg>
+                        <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     </a>
                 <?php /*
                 <?php else : ?>
@@ -144,10 +137,7 @@ if (!defined('ABSPATH')) {
                                     <?php else : ?>
                                         <?php if( isset( $feature[ 'docs_link' ] ) ) : ?>
                                             <a href="<?php echo esc_url( $feature[ 'docs_link' ] ); ?>" class="sydney-dashboard-feature-card-link-icon" title="<?php echo esc_attr__( 'Documentation', 'sydney' ); ?>" target="_blank">
-                                                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="10" cy="10" r="9.5" stroke="#757575"/>
-                                                    <path d="M8.79004 12.1689V11.769C8.79004 11.4559 8.82601 11.1829 8.89795 10.9502C8.96989 10.7174 9.09049 10.4995 9.25977 10.2964C9.42904 10.089 9.65755 9.87321 9.94531 9.64893C10.2415 9.41618 10.4764 9.21517 10.6499 9.0459C10.8276 8.87663 10.9546 8.70736 11.0308 8.53809C11.1112 8.36458 11.1514 8.16357 11.1514 7.93506C11.1514 7.57536 11.0286 7.30241 10.7832 7.11621C10.542 6.92578 10.2013 6.83057 9.76123 6.83057C9.37191 6.83057 9.00586 6.88558 8.66309 6.99561C8.32031 7.10563 7.98177 7.24316 7.64746 7.4082L7.12061 6.29102C7.5057 6.07943 7.92253 5.91016 8.37109 5.7832C8.82389 5.65202 9.32113 5.58643 9.86279 5.58643C10.7261 5.58643 11.3926 5.7959 11.8623 6.21484C12.3363 6.63379 12.5732 7.18604 12.5732 7.87158C12.5732 8.24821 12.514 8.57194 12.3955 8.84277C12.277 9.10938 12.1014 9.35693 11.8687 9.58545C11.6401 9.80973 11.363 10.0467 11.0371 10.2964C10.7705 10.508 10.5653 10.6921 10.4214 10.8486C10.2817 11.001 10.1844 11.1554 10.1294 11.312C10.0786 11.4686 10.0532 11.6569 10.0532 11.877V12.1689H8.79004ZM8.54883 14.2129C8.54883 13.8659 8.6377 13.6226 8.81543 13.4829C8.9974 13.339 9.21956 13.2671 9.48193 13.2671C9.73584 13.2671 9.95378 13.339 10.1357 13.4829C10.3177 13.6226 10.4087 13.8659 10.4087 14.2129C10.4087 14.5514 10.3177 14.7969 10.1357 14.9492C9.95378 15.0973 9.73584 15.1714 9.48193 15.1714C9.21956 15.1714 8.9974 15.0973 8.81543 14.9492C8.6377 14.7969 8.54883 14.5514 8.54883 14.2129Z" fill="#757575"/>
-                                                </svg>
+                                                <?php echo sydney_dashboard_icon( 'help', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                             </a>
                                         <?php endif; ?>
                                         <?php if( ! isset( $feature[ 'module' ] ) ) : ?>
@@ -157,7 +147,7 @@ if (!defined('ABSPATH')) {
                                                 </a>
                                             <?php endif; ?>
                                         <?php elseif ( Sydney_Modules::is_module_active( $feature['module'] ) ) : ?>
-                                            <a href="#" class="sydney-dashboard-link sydney-dashboard-link-danger sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="false">
+                                            <a href="#" class="sydney-dashboard-link sydney-dashboard-link-danger sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="false"<?php echo isset( $feature['redirect_url'] ) ? ' data-module-redirect="' . esc_url( $feature['redirect_url'] ) . '"' : ''; ?>>
                                                 <?php echo esc_html__( 'Deactivate', 'sydney' ); ?>
                                             </a>
                                             <?php if( isset( $feature[ 'link_url' ] ) ) : ?>
@@ -170,7 +160,7 @@ if (!defined('ABSPATH')) {
                                                 <?php echo esc_html( Sydney_Modules::get_dependency_message( $feature ) ); ?>
                                             </span>                                           
                                         <?php else : ?>
-                                            <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true">
+                                            <a href="#" class="sydney-dashboard-link sydney-dashboard-link-success sydney-dashboard-module-activation" data-module-id="<?php echo esc_attr( $feature['module'] ); ?>" data-module-activate="true"<?php echo isset( $feature['redirect_url'] ) ? ' data-module-redirect="' . esc_url( $feature['redirect_url'] ) . '"' : ''; ?>>
                                                 <?php echo esc_html__( 'Activate', 'sydney' ); ?>
                                             </a>
                                             <?php if( isset( $feature[ 'link_url' ] ) ) : ?>
@@ -239,9 +229,7 @@ if (!defined('ABSPATH')) {
                         <p><?php echo esc_html__( 'Get support from our team of WordPress experts via email. We typically reply to requests within 8 business hours.', 'sydney' ); ?></p>
                         <a href="<?php echo esc_url( $this->settings['upgrade_pro_support'] ); ?>" class="sydney-dashboard-external-link" target="_blank">
                             <?php echo esc_html__( 'Get Premium Support With Sydney Pro', 'sydney' ); ?>
-                            <svg class="sydney-svg-accent" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.4375 0H8.25C7.94531 0 7.66406 0.1875 7.54688 0.492188C7.42969 0.773438 7.5 1.10156 7.71094 1.3125L8.67188 2.27344L4.14844 6.79688C3.84375 7.07812 3.84375 7.57031 4.14844 7.85156C4.28906 7.99219 4.47656 8.0625 4.6875 8.0625C4.875 8.0625 5.0625 7.99219 5.20312 7.85156L9.72656 3.32812L10.6875 4.28906C10.8281 4.42969 11.0156 4.5 11.2266 4.5C11.3203 4.5 11.4141 4.5 11.5078 4.45312C11.8125 4.33594 12 4.05469 12 3.75V0.5625C12 0.257812 11.7422 0 11.4375 0ZM9.1875 7.5C8.85938 7.5 8.625 7.75781 8.625 8.0625V10.6875C8.625 10.8047 8.53125 10.875 8.4375 10.875H1.3125C1.19531 10.875 1.125 10.8047 1.125 10.6875V3.5625C1.125 3.46875 1.19531 3.375 1.3125 3.375H3.9375C4.24219 3.375 4.5 3.14062 4.5 2.8125C4.5 2.50781 4.24219 2.25 3.9375 2.25H1.3125C0.585938 2.25 0 2.85938 0 3.5625V10.6875C0 11.4141 0.585938 12 1.3125 12H8.4375C9.14062 12 9.75 11.4141 9.75 10.6875V8.0625C9.75 7.75781 9.49219 7.5 9.1875 7.5Z" fill="currentColor"/>
-                            </svg>
+                            <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </a>
                     </div>
                 </div>
@@ -312,9 +300,7 @@ if (!defined('ABSPATH')) {
                     <p><?php echo esc_html__( 'Got an idea for how to improve Sydney and Sydney Pro? Let us know.', 'sydney' ); ?></p>
                     <a href="<?php echo esc_url( $this->settings['suggest_idea_link'] ); ?>" class="sydney-dashboard-external-link" target="_blank">
                         <?php echo esc_html__( 'Suggest An Idea', 'sydney' ); ?>
-                        <svg class="sydney-svg-accent" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.4375 0H8.25C7.94531 0 7.66406 0.1875 7.54688 0.492188C7.42969 0.773438 7.5 1.10156 7.71094 1.3125L8.67188 2.27344L4.14844 6.79688C3.84375 7.07812 3.84375 7.57031 4.14844 7.85156C4.28906 7.99219 4.47656 8.0625 4.6875 8.0625C4.875 8.0625 5.0625 7.99219 5.20312 7.85156L9.72656 3.32812L10.6875 4.28906C10.8281 4.42969 11.0156 4.5 11.2266 4.5C11.3203 4.5 11.4141 4.5 11.5078 4.45312C11.8125 4.33594 12 4.05469 12 3.75V0.5625C12 0.257812 11.7422 0 11.4375 0ZM9.1875 7.5C8.85938 7.5 8.625 7.75781 8.625 8.0625V10.6875C8.625 10.8047 8.53125 10.875 8.4375 10.875H1.3125C1.19531 10.875 1.125 10.8047 1.125 10.6875V3.5625C1.125 3.46875 1.19531 3.375 1.3125 3.375H3.9375C4.24219 3.375 4.5 3.14062 4.5 2.8125C4.5 2.50781 4.24219 2.25 3.9375 2.25H1.3125C0.585938 2.25 0 2.85938 0 3.5625V10.6875C0 11.4141 0.585938 12 1.3125 12H8.4375C9.14062 12 9.75 11.4141 9.75 10.6875V8.0625C9.75 7.75781 9.49219 7.5 9.1875 7.5Z" fill="currentColor"/>
-                        </svg>
+                        <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     </a>
                 </div>
             </div>

@@ -23,7 +23,7 @@
 }
 .sydney-upsell-feature-wrapper li span {
 	margin-right: 5px;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-upsell-feature-wrapper .button {
 	padding: 2px 20px;

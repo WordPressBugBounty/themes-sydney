@@ -73,6 +73,25 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 		);
 
 		/**
+		 * Cached shop definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $shop_map = null;
+
+		/**
+		 * Load and cache the declarative shop map.
+		 *
+		 * @return array
+		 */
+		protected function get_shop_map() {
+			if ( null === $this->shop_map ) {
+				$this->shop_map = apply_filters( 'sydney_abilities_shop_map', require get_template_directory() . '/inc/abilities/customizer/definitions-shop.php' );
+			}
+			return $this->shop_map;
+		}
+
+		/**
 		 * Register shop abilities (read always, write when allowed) — only when
 		 * WooCommerce is active.
 		 */
@@ -195,12 +214,13 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_shop( $args ) {
-			$layout  = (string) get_theme_mod( 'shop_archive_layout', 'product-grid' );
-			$sidebar = (string) get_theme_mod( 'shop_archive_sidebar', 'sidebar-left' );
+			$map     = $this->get_shop_map();
+			$layout  = (string) get_theme_mod( $map['layout']['theme_mod'], $map['layout']['default'] );
+			$sidebar = (string) get_theme_mod( $map['sidebar']['theme_mod'], $map['sidebar']['default'] );
 
 			$stored_elements = (array) get_theme_mod(
-				'shop_card_elements',
-				array( 'woocommerce_template_loop_product_title', 'woocommerce_template_loop_rating', 'woocommerce_template_loop_price' )
+				$map['card_elements']['theme_mod'],
+				$map['card_elements']['default']
 			);
 
 			$hooks_to_keys = array_flip( self::ELEMENTS );
@@ -219,10 +239,10 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 				array(
 					'layout'             => false !== $layout_key ? $layout_key : $layout,
 					'sidebar'            => false !== $sidebar_key ? $sidebar_key : $sidebar,
-					'card_style'         => (string) get_theme_mod( 'shop_product_card_style', 'layout1' ),
+					'card_style'         => (string) get_theme_mod( $map['card_style']['theme_mod'], $map['card_style']['default'] ),
 					'card_elements'      => $elements,
-					'card_alignment'     => (string) get_theme_mod( 'swc_loop_product_alignment', 'center' ),
-					'add_to_cart_layout' => (string) get_theme_mod( 'shop_product_add_to_cart_layout', 'layout2' ),
+					'card_alignment'     => (string) get_theme_mod( $map['card_alignment']['theme_mod'], $map['card_alignment']['default'] ),
+					'add_to_cart_layout' => (string) get_theme_mod( $map['add_to_cart_layout']['theme_mod'], $map['add_to_cart_layout']['default'] ),
 					'available'          => array(
 						'layout'             => array_keys( self::LAYOUTS ),
 						'sidebar'            => array_keys( self::SIDEBARS ),
@@ -245,6 +265,7 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_update_shop( $args ) {
+			$map     = $this->get_shop_map();
 			$mods    = array();
 			$updated = array();
 
@@ -254,8 +275,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 						__( 'layout must be "grid" or "list".', 'sydney' )
 					);
 				}
-				$mods['shop_archive_layout'] = self::LAYOUTS[ $args['layout'] ];
-				$updated[]                   = 'layout';
+				$mods[ $map['layout']['theme_mod'] ] = self::LAYOUTS[ $args['layout'] ];
+				$updated[]                           = 'layout';
 			}
 
 			if ( array_key_exists( 'sidebar', $args ) ) {
@@ -264,8 +285,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 						__( 'sidebar must be "none", "left" or "right".', 'sydney' )
 					);
 				}
-				$mods['shop_archive_sidebar'] = self::SIDEBARS[ $args['sidebar'] ];
-				$updated[]                    = 'sidebar';
+				$mods[ $map['sidebar']['theme_mod'] ] = self::SIDEBARS[ $args['sidebar'] ];
+				$updated[]                            = 'sidebar';
 			}
 
 			if ( array_key_exists( 'card_style', $args ) ) {
@@ -274,8 +295,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 						__( 'card_style must be one of layout1, layout2, layout3.', 'sydney' )
 					);
 				}
-				$mods['shop_product_card_style'] = $args['card_style'];
-				$updated[]                       = 'card_style';
+				$mods[ $map['card_style']['theme_mod'] ] = $args['card_style'];
+				$updated[]                               = 'card_style';
 			}
 
 			if ( array_key_exists( 'card_elements', $args ) ) {
@@ -296,8 +317,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 					$hooks[] = self::ELEMENTS[ $element ];
 				}
 
-				$mods['shop_card_elements'] = $hooks;
-				$updated[]                  = 'card_elements';
+				$mods[ $map['card_elements']['theme_mod'] ] = $hooks;
+				$updated[]                                  = 'card_elements';
 			}
 
 			if ( array_key_exists( 'card_alignment', $args ) ) {
@@ -306,8 +327,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 						__( 'card_alignment must be "left", "center" or "right".', 'sydney' )
 					);
 				}
-				$mods['swc_loop_product_alignment'] = $args['card_alignment'];
-				$updated[]                          = 'card_alignment';
+				$mods[ $map['card_alignment']['theme_mod'] ] = $args['card_alignment'];
+				$updated[]                                   = 'card_alignment';
 			}
 
 			if ( array_key_exists( 'add_to_cart_layout', $args ) ) {
@@ -316,8 +337,8 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 						__( 'add_to_cart_layout must be "layout1" or "layout2".', 'sydney' )
 					);
 				}
-				$mods['shop_product_add_to_cart_layout'] = $args['add_to_cart_layout'];
-				$updated[]                               = 'add_to_cart_layout';
+				$mods[ $map['add_to_cart_layout']['theme_mod'] ] = $args['add_to_cart_layout'];
+				$updated[]                                       = 'add_to_cart_layout';
 			}
 
 			if ( empty( $updated ) ) {

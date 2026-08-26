@@ -38,7 +38,7 @@ class Sydney_Campaign_Notice {
 	 * Enqueue admin scripts
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_style( 'sydney-notices', get_template_directory_uri() . '/inc/notices/sydney-notices.min.css', array(), '202411', 'all' );
+		wp_enqueue_style( 'sydney-notices', get_template_directory_uri() . '/inc/notices/sydney-notices.min.css', array(), '20260819', 'all' );
 	}
 
     /**

@@ -705,6 +705,19 @@ $wp_customize->add_control( 'header_contact_phone', array(
 	'active_callback'   => function() { return sydney_callback_header_elements( 'contact_info' ); },
 ) );
 
+// Both settings are postMessage, so without a partial the preview never repaints
+// the contact anchors. One partial tied to both settings avoids a redundant
+// second AJAX render when both fields change together. fallback_refresh stays
+// off so editing a field that is not placed in any header row does not reload
+// the whole preview.
+$wp_customize->selective_refresh->add_partial( 'header_contact_mail', array(
+	'selector'            => '.header-contact',
+	'settings'            => array( 'header_contact_mail', 'header_contact_phone' ),
+	'container_inclusive' => true,
+	'fallback_refresh'    => false,
+	'render_callback'     => 'sydney_partial_header_contact_info',
+) );
+
 /**
  * Styling
  */

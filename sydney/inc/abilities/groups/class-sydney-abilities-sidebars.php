@@ -41,6 +41,25 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 		);
 
 		/**
+		 * Cached sidebars definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $sidebars_map = null;
+
+		/**
+		 * Load and cache the declarative sidebars map.
+		 *
+		 * @return array
+		 */
+		protected function get_sidebars_map() {
+			if ( null === $this->sidebars_map ) {
+				$this->sidebars_map = apply_filters( 'sydney_abilities_sidebars_map', require get_template_directory() . '/inc/abilities/customizer/definitions-sidebars.php' );
+			}
+			return $this->sidebars_map;
+		}
+
+		/**
 		 * Register sidebar abilities (read always, write when allowed).
 		 */
 		public function register() {
@@ -68,8 +87,9 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 										'label'    => array( 'type' => 'string' ),
 										'enabled'  => array( 'type' => 'boolean' ),
 										'position' => array(
-											'type' => 'string',
-											'enum' => array( 'left', 'right' ),
+											'type'        => 'string',
+											'enum'        => array( 'left', 'right' ),
+											'description' => 'Position only takes effect while that context\'s sidebar is enabled.',
 										),
 									),
 								),
@@ -100,7 +120,7 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 						'properties'           => array(
 							'contexts' => array(
 								'type'        => 'object',
-								'description' => 'Map of context key => { enabled?: boolean, position?: "left"|"right" }.',
+								'description' => 'Map of context key => { enabled?: boolean, position?: "left"|"right" }. Position only takes effect while that context\'s sidebar is enabled.',
 							),
 						),
 					),
@@ -123,11 +143,13 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 		 * @return array Map of context key => { label, enabled_mod, position_mod }.
 		 */
 		protected function context_map() {
+			$sidebars_map = $this->get_sidebars_map();
+
 			$map = array(
 				'archive' => array(
 					'label'        => __( 'Blog / archive listings', 'sydney' ),
-					'enabled_mod'  => 'sidebar_archives',
-					'position_mod' => 'sidebar_archives_position',
+					'enabled_mod'  => $sidebars_map['archive']['enabled_mod'],
+					'position_mod' => $sidebars_map['archive']['position_mod'],
 				),
 			);
 
@@ -155,14 +177,16 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_sidebars( $args ) {
+			$map      = $this->get_sidebars_map();
+			$defaults = $map['defaults'];
 			$contexts = array();
 
 			foreach ( $this->context_map() as $key => $ctx ) {
-				$position_raw = (string) get_theme_mod( $ctx['position_mod'], 'sidebar-right' );
+				$position_raw = (string) get_theme_mod( $ctx['position_mod'], $defaults['position'] );
 
 				$contexts[ $key ] = array(
 					'label'    => $ctx['label'],
-					'enabled'  => (bool) get_theme_mod( $ctx['enabled_mod'], 1 ),
+					'enabled'  => (bool) get_theme_mod( $ctx['enabled_mod'], $defaults['enabled'] ),
 					'position' => 'sidebar-left' === $position_raw ? 'left' : 'right',
 				);
 			}

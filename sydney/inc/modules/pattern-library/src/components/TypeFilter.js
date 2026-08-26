@@ -37,7 +37,12 @@ export function TypeFilter( { patterns } ) {
 	}
 
 	return (
-		<Flex direction="column" gap={ 1 }>
+		<Flex
+			direction="column"
+			gap={ 1 }
+			justify="flex-start"
+			className="sydney-pattern-library-type-filter"
+		>
 			{ allTypes.map( ( { slug, label } ) => (
 				<Button
 					key={ slug }

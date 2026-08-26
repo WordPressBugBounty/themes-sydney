@@ -379,3 +379,37 @@
     display: none;
   }
 }
+
+/* Short viewports: tighten the sidebar so the full category list still fits and
+   the modal wrapper never gains its own scrollbar. Thresholds are measured, not
+   picked: the default spacing needs a 872px window, the 871px tier needs 748px.
+   Taller windows keep the roomier default spacing. The row-gap override needs
+   the extra ancestor to outweigh the emitted Flex gap class. */
+@media (max-height: 871px) {
+  .sydney-pattern-library-modal-sidebar-content {
+    padding: 20px 28px;
+  }
+  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search,
+  .sydney-pattern-library-modal-sidebar-content .components-search-control {
+    margin-bottom: 20px;
+  }
+  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-type-filter {
+    row-gap: 0;
+  }
+  .sydney-pattern-library-type-filter .components-button {
+    height: 32px;
+  }
+}
+
+@media (max-height: 747px) {
+  .sydney-pattern-library-modal-sidebar-content {
+    padding: 12px 28px 8px;
+  }
+  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search,
+  .sydney-pattern-library-modal-sidebar-content .components-search-control {
+    margin-bottom: 12px;
+  }
+  .sydney-pattern-library-type-filter .components-button {
+    height: 30px;
+  }
+}

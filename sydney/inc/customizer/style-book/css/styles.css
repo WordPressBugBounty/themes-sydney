@@ -10,7 +10,7 @@
 }
 .sydney-style-book-toggle:hover {
 	background-color: #f6f7f7;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-style-book-toggle span {
 	margin-right: 8px;
@@ -65,7 +65,7 @@
 }
 
 .sydney-style-book-navigation a:hover {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #2271b1);
 }
 
 .sydney-style-book-header {
@@ -156,7 +156,7 @@
 	font-size: 20px;
 	text-align: center;
 	line-height: 30px;
-	background-color: #2271b1;
+	background-color: var(--wp-admin-theme-color, #2271b1);
 	color: #fff;
 	border-radius: 50%;
 }

@@ -97,9 +97,62 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 			if ( $this->should_register_on_init() ) {
 				add_action( 'init', array( $this, 'register_patterns' ) );
 			}
+			if ( $this->is_org_pattern_preview() ) {
+				add_action( 'wp', array( $this, 'force_org_preview_layout' ) );
+			}
 			add_action( 'rest_api_init', array( $this, 'register_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
+		}
+
+		/**
+		 * Whether this request is a wordpress.org (wp-themes.com) pattern preview.
+		 *
+		 * wp-themes.com renders each directory pattern preview as a plain
+		 * front-end request carrying a `pattern_name` query var (issue #412).
+		 * Existence check only; the value is never read, so there is nothing to
+		 * sanitize.
+		 *
+		 * @return bool
+		 */
+		public function is_org_pattern_preview() {
+			return isset( $_GET['pattern_name'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		/**
+		 * Drop the sidebar and force a full-width content column in .org pattern
+		 * previews (issue #480).
+		 *
+		 * wp-themes.com serves the preview from a fresh install, so the request
+		 * falls through to the blog index (home.php). That template renders the
+		 * primary column at col-md-9 via sydney_page_content_classes()
+		 * (inc/extras.php), leaving an empty col-md-3 gutter even though the
+		 * widget-less sidebar prints nothing (sidebar.php early-returns). The gap
+		 * makes full-width patterns look cramped in every directory screenshot.
+		 *
+		 * Gated on the same signal as pattern registration, so nothing here can
+		 * reach a real visitor's site. Priority 999 because
+		 * sydney_page_content_classes() discards the filtered value and returns
+		 * its own, so the last callback to run wins.
+		 */
+		public function force_org_preview_layout() {
+			if ( ! $this->is_org_pattern_preview() ) {
+				return;
+			}
+
+			add_filter( 'sydney_show_sidebar', '__return_false' );
+			add_filter( 'sydney_content_area_class', array( $this, 'fullwidth_content_class' ), 999 );
+		}
+
+		/**
+		 * Content-area class for .org pattern previews.
+		 *
+		 * Named method rather than a closure so it is assertable in unit tests.
+		 *
+		 * @return string
+		 */
+		public function fullwidth_content_class() {
+			return 'fullwidth';
 		}
 
 		/**
@@ -124,8 +177,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 * @return bool
 		 */
 		public function should_register_on_init() {
-			// wp-themes.com preview request. Existence check only; the value is never read.
-			if ( isset( $_GET['pattern_name'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( $this->is_org_pattern_preview() ) {
 				return true;
 			}
 

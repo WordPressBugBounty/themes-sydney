@@ -155,3 +155,25 @@
 	color: var(--sydney-headings-color);
 	text-decoration: none;
 }
+/* Pattern library icon and avatar rows. Mirrors css/styles.css so the editor canvas and the Pattern Library previews render the circles the same way the front end does. css/styles.css is enqueued on wp_enqueue_scripts only, so it never reaches either iframe. */
+.editor-styles-wrapper .sydney-icon-row > .sydney-icon,
+.editor-styles-wrapper .sydney-avatar-row > .sydney-avatar {
+	flex-shrink: 0;
+}
+.editor-styles-wrapper .sydney-icon-row > .sydney-icon + .wp-block-group,
+.editor-styles-wrapper .sydney-avatar-row > .sydney-avatar + .wp-block-group {
+	min-width: 0;
+}
+.editor-styles-wrapper .sydney-avatar-row > .sydney-avatar + .wp-block-group {
+	overflow-wrap: break-word;
+}
+@media (max-width: 781px) {
+	.editor-styles-wrapper .wp-block-group.sydney-icon-row,
+	.editor-styles-wrapper .wp-block-group.sydney-avatar-row {
+		flex-wrap: wrap;
+	}
+	.editor-styles-wrapper .sydney-icon-row > .sydney-icon + .wp-block-group,
+	.editor-styles-wrapper .sydney-avatar-row > .sydney-avatar + .wp-block-group {
+		min-width: auto;
+	}
+}

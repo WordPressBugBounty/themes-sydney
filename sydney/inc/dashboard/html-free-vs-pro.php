@@ -1762,7 +1762,7 @@ if (!defined('ABSPATH')) {
 																	</div>
 							</div>
 
-				<div style="text-align: right; margin-top: 30px;margin-right:60px;">
+				<div style="text-align: right; margin-top:var(--sydney-dashboard-space-7); margin-right:var(--sydney-dashboard-space-15);">
 					<a href="<?php echo esc_url($this->settings['upgrade_pro_freevspro']); ?>" target="_blank" class="button button-primary">
 						<?php esc_html_e('Buy Sydney Pro Today', 'sydney'); ?>
 					</a>

@@ -604,6 +604,7 @@ require get_template_directory() . '/inc/woocommerce.php';
  */
 if ( class_exists( 'SitePress' ) ) {
 	require get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml.php';
+	require get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-strings.php';
 }
 
 /**

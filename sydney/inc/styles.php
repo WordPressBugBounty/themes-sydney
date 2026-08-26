@@ -327,6 +327,24 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$custom .= $this->get_color_css( 'button_color', '', 'button,#sidebar-footer a.wp-block-button__link,.wp-element-button,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button,.checkout-button.button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );            
 			$custom .= $this->get_color_css( 'button_color_hover', '', 'button:hover,#sidebar-footer .wp-block-button__link:hover,.wp-element-button:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover' );          
 
+			// wp.org theme directory preview only, for now. There core prints
+			// global-styles-inline-css *after* the theme's inline CSS, so its
+			// `:root :where(.wp-element-button,.wp-block-button__link)` rule wins the
+			// (0,1,0) tie against the button colors above and forces #fff text on a
+			// #32373c background (issue #509). Re-stating the colors behind `:root`
+			// lifts them to (0,2,0) so the theme wins whatever the print order is.
+			//
+			// Scoped to fresh sites - the preview forces `fresh_site` true via
+			// `pre_option_fresh_site` - so established installs keep today's cascade,
+			// including anyone overriding these buttons from Additional CSS. Drop the
+			// condition once the specificity bump is applied theme-wide.
+			if ( get_option( 'fresh_site' ) ) {
+				$custom .= $this->get_background_color_css( 'button_background_color', '', ':root .wp-element-button,:root .wp-block-button__link' );
+				$custom .= $this->get_background_color_css( 'button_background_color_hover', '', ':root .wp-element-button:hover,:root .wp-block-button__link:hover' );
+				$custom .= $this->get_color_css( 'button_color', '', ':root .wp-element-button,:root .wp-block-button__link' );
+				$custom .= $this->get_color_css( 'button_color_hover', '', ':root .wp-element-button:hover,:root .wp-block-button__link:hover' );
+			}
+
 			$button_border_color = get_theme_mod( 'button_border_color', '' );
 			$button_border_color_hover = get_theme_mod( 'button_border_color_hover', '' );
 			$custom .= ".is-style-outline .wp-block-button__link, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button, .roll-button, .wp-block-button__link.is-style-outline,button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { border-color:" . esc_attr( $button_border_color ) . ";}" . "\n";
@@ -675,8 +693,12 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			}  
             
             //Global colors
-			$custom .= $this->get_color_css( 'color_link_default', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(.has-link-color a):not(.wp-block-post-title a):not(.wp-block-latest-posts__post-title)' );
-			$custom .= $this->get_color_css( 'color_link_hover', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(.has-link-color a):not(.wp-block-post-title a):not(.wp-block-latest-posts__post-title):hover' );
+			// The #352 carve-outs live inside :where() so they add no specificity. Bare
+			// :not() clauses inherit their argument's weight and pushed this rule from
+			// (0,4,1) to (0,7,3), which made it outrank third-party block CSS it never
+			// used to touch (issue #491). Keep any future exclusion inside the :where().
+			$custom .= $this->get_color_css( 'color_link_default', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(:where(.has-link-color a,.wp-block-post-title a,.wp-block-latest-posts__post-title))' );
+			$custom .= $this->get_color_css( 'color_link_hover', '', '.entry-content a:not(.button):not(.elementor-button-link):not(.wp-block-button__link):not(:where(.has-link-color a,.wp-block-post-title a,.wp-block-latest-posts__post-title)):hover' );
 			$custom .= $this->get_color_css( 'color_heading_1', '', 'h1' );
 			$custom .= $this->get_color_css( 'color_heading_2', '', 'h2' );
 			$custom .= $this->get_color_css( 'color_heading_3', '', 'h3' );
@@ -877,10 +899,11 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		 */
 		private function cache_signature() {
 			$data = array(
-				'schema'   => 2,
+				'schema'   => 3,
 				'theme'    => wp_get_theme( get_template() )->get( 'Version' ),
 				'child'    => get_stylesheet(),
 				'hfb'      => Sydney_Modules::is_module_active( 'hf-builder' ),
+				'fresh'    => (bool) get_option( 'fresh_site' ),
 				'branding' => (bool) ( get_bloginfo( 'description' ) || get_bloginfo( 'name' ) || get_theme_mod( 'site_logo' ) ),
 			);
 

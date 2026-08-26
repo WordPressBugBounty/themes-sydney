@@ -40,6 +40,25 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 		const META_ELEMENTS = array( 'post_date', 'post_author', 'post_categories', 'post_comments', 'post_tags' );
 
 		/**
+		 * Cached blog-layout definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $blog_map = null;
+
+		/**
+		 * Load and cache the declarative blog-layout map.
+		 *
+		 * @return array
+		 */
+		protected function get_blog_map() {
+			if ( null === $this->blog_map ) {
+				$this->blog_map = apply_filters( 'sydney_abilities_blog_map', require get_template_directory() . '/inc/abilities/customizer/definitions-blog.php' );
+			}
+			return $this->blog_map;
+		}
+
+		/**
 		 * Register blog-layout abilities (read always, write when allowed).
 		 */
 		public function register() {
@@ -60,10 +79,19 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 					'output_schema'    => Sydney_Ability::envelope_schema(
 						array(
 							'layout'         => array( 'type' => 'string' ),
-							'columns'        => array( 'type' => 'integer' ),
+							'columns'        => array(
+								'type'        => 'integer',
+								'description' => 'Only applies when layout is layout3 or layout5 (grid and masonry).',
+							),
 							'show_content'   => array( 'type' => 'boolean' ),
-							'excerpt_length' => array( 'type' => 'integer' ),
-							'read_more_link' => array( 'type' => 'boolean' ),
+							'excerpt_length' => array(
+								'type'        => 'integer',
+								'description' => 'Only applies when show_content is enabled.',
+							),
+							'read_more_link' => array(
+								'type'        => 'boolean',
+								'description' => 'Only applies when show_content is enabled.',
+							),
 							'meta_elements'  => array(
 								'type'  => 'array',
 								'items' => array( 'type' => 'string' ),
@@ -91,7 +119,7 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update blog layout', 'sydney' ),
-					'description'      => __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list.', 'sydney' ),
+					'description'      => __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first.', 'sydney' ),
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,
@@ -101,19 +129,24 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 								'enum' => self::LAYOUTS,
 							),
 							'columns'        => array(
-								'type' => 'integer',
-								'enum' => self::COLUMNS,
+								'type'        => 'integer',
+								'enum'        => self::COLUMNS,
+								'description' => 'Only applies when layout is layout3 or layout5 (grid and masonry).',
 							),
 							'show_content'   => array(
 								'type'        => 'boolean',
 								'description' => 'Whether each post shows its excerpt/content in the listing.',
 							),
 							'excerpt_length' => array(
-								'type'    => 'integer',
-								'minimum' => 0,
-								'maximum' => 120,
+								'type'        => 'integer',
+								'minimum'     => 0,
+								'maximum'     => 120,
+								'description' => 'Only applies when show_content is enabled.',
 							),
-							'read_more_link' => array( 'type' => 'boolean' ),
+							'read_more_link' => array(
+								'type'        => 'boolean',
+								'description' => 'Only applies when show_content is enabled.',
+							),
 							'meta_elements'  => array(
 								'type'  => 'array',
 								'items' => array(
@@ -146,16 +179,17 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_blog_layout( $args ) {
-			$meta = get_theme_mod( 'archive_meta_elements', array( 'post_date', 'post_categories' ) );
+			$map  = $this->get_blog_map();
+			$meta = get_theme_mod( $map['meta_elements']['theme_mod'], $map['meta_elements']['default'] );
 
 			return Sydney_Abilities_Response::success(
 				__( 'Blog layout retrieved.', 'sydney' ),
 				array(
-					'layout'         => (string) get_theme_mod( 'blog_layout', 'layout2' ),
-					'columns'        => (int) get_theme_mod( 'archives_grid_columns', 3 ),
-					'show_content'   => (bool) get_theme_mod( 'show_excerpt', 1 ),
-					'excerpt_length' => (int) get_theme_mod( 'exc_lenght', 22 ),
-					'read_more_link' => (bool) get_theme_mod( 'read_more_link', 0 ),
+					'layout'         => (string) get_theme_mod( $map['layout']['theme_mod'], $map['layout']['default'] ),
+					'columns'        => (int) get_theme_mod( $map['columns']['theme_mod'], $map['columns']['default'] ),
+					'show_content'   => (bool) get_theme_mod( $map['show_content']['theme_mod'], $map['show_content']['default'] ),
+					'excerpt_length' => (int) get_theme_mod( $map['excerpt_length']['theme_mod'], $map['excerpt_length']['default'] ),
+					'read_more_link' => (bool) get_theme_mod( $map['read_more_link']['theme_mod'], $map['read_more_link']['default'] ),
 					'meta_elements'  => array_values( (array) $meta ),
 					'available'      => array(
 						'layout'        => self::LAYOUTS,
@@ -177,6 +211,7 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_update_blog_layout( $args ) {
+			$map     = $this->get_blog_map();
 			$mods    = array();
 			$updated = array();
 
@@ -186,8 +221,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 						__( 'layout must be one of layout1..layout6.', 'sydney' )
 					);
 				}
-				$mods['blog_layout'] = $args['layout'];
-				$updated[]           = 'layout';
+				$mods[ $map['layout']['theme_mod'] ] = $args['layout'];
+				$updated[]                           = 'layout';
 			}
 
 			if ( array_key_exists( 'columns', $args ) ) {
@@ -197,8 +232,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 					);
 				}
 				// archives_grid_columns stores as a string radio value.
-				$mods['archives_grid_columns'] = (string) $args['columns'];
-				$updated[]                      = 'columns';
+				$mods[ $map['columns']['theme_mod'] ] = (string) $args['columns'];
+				$updated[]                            = 'columns';
 			}
 
 			if ( array_key_exists( 'show_content', $args ) ) {
@@ -207,8 +242,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 						__( 'show_content must be a boolean.', 'sydney' )
 					);
 				}
-				$mods['show_excerpt'] = $args['show_content'] ? 1 : '';
-				$updated[]            = 'show_content';
+				$mods[ $map['show_content']['theme_mod'] ] = $args['show_content'] ? 1 : '';
+				$updated[]                                 = 'show_content';
 			}
 
 			if ( array_key_exists( 'excerpt_length', $args ) ) {
@@ -217,8 +252,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 						__( 'excerpt_length must be an integer between 0 and 120.', 'sydney' )
 					);
 				}
-				$mods['exc_lenght'] = $args['excerpt_length'];
-				$updated[]          = 'excerpt_length';
+				$mods[ $map['excerpt_length']['theme_mod'] ] = $args['excerpt_length'];
+				$updated[]                                   = 'excerpt_length';
 			}
 
 			if ( array_key_exists( 'read_more_link', $args ) ) {
@@ -227,8 +262,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 						__( 'read_more_link must be a boolean.', 'sydney' )
 					);
 				}
-				$mods['read_more_link'] = $args['read_more_link'] ? 1 : '';
-				$updated[]              = 'read_more_link';
+				$mods[ $map['read_more_link']['theme_mod'] ] = $args['read_more_link'] ? 1 : '';
+				$updated[]                                   = 'read_more_link';
 			}
 
 			if ( array_key_exists( 'meta_elements', $args ) ) {
@@ -246,8 +281,8 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 					}
 				}
 				// Theme sanitizer re-validates and preserves order.
-				$mods['archive_meta_elements'] = sydney_sanitize_blog_meta_elements( $args['meta_elements'] );
-				$updated[]                     = 'meta_elements';
+				$mods[ $map['meta_elements']['theme_mod'] ] = sydney_sanitize_blog_meta_elements( $args['meta_elements'] );
+				$updated[]                                  = 'meta_elements';
 			}
 
 			if ( empty( $updated ) ) {

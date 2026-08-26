@@ -74,7 +74,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #2271b1;
+  background: var(--wp-admin-theme-color, #2271b1);
   cursor: pointer;
   -webkit-transition: background 0.15s ease-in-out;
   transition: background 0.15s ease-in-out;
@@ -93,7 +93,7 @@
   height: 15px;
   border: 0;
   border-radius: 50%;
-  background: #2271b1;
+  background: var(--wp-admin-theme-color, #2271b1);
   cursor: pointer;
   -moz-transition: background 0.15s ease-in-out;
   transition: background 0.15s ease-in-out;
@@ -264,7 +264,7 @@ input::-moz-focus-inner, input::-moz-focus-outer {
 
 .sydney-devices-preview button:hover,
 .sydney-devices-preview button.active {
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 
 .font-control-title {
@@ -391,7 +391,7 @@ span.delete:hover {
 }
 .sydney-global-control .global-color.active,
 .sydney-global-control .global-color:hover {
-  border-color: #2271b1;
+  border-color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-global-control .dashicons {
   cursor: pointer;
@@ -437,7 +437,7 @@ span.delete:hover {
 }
 .sydney-global-control .global-colors-dropdown .title .dashicons {
   text-decoration: none;
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
   margin-right: 0;
 }
   .sydney-color-picker svg {
@@ -650,7 +650,7 @@ span.delete:hover {
   }
   
   .pcr-app .pcr-interaction input:focus {
-    border-color: #2271b1;
+    border-color: var(--wp-admin-theme-color, #2271b1);
   }
   
   .pcr-app .pcr-interaction .pcr-result {
@@ -668,7 +668,7 @@ span.delete:hover {
     padding: 0 10px;
     border-radius: 2px;
     color: #fff;
-    background-color: #2271b1;
+    background-color: var(--wp-admin-theme-color, #2271b1);
   }
   
   .pcr-app .pcr-selection .pcr-picker {
@@ -886,7 +886,7 @@ span.delete:hover {
 }
 
 .control-tab.active {
-  border-color: #2271b1;
+  border-color: var(--wp-admin-theme-color, #2271b1);
 }
 
 .tinymce-control textarea {
@@ -984,11 +984,11 @@ span.delete:hover {
 
 .text_radio_button_control .radio-button-label span:hover {
   background-color: rgba(255, 255, 255, 0.2);
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 
 .text_radio_button_control .radio-button-label > input:checked + span {
-  background-color: #2271b1;
+  background-color: var(--wp-admin-theme-color, #2271b1);
   color: #fff;
   fill: #fff;
 }
@@ -1102,7 +1102,7 @@ li#customize-control-sydney_upsell_mobile_header {
           box-sizing: border-box;
 }
 .customize-control-sydney-radio-image label.ui-state-active {
-  background-color: #2271b1;
+  background-color: var(--wp-admin-theme-color, #2271b1);
 }
 .customize-control-sydney-radio-image figure {
   display: -webkit-box;
@@ -1282,7 +1282,7 @@ li#customize-control-sydney_upsell_mobile_header {
 
 .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-inner {
   margin-left: 0;
-  background: #2271b1;
+  background: var(--wp-admin-theme-color, #2271b1);
 }
 
 .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
@@ -1950,7 +1950,7 @@ ul[id^="sub-accordion-section-sydney_cpt_"] li:not(.customize-control-sydney-tex
 }
 .sydney-dimensions-control .sydney-dimensions-wrapper .sydney-dimensions-header .sydney-dimensions-link-values .sydney-dimensions-icon-link {
   display: none;
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-dimensions-control .sydney-dimensions-wrapper .sydney-dimensions-header .sydney-dimensions-link-values .sydney-dimensions-icon-unlink {
   display: block;

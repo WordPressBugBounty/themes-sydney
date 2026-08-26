@@ -1208,19 +1208,8 @@
 		} );
 	} );
 
-	wp.customize( 'header_contact_mail', function( val ) {
-		val.bind( function( to ) {
-			$( '.header-contact-email span' ).text( to );
-			$( '.header-contact-email' ).attr( 'href', 'mailto:' + to );
-		} );
-	} );
-
-	wp.customize( 'header_contact_phone', function( val ) {
-		val.bind( function( to ) {
-			$( '.header-contact-phone span' ).text( to );
-			$( '.header-contact-phone' ).attr( 'href', 'tel:' + to );
-		} );
-	} );
+	// header_contact_mail / header_contact_phone are handled by the
+	// .header-contact selective refresh partial (see inc/customizer/options/header.php).
 
 	wp.customize( 'header_html_content', function( val ) {
 		val.bind( function( to ) {

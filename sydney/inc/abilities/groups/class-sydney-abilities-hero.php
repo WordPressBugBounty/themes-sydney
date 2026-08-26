@@ -29,6 +29,25 @@ if ( ! class_exists( 'Sydney_Abilities_Hero' ) ) :
 		const TYPES = array( 'slider', 'image', 'core-video', 'nothing' );
 
 		/**
+		 * Cached hero definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $hero_map = null;
+
+		/**
+		 * Load and cache the declarative hero map.
+		 *
+		 * @return array
+		 */
+		protected function get_hero_map() {
+			if ( null === $this->hero_map ) {
+				$this->hero_map = apply_filters( 'sydney_abilities_hero_map', require get_template_directory() . '/inc/abilities/customizer/definitions-hero.php' );
+			}
+			return $this->hero_map;
+		}
+
+		/**
 		 * Register hero abilities (read always, write when allowed).
 		 */
 		public function register() {
@@ -119,13 +138,15 @@ if ( ! class_exists( 'Sydney_Abilities_Hero' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_hero( $args ) {
+			$map = $this->get_hero_map();
+
 			return Sydney_Abilities_Response::success(
 				__( 'Hero settings retrieved.', 'sydney' ),
 				array(
-					'front_page_type' => (string) get_theme_mod( 'front_header_type', 'nothing' ),
-					'site_type'       => (string) get_theme_mod( 'site_header_type', 'nothing' ),
-					'header_height'   => (int) get_theme_mod( 'header_height', 300 ),
-					'overlay_hidden'  => (bool) get_theme_mod( 'hide_overlay', '' ),
+					'front_page_type' => (string) get_theme_mod( $map['front_page_type']['theme_mod'], $map['front_page_type']['default'] ),
+					'site_type'       => (string) get_theme_mod( $map['site_type']['theme_mod'], $map['site_type']['default'] ),
+					'header_height'   => (int) get_theme_mod( $map['header_height']['theme_mod'], $map['header_height']['default'] ),
+					'overlay_hidden'  => (bool) get_theme_mod( $map['overlay_hidden']['theme_mod'], $map['overlay_hidden']['default'] ),
 					'available_types' => self::TYPES,
 				)
 			);
@@ -138,15 +159,14 @@ if ( ! class_exists( 'Sydney_Abilities_Hero' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_update_hero( $args ) {
-			$fields = array(
-				'front_page_type' => 'front_header_type',
-				'site_type'       => 'site_header_type',
-			);
+			$map = $this->get_hero_map();
+
+			$fields = array( 'front_page_type', 'site_type' );
 
 			$mods    = array();
 			$updated = array();
 
-			foreach ( $fields as $field => $theme_mod ) {
+			foreach ( $fields as $field ) {
 				if ( ! array_key_exists( $field, $args ) ) {
 					continue;
 				}
@@ -158,8 +178,8 @@ if ( ! class_exists( 'Sydney_Abilities_Hero' ) ) :
 					);
 				}
 
-				$mods[ $theme_mod ] = $args[ $field ];
-				$updated[]          = $field;
+				$mods[ $map[ $field ]['theme_mod'] ] = $args[ $field ];
+				$updated[]                           = $field;
 			}
 
 			if ( empty( $updated ) ) {

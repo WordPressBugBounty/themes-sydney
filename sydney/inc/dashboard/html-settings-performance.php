@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
         <div class="sydney-dashboard-module-card">
             <div class="sydney-dashboard-module-card-header bt-align-items-center">
                 <div class="sydney-dashboard-module-card-header-info">
-                    <h2 class="bt-m-0 bt-mb-10px"><?php echo esc_html__( 'Load Google Fonts Locally', 'sydney' ); ?></h2>
+                    <h2 class="bt-m-0 bt-mb-2"><?php echo esc_html__( 'Load Google Fonts Locally', 'sydney' ); ?></h2>
                     <p class="bt-text-color-grey"><?php esc_html_e('Activate this option to load the Google fonts locally.', 'sydney'); ?></p>
                 </div>
                 <div class="sydney-dashboard-module-card-header-actions bt-pt-0">

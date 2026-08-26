@@ -28,7 +28,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
         }
 
 	public function enqueue() {
-        wp_enqueue_style( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/css/styles.min.css', array(), '20250902' );
+        wp_enqueue_style( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/css/styles.min.css', array(), '20260819' );
         wp_enqueue_script( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/js/scripts.min.js', array( 'customize-controls' ), '20250902', true );
 
             /**

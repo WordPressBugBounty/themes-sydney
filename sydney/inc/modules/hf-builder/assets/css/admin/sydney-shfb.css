@@ -458,7 +458,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
   text-decoration: none;
 }
 .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-settings:hover {
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-settings span {
   font-size: 16px;
@@ -470,7 +470,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
   color: #1E1E1E;
 }
 .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-display:hover {
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-display.show .sydney-shfb-bottom-display-hide, .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-display:not(.show) .sydney-shfb-bottom-display-show {
   display: none;
@@ -680,7 +680,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
   margin-bottom: -1px;
 }
 .shfb-available-columns .shfb-available-columns-items-wrapper .shfb-available-columns-item:hover {
-  color: #2271b1;
+  color: var(--wp-admin-theme-color, #2271b1);
 }
 .shfb-available-columns .shfb-available-columns-items-wrapper .shfb-available-columns-item:focus {
   -webkit-box-shadow: none;
@@ -772,7 +772,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
 }
 
 .shfb-available-components .shfb-button:hover {
-  border-color: #2271b1;
+  border-color: var(--wp-admin-theme-color, #2271b1);
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -847,7 +847,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
   text-decoration: none;
   border-radius: 4px;
   color: #FFF !important;
-  background-color: #2271b1;
+  background-color: var(--wp-admin-theme-color, #2271b1);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
@@ -880,7 +880,7 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
   right: 4px;
   width: 17px;
   height: 17px;
-  fill: #2271b1;
+  fill: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-shfb-upsell-components-wrapper p {
   margin: 0 0 5px;

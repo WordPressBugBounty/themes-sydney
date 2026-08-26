@@ -23,6 +23,25 @@ if ( ! class_exists( 'Sydney_Abilities_Scrolltop' ) ) :
 	class Sydney_Abilities_Scrolltop {
 
 		/**
+		 * Cached scrolltop definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $scrolltop_map = null;
+
+		/**
+		 * Load and cache the declarative scrolltop map.
+		 *
+		 * @return array
+		 */
+		protected function get_scrolltop_map() {
+			if ( null === $this->scrolltop_map ) {
+				$this->scrolltop_map = apply_filters( 'sydney_abilities_scrolltop_map', require get_template_directory() . '/inc/abilities/customizer/definitions-scrolltop.php' );
+			}
+			return $this->scrolltop_map;
+		}
+
+		/**
 		 * Register scroll-to-top abilities (read always, write when allowed).
 		 */
 		public function register() {
@@ -94,9 +113,11 @@ if ( ! class_exists( 'Sydney_Abilities_Scrolltop' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_scrolltop( $args ) {
+			$map = $this->get_scrolltop_map();
+
 			return Sydney_Abilities_Response::success(
 				__( 'Scroll-to-top state retrieved.', 'sydney' ),
-				array( 'enabled' => (bool) get_theme_mod( 'enable_scrolltop', 1 ) )
+				array( 'enabled' => (bool) get_theme_mod( $map['enabled']['theme_mod'], $map['enabled']['default'] ) )
 			);
 		}
 
@@ -113,10 +134,11 @@ if ( ! class_exists( 'Sydney_Abilities_Scrolltop' ) ) :
 				);
 			}
 
+			$map     = $this->get_scrolltop_map();
 			$enabled = $args['enabled'];
 
 			// Mirror sydney_sanitize_checkbox storage: 1 / ''.
-			set_theme_mod( 'enable_scrolltop', $enabled ? 1 : '' );
+			set_theme_mod( $map['enabled']['theme_mod'], $enabled ? 1 : '' );
 
 			return Sydney_Abilities_Response::success(
 				$enabled

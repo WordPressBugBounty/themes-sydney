@@ -83,7 +83,7 @@ if ( ! class_exists( 'Sydney_Abilities_Plugin_Installer' ) ) :
 				);
 			}
 
-			// Not installed — install, then activate.
+			// Not installed — install first.
 			if ( 'not_installed' === $status ) {
 				$installed = $dashboard->install_plugin( $slug );
 				if ( ! $installed ) {
@@ -92,16 +92,30 @@ if ( ! class_exists( 'Sydney_Abilities_Plugin_Installer' ) ) :
 						sprintf( __( 'The %s plugin could not be installed.', 'sydney' ), $label )
 					);
 				}
-				$dashboard->activate_plugin( $path );
-			} elseif ( 'inactive' === $status ) {
-				// Installed but inactive — activate only.
-				$dashboard->activate_plugin( $path );
-			} else {
+			} elseif ( 'inactive' !== $status ) {
 				// Unrecognized status (e.g. null from a cap-stripped get_plugin_status):
 				// do not fall through and misreport an activation failure.
 				return Sydney_Abilities_Response::error(
 					/* translators: %s: plugin name. */
 					sprintf( __( 'Could not determine the %s plugin status.', 'sydney' ), $label )
+				);
+			}
+
+			// activate_plugin() validates against a plugin list that can be stale on a
+			// warm worker or immediately after an install. Force a fresh read.
+			if ( ! function_exists( 'wp_clean_plugins_cache' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+			}
+
+			clearstatcache();
+			wp_clean_plugins_cache( false );
+
+			$activate = $dashboard->activate_plugin( $path );
+
+			if ( is_wp_error( $activate ) ) {
+				return Sydney_Abilities_Response::error(
+					/* translators: 1: plugin name, 2: activation error message. */
+					sprintf( __( 'The %1$s plugin could not be activated: %2$s', 'sydney' ), $label, $activate->get_error_message() )
 				);
 			}
 

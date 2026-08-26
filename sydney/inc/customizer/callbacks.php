@@ -405,3 +405,21 @@ function sydney_callback_transparent_header() {
 		return false;
 	}
 }
+
+/**
+ * Header contact info partial
+ *
+ * Render callback for the header_contact_mail / header_contact_phone selective
+ * refresh partials. Dispatches to whichever header is actually rendering, so the
+ * preview markup matches the front end markup.
+ */
+function sydney_partial_header_contact_info() {
+	if ( class_exists( 'Sydney_Modules' ) && Sydney_Modules::is_module_active( 'hf-builder' ) && class_exists( 'Sydney_Header_Footer_Builder' ) ) {
+		Sydney_Header_Footer_Builder::get_instance()->contact_info_markup();
+		return;
+	}
+
+	if ( class_exists( 'Sydney_Header' ) ) {
+		Sydney_Header::get_instance()->contact_info();
+	}
+}

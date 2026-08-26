@@ -29,7 +29,7 @@ $categories = $state['categories'];
 						$done_count     = isset( $category['done_count'] )  ? (int) $category['done_count']  : 0;
 						$total_count    = isset( $category['total_count'] ) ? (int) $category['total_count'] : 0;
 						$progress_state = $cat_all_done ? 'done' : ( $done_count > 0 ? 'partial' : 'empty' );
-						$section_class  = 'sydney-setup-checklist-category';
+						$section_class  = 'sydney-setup-checklist-category bt-mb-5';
 						$section_class .= $cat_all_done ? ' is-fully-done is-collapsed' : '';
 						$items_id       = 'sydney-setup-items-' . $cat_slug;
 						$progress_label = sprintf(
@@ -47,9 +47,7 @@ $categories = $state['categories'];
 										data-total="<?php echo esc_attr( $total_count ); ?>"
 										aria-label="<?php echo esc_attr( $progress_label ); ?>">
 										<span class="sydney-setup-checklist-category-progress-fraction" aria-hidden="true"><?php echo esc_html( $done_count . '/' . $total_count ); ?></span>
-										<svg class="sydney-setup-checklist-category-progress-check" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-											<path d="M5 9.5l2.5 2.5L13 7" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-										</svg>
+										<?php echo sydney_dashboard_icon( 'check-bold', 18, 'sydney-setup-checklist-category-progress-check' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</span>
 									<h3 class="sydney-setup-checklist-category-label"><?php echo esc_html( $category['label'] ); ?></h3>
 									<button type="button"
@@ -60,7 +58,7 @@ $categories = $state['categories'];
 											/* translators: %s: name of the setup checklist category, e.g. "Branding" */
 											echo esc_attr( sprintf( __( 'Toggle %s items', 'sydney' ), $category['label'] ) );
 										?>">
-										<span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span>
+										<?php echo sydney_dashboard_icon( 'chevron-down', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</button>
 								</header>
 
@@ -96,7 +94,7 @@ $categories = $state['categories'];
 										</button>
 
 										<div class="sydney-setup-checklist-item-text">
-											<span class="sydney-setup-checklist-item-title"><?php echo esc_html( $item['title'] ); ?></span>
+											<span class="sydney-setup-checklist-item-title bt-font-weight-500"><?php echo esc_html( $item['title'] ); ?></span>
 											<span class="sydney-setup-checklist-item-desc bt-text-color-grey"><?php echo esc_html( $item['description'] ); ?></span>
 										</div>
 
@@ -107,7 +105,7 @@ $categories = $state['categories'];
 													data-help-image="<?php echo esc_url( $item['help_image'] ); ?>"
 													aria-haspopup="dialog"
 													aria-label="<?php echo esc_attr( $help_aria_label ); ?>">
-													<span class="dashicons dashicons-editor-help" aria-hidden="true"></span>
+													<?php echo sydney_dashboard_icon( 'help', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 												</button>
 											<?php endif; ?>
 											<?php if ( 'homepage_setup' === $action_type ) : ?>
@@ -153,7 +151,7 @@ $categories = $state['categories'];
 
 					<dialog class="sydney-setup-checklist-help-dialog" id="sydney-setup-checklist-help-dialog" aria-label="<?php esc_attr_e( 'Help', 'sydney' ); ?>">
 						<button type="button" class="sydney-setup-checklist-help-dialog-close" aria-label="<?php esc_attr_e( 'Close', 'sydney' ); ?>">
-							<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+							<?php echo sydney_dashboard_icon( 'close', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</button>
 						<img class="sydney-setup-checklist-help-dialog-image" src="" alt="">
 					</dialog>

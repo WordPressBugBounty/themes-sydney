@@ -2719,6 +2719,32 @@ SVGs
 .wp-block-group.has-background {
 	padding: 20px 30px;
 }
+.is-layout-flex.is-vertical > .wp-block-image.is-resized img {
+	max-width: none;
+}
+/* Pattern library icon and avatar rows: the fixed-size child must not shrink, or the circle renders as an oval. */
+.sydney-icon-row > .sydney-icon,
+.sydney-avatar-row > .sydney-avatar {
+	flex-shrink: 0;
+}
+.sydney-icon-row > .sydney-icon + .wp-block-group,
+.sydney-avatar-row > .sydney-avatar + .wp-block-group {
+	min-width: 0;
+}
+/* With the floor removed a long name would be clipped in a narrow card, so let it break instead. */
+.sydney-avatar-row > .sydney-avatar + .wp-block-group {
+	overflow-wrap: break-word;
+}
+@media (max-width: 781px) {
+	.wp-block-group.sydney-icon-row,
+	.wp-block-group.sydney-avatar-row {
+		flex-wrap: wrap;
+	}
+	.sydney-icon-row > .sydney-icon + .wp-block-group,
+	.sydney-avatar-row > .sydney-avatar + .wp-block-group {
+		min-width: auto;
+	}
+}
 .shfb-footer .shfb-row-wrapper.syd-hidden,
 .shfb-row-wrapper.syd-hidden {
 	display: none;

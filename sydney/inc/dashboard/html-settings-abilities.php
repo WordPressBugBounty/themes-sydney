@@ -41,29 +41,28 @@ $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 ?>
 
 <!-- AI Abilities Section -->
-<div class="sydney-dashboard-card-section" style="margin-top: 20px;">
+<div class="sydney-dashboard-card-section bt-mt-5">
 	<div class="sydney-dashboard-module-card">
 
-		<h2 class="bt-m-0 bt-mb-20px" style="display:inline-flex; align-items:center; gap:6px; font-size:20px; line-height:20px;">
+		<h2 class="bt-m-0 bt-mb-5 bt-inline-flex-center" style="gap:var(--sydney-dashboard-space-1);">
 			<?php echo esc_html__( 'AI Abilities', 'sydney' ); ?>
 			<svg class="sydney-svg-accent" width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M8.66666 4.66666L6 3.66666L8.66666 2.66566L9.66666 0L10.6676 2.66566L13.3333 3.66666L10.6676 4.66666L9.66666 7.33331L8.66666 4.66666ZM3.33331 10L0 8.66666L3.33331 7.33331L4.66666 4L6 7.33331L9.33331 8.66666L6 10L4.66666 13.3333L3.33331 10Z" fill="currentColor"/>
 			</svg>
 		</h2>
 
-		<div class="sydney-dashboard-module-card-header" style="align-items: center;">
+		<div class="sydney-dashboard-module-card-header bt-align-items-center">
 			<div class="sydney-dashboard-module-card-header-info">
 				<p class="bt-text-color-grey bt-m-0"><?php esc_html_e( 'Let AI assistants read and update Sydney settings, import starter sites, and build pages with the Sydney Pattern Library through the WordPress Abilities API. Off by default.', 'sydney' ); ?> <a href="https://docs.athemes.com/article/abilities-in-sydney/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'See example prompts', 'sydney' ); ?></a></p>
 			</div>
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">
-				<div class="sydney-dashboard-box-link" style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+				<div class="sydney-dashboard-box-link bt-flex-center" style="gap:var(--sydney-dashboard-space-4); flex-wrap:wrap;">
 					<?php foreach ( $sydney_ai_modes as $sydney_mode_value => $sydney_mode_label ) : ?>
-						<label style="display:inline-flex; align-items:center; gap:6px; margin:0; cursor:pointer; white-space:nowrap;">
+						<label class="bt-inline-flex-center bt-m-0" style="gap:var(--sydney-dashboard-space-1); cursor:pointer; white-space:nowrap;">
 							<input
 								type="radio"
 								name="sydney-abilities-mode"
-								class="sydney-abilities-mode-radio"
-								style="margin:0;"
+								class="sydney-abilities-mode-radio bt-m-0"
 								value="<?php echo esc_attr( $sydney_mode_value ); ?>"
 								<?php checked( $sydney_ai_mode, $sydney_mode_value ); ?>
 							/>
@@ -75,11 +74,11 @@ $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 			</div>
 		</div>
 
-		<div class="sydney-abilities-writes-warning" style="margin-top:16px; padding:10px 14px; border-radius:2px; color:var(--sydney-dashboard-danger); background-color:var(--sydney-dashboard-danger-tint);<?php echo ( 'write' === $sydney_ai_mode ) ? '' : ' display:none;'; ?>">
+		<div class="sydney-abilities-writes-warning" style="margin-top:var(--sydney-dashboard-space-4); padding:var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-3); border-radius:var(--sydney-dashboard-radius-sm); color:var(--sydney-dashboard-danger); background-color:var(--sydney-dashboard-danger-tint);<?php echo ( 'write' === $sydney_ai_mode ) ? '' : ' display:none;'; ?>">
 			<?php esc_html_e( 'Write access is enabled: every logged-in user who can edit theme options — including AI clients connected over REST or MCP — can change theme settings, install recommended plugins, and create pages on this site.', 'sydney' ); ?>
 		</div>
 
-		<div class="sydney-dashboard-module-card-header" style="margin-top: 20px; align-items: flex-end;">
+		<div class="sydney-dashboard-module-card-header bt-mt-5 bt-align-items-end">
 			<div class="sydney-dashboard-module-card-header-info">
 				<p class="bt-text-color-grey bt-m-0"><?php esc_html_e( '[Optional] Install Vibe AI to expose these abilities over MCP, so clients like Claude, ChatGPT, and Cursor can connect.', 'sydney' ); ?></p>
 			</div>

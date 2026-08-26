@@ -17,12 +17,12 @@ wp_enqueue_script( 'sydney-plugin-installer' );
 
 <style>
     .sydney-dashboard-alert {
-        background-color: #fbfbfb;
-        border: 1px solid #ebebeb;
+        background-color: var(--sydney-dashboard-surface-sunken-light);
+        border: 1px solid var(--sydney-dashboard-border);
         border-radius: 6px;
-        padding: 20px;
-        margin: 0 0 20px;
-        box-shadow: 0px 1px 2px rgba(0, 0, 0, .15);
+        padding: var(--sydney-dashboard-space-5);
+        margin: 0 0 var(--sydney-dashboard-space-5);
+        box-shadow: var(--sydney-dashboard-shadow-sm);
     }
 
     .sydney-dashboard-alert p {
@@ -31,23 +31,18 @@ wp_enqueue_script( 'sydney-plugin-installer' );
 
     .sydney-dashboard-alert.sydney-dashboard-alert-with-icon {
         position: relative;
-        padding-left: 50px
+        padding-left: var(--sydney-dashboard-space-12)
     }
 
     .sydney-dashboard-alert.sydney-dashboard-alert-with-icon .alert-icon {
         position: absolute;
         top: 21px;
-        left: 20px;
-        max-width: 17px
+        left: 20px
     }
 
-    .sydney-dashboard-alert.sydney-dashboard-alert-with-icon .alert-icon svg {
-        width: 100%;
-        height: auto
-    }
 
     .sydney-dashboard-alert.sydney-dashboard-alert-with-upsell-link {
-        padding-right: 160px
+        padding-right: var(--sydney-dashboard-space-40)
     }
 
     .sydney-dashboard-alert.sydney-dashboard-alert-with-upsell-link .sydney-dashboard-external-link {
@@ -56,32 +51,8 @@ wp_enqueue_script( 'sydney-plugin-installer' );
         right: 20px
     }
 
-    .sydney-dashboard-external-link {
-        display: -webkit-inline-box;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        gap: 8px;
-        font-size: 13px;
-        line-height: 13px;
-        font-weight: 500;
-        color: var(--sydney-dashboard-primary, #3858e9);
-        white-space: nowrap;
-        -webkit-transition: ease opacity 300ms;
-        transition: ease opacity 300ms
-    }
-
-    .sydney-dashboard-external-link svg {
-        position: relative;
-        top: 1px
-    }
-
-    .sydney-dashboard-external-link:hover,.sydney-dashboard-external-link:focus,.sydney-dashboard-external-link:active {
-        color: var(--sydney-dashboard-primary, #3858e9);
-        opacity: .7
-    }
-
     h2 {
-        margin-block-end: 10px;
+        margin-block-end: var(--sydney-dashboard-space-2);
     }
 
     p {
@@ -91,7 +62,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
     #athemes-patcher-options-page {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 25px 25px 25px 0px;
+        padding: var(--sydney-dashboard-space-6) var(--sydney-dashboard-space-6) var(--sydney-dashboard-space-6) 0;
     }
 
     .athemes-patcher-info-badge {
@@ -103,10 +74,10 @@ wp_enqueue_script( 'sydney-plugin-installer' );
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        gap: 7px;
+        gap: var(--sydney-dashboard-space-2);
         color: #444;
-        background-color: #f0f2ff;
-        padding: 14px;
+        background-color: var(--sydney-dashboard-primary-tint);
+        padding: var(--sydney-dashboard-space-3);
         border-radius: 7px;
         -webkit-text-decoration: none;
         text-decoration: none;
@@ -116,10 +87,6 @@ wp_enqueue_script( 'sydney-plugin-installer' );
         color: #212121;
     }
 
-    .athemes-patcher-info-badge svg {
-        width: 18px;
-        fill: #444;
-    }
 
     .components-panel__body {
         border: 0;
@@ -129,23 +96,23 @@ wp_enqueue_script( 'sydney-plugin-installer' );
         font-size: 16px;
         font-weight: 600;
         margin-block-start: 0;
-        margin-block-end: 10px;
+        margin-block-end: var(--sydney-dashboard-space-2);
     }
 
     .athemes-patcher-card-desc {
         color: #757575;
         margin-block-start: 0;
-        margin-block-end: 20px;
+        margin-block-end: var(--sydney-dashboard-space-5);
     }
 
     .athemes-patcher-card {
-        background-color: #FFF;
-        box-shadow: 0px 1px 2px rgba(0, 0, 0, .15);
+        background-color: var(--sydney-dashboard-surface);
+        box-shadow: var(--sydney-dashboard-shadow-sm);
         border-radius: 7px;
     }
 
     .athemes-patcher-card+.athemes-patcher-card {
-        margin-block-start: 20px;
+        margin-block-start: var(--sydney-dashboard-space-5);
     }
 
     .athemes-patchers-table thead tr:first-of-type {
@@ -153,12 +120,12 @@ wp_enqueue_script( 'sydney-plugin-installer' );
     }
 
     .athemes-patchers-table tr {
-        border-top: 1px solid #e3e3e3;
+        border-top: 1px solid var(--sydney-dashboard-border);
     }
 
     .athemes-patchers-table td,
     .athemes-patchers-table th {
-        padding: 7px 0px;
+        padding: var(--sydney-dashboard-space-2) 0;
     }
 
     .athemes-patchers-table th:first-of-type,
@@ -171,23 +138,23 @@ wp_enqueue_script( 'sydney-plugin-installer' );
     }
 
     .css-1hdyajo {
-        padding: 20px;
+        padding: var(--sydney-dashboard-space-5);
     }
 
     .css-3nngo0 {
         margin-block-start: 0;
-        margin-block-end: 20px;
+        margin-block-end: var(--sydney-dashboard-space-5);
     }
 
     .css-1qudilh {
-        background-color: #f5f5f5;
-        padding: 20px;
+        background-color: var(--sydney-dashboard-surface-sunken-light);
+        padding: var(--sydney-dashboard-space-5);
         border-radius: 7px;
         text-align: center;
     }
 
     .css-1yscn4x {
-        margin-top: 20px;
+        margin-top: var(--sydney-dashboard-space-5);
     }
 
     .css-12dj36i {
@@ -195,8 +162,8 @@ wp_enqueue_script( 'sydney-plugin-installer' );
     }
 
     .css-13h15nb {
-        background-color: #f5f5f5;
-        padding: 20px;
+        background-color: var(--sydney-dashboard-surface-sunken-light);
+        padding: var(--sydney-dashboard-space-5);
         border-radius: 7px;
         text-align: left;
     }
@@ -216,96 +183,37 @@ wp_enqueue_script( 'sydney-plugin-installer' );
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        gap: 5px;
+        gap: var(--sydney-dashboard-space-1);
         background-color: transparent !important;
-        color: var(--sydney-dashboard-primary, #3858e9) !important;
+        color: var(--sydney-dashboard-primary) !important;
         border-radius: 4px;
-        border: 2px solid var(--sydney-dashboard-primary, #3858e9);
+        border: 2px solid var(--sydney-dashboard-primary);
     }
 
     .css-wpjqd:hover {
-        background-color: var(--sydney-dashboard-primary, #3858e9);
-        color: #FFF !important;
+        background-color: var(--sydney-dashboard-primary);
+        color: var(--sydney-dashboard-on-accent) !important;
     }
 
     .css-wpjqd:disabled {
-        color: var(--sydney-dashboard-primary, #3858e9) !important;
-        border: 2px solid var(--sydney-dashboard-primary, #3858e9);
+        color: var(--sydney-dashboard-primary) !important;
+        border: 2px solid var(--sydney-dashboard-primary);
     }
 
-    .css-152qpu8 {
-        width: 15px;
-    }
+    .css-adm54n{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:5px;background-color:var(--sydney-dashboard-primary);color:var(--sydney-dashboard-on-accent)!important;border-radius:4px;}
 
-    .css-adm54n{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:5px;background-color:var(--sydney-dashboard-primary, #3858e9);color:#FFF!important;border-radius:4px;}
-
-    .has-lock-icon svg {
-        width: 18px;
-    }
-
-    .sydney-dashboard-pro-tooltip {
-        position: relative
-    }
-
-    .sydney-dashboard-pro-tooltip:before {
-        content: attr(data-tooltip-message);
-        position: absolute;
-        bottom: calc(100% + 11px);
-        left: 50%;
-        color: #fff;
-        font-size: 11px;
-        line-height: 16px;
-        padding: 3px 6px;
-        background-color: var(--sydney-dashboard-gray-900, #1e1e1e);
-        white-space: nowrap;
-        opacity: 0;
-        visibility: hidden;
-        -webkit-transform: translate3d(-50%, 6px, 0);
-        transform: translate3d(-50%, 6px, 0);
-        -webkit-transition: ease opacity 300ms,ease transform 300ms;
-        transition: ease opacity 300ms,ease transform 300ms;
-        z-index: 2
-    }
-
-    .sydney-dashboard-pro-tooltip:after {
-        content: "";
-        position: absolute;
-        bottom: calc(100% + 3px);
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 4px 4px 4px 4px;
-        border-color: var(--sydney-dashboard-gray-900, #1e1e1e) rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0);
-        opacity: 0;
-        visibility: hidden;
-        -webkit-transform: translate3d(-50%, 6px, 0);
-        transform: translate3d(-50%, 6px, 0);
-        -webkit-transition: ease opacity 300ms,ease transform 300ms;
-        transition: ease opacity 300ms,ease transform 300ms;
-        z-index: 2
-    }
-
-    .sydney-dashboard-pro-tooltip:hover:before,.sydney-dashboard-pro-tooltip:hover:after {
-        opacity: 1;
-        visibility: visible;
-        -webkit-transform: translate3d(-50%, 0, 0);
-        transform: translate3d(-50%, 0, 0)
-    }
 </style>
 <div id="athemes-patcher-options-page">
     <?php if ( ! defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
         <div class="sydney-dashboard-alert sydney-dashboard-alert-warning sydney-dashboard-alert-with-icon sydney-dashboard-alert-with-upsell-link">
             <div class="alert-icon">
-                <svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><title/><path d="M85.57,446.25H426.43a32,32,0,0,0,28.17-47.17L284.18,82.58c-12.09-22.44-44.27-22.44-56.36,0L57.4,399.08A32,32,0,0,0,85.57,446.25Z" fill="none" stroke="#000" stroke-linecap="rounded" stroke-width="32" stroke-linejoin="round" /><path d="M250.26,195.39l5.74,122,5.73-121.95a5.74,5.74,0,0,0-5.79-6h0A5.74,5.74,0,0,0,250.26,195.39Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><path d="M256,397.25a20,20,0,1,1,20-20A20,20,0,0,1,256,397.25Z"/></svg>
+                <?php echo sydney_dashboard_icon( 'caution', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             </div>
             <p class="bt-text-color-grey"><?php echo esc_html__( 'Please note this feature is available only in Sydney Pro', 'sydney' ); ?></p>
             <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'athemes-patcher', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'dashboard-patcher-upgrade-link' ) ); ?>" class="sydney-dashboard-external-link" target="_blank">
                 <?php echo esc_html__( 'Upgrade Now', 'sydney' ); ?>
 
-                <svg class="sydney-svg-accent" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.4375 0H8.25C7.94531 0 7.66406 0.1875 7.54688 0.492188C7.42969 0.773438 7.5 1.10156 7.71094 1.3125L8.67188 2.27344L4.14844 6.79688C3.84375 7.07812 3.84375 7.57031 4.14844 7.85156C4.28906 7.99219 4.47656 8.0625 4.6875 8.0625C4.875 8.0625 5.0625 7.99219 5.20312 7.85156L9.72656 3.32812L10.6875 4.28906C10.8281 4.42969 11.0156 4.5 11.2266 4.5C11.3203 4.5 11.4141 4.5 11.5078 4.45312C11.8125 4.33594 12 4.05469 12 3.75V0.5625C12 0.257812 11.7422 0 11.4375 0ZM9.1875 7.5C8.85938 7.5 8.625 7.75781 8.625 8.0625V10.6875C8.625 10.8047 8.53125 10.875 8.4375 10.875H1.3125C1.19531 10.875 1.125 10.8047 1.125 10.6875V3.5625C1.125 3.46875 1.19531 3.375 1.3125 3.375H3.9375C4.24219 3.375 4.5 3.14062 4.5 2.8125C4.5 2.50781 4.24219 2.25 3.9375 2.25H1.3125C0.585938 2.25 0 2.85938 0 3.5625V10.6875C0 11.4141 0.585938 12 1.3125 12H8.4375C9.14062 12 9.75 11.4141 9.75 10.6875V8.0625C9.75 7.75781 9.49219 7.5 9.1875 7.5Z" fill="currentColor"/>
-                </svg>
+                <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             </a>
         </div>
     <?php endif; ?>
@@ -315,9 +223,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
             <h2 class="css-3nngo0">aThemes Patcher</h2>
             <p>Welcome to the aThemes Patcher settings page. The Patcher allows you to apply small fixes to your website without the need to await for new releases, keeping your website up to date.</p>
             <a href="https://docs.athemes.com/article/pro-athemes-patcher/" class="athemes-patcher-info-badge" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-                    <path d="M12 3.2c-4.8 0-8.8 3.9-8.8 8.8 0 4.8 3.9 8.8 8.8 8.8 4.8 0 8.8-3.9 8.8-8.8 0-4.8-4-8.8-8.8-8.8zm0 16c-4 0-7.2-3.3-7.2-7.2C4.8 8 8 4.8 12 4.8s7.2 3.3 7.2 7.2c0 4-3.2 7.2-7.2 7.2zM11 17h2v-6h-2v6zm0-8h2V7h-2v2z"></path>
-                </svg>Learn more about the Patcher </a>
+                <?php echo sydney_dashboard_icon( 'info', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>Learn more about the Patcher </a>
         </div>
         <div data-wp-c16t="true" data-wp-component="Elevation" class="components-elevation css-1w1p2h9 e19lxcc00" aria-hidden="true"></div>
         <div data-wp-c16t="true" data-wp-component="Elevation" class="components-elevation css-1w1p2h9 e19lxcc00" aria-hidden="true"></div>
@@ -347,7 +253,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
                                 <?php else : ?>
                                     <a class="components-button has-lock-icon css-adm54n sydney-dashboard-pro-tooltip" href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'athemes-patcher', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'dashboard-patcher-upgrade-link' ) ); ?>" target="_blank" data-tooltip-message="<?php echo esc_attr__( 'This is only available on Sydney Pro', 'sydney' ); ?>">
                                         Apply
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="48" height="48" aria-hidden="true" focusable="false"><path d="M17 10h-1.2V7c0-2.1-1.7-3.8-3.8-3.8-2.1 0-3.8 1.7-3.8 3.8v3H7c-.6 0-1 .4-1 1v8c0 .6.4 1 1 1h10c.6 0 1-.4 1-1v-8c0-.6-.4-1-1-1zM9.8 7c0-1.2 1-2.2 2.2-2.2 1.2 0 2.2 1 2.2 2.2v3H9.8V7zm6.7 11.5h-9v-7h9v7z"></path></svg>
+                                        <?php echo sydney_dashboard_icon( 'lock', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                     </a>
                                 <?php endif; ?>
                             </td>
@@ -356,9 +262,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
                             <td>#465</td>
                             <td>Updated widget behavior for smoother interactions across multiple devices.</td>
                             <td>
-                                <button type="button" disabled="" class="components-button css-wpjqd">Applied <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="css-152qpu8" aria-hidden="true" focusable="false">
-                                        <path d="M18.3 5.6L9.9 16.9l-4.6-3.4-.9 1.2 5.8 4.3 9.3-12.6z"></path>
-                                    </svg>
+                                <button type="button" disabled="" class="components-button css-wpjqd">Applied <?php echo sydney_dashboard_icon( 'check', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </button>
                             </td>
                         </tr>
@@ -366,9 +270,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
                             <td>#463</td>
                             <td>Minor fix to improve admin panel usability. </td>
                             <td>
-                                <button type="button" disabled="" class="components-button css-wpjqd">Applied <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="css-152qpu8" aria-hidden="true" focusable="false">
-                                        <path d="M18.3 5.6L9.9 16.9l-4.6-3.4-.9 1.2 5.8 4.3 9.3-12.6z"></path>
-                                    </svg>
+                                <button type="button" disabled="" class="components-button css-wpjqd">Applied <?php echo sydney_dashboard_icon( 'check', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </button>
                             </td>
                         </tr>
@@ -381,9 +283,7 @@ wp_enqueue_script( 'sydney-plugin-installer' );
                         <h2 class="components-panel__body-title">
                             <button type="button" aria-expanded="false" class="components-button components-panel__body-toggle">
                                 <span aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="components-panel__arrow" aria-hidden="true" focusable="false">
-                                        <path d="M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"></path>
-                                    </svg>
+                                    <?php echo sydney_dashboard_icon( 'chevron-down', 24, 'components-panel__arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </span>Logs </button>
                         </h2>
                     </div>

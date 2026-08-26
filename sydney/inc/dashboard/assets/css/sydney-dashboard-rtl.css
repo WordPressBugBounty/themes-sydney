@@ -1,7 +1,7 @@
 /* Dashboard Home */
 .sydney-dashboard-hero-title .sydney-dashboard-hero-badge {
   float: left;
-  margin-right: 10px;
+  margin-right: var(--sydney-dashboard-space-2);
 }
 
 .sydney-dashboard-box {
@@ -25,7 +25,7 @@
 
 .sydney-dashboard-features-list ul li {
   padding-left: 0;
-  padding-right: 30px;
+  padding-right: var(--sydney-dashboard-space-7);
 }
 
 .sydney-dashboard-features-list ul:first-child li {
@@ -39,16 +39,16 @@
 
 .sydney-dashboard-box-badge + .sydney-dashboard-box-title {
   margin-right: 0;
-  margin-left: 40px;
+  margin-left: var(--sydney-dashboard-space-10);
 }
 
 .sydney-dashboard .button .dashicons {
   margin-right: 0;
-  margin-left: 2px;
+  margin-left: var(--sydney-dashboard-space-1);
 }
 
 /* Dashboard Free vs Pro */
 .sydney-dashboard-freevspro-table__spacing {
   margin-left: 0;
-  margin-right: 10px;
+  margin-right: var(--sydney-dashboard-space-2);
 }

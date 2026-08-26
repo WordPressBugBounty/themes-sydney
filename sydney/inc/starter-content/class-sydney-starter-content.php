@@ -304,14 +304,14 @@ SYDNEY_STARTER_CSS;
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"flex","justifyContent":"center"}} -->
-<div class="wp-block-buttons" style="margin-top:var(--wp--preset--spacing--40)"><!-- wp:button {"textAlign":"right","backgroundColor":"sydney-global-color-1","className":"is-style-default","style":{"color":{"text":"var(--sydney-global-color-4)"},"border":{"width":"1px"},"elements":{"link":{"color":{"text":"var(--sydney-global-color-4)"}}}},"borderColor":"sydney-global-color-1"} -->
-<div class="wp-block-button is-style-default"><a class="wp-block-button__link has-sydney-global-color-1-background-color has-text-color has-background has-link-color has-border-color has-sydney-global-color-1-border-color has-text-align-right wp-element-button" style="border-width:1px;color:var(--sydney-global-color-4)">
+<div class="wp-block-buttons" style="margin-top:var(--wp--preset--spacing--40)"><!-- wp:button {"textAlign":"right","backgroundColor":"global_color_1","className":"is-style-default","style":{"color":{"text":"var(--sydney-global-color-4)"},"border":{"width":"1px"},"elements":{"link":{"color":{"text":"var(--sydney-global-color-4)"}}}},"borderColor":"global_color_1"} -->
+<div class="wp-block-button is-style-default"><a class="wp-block-button__link has-global-color-1-background-color has-text-color has-background has-link-color has-border-color has-global-color-1-border-color has-text-align-right wp-element-button" style="border-width:1px;color:var(--sydney-global-color-4)">
           LEARN MORE
         </a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"textAlign":"left","className":"is-style-outline","style":{"color":{"text":"#FFFFFF"},"border":{"width":"1px"},"elements":{"link":{"color":{"text":"#00102E"}}}},"borderColor":"sydney-global-color-1"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color has-link-color has-border-color has-sydney-global-color-1-border-color has-text-align-left wp-element-button" style="border-width:1px;color:#FFFFFF">
+<!-- wp:button {"textAlign":"left","className":"is-style-outline","style":{"color":{"text":"#FFFFFF"},"border":{"width":"1px"},"elements":{"link":{"color":{"text":"#00102E"}}}},"borderColor":"global_color_1"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color has-link-color has-border-color has-global-color-1-border-color has-text-align-left wp-element-button" style="border-width:1px;color:#FFFFFF">
           PROJECTS
         </a></div>
 <!-- /wp:button --></div>
@@ -593,3 +593,49 @@ function sydney_starter_content_init() {
 	$starter_content->register();
 }
 add_action( 'after_setup_theme', 'sydney_starter_content_init' );
+
+/**
+ * Enable the header/footer builder on fresh sites that never ran theme activation.
+ *
+ * The starter content above is built entirely around the builder: every
+ * `sydney_header_row__*`, `sydney_section_fb_component__*` and `shfb_*` mod is
+ * inert while the module is off, so the legacy header and footer render instead.
+ *
+ * `hf-builder` is normally switched on by `sydney_hf_enable_to_new_users()` on
+ * `after_switch_theme` (inc/theme-update.php). The wp.org theme directory preview
+ * updates the theme files in place and never re-fires activation, so that hook has
+ * never run there and the module falls back to its default of off.
+ *
+ * Filtering the option rather than writing it keeps this read-only. Sites that did
+ * run activation already hold an explicit value and return early below; established
+ * sites are not fresh. Neither reaches the branch that enables the module.
+ *
+ * Registered at require time (functions.php:555) so it is in place before
+ * class-header-footer-builder.php checks `is_module_active()` at include time
+ * (functions.php:693).
+ *
+ * Both hooks are needed: `option_*` only fires when the row exists in the database,
+ * `default_option_*` covers the case where nothing has ever written the option.
+ *
+ * @param mixed $modules Stored module states, or the default when the option is unset.
+ * @return mixed Modules with `hf-builder` enabled, or `$modules` unchanged.
+ */
+function sydney_starter_content_force_hf_builder( $modules ) {
+	// Established sites are out of scope entirely; bail before touching the value.
+	if ( ! get_option( 'fresh_site' ) ) {
+		return $modules;
+	}
+
+	$stored = is_array( $modules ) ? $modules : array();
+
+	// An explicitly stored state always wins, including an explicit opt-out.
+	if ( array_key_exists( 'hf-builder', $stored ) ) {
+		return $modules;
+	}
+
+	$stored['hf-builder'] = true;
+
+	return $stored;
+}
+add_filter( 'option_sydney-modules', 'sydney_starter_content_force_hf_builder' );
+add_filter( 'default_option_sydney-modules', 'sydney_starter_content_force_hf_builder' );

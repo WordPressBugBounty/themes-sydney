@@ -21,7 +21,7 @@ $transient = sprintf('%s_hero_notice', get_template());
 <?php if (!get_transient($transient)) : ?>
 <div class="sydney-dashboard-hero">
 	<div class="sydney-dashboard-dismissable" data-notice="<?php echo esc_attr($transient); ?>">
-		<svg class="sydney-svg-muted" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 8C0 3.59375 3.5625 0 8 0C12.4062 0 16 3.59375 16 8C16 12.4375 12.4062 16 8 16C3.5625 16 0 12.4375 0 8ZM5.46875 6.53125L6.9375 8L5.46875 9.46875C5.15625 9.78125 5.15625 10.25 5.46875 10.5312C5.75 10.8438 6.21875 10.8438 6.5 10.5312L7.96875 9.0625L9.46875 10.5312C9.75 10.8438 10.2188 10.8438 10.5 10.5312C10.8125 10.25 10.8125 9.78125 10.5 9.46875L9.03125 8L10.5 6.53125C10.8125 6.25 10.8125 5.78125 10.5 5.46875C10.2188 5.1875 9.75 5.1875 9.46875 5.46875L7.96875 6.96875L6.5 5.46875C6.21875 5.1875 5.75 5.1875 5.46875 5.46875C5.15625 5.78125 5.15625 6.25 5.46875 6.53125Z" fill="currentColor"/></svg>
+		<?php echo sydney_dashboard_icon( 'close', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</div>
 	<div class="sydney-dashboard-hero-content">
 
@@ -66,7 +66,7 @@ $transient = sprintf('%s_hero_notice', get_template());
 			</div>
 
 			<?php if ('active' !== $this->get_plugin_status($this->settings['starter_plugin_path'])) : ?>
-				<div class="sydney-dashboard-hero-notion">
+				<div class="sydney-dashboard-hero-notion bt-text-color-grey bt-mt-2">
 					<?php esc_html_e('Clicking "Let\'s Get Started" button will install and activate the Sydney \'aThemes Starter Sites\' plugin.', 'sydney'); ?>
 				</div>
 			<?php endif; ?>

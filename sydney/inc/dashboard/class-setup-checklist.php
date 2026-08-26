@@ -450,6 +450,21 @@ class Sydney_Setup_Checklist {
 	}
 
 	/**
+	 * Whether a slug exists in the current item registry.
+	 *
+	 * @param string $slug Item slug.
+	 * @return bool
+	 */
+	public function has_item( $slug ) {
+		foreach ( $this->items() as $category ) {
+			if ( isset( $category['items'][ $slug ] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get the manual state map for the current admin user.
 	 *
 	 * @return array<string,bool>
@@ -485,6 +500,11 @@ class Sydney_Setup_Checklist {
 		// Gate writes on admin capability — non-admins shouldn't reach the dashboard,
 		// but this is a defense-in-depth check at the storage boundary.
 		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		// Reject slugs outside the item registry — endpoints validate too, but
+		// this is a defense-in-depth check at the storage boundary.
+		if ( ! $this->has_item( $slug ) ) {
 			return;
 		}
 		$user_id = get_current_user_id();
@@ -529,15 +549,24 @@ class Sydney_Setup_Checklist {
 	/**
 	 * Whether the Setup tab should be shown to the user.
 	 *
-	 * Gated by the `sydney_setup_checklist_eligible` option, which is set
-	 * once via `after_switch_theme` for sites newly activating Sydney from a
+	 * Free-only feature: Sydney Pro has its own dashboard onboarding, so the
+	 * tab never shows there. Checked first so this file stays identical
+	 * between the free and Pro codebases.
+	 *
+	 * Otherwise gated by the `sydney_setup_checklist_eligible` option, which is
+	 * set once via `after_switch_theme` for sites newly activating Sydney from a
 	 * non-Sydney theme. Existing sites that update into this feature never
 	 * become eligible. The `sydney_dashboard_show_setup_tab` filter overrides
-	 * the resolved value either way — pass true to force-show, false to hide.
+	 * that resolved value either way — pass true to force-show, false to hide.
+	 * The Pro check above takes precedence over the filter.
 	 *
 	 * @return bool
 	 */
 	public function should_show_tab() {
+		if ( defined( 'SYDNEY_PRO_VERSION' ) ) {
+			return false;
+		}
+
 		if ( ! get_option( 'sydney_setup_checklist_eligible' ) ) {
 			return (bool) apply_filters( 'sydney_dashboard_show_setup_tab', false );
 		}

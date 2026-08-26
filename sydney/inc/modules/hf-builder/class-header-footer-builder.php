@@ -303,7 +303,7 @@ class Sydney_Header_Footer_Builder {
 
         wp_enqueue_script( 'jquery-ui-sortable' );
 
-        wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20250404' );
+        wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20260819' );
         wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20260709', true );
         wp_localize_script( 'sydney-shfb', 'sydney_hfb', array(
             'rows' => array(
@@ -1707,6 +1707,31 @@ class Sydney_Header_Footer_Builder {
      */     
     public function contact_info( $params ) {
         require get_template_directory() . '/inc/modules/hf-builder/components/header/contact-info/contact-info.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
+    }
+
+    /**
+     * Contact Info markup
+     *
+     * The refreshable part of the Contact Info component. Shared by the component
+     * template and by the selective refresh partial registered for
+     * header_contact_mail / header_contact_phone.
+     */
+    public function contact_info_markup() {
+        // @codingStandardsIgnoreStart WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+        $email          = get_theme_mod( 'header_contact_mail', esc_html__( 'office@example.org', 'sydney' ) );
+        $phone          = get_theme_mod( 'header_contact_phone', esc_html__( '111222333', 'sydney' ) );
+        $display_inline = get_theme_mod( 'shfb_contact_info_display_inline', 0 );
+        // @codingStandardsIgnoreEnd WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+        ?>
+        <div class="header-contact<?php echo ( $display_inline ? ' header-contact-inline' : '' ); ?>">
+            <?php if ( $email ) : ?>
+                <a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><i class="sydney-svg-icon"><?php sydney_get_svg_icon( 'icon-mail', true ); ?></i><?php echo esc_html( antispambot( $email ) ); ?></a>
+            <?php endif; ?>
+            <?php if ( $phone ) : ?>
+                <a href="tel:<?php echo esc_attr( $phone ); ?>"><i class="sydney-svg-icon"><?php sydney_get_svg_icon( 'icon-phone', true ); ?></i><?php echo esc_html( $phone ); ?></a>
+            <?php endif; ?>
+        </div>
+        <?php
     }
 
     /**

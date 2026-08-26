@@ -21,9 +21,9 @@ register_block_pattern(
 <p class="has-text-align-center has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:0;font-size:22px;font-style:italic;font-weight:600">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months and conversions have never been higher."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:56px;height:56px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|50","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:56px;height:56px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -65,8 +65,8 @@ register_block_pattern(
 <!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"var:preset|spacing|50","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:0"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"color":{"background":"#ffffff"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
 <figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23dc2626\'%3E%3Cpath fill-rule=\'evenodd\' d=\'M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\' clip-rule=\'evenodd\' /%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
@@ -91,9 +91,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months and conversions have never been higher."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -111,8 +111,8 @@ register_block_pattern(
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"color":{"background":"#ffffff"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
 <figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23dc2626\'%3E%3Cpath fill-rule=\'evenodd\' d=\'M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\' clip-rule=\'evenodd\' /%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
@@ -137,9 +137,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"From concept to launch, the process was seamless. They understood our vision instantly and delivered a product that exceeded every expectation."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -157,8 +157,8 @@ register_block_pattern(
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"color":{"background":"#ffffff"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<div class="wp-block-group has-background" style="border-radius:8px;background-color:#ffffff;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
 <figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23dc2626\'%3E%3Cpath fill-rule=\'evenodd\' d=\'M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\' clip-rule=\'evenodd\' /%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
@@ -183,9 +183,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"Their strategic approach to our rebrand was game-changing. We saw a 40% increase in qualified leads within the first quarter of launch."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -222,9 +222,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:28px;font-style:italic;font-weight:700">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|50","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:56px;height:56px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|50","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:56px;height:56px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -272,9 +272,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"Their strategic approach to our rebrand was game-changing. We saw a 40% increase in qualified leads within the first quarter of launch."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -294,9 +294,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"From concept to launch, the process was seamless. They understood our vision instantly and delivered a great product."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -316,9 +316,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months and conversions have never been higher."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -338,9 +338,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"We\'ve worked with agencies before, but none matched their level of transparency and craft. They feel like an extension of our own team."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="David Park" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="David Park" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -444,9 +444,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"We\'ve worked with agencies before, but none matched their level of transparency and craft. They feel like an extension of our own team."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="David Park" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="David Park" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -466,9 +466,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"Their strategic approach to our rebrand was game-changing. We saw a 40% increase in qualified leads within the first quarter of launch."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -488,9 +488,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months and conversions have never been higher."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -510,9 +510,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"From concept to launch, the process was seamless. They understood our vision instantly and delivered a product that exceeded every expectation."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -549,9 +549,9 @@ register_block_pattern(
 <p class="has-text-align-center has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:0;font-size:22px;font-style:italic;font-weight:600">"From concept to launch, the process was seamless. They understood our vision instantly and delivered a product that exceeded every expectation we had."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:56px;height:56px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:56px;height:56px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -579,9 +579,9 @@ register_block_pattern(
 <section class="wp-block-group alignfull has-global-color-6-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}}} -->
 <div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"border":{"radius":"8px","color":"#ffffff52","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
+<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"className":"sydney-avatar-row","style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group has-text-color sydney-avatar-row" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -603,9 +603,9 @@ register_block_pattern(
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"border":{"radius":"8px","color":"#ffffff52","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
+<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"className":"sydney-avatar-row","style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group has-text-color sydney-avatar-row" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -627,9 +627,9 @@ register_block_pattern(
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:group {"style":{"border":{"radius":"8px","color":"#ffffff52","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_6","layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group has-text-color" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
+<div class="wp-block-group has-border-color has-global-color-6-background-color has-background" style="border-color:#ffffff52;border-width:1px;border-radius:8px;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"className":"sydney-avatar-row","style":{"typography":{"fontSize":"18px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"0"}},"color":{"text":"#dbdbdb"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group has-text-color sydney-avatar-row" style="color:#dbdbdb;margin-top:0;margin-bottom:0;font-size:18px;font-style:italic"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Elena Vasquez" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -682,9 +682,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"They didn\'t just build us a website — they built us a growth engine. Traffic tripled in six months and conversions have never been higher."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Sarah Mitchell" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -704,9 +704,9 @@ register_block_pattern(
 <p style="margin-top:0;margin-bottom:0;font-size:18px;font-style:italic">"From concept to launch, the process was seamless. They understood our vision instantly and delivered a product that exceeded every expectation."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"0"},"blockGap":"var:preset|spacing|30"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/men/45.jpg" alt="James Thornton" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -755,9 +755,9 @@ register_block_pattern(
 <hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--40);background-color:#dbdbdb;color:#dbdbdb"/>
 <!-- /wp:separator -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James Whitfield" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James Whitfield" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -781,9 +781,9 @@ register_block_pattern(
 <hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--40);background-color:#dbdbdb;color:#dbdbdb"/>
 <!-- /wp:separator -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -807,9 +807,9 @@ register_block_pattern(
 <hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--40);background-color:#dbdbdb;color:#dbdbdb"/>
 <!-- /wp:separator -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Robert Nakamura" style="border-radius:50%;width:48px;height:48px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"48px","height":"48px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Robert Nakamura" style="border-radius:50%;width:48px;height:48px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -837,16 +837,16 @@ register_block_pattern(
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"},"margin":{"top":"0","bottom":"0"}}},"backgroundColor":"global_color_9","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-global-color-9-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained","contentSize":"768px"}} -->
 <div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","align":"center","className":"is-resized","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|50"}}}} -->
-<figure class="wp-block-image aligncenter size-full is-resized" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23d65050\'%3E%3Cpath d=\'M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z\'/%3E%3C/svg%3E" alt="Quote icon" style="width:56px;height:56px"/></figure>
+<figure class="wp-block-image aligncenter size-full is-resized" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--50)"><img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23333333\'%3E%3Cpath d=\'M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z\'/%3E%3C/svg%3E" alt="Quote icon" style="width:56px;height:56px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"22px","fontStyle":"italic"},"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|60"}}}} -->
 <p class="has-text-align-center" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--60);font-size:22px;font-style:italic">"Partnering with this team was a pivotal decision for our organization. They brought clarity to our five-year strategy, streamlined our operations, and positioned us for sustainable growth. The results speak for themselves — 60% increase in operational efficiency and a culture shift that energized every department."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|40","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-style-rounded is-resized has-custom-border"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Victoria Langford" style="border-radius:50%;width:56px;height:56px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|40","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"56px","height":"56px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-style-rounded is-resized has-custom-border sydney-avatar"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Victoria Langford" style="border-radius:50%;width:56px;height:56px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -883,25 +883,25 @@ register_block_pattern(
 
 <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"grid","columnCount":3}} -->
 <div class="wp-block-group alignwide" style="margin-top:0;margin-bottom:0"><!-- wp:group {"style":{"border":{"radius":"8px","color":"rgba(255,255,255,0.15)","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:group -->
 
@@ -909,9 +909,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:var(--wp--preset--spacing--40)">"A world-class consulting experience. They identified inefficiencies we had overlooked for years and delivered a turnaround plan that exceeded every benchmark."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Thomas Brennan" style="border-radius:50%;width:44px;height:44px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Thomas Brennan" style="border-radius:50%;width:44px;height:44px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -927,25 +927,25 @@ register_block_pattern(
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"border":{"radius":"8px","color":"rgba(255,255,255,0.15)","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:group -->
 
@@ -953,9 +953,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:var(--wp--preset--spacing--40)">"Their supply chain optimization project delivered ROI within the first quarter. The teams deep industry knowledge and hands-on approach made all the difference."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/women/36.jpg" alt="Elena Voss" style="border-radius:50%;width:44px;height:44px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/women/36.jpg" alt="Elena Voss" style="border-radius:50%;width:44px;height:44px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -971,25 +971,25 @@ register_block_pattern(
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"border":{"radius":"8px","color":"rgba(255,255,255,0.15)","width":"1px"},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<div class="wp-block-group has-border-color" style="border-color:rgba(255,255,255,0.15);border-width:1px;border-radius:8px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:group {"style":{"spacing":{"blockGap":"4px","margin":{"top":"0","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--30)"><!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#d65050","#d65050"]}}} -->
-<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23d65050%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
+<!-- wp:image {"width":"20px","height":"20px","sizeSlug":"full","linkDestination":"none","className":"is-resized","style":{"color":{"duotone":["#E6A414","#E6A414"]}}} -->
+<figure class="wp-block-image size-full is-resized"><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 20 20%22 fill=%22%23E6A414%22%3E%3Cpath d=%22M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z%22/%3E%3C/svg%3E" alt="Star" style="width:20px;height:20px"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:group -->
 
@@ -997,9 +997,9 @@ register_block_pattern(
 <p class="has-text-color" style="color:#ffffff;margin-top:0;margin-bottom:var(--wp--preset--spacing--40)">"We engaged them for a post-merger integration and they exceeded expectations at every milestone. Their structured methodology kept all stakeholders aligned throughout."</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized","style":{"border":{"radius":"50%"}}} -->
-<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Marcus Webb" style="border-radius:50%;width:44px;height:44px"/></figure>
+<!-- wp:group {"className":"sydney-avatar-row","style":{"spacing":{"blockGap":"var:preset|spacing|30","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sydney-avatar-row" style="margin-top:0;margin-bottom:0"><!-- wp:image {"width":"44px","height":"44px","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded is-resized sydney-avatar","style":{"border":{"radius":"50%"}}} -->
+<figure class="wp-block-image size-full is-resized has-custom-border is-style-rounded sydney-avatar"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Marcus Webb" style="border-radius:50%;width:44px;height:44px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->

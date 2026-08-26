@@ -17,6 +17,10 @@ echo '<nav class="sydney-dashboard-tabs-nav" data-tab-wrapper-id="main">';
 
         $sydney_current_tab = ( isset( $_GET['tab'] ) ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
+        if ( $sydney_current_tab && ! isset( $this->settings['tabs'][ $sydney_current_tab ] ) ) {
+            $sydney_current_tab = '';
+        }
+
         foreach ($this->settings['tabs'] as $sydney_tab_id => $sydney_tab_title) {
 
             if ($this->settings['has_pro'] && $sydney_tab_id === 'free-vs-pro') {

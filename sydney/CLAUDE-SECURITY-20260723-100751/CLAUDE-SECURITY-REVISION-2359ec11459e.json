@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-07-23T10:48:55+00:00",
+  "scan_root": "/Users/vladnejloveanu/Local Sites/sydney/app/public/wp-content/themes/sydney",
+  "products_dir": "/Users/vladnejloveanu/Local Sites/sydney/app/public/wp-content/themes/sydney/CLAUDE-SECURITY-20260723-100751",
+  "mode": "scan",
+  "scope": [
+    "inc/abilities",
+    "inc/block-styles.php",
+    "inc/classes",
+    "inc/custom-header.php",
+    "inc/customizer",
+    "inc/dashboard",
+    "inc/display-conditions.php",
+    "inc/editor.php",
+    "inc/extras.php",
+    "inc/fonts.php",
+    "inc/integrations",
+    "inc/jetpack.php",
+    "inc/modules",
+    "inc/notices",
+    "inc/onboarding",
+    "inc/page-builder.php",
+    "inc/performance",
+    "inc/schema.php",
+    "inc/slider.php",
+    "inc/so-page-builder.php",
+    "inc/starter-content",
+    "inc/styles.php",
+    "inc/template-tags.php",
+    "inc/theme-dashboard-settings.php",
+    "inc/theme-update.php",
+    "inc/usage-tracking",
+    "inc/woocommerce.php"
+  ],
+  "revision": {
+    "versioned": true,
+    "commit": "2359ec11459e058fc2a45b3675583a96e9ec6341",
+    "branch": "develop",
+    "dirty": false
+  },
+  "revision_source": "self-reported",
+  "model": null,
+  "effort": "medium",
+  "run_shape": {
+    "requested_effort": "medium",
+    "collapsed": null,
+    "source": "coverage.json",
+    "diff_files": null,
+    "diff_lines": null,
+    "scope_files": 317,
+    "empty_diff": false,
+    "empty_scope": false,
+    "researchers_dispatched": 38,
+    "skipped_components": [
+      {
+        "name": "pattern-library-vendored-deps",
+        "paths": [
+          "inc/modules/pattern-library/node_modules",
+          "inc/modules/pattern-library/build"
+        ],
+        "reason": "Vendored npm dependency tree and compiled build output bundled inside the pattern-library module; not first-party code, background context only"
+      },
+      {
+        "name": "customizer-vendored-js-libs",
+        "paths": [
+          "inc/customizer/controls/typography/select2.js",
+          "inc/customizer/controls/typography/select2.full.min.js",
+          "inc/customizer/controls/typography/select2.css",
+          "inc/customizer/controls/typography/select2.min.css",
+          "inc/customizer/controls/typography/google-fonts-alphabetical.json"
+        ],
+        "reason": "Third-party vendored JS library (Select2) and a static font-name data file bundled with the typography control; not first-party logic"
+      }
+    ],
+    "completeness_check_outcome": "not-applicable",
+    "unaccounted_top_level_dirs": [],
+    "inventory_fallback": null,
+    "top_level_dir_count": null
+  },
+  "findings": {
+    "total": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "verification": {
+    "status": "verified",
+    "candidates": 13,
+    "candidates_deduped": 13,
+    "panel_votes": 39,
+    "panel_reviewed_findings": 0,
+    "panel_quorum_findings": 0,
+    "unreviewed_candidate_sites": 0,
+    "attested_findings": 0,
+    "reason": null,
+    "researchers_dispatched": 38,
+    "researchers_returned": 38
+  }
+}

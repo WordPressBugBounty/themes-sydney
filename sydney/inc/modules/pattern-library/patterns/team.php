@@ -815,7 +815,7 @@ register_block_pattern(
 		'content'    => '<!-- wp:group {"tagName":"section","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"},"margin":{"top":"0","bottom":"0"},"blockGap":"0"},"color":{"background":"#ffffff"}},"layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-background" style="background-color:#ffffff;margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)"><!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"768px","justifyContent":"left"}} -->
 <div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)"><!-- wp:heading {"style":{"spacing":{"margin":{"bottom":"0","top":"0"}}}} -->
-<h2 class="wp-block-heading" style="margin-top:0;margin-bottom:0">Every member of our crew is licensed, background-checked, and brings years of real-world trade experience to your home.</h2>
+<h2 class="wp-block-heading" style="margin-top:0;margin-bottom:0">A licensed, background-checked crew with real trade experience.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
 

@@ -21,6 +21,25 @@ if ( ! class_exists( 'Sydney_Abilities_Preloader' ) ) :
 	class Sydney_Abilities_Preloader {
 
 		/**
+		 * Cached preloader definition map.
+		 *
+		 * @var array|null
+		 */
+		protected $preloader_map = null;
+
+		/**
+		 * Load and cache the declarative preloader map.
+		 *
+		 * @return array
+		 */
+		protected function get_preloader_map() {
+			if ( null === $this->preloader_map ) {
+				$this->preloader_map = apply_filters( 'sydney_abilities_preloader_map', require get_template_directory() . '/inc/abilities/customizer/definitions-preloader.php' );
+			}
+			return $this->preloader_map;
+		}
+
+		/**
 		 * Register preloader abilities (read always, write when allowed).
 		 */
 		public function register() {
@@ -92,9 +111,11 @@ if ( ! class_exists( 'Sydney_Abilities_Preloader' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_preloader( $args ) {
+			$map = $this->get_preloader_map();
+
 			return Sydney_Abilities_Response::success(
 				__( 'Preloader state retrieved.', 'sydney' ),
-				array( 'enabled' => (bool) get_theme_mod( 'enable_preloader', 1 ) )
+				array( 'enabled' => (bool) get_theme_mod( $map['enabled']['theme_mod'], $map['enabled']['default'] ) )
 			);
 		}
 
@@ -111,10 +132,11 @@ if ( ! class_exists( 'Sydney_Abilities_Preloader' ) ) :
 				);
 			}
 
+			$map     = $this->get_preloader_map();
 			$enabled = $args['enabled'];
 
 			// Mirror sydney_sanitize_checkbox storage: 1 / ''.
-			set_theme_mod( 'enable_preloader', $enabled ? 1 : '' );
+			set_theme_mod( $map['enabled']['theme_mod'], $enabled ? 1 : '' );
 
 			return Sydney_Abilities_Response::success(
 				$enabled

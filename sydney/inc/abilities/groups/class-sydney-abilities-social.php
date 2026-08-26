@@ -27,12 +27,23 @@ if ( ! class_exists( 'Sydney_Abilities_Social' ) ) :
 	class Sydney_Abilities_Social {
 
 		/**
-		 * Caller-facing location => theme_mod map. HF builder locations only.
+		 * Cached social definition map.
+		 *
+		 * @var array|null
 		 */
-		const LOCATIONS = array(
-			'header' => 'social_profiles_header',
-			'footer' => 'social_profiles_footer',
-		);
+		protected $social_map = null;
+
+		/**
+		 * Load and cache the declarative social map.
+		 *
+		 * @return array
+		 */
+		protected function get_social_map() {
+			if ( null === $this->social_map ) {
+				$this->social_map = apply_filters( 'sydney_abilities_social_map', require get_template_directory() . '/inc/abilities/customizer/definitions-social.php' );
+			}
+			return $this->social_map;
+		}
 
 		/**
 		 * Register social-links abilities (read always, write when allowed).
@@ -108,7 +119,7 @@ if ( ! class_exists( 'Sydney_Abilities_Social' ) ) :
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update social links', 'sydney' ),
-					'description'      => __( 'Replace the social profile URLs shown by the header/footer builder social component. Full-replace per location: call sydney/get-social-links first and send the complete new list. Every URL must belong to a supported network or it is ignored (it would render no icon).', 'sydney' ),
+					'description'      => __( 'Replace the social profile URLs shown by the header/footer builder social component. Full-replace per location: call sydney/get-social-links first and send the complete new list. Every URL must belong to a supported network or it is ignored (it would render no icon). Icons render only where the Social component is placed in a header or footer builder row.', 'sydney' ),
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,
@@ -154,10 +165,11 @@ if ( ! class_exists( 'Sydney_Abilities_Social' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_get_social_links( $args ) {
+			$map  = $this->get_social_map();
 			$data = array();
 
-			foreach ( self::LOCATIONS as $location => $theme_mod ) {
-				$raw   = (string) get_theme_mod( $theme_mod, '' );
+			foreach ( $map as $location => $entry ) {
+				$raw   = (string) get_theme_mod( $entry['theme_mod'], $entry['default'] );
 				$links = array();
 
 				foreach ( array_filter( array_map( 'trim', explode( ',', $raw ) ) ) as $url ) {
@@ -194,11 +206,12 @@ if ( ! class_exists( 'Sydney_Abilities_Social' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_update_social_links( $args ) {
+			$map     = $this->get_social_map();
 			$updated = array();
 			$ignored = array();
 			$mods    = array();
 
-			foreach ( self::LOCATIONS as $location => $theme_mod ) {
+			foreach ( $map as $location => $entry ) {
 				if ( ! is_array( $args ) || ! array_key_exists( $location, $args ) ) {
 					continue;
 				}
@@ -244,8 +257,8 @@ if ( ! class_exists( 'Sydney_Abilities_Social' ) ) :
 					continue; // Nothing valid for this location — leave existing links untouched.
 				}
 
-				$mods[ $theme_mod ] = sydney_sanitize_urls( implode( ',', $valid ) );
-				$updated[]          = $location;
+				$mods[ $entry['theme_mod'] ] = sydney_sanitize_urls( implode( ',', $valid ) );
+				$updated[]                   = $location;
 			}
 
 			if ( empty( $updated ) && empty( $ignored ) ) {

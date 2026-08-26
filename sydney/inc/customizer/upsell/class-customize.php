@@ -103,7 +103,7 @@ final class Sydney_Customize_Upsell {
 			'sydney-upsell-customize-controls',
 			trailingslashit( get_template_directory_uri() ) . 'inc/customizer/upsell/customize-controls.css',
 			array(),
-			'20250902'
+			'20260819'
 		);
 	}
 }
