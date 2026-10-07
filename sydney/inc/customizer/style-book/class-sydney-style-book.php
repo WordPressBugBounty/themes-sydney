@@ -29,7 +29,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
 
 	public function enqueue() {
         wp_enqueue_style( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/css/styles.min.css', array(), '20260819' );
-        wp_enqueue_script( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/js/scripts.min.js', array( 'customize-controls' ), '20250902', true );
+        wp_enqueue_script( 'sydney-style-book', get_template_directory_uri() . '/inc/customizer/style-book/js/scripts.min.js', array( 'customize-controls' ), '20260910', true );
 
             /**
              * Dynamic CSS
@@ -46,7 +46,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             $custom .= Sydney_Custom_CSS::get_top_bottom_padding_css( 'button_top_bottom_padding', $defaults = array( 'desktop' => 12, 'tablet' => 12, 'mobile' => 12 ), '.sydney-style-book-section-content .roll-button' );
             $custom .= Sydney_Custom_CSS::get_left_right_padding_css( 'button_left_right_padding', $defaults = array( 'desktop' => 35, 'tablet' => 35, 'mobile' => 35 ), '.sydney-style-book-section-content .roll-button' );
 
-            $buttons_radius = get_theme_mod( 'buttons_radius', 3 );
+            $buttons_radius = get_theme_mod( 'buttons_radius', 0 );
             $custom .= ".sydney-style-book-section-content .roll-button { border-radius:" . intval( $buttons_radius ) . "px;}" . "\n";
 
             $custom .= Sydney_Custom_CSS::get_font_sizes_css( 'button_font_size', $defaults = array( 'desktop' => 13, 'tablet' => 13, 'mobile' => 13 ), '.sydney-style-book-section-content .roll-button' );
@@ -65,6 +65,62 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             $custom .= ".sydney-style-book-section-content .roll-button { border-color:" . esc_attr( $button_border_color ) . ";}" . "\n";
             $custom .= ".sydney-style-book-section-content .roll-button:hover { border-color:" . esc_attr( $button_border_color_hover ) . ";}" . "\n";
             
+            if ( sydney_is_pro() ) {
+                /* Forms */
+                $forms_border_size = get_theme_mod( 'forms_border_size', 1 );
+                $forms_border_radius = get_theme_mod( 'forms_border_radius', 0 );
+                $forms_field_height = get_theme_mod( 'forms_field_height', 50 );
+            
+                $custom .= ".sydney-style-book-section-content input[type=\"text\"], .sydney-style-book-section-content input[type=\"email\"], .sydney-style-book-section-content textarea, .sydney-style-book-section-content select { border-width:" . intval( $forms_border_size ) . "px;}" . "\n";
+                $custom .= ".sydney-style-book-section-content input[type=\"text\"], .sydney-style-book-section-content input[type=\"email\"], .sydney-style-book-section-content textarea, .sydney-style-book-section-content select { border-radius:" . intval( $forms_border_radius ) . "px;}" . "\n";
+                $custom .= ".sydney-style-book-section-content input[type=\"text\"], .sydney-style-book-section-content input[type=\"email\"], .sydney-style-book-section-content select { height:" . intval( $forms_field_height ) . "px;}" . "\n";
+            
+                $custom .= Sydney_Custom_CSS::get_color_css( 'color_forms_text', '#6d7685', '.sydney-style-book-section-content input[type="text"], .sydney-style-book-section-content input[type="email"], .sydney-style-book-section-content textarea, .sydney-style-book-section-content select' );
+                $custom .= Sydney_Custom_CSS::get_background_color_css( 'color_forms_background', '#ffffff', '.sydney-style-book-section-content input[type="text"], .sydney-style-book-section-content input[type="email"], .sydney-style-book-section-content textarea, .sydney-style-book-section-content select' );
+                $custom .= Sydney_Custom_CSS::get_border_color_css( 'color_forms_borders', '#dbdbdb', '.sydney-style-book-section-content input[type="text"], .sydney-style-book-section-content input[type="email"], .sydney-style-book-section-content textarea, .sydney-style-book-section-content select' );
+                $custom .= Sydney_Custom_CSS::get_color_css( 'color_forms_placeholder', '#dbdbdb', '.sydney-style-book-section-content input[type="text"]::placeholder, .sydney-style-book-section-content input[type="email"]::placeholder, .sydney-style-book-section-content textarea::placeholder' );
+            
+                /* Lists */
+                $lists_padding_left = get_theme_mod( 'lists_padding_left', 40 );
+                $lists_item_spacing = get_theme_mod( 'lists_item_spacing', 0 );
+            
+                $custom .= ".sydney-style-book-section-content ul, .sydney-style-book-section-content ol { padding-left:" . intval( $lists_padding_left ) . "px;}" . "\n";
+                $custom .= ".sydney-style-book-section-content ul li, .sydney-style-book-section-content ol li { margin-bottom:" . intval( $lists_item_spacing ) . "px;}" . "\n";
+            
+                /* Tables */
+                $table_header_background = get_theme_mod( 'table_header_background', '' );
+                $table_header_text = get_theme_mod( 'table_header_text', '' );
+                $table_border_width = get_theme_mod( 'table_border_width', 1 );
+                $table_border_color = get_theme_mod( 'table_border_color', '' );
+                $table_border_type = get_theme_mod( 'table_border_type', 'collapse' );
+                $table_cell_padding = get_theme_mod( 'table_cell_padding', 8 );
+            
+                $custom .= ".sydney-style-book-section-content table { border-collapse:" . esc_attr( $table_border_type ) . ";}" . "\n";
+                if ( ! empty( $table_header_background ) ) {
+                    $custom .= ".sydney-style-book-section-content table th { background-color:" . esc_attr( $table_header_background ) . ";}" . "\n";
+                }
+                if ( ! empty( $table_header_text ) ) {
+                    $custom .= ".sydney-style-book-section-content table th { color:" . esc_attr( $table_header_text ) . ";}" . "\n";
+                }
+                $custom .= ".sydney-style-book-section-content table td, .sydney-style-book-section-content table th { border-width:" . intval( $table_border_width ) . "px;}" . "\n";
+                if ( ! empty( $table_border_color ) ) {
+                    $custom .= ".sydney-style-book-section-content table td, .sydney-style-book-section-content table th { border-color:" . esc_attr( $table_border_color ) . ";}" . "\n";
+                }
+                $custom .= ".sydney-style-book-section-content table td, .sydney-style-book-section-content table th { padding:" . intval( $table_cell_padding ) . "px;}" . "\n";
+            
+                /* Quotes */
+                $quote_border_color = get_theme_mod( 'quote_border_color', '' );
+                $color_quote_background = get_theme_mod( 'color_quote_background', '' );
+            
+                if ( ! empty( $quote_border_color ) ) {
+                    $custom .= ".sydney-style-book-section-content blockquote { border-color:" . esc_attr( $quote_border_color ) . ";}" . "\n";
+                }
+                if ( ! empty( $color_quote_background ) ) {
+                    $custom .= ".sydney-style-book-section-content blockquote { background-color:" . esc_attr( $color_quote_background ) . ";}" . "\n";
+                }
+            
+            }
+
             /* Typography */
             //Families
             $typography_defaults = wp_json_encode(
@@ -79,6 +135,10 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
         
             $body_font      = json_decode( $body_font, true );
             $headings_font  = json_decode( $headings_font, true );
+
+            // A stored value that is not the font object decodes to null or a string, and every read below indexes it. Fall back to the defaults, which read as System default and skip the rule.
+            $body_font      = is_array( $body_font )     ? $body_font     : json_decode( $typography_defaults, true );
+            $headings_font  = is_array( $headings_font ) ? $headings_font : json_decode( $typography_defaults, true );
 
             $custom .= ".sydney-style-book-section-content .style-book-body { font-family:\"" . esc_attr( $body_font['font'] ) . "\"," . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
             $custom .= ".sydney-style-book-section-content h1.style-book-heading, .sydney-style-book-section-content h2.style-book-heading, .sydney-style-book-section-content h3.style-book-heading, .sydney-style-book-section-content h4.style-book-heading, .sydney-style-book-section-content h5.style-book-heading, .sydney-style-book-section-content h6.style-book-heading { font-family:\"" . esc_attr( $headings_font['font'] ) . "\"," . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
@@ -222,9 +282,9 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             //Headings
             //we currently only support one font for all headings
             $headings_font = get_theme_mod( 'sydney_headings_font' );
-            if ( false !== $headings_font ) {
-                $headings = json_decode( $headings_font, true );
-            } else {
+            $headings = false !== $headings_font ? json_decode( $headings_font, true ) : null;
+
+            if ( ! is_array( $headings ) ) {
                 $headings = array(
                     'font' => 'System default',
                     'regularweight' => 400,
@@ -270,9 +330,9 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
 
             //Body
             $body_font = get_theme_mod( 'sydney_body_font' );
-            if ( false !== $body_font ) {
-                $body = json_decode( get_theme_mod( 'sydney_body_font' ), true );
-            } else {
+            $body = false !== $body_font ? json_decode( $body_font, true ) : null;
+
+            if ( ! is_array( $body ) ) {
                 $body = array(
                     'font' => 'System default',
                     'regularweight' => 400,
@@ -434,11 +494,11 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             <div id="section-forms" class="sydney-style-book-section" data-section="forms">
                 <div class="sydney-style-book-section-header">
                     <h2 class="sydney-style-book-section-title"><?php esc_html_e( 'Forms', 'sydney' ); ?></h2>
-                    <?php if ( !defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
+                    <?php if ( ! sydney_is_pro() ) : ?>
                     <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'style_book', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'style-book-requires-pro-link' ) ); ?>" target="_blank"><?php esc_html_e( 'Requires Sydney Pro.', 'sydney' ); ?></a>
                     <?php endif; ?>
                 </div>
-                <div class="sydney-style-book-section-content <?php defined( 'SYDNEY_PRO_VERSION' ) ? '' : 'sydney-style-book-disabled'; ?>">
+                <div class="sydney-style-book-section-content <?php echo esc_attr( sydney_is_pro() ? '' : 'sydney-style-book-disabled' ); ?>">
                     <a href="javascript:wp.customize.section( 'sydney_section_html_designer' ).focus();" class="sydney-style-book-customizer-link">
                         <div class="sydney-style-book-form">
                             <form>
@@ -448,7 +508,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
                                 <button class="roll-button"><?php esc_html_e( 'Submit', 'sydney' ); ?></button>
                             </form>
                         </div>
-                        <?php $this->render_edit_overlay( $is_pro_section = true); ?>
+                        <?php $this->render_edit_overlay( true, true ); ?>
                     </a>
                 </div>
             </div>
@@ -463,11 +523,11 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             <div id="section-lists" class="sydney-style-book-section" data-section="lists">
                 <div class="sydney-style-book-section-header">
                     <h2 class="sydney-style-book-section-title"><?php esc_html_e( 'Lists', 'sydney' ); ?></h2>
-                    <?php if ( !defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
+                    <?php if ( ! sydney_is_pro() ) : ?>
                     <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'style_book', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'style-book-requires-pro-link' ) ); ?>" target="_blank"><?php esc_html_e( 'Requires Sydney Pro.', 'sydney' ); ?></a>
                     <?php endif; ?>
                 </div>
-                <div class="sydney-style-book-section-content <?php defined( 'SYDNEY_PRO_VERSION' ) ? '' : 'sydney-style-book-disabled'; ?>">
+                <div class="sydney-style-book-section-content <?php echo esc_attr( sydney_is_pro() ? '' : 'sydney-style-book-disabled' ); ?>">
                     <a href="javascript:wp.customize.section( 'sydney_section_html_designer' ).focus();" class="sydney-style-book-customizer-link">
                         <div class="sydney-style-book-lists">
                             <ul>
@@ -481,7 +541,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
                                 <li><?php esc_html_e( 'List Item 3', 'sydney' ); ?></li>
                             </ol>
                         </div>
-                        <?php $this->render_edit_overlay( $is_pro_section = true); ?>
+                        <?php $this->render_edit_overlay( true, true ); ?>
                     </a>
                 </div>
             </div>
@@ -496,11 +556,11 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             <div id="section-tables" class="sydney-style-book-section" data-section="tables">
                 <div class="sydney-style-book-section-header">
                     <h2 class="sydney-style-book-section-title"><?php esc_html_e( 'Tables', 'sydney' ); ?></h2>
-                    <?php if ( !defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
+                    <?php if ( ! sydney_is_pro() ) : ?>
                     <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'style_book', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'style-book-requires-pro-link' ) ); ?>" target="_blank"><?php esc_html_e( 'Requires Sydney Pro.', 'sydney' ); ?></a>
                     <?php endif; ?>
                 </div>
-                <div class="sydney-style-book-section-content <?php defined( 'SYDNEY_PRO_VERSION' ) ? '' : 'sydney-style-book-disabled'; ?>">
+                <div class="sydney-style-book-section-content <?php echo esc_attr( sydney_is_pro() ? '' : 'sydney-style-book-disabled' ); ?>">
                     <a href="javascript:wp.customize.section( 'sydney_section_html_designer' ).focus();" class="sydney-style-book-customizer-link">
                         <div class="sydney-style-book-tables">
                             <table>
@@ -530,7 +590,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
                                 </tbody>
                             </table>
                         </div>
-                        <?php $this->render_edit_overlay( $is_pro_section = true); ?>
+                        <?php $this->render_edit_overlay( true, true ); ?>
                     </a>
                 </div>
             </div>
@@ -545,11 +605,11 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
             <div id="section-quotes" class="sydney-style-book-section" data-section="quotes">
                 <div class="sydney-style-book-section-header">
                     <h2 class="sydney-style-book-section-title"><?php esc_html_e( 'Quotes', 'sydney' ); ?></h2>
-                    <?php if ( !defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
+                    <?php if ( ! sydney_is_pro() ) : ?>
                     <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'style_book', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'style-book-requires-pro-link' ) ); ?>" target="_blank"><?php esc_html_e( 'Requires Sydney Pro.', 'sydney' ); ?></a>
                     <?php endif; ?>
                 </div>
-                <div class="sydney-style-book-section-content <?php defined( 'SYDNEY_PRO_VERSION' ) ? '' : 'sydney-style-book-disabled'; ?>">
+                <div class="sydney-style-book-section-content <?php echo esc_attr( sydney_is_pro() ? '' : 'sydney-style-book-disabled' ); ?>">
                     <a href="javascript:wp.customize.section( 'sydney_section_html_designer' ).focus();" class="sydney-style-book-customizer-link">
                         <div class="sydney-style-book-quotes">
                             <blockquote>
@@ -557,7 +617,7 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
                                 <cite><?php esc_html_e( 'Author Name', 'sydney' ); ?></cite>
                             </blockquote>
                         </div>
-                        <?php $this->render_edit_overlay( $is_pro_section = true); ?>
+                        <?php $this->render_edit_overlay( true, true ); ?>
                     </a>
                 </div>
             </div>
@@ -579,11 +639,17 @@ if ( ! class_exists( 'Sydney_Style_Book' ) ) :
         /**
          * Render edit overlay.
          */
-        public function render_edit_overlay( $is_pro_section = false ) {
-            if ( $is_pro_section && !defined( 'SYDNEY_PRO_VERSION' ) ) {
+        public function render_edit_overlay( $is_pro_section = false, $is_html_designer_section = false ) {
+            if ( $is_pro_section && ! sydney_is_pro() ) {
                 ?>
                 <div class="sydney-style-book-edit-overlay">
                     <i class="dashicons dashicons-lock"></i>
+                </div>
+                <?php
+            } elseif ( $is_html_designer_section && !Sydney_Modules::is_module_active( 'html-designer' ) ) {
+                ?>
+                <div class="sydney-style-book-edit-overlay">
+                    <span class="style-book-light-text"><?php esc_html_e( 'Requires HTML Designer module to be active.', 'sydney' ); ?></span>
                 </div>
                 <?php
             } else {

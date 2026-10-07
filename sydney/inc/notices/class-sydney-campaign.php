@@ -24,7 +24,7 @@ class Sydney_Campaign_Notice {
 	 * Constructor
 	 */
 	public function __construct() {
-		if( defined( 'SYDNEY_AWL_ACTIVE' ) ) {
+		if( sydney_is_white_labelled() ) {
 			return;
 		}
 

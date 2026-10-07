@@ -24,7 +24,7 @@ class Sydney_Page_Metabox {
 
 	public function add_meta_box( $post_type ) {
 		
-		$types = array( 'page' );
+		$types = apply_filters( 'sydney_page_metabox_post_types', array( 'page' ) );
 
         if ( in_array( $post_type, $types, true ) && ( 'attachment' !== $post_type ) ) {
 			add_meta_box(
@@ -64,6 +64,8 @@ class Sydney_Page_Metabox {
 			$transparent_menu_bar = ( isset( $_POST['sydney_transparent_menu'] ) && '1' === $_POST['sydney_transparent_menu'] ) ? 1 : 0;
 			update_post_meta( $post_id, '_sydney_transparent_menu', $transparent_menu_bar );
 		}
+
+		do_action( 'sydney_page_metabox_save', $post_id );
 	}
 
 	public function render_meta_box_content( $post ) {
@@ -78,6 +80,7 @@ class Sydney_Page_Metabox {
 		<label><input type="checkbox" name="sydney_transparent_menu" value="1" <?php checked( $merge_top_bar, 1 ); ?> /><?php esc_html_e( 'Transparent menu bar', 'sydney' ); ?></label>
 	</p>	
 	<?php endif; ?>
+	<?php do_action( 'sydney_page_metabox_fields', $post ); ?>
 
 	<?php
 	}

@@ -256,15 +256,11 @@ class Sydney_Usage_Tracking {
 			return 'lite';
 		}
 
-		// Get the license item name from option (for future plan names like "agency", "lifetime", etc.)
-		$license_item_name = get_option( 'sydney_pro_license_item_name', '' );
+		// Plan type stored by the shared license client (personal, professional, agency, ...).
+		$license_type = get_option( 'sydney_pro_license_type', '' );
 
-		// If option is empty or default, return 'pro', otherwise return the plan name.
-		if ( empty( $license_item_name ) || $license_item_name === 'Sydney Pro 2' ) {
-			return 'pro';
-		}
-
-		return sanitize_text_field( strtolower( $license_item_name ) );
+		// Fall back to a generic 'pro' when the plan is unknown (e.g. license not yet activated).
+		return $license_type !== '' ? sanitize_text_field( strtolower( $license_type ) ) : 'pro';
 	}
 
 	/**
@@ -433,4 +429,3 @@ class Sydney_Usage_Tracking {
 
 // Initialize usage tracking.
 add_action( 'init', array( 'Sydney_Usage_Tracking', 'init_system' ) );
-

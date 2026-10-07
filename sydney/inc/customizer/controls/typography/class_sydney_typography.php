@@ -40,8 +40,22 @@ class Sydney_Typography_Control extends WP_Customize_Control {
 				}
 			}
 			$this->fontList = $this->get_google_fonts();
-			// Decode the default json font value
+			// Decode the default json font value. json_decode() returns null on
+			// invalid JSON and a scalar on JSON scalars, so coerce to an object
+			// with the keys downstream rendering reads (font/regularweight/category).
 			$this->fontValues = json_decode( $this->value( 'family' ) );
+			if ( ! is_object( $this->fontValues ) ) {
+				$this->fontValues = new stdClass();
+			}
+			if ( ! isset( $this->fontValues->font ) ) {
+				$this->fontValues->font = 'System default';
+			}
+			if ( ! isset( $this->fontValues->regularweight ) ) {
+				$this->fontValues->regularweight = '400';
+			}
+			if ( ! isset( $this->fontValues->category ) ) {
+				$this->fontValues->category = 'sans-serif';
+			}
 			// Find the index of our default font within our list of Google fonts
 			$this->fontListIndex = $this->get_font_index( $this->fontList, $this->fontValues->font );
 		}

@@ -25,8 +25,8 @@ class Sydney_Responsive_Slider extends WP_Customize_Control {
 		$this->json['is_responsive'] = (bool) $this->is_responsive;
 		$this->json['separator']     = $this->separator;
 		$this->json['values']        = $values;
-		$this->json['min']           = isset( $this->input_attrs['min'] ) ? absint( $this->input_attrs['min'] ) : 0;
-		$this->json['max']           = isset( $this->input_attrs['max'] ) ? absint( $this->input_attrs['max'] ) : 100;
+		$this->json['min']           = isset( $this->input_attrs['min'] ) ? intval( $this->input_attrs['min'] ) : 0;
+		$this->json['max']           = isset( $this->input_attrs['max'] ) ? intval( $this->input_attrs['max'] ) : 100;
 		$this->json['step']          = isset( $this->input_attrs['step'] ) ? $this->input_attrs['step'] : 1;
 	}
 

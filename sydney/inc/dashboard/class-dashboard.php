@@ -37,7 +37,7 @@ class Sydney_Dashboard
     public function __construct()
     {
 
-        if (defined('SYDNEY_AWL_ACTIVE')) {
+        if (sydney_is_white_labelled()) {
             return;
         }
 
@@ -53,13 +53,19 @@ class Sydney_Dashboard
         if( $this->is_sydney_dashboard_page() ) {
             add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
 
+            //The constant says the pro layer booted, not that every pro file
+            //is present: this template ships in inc/templates-builder/, which
+            //Sydney#563 relocates. The check has to happen when the hook fires,
+            //not here: this file is required before the one that defines it
+            //(pro functions.php:844 vs :986), so a require-time is_callable()
+            //would be false even once the file lands. Drop the wrapper then.
             if( defined( 'SYDNEY_PRO_VERSION' ) ) {
-                add_action( 'admin_footer', 'sydney_templates_display_conditions_script_template' );
+                add_action( 'admin_footer', function() {
+                    if ( is_callable( 'sydney_templates_display_conditions_script_template' ) ) {
+                        sydney_templates_display_conditions_script_template();
+                    }
+                } );
             }
-        }
-
-        if( $this->is_patcher_page() ) {
-            add_action('admin_enqueue_scripts', array( $this, 'enqueue_patcher_scripts' ));
         }
 
         add_filter('woocommerce_enable_setup_wizard', '__return_false');
@@ -207,16 +213,6 @@ class Sydney_Dashboard
     }
 
     /**
-     * Is aThemes Patcher page.
-     * 
-     */
-    public function is_patcher_page() {
-        global $pagenow;
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        return $pagenow === 'admin.php' && ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] === 'athemes-patcher-preview-sp' );
-    }
-
-    /**
      * Settings
      *
      * @param array $settings The settings.
@@ -287,20 +283,6 @@ class Sydney_Dashboard
                 get_admin_url() . 'admin.php?page=sydney-dashboard&tab=builder',
                 '',
                 3
-            );
-        }
-
-        // Add 'aThemes Patcher' link. Position 5 clears the athemes_hf submenu the
-        // CPT appends, so 'Template Parts' stays next to 'Template Builder'
-        if ( !defined( 'ATHEMES_PATCHER_VERSION' ) ) {
-            add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page
-                'sydney-dashboard',
-                esc_html__('Patcher', 'sydney'),
-                esc_html__('Patcher', 'sydney'),
-                'manage_options',
-                'athemes-patcher-preview-sp',
-                array( $this, 'html_patcher' ),
-                5
             );
         }
 
@@ -427,7 +409,7 @@ class Sydney_Dashboard
     public function admin_enqueue_scripts($hook)
     {
 
-        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260828.13');
+        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260917.4');
 
         if (is_rtl()) {
             wp_enqueue_style('sydney-dashboard-rtl', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard-rtl.min.css', array(), '20260610');
@@ -479,18 +461,6 @@ class Sydney_Dashboard
                 'confirm_delete_button' => esc_html__('Delete template', 'sydney'),
             ),
         ));
-    }
-
-    /**
-     * Enqueue aThemes Patcher preview scripts and styles.
-     * 
-     */
-    public function enqueue_patcher_scripts() {
-        wp_enqueue_style( 'wp-components' );
-
-        // The patcher page reuses the dashboard's link and tooltip components, so
-        // it loads the dashboard sheet rather than inlining copies of those rules.
-        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260828.13');
     }
 
     /**
@@ -1275,6 +1245,13 @@ class Sydney_Dashboard
 	 * customizer control and the template builder resolve labels the same way.
 	 */
 	function get_option_text( $value ) {
+		//The resolver ships in inc/display-conditions-admin.php, which
+		//Sydney#554 relocates. Until then an unresolved condition renders
+		//without a label instead of fataling. Drop the guard when it lands.
+		if ( ! is_callable( 'sydney_display_conditions_option_text' ) ) {
+			return '';
+		}
+
 		return sydney_display_conditions_option_text( $value );
 	}
 
@@ -1653,8 +1630,8 @@ class Sydney_Dashboard
         $notification_read   = $this->latest_notification_is_read();
         $notifications_count = 1;
 
-        $theme_slug     = get_template();
-        $theme_version  = wp_get_theme()->get( 'Version' );
+        $theme_slug    = get_template();
+        $theme_version = defined( 'SYDNEY_PRO_VERSION' ) ? SYDNEY_PRO_VERSION : wp_get_theme( $theme_slug )->get( 'Version' );
 
 		?>
       	<div class="sydney-dashboard sydney-dashboard-wrap">
@@ -1749,13 +1726,6 @@ class Sydney_Dashboard
 }
 
         }
-    }
-
-    /**
-     * HTML aThemes Patcher.
-     */
-    public function html_patcher() {
-        require get_template_directory() . '/inc/dashboard/html-patcher.php';
     }
 }
 

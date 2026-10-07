@@ -5,6 +5,44 @@
  * @package Sydney
  */
 
+if ( ! function_exists( 'sydney_is_pro' ) ) :
+/**
+ * Whether the Pro edition is active.
+ *
+ * True when inc/pro/bootstrap.php exists, unless SYDNEY_FORCE_EDITION is 'free'.
+ *
+ * @return bool
+ */
+function sydney_is_pro() {
+	static $is_pro = null;
+
+	if ( null !== $is_pro ) {
+		return $is_pro;
+	}
+
+	if ( defined( 'SYDNEY_FORCE_EDITION' ) && 'free' === SYDNEY_FORCE_EDITION ) {
+		$is_pro = false;
+
+		return $is_pro;
+	}
+
+	$is_pro = file_exists( get_template_directory() . '/inc/pro/bootstrap.php' );
+
+	return $is_pro;
+}
+endif;
+
+if ( ! function_exists( 'sydney_edition_dir' ) ) :
+/**
+ * Current edition as a path segment.
+ *
+ * @return string 'pro' or 'free'.
+ */
+function sydney_edition_dir() {
+	return sydney_is_pro() ? 'pro' : 'free';
+}
+endif;
+
 if ( ! function_exists( 'sydney_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -278,7 +316,7 @@ add_action( 'after_switch_theme', 'sydney_set_modern_header_flag' );
  * Elementor editor scripts
  */
 function sydney_elementor_editor_scripts() {
-	wp_enqueue_script( 'sydney-elementor-editor', get_template_directory_uri() . '/js/elementor.js', array( 'jquery' ), '20200504', true );
+	wp_enqueue_script( 'sydney-elementor-editor', get_template_directory_uri() . '/js/elementor.js', array( 'jquery' ), '20260917', true );
 }
 add_action('elementor/frontend/after_register_scripts', 'sydney_elementor_editor_scripts');
 
@@ -294,7 +332,7 @@ function sydney_scripts() {
 	}
 
 	if ( !$is_amp ) {
-		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/functions.min.js', array(), '20260611', true );
+		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/functions.min.js', array(), '20260611', true );
 		
 		//Enqueue hero slider script only if the slider is in use
 		$slider_home = get_theme_mod('front_header_type','nothing');
@@ -302,14 +340,14 @@ function sydney_scripts() {
 		if ( ( $slider_home === 'slider' && is_front_page() ) || ( $slider_site === 'slider' && !is_front_page() ) ) {
 			wp_enqueue_script( 'sydney-scripts', get_template_directory_uri() . '/js/scripts.js', array( 'jquery' ), '20250902', true );
 			wp_enqueue_script( 'sydney-hero-slider', get_template_directory_uri() . '/js/hero-slider.js', array( 'jquery' ), '20250902', true );
-			wp_enqueue_style( 'sydney-hero-slider', get_template_directory_uri() . '/css/components/hero-slider.min.css', array(), '20220824' );
+			wp_enqueue_style( 'sydney-hero-slider', get_template_directory_uri() . '/css/' . sydney_edition_dir() . '/components/hero-slider.min.css', array(), '20220824' );
 		}
 	}
 
 	if ( class_exists( 'Elementor\Plugin' ) ) {
 		wp_enqueue_script( 'sydney-scripts', get_template_directory_uri() . '/js/scripts.js', array( 'jquery' ), '20250902', true );
 
-		wp_enqueue_style( 'sydney-elementor', get_template_directory_uri() . '/css/components/elementor.min.css', array(), '20220824' );
+		wp_enqueue_style( 'sydney-elementor', get_template_directory_uri() . '/css/' . sydney_edition_dir() . '/components/elementor.min.css', array(), '20220824' );
 	}
 
 	if ( defined( 'SITEORIGIN_PANELS_VERSION' ) ) {
@@ -337,7 +375,7 @@ function sydney_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 	
-	wp_enqueue_style( 'sydney-style-min', get_template_directory_uri() . '/css/styles.min.css', '', '20260720' );
+	wp_enqueue_style( 'sydney-style-min', get_template_directory_uri() . '/css/' . sydney_edition_dir() . '/styles.min.css', '', '20260720' );
 
 	wp_enqueue_style( 'sydney-style', get_stylesheet_uri(), '', '20230821' );
 }
@@ -571,8 +609,20 @@ require get_template_directory() . '/inc/classes/class-sydney-header.php';
 
 /**
  * Customizer additions.
+ *
+ * sydney_is_pro() is true whenever inc/pro/bootstrap.php exists on disk (true
+ * since #554), so the pro branch is taken on any plain checkout of this repo,
+ * not only on a built pro install. It became runnable with Sydney#569: the
+ * imported tree called eight sydney_ helpers this repo had no definition for,
+ * and all eight now exist, six in inc/pro/extras.php and two in
+ * inc/pro/woocommerce.php. Issue554Test pinned that list and its pin is empty.
+ * Free is unaffected: it never loads inc/pro/.
  */
-require get_template_directory() . '/inc/customizer/customizer.php';
+if ( sydney_is_pro() ) {
+	require get_template_directory() . '/inc/pro/customizer/customizer.php';
+} else {
+	require get_template_directory() . '/inc/customizer/customizer.php';
+}
 
 /**
  * AI Abilities (self-gated by the Dashboard > Settings toggles).
@@ -593,6 +643,13 @@ require get_template_directory() . '/inc/slider.php';
  * Styles
  */
 require get_template_directory() . '/inc/styles.php';
+
+/**
+ * Pro-only code
+ */
+if ( sydney_is_pro() ) {
+	require get_template_directory() . '/inc/pro/bootstrap.php';
+}
 
 /**
  * Woocommerce basic integration
@@ -643,7 +700,9 @@ require get_template_directory() . '/inc/integrations/class-sydney-amp.php';
 /**
  * Upsell
  */
-require get_template_directory() . '/inc/customizer/upsell/class-customize.php';
+if ( ! sydney_is_pro() ) {
+	require get_template_directory() . '/inc/customizer/upsell/class-customize.php';
+}
 
 /**
  * Style Book Toggle
@@ -689,8 +748,41 @@ require get_template_directory() . '/inc/theme-update.php';
  * Modules
  */
 require get_template_directory() . '/inc/modules/class-sydney-modules.php';
+
+/**
+ * Pro's modules: the catalog rows and the fourteen entry points.
+ *
+ * Required here and not from inc/pro/bootstrap.php, the one other place a pro
+ * path may be named outside inc/pro/. Every entry point calls
+ * Sydney_Modules::is_module_active() at file scope with no class_exists guard,
+ * so the class above is a hard lower bound and the bootstrap loads too early.
+ */
+if ( sydney_is_pro() ) {
+	require get_template_directory() . '/inc/pro/modules.php';
+}
+
 require get_template_directory() . '/inc/modules/block-templates/class-sydney-block-templates.php';
 require get_template_directory() . '/inc/modules/hf-builder/class-header-footer-builder.php';
+
+/**
+ * The header/footer builder's Pro components.
+ *
+ * A slot of its own, after the class above and not with the other pro modules,
+ * because both register customizer_options() on customize_register at priority
+ * 1000 and WordPress runs equal priorities in registration order. Pro's own
+ * functions.php loads these two in this order for the same reason; loading the
+ * pro half first silently moves Pro's controls before free has registered the
+ * section they belong to.
+ *
+ * The file stays at its free path: it is Pro-only, and the free build drops it
+ * with this require and the free-exclude.txt entry, leaving the shared
+ * builder's upsell placeholders intact. It self-gates on
+ * class_exists( 'Sydney_Modules' ) and on the 'hf-builder' module being active.
+ */
+if ( sydney_is_pro() ) {
+	require get_template_directory() . '/inc/modules/hf-builder/pro/hf-builder.php';
+}
+
 require get_template_directory() . '/inc/modules/pattern-library/class-sydney-pattern-library.php';
 
 /**

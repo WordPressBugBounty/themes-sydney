@@ -658,7 +658,7 @@ $wp_customize->add_control( new Sydney_Responsive_Slider( $wp_customize, 'button
 
 
 $wp_customize->add_setting( 'buttons_radius', array(
-	'default'           => 3,
+	'default'           => 0,
 	'sanitize_callback' => 'absint',
 	'transport'         => 'postMessage',
 ) );            

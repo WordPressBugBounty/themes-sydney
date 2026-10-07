@@ -133,6 +133,18 @@ if ( ! class_exists( 'Sydney_Abilities_Patterns' ) ) :
 		}
 
 		/**
+		 * Load the pattern library's patterns before reading the registry.
+		 *
+		 * The library registers pattern files only for the requests that read
+		 * them, and an ability run is one of those.
+		 */
+		protected function ensure_patterns_registered() {
+			if ( class_exists( 'Sydney_Pattern_Library' ) ) {
+				Sydney_Pattern_Library::get_instance()->register_patterns();
+			}
+		}
+
+		/**
 		 * All registered block patterns.
 		 *
 		 * Protected so tests can override without the final core registry class.
@@ -143,6 +155,7 @@ if ( ! class_exists( 'Sydney_Abilities_Patterns' ) ) :
 			if ( ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
 				return array();
 			}
+			$this->ensure_patterns_registered();
 			return WP_Block_Patterns_Registry::get_instance()->get_all_registered();
 		}
 
@@ -158,6 +171,7 @@ if ( ! class_exists( 'Sydney_Abilities_Patterns' ) ) :
 			if ( ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
 				return null;
 			}
+			$this->ensure_patterns_registered();
 			return WP_Block_Patterns_Registry::get_instance()->get_registered( $slug );
 		}
 

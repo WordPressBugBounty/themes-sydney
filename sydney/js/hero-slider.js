@@ -51,7 +51,7 @@
 			if ( $( "#slideshow" ).length ) {
 				$('#slideshow').superslides({
 					play: $('#slideshow').data('speed'),
-					animation: 'fade',
+					animation: $('#slideshow').data('animation') || 'fade',
 					pagination: false,
 				});
 			}

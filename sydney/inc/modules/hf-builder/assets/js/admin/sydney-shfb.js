@@ -619,24 +619,47 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             // When we use "connectWith" param this condition is needed 
             // to prevent the code being running twice because the 'update' event runs twice
             if (this === ui.item.parent()[0]) {
-              var component_id = ui.item.find('> .shfb-button').data('shfb-id'),
-                row = ui.item.closest('.sydney-shfb-area').data('shfb-row'),
-                column = ui.item.closest('.sydney-shfb-area').index() - 1,
+              // The off-canvas area sits outside the row grid: it is its own row and its column index has no offset.
+              var areaRow = function areaRow(area) {
+                return area.hasClass('sydney-shfb-area-offcanvas') ? area : area.closest('.sydney-shfb-row');
+              };
+              var areaColumn = function areaColumn(area) {
+                return area.hasClass('sydney-shfb-area-offcanvas') ? area.index() : area.index() - 1;
+              };
+              var area = ui.item.closest('.sydney-shfb-area'),
+                component_id = ui.item.find('> .shfb-button').data('shfb-id'),
+                row = area.data('shfb-row'),
+                column = areaColumn(area),
                 prevRow = ui.sender !== null ? ui.sender.data('shfb-row') : null,
-                prevColumn = ui.sender !== null ? ui.sender.index() - 1 : null;
+                prevColumn = ui.sender !== null ? areaColumn(ui.sender) : null;
               if (ui.sender === null) {
+                // Reordered within the available components list: no row value to change.
+                if (area.hasClass('shfb-available-components')) {
+                  return false;
+                }
+
                 // Add component based on global order "_this.componentsOrder"
                 _this.elementsButtonAdd('', true);
                 return false;
               }
               if (!ui.sender.hasClass('shfb-available-components')) {
                 _this.currentRowInput = $('#_customize-input-sydney_' + _this.currentBuilderType + '_row__' + prevRow);
+
+                // elementsButtonRemove() and elementsButtonAdd() pick the value key from currentRow,
+                // which the drag leaves pointing at whichever area the pointer last crossed.
+                _this.currentRow = areaRow(ui.sender);
               }
               _this.currentColumnPos = prevColumn;
               _this.elementsButtonRemove(component_id, true);
+
+              // Dropped back onto the available components list: there is no row to add it to.
+              if (ui.item.parent().hasClass('shfb-available-components')) {
+                return false;
+              }
               if (!ui.sender.hasClass('shfb-available-components')) {
                 _this.currentRowInput = $('#_customize-input-sydney_' + _this.currentBuilderType + '_row__' + row);
               }
+              _this.currentRow = areaRow(area);
               _this.currentColumnPos = column;
               _this.elementsButtonAdd(component_id, true);
             }

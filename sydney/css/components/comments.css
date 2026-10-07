@@ -85,7 +85,7 @@ Comments
 	margin-left: 15px;
 }
 .comment-respond {
-	background-color: #fff;
+	background-color: var(--sydney-light-background);
 	padding: 60px;
 }
 .comment-respond .comment-notes {

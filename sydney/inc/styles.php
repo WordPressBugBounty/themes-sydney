@@ -540,6 +540,10 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		
 			$body_font      = json_decode( $body_font, true );
 			$headings_font  = json_decode( $headings_font, true );
+
+			// A stored value that is not the font object decodes to null or a string, and every read below indexes it. Fall back to the defaults, which read as System default and skip the rule.
+			$body_font      = is_array( $body_font )     ? $body_font     : json_decode( $typography_defaults, true );
+			$headings_font  = is_array( $headings_font ) ? $headings_font : json_decode( $typography_defaults, true );
 			
 			if ( 'System default' !== $body_font['font'] && 'google' === get_theme_mod( 'fonts_library', 'google' ) ) {
 				$custom .= 'body { font-family:' . esc_attr( $body_font['font'] ) . ',' . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";   
@@ -554,6 +558,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
                 $menu_font      = get_theme_mod( 'sydney_menu_font', $typography_defaults );
                 $menu_font      = json_decode( $menu_font, true );
+                $menu_font      = is_array( $menu_font ) ? $menu_font : json_decode( $typography_defaults, true );
 
                 $menu_text_transform = get_theme_mod( 'menu_items_text_transform' );
 
@@ -1415,15 +1420,33 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			return $css;
 		}   
 
+		/**
+		 * Split a hex color string into its three RGB hex-byte parts.
+		 * Returns false when $color is not 3 or 6 hex digits. Shared by
+		 * hex2rgba() and to_rgba() so the length branches aren't duplicated.
+		 */
+		private static function hex_to_rgb_parts( $color ) {
+			if ( strlen( $color ) === 6 ) {
+				return array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+			} elseif ( strlen( $color ) === 3 ) {
+				return array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+			}
+
+			return false;
+		}
+
         public function hex2rgba($color, $opacity = false) {
 
             $output = '';
-            
+
             if ( $color !== false ) {
-                if ($color[0] === '#' ) {
+                if ( $color && $color[0] === '#' ) {
                     $color = substr( $color, 1 );
                 }
-                $hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+                $hex = self::hex_to_rgb_parts( $color );
+                if ( $hex === false ) {
+                    $hex = array( '00', '00', '00' );
+                }
                 $rgb =  array_map('hexdec', $hex);
                 $opacity = 0.9;
                 $output = 'rgba('.implode(",",$rgb).','.$opacity.')';
@@ -1566,11 +1589,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				}   
 			}
 
-			if (strlen($color) === 6) {
-				$hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
-			} elseif ( strlen( $color ) === 3 ) {
-				$hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
-			} else {
+			$hex = self::hex_to_rgb_parts( $color );
+			if ( $hex === false ) {
 				return $default;
 			}
 		

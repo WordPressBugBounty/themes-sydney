@@ -194,6 +194,7 @@ $wp_customize->add_setting( 'mobile_breakpoint', array(
 $wp_customize->add_control( new Sydney_Responsive_Slider( $wp_customize, 'mobile_breakpoint',
 	array(
 		'label'           => esc_html__( 'Mobile Breakpoint', 'sydney' ),
+		'description'     => esc_html__( 'The breakpoint until which the header will be displayed in mobile view.', 'sydney' ),
 		'section'         => 'sydney_section_hb_wrapper',
 		'is_responsive'   => 0,
 		'settings'        => array(
@@ -432,7 +433,7 @@ $wp_customize->add_control( new Sydney_Text_Control( $wp_customize, 'sydney_sect
 
 
 // Upsell
-if( ! defined( 'SYDNEY_AWL_ACTIVE' ) && ! defined( 'SYDNEY_PRO_VERSION' ) ) {
+if( ! sydney_is_white_labelled() && ! defined( 'SYDNEY_PRO_VERSION' ) ) {
 	$wp_customize->add_setting( 
 		'sydney_section_hb_wrapper__header_builder_upsell',
 		array(

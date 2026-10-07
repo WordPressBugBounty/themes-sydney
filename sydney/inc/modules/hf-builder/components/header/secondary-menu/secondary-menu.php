@@ -9,11 +9,6 @@
  * @package Sydney_Pro
  */
 
-// Check display conditions.
-if ( ! sydney_get_display_conditions( 'secondary_menu_display_conditions', false, '[{"type":"include","condition":"all","id":null}]' ) ) {
-    return;
-}
-
 // Device type.
 $device = isset( $params['device'] ) ? $params['device'] : 'desktop';
 

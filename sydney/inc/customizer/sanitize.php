@@ -20,25 +20,61 @@ function sydney_sanitize_select( $input, $setting ){
 
 /**
  * Sanitize blog elements
+ *
+ * The allowed list is the free edition's; Pro widens it with the three
+ * elements only its templates render.
  */
 function sydney_sanitize_blog_meta_elements( $input ) {
-    $input     = (array) $input;
-    $sanitized = array();
+	$input     = (array) $input;
+	$sanitized = array();
+	$allowed   = array( 'post_date', 'post_categories', 'post_author', 'post_comments', 'post_tags' );
 
-    foreach ( $input as $sub_value ) {
-        if ( in_array( $sub_value, array( 'post_date', 'post_categories', 'post_author', 'post_comments', 'post_tags' ), true ) ) {
-            $sanitized[] = $sub_value;
-        }
-    }
-    return $sanitized;
+	if ( sydney_is_pro() ) {
+		$allowed = array_merge( $allowed, array( 'reading_time', 'updated_date', 'custom_field' ) );
+	}
+
+	foreach ( $input as $sub_value ) {
+		if ( in_array( $sub_value, $allowed, true ) ) {
+			$sanitized[] = $sub_value;
+		}
+	}
+
+	return $sanitized;
 }
 
+/**
+ * Sanitize single post elements
+ *
+ * The allowed list is the free edition's; Pro widens it with the three
+ * elements only its templates render.
+ */
 function sydney_sanitize_single_meta_elements( $input ) {
+	$input     = (array) $input;
+	$sanitized = array();
+	$allowed   = array( 'sydney_posted_on', 'sydney_posted_by', 'sydney_post_categories', 'sydney_entry_comments' );
+
+	if ( sydney_is_pro() ) {
+		$allowed = array_merge( $allowed, array( 'sydney_reading_time', 'sydney_updated_date', 'sydney_meta_custom_field' ) );
+	}
+
+	foreach ( $input as $sub_value ) {
+		if ( in_array( $sub_value, $allowed, true ) ) {
+			$sanitized[] = $sub_value;
+		}
+	}
+
+	return $sanitized;
+}
+
+/**
+ * Sanitize single post sharing networks
+ */
+function sydney_sanitize_single_sharing_networks( $input ) {
     $input     = (array) $input;
     $sanitized = array();
 
     foreach ( $input as $sub_value ) {
-        if ( in_array( $sub_value, array( 'sydney_posted_on', 'sydney_posted_by', 'sydney_post_categories', 'sydney_entry_comments' ), true ) ) {
+        if ( in_array( $sub_value, array( 'threads', 'mastodon', 'bluesky', 'facebook', 'twitter', 'linkedin', 'pinterest', 'whatsapp', 'telegram', 'vk', 'weibo', 'reddit', 'ok', 'xing', 'mail' ), true ) ) {
             $sanitized[] = $sub_value;
         }
     }
@@ -95,10 +131,47 @@ function sydney_sanitize_topbar_components( $input ) {
 }
 
 /**
+ * Sanitize footer copyright components
+ */
+function sydney_sanitize_footer_copyright_components( $input ) {
+    $input      = (array) $input;
+    $sanitized  = array();
+    $elements   = array_keys( sydney_footer_copyright_elements() );
+
+    foreach ( $input as $sub_value ) {
+        if ( in_array( $sub_value, $elements, true ) ) {
+            $sanitized[] = $sub_value;
+        }
+    }
+    return $sanitized;       
+}
+
+/**
  * Sanitize text
  */
 function sydney_sanitize_text( $input ) {
     return wp_kses_post( force_balance_tags( $input ) );
+}
+
+/**
+ * Validate phone number
+ * 
+ * Checks if input contains only valid phone number characters.
+ * 
+ * @param WP_Error $validity The validity object.
+ * @param string   $value    The value to validate.
+ * @return WP_Error The validity object with any errors added.
+ */
+function sydney_validate_phone_number( $validity, $value ) {
+    // Remove all characters except digits, +, -, spaces, and parentheses
+    $sanitized = preg_replace( '/[^0-9+\-\s()]/', '', $value );
+    
+    // If sanitized value is different, it means invalid characters were found
+    if ( $sanitized !== $value ) {
+        $validity->add( 'invalid_phone_characters', esc_html__( 'Invalid characters. Only numbers, +, -, spaces, and parentheses are allowed.', 'sydney' ) );
+    }
+    
+    return $validity;
 }
 
 
@@ -188,9 +261,87 @@ function sydney_google_fonts_sanitize( $input ) {
         }
         $input = wp_json_encode( $val );
     } else {
-        $input = wp_json_encode( sanitize_text_field( $val ) );
+        // Not parseable as the font object. Encoding the scalar here used to
+        // store `""`, which decodes to a string, and every reader indexes the
+        // result: on PHP 8 that is a TypeError, not a notice. Fall back to the
+        // System default sentinel, which is the shape all readers expect.
+        $input = wp_json_encode(
+            array(
+                'font'          => 'System default',
+                'regularweight' => 'regular',
+                'category'      => 'sans-serif',
+            )
+        );
     }
     return $input;
+}
+
+/**
+ * Sanitize post ids array
+ */
+function sydney_sanitize_post_array( $input ) {
+    $input     = (array) $input;
+    
+    $sanitized = array_map( 'absint', $input );
+
+    return $sanitized;
+}
+
+/**
+ * Sanitize quick links
+ */
+function sydney_sanitize_quick_links( $input ) {
+	$input_decoded = json_decode( $input, true );
+	if ( ! empty( $input_decoded ) ) {
+		foreach ( $input_decoded as $boxk => $box ) {
+			foreach ( $box as $key => $value ) {
+				$input_decoded[ $boxk ][ $key ] = wp_kses_post( force_balance_tags( $value ) );
+			}
+		}
+		return wp_json_encode( $input_decoded );
+	}
+	return $input;
+}
+
+/**
+ * Sanitize single product sitcky add to cart elements
+ */
+function sydney_sanitize_single_add_to_cart_elements( $input ) {
+    $input     = (array) $input;
+    $sanitized = array();
+
+    foreach ( $input as $sub_value ) {
+        if ( in_array( $sub_value, array( 'sydney_sticky_add_to_cart_product_image', 'sydney_sticky_add_to_cart_product_title', 'sydney_single_product_price', 'sydney_sticky_add_to_cart_product_addtocart' ), true ) ) {
+            $sanitized[] = $sub_value;
+        }
+    }
+    return $sanitized;
+}
+
+/**
+ * Sanitize single product components
+ */
+function sydney_sanitize_single_product_components( $input ) {
+    $input      = (array) $input;
+    $sanitized  = array();
+    $elements   = array_keys( sydney_single_product_elements() );
+
+    foreach ( $input as $sub_value ) {
+        if ( in_array( $sub_value, $elements, true ) ) {
+            $sanitized[] = $sub_value;
+        }
+    }
+    return $sanitized;    
+}
+
+/**
+ * Sanitize Multiple checkbox values.
+ */
+function sydney_sanitize_multiple_checkbox( $values ) {
+
+	$multi_values = ! is_array( $values ) ? explode( ',', $values ) : $values;
+
+    return !empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
 }
 
 /**
@@ -213,4 +364,19 @@ function sydney_sanitize_select2( $input, $setting ){
     }
 
     return implode( ',', $input );
+}
+
+/**
+ * Number
+ *
+ * The HTML Designer's two heading-margin sliders store em values with a 0.05
+ * step, so absint() - what every other slider in that file uses - would round
+ * them away.
+ */
+function sydney_sanitize_number( $input, $setting ) {
+    if ( ! is_numeric( $input ) ) {
+        return $setting->default;
+    }
+
+    return $input + 0;
 }

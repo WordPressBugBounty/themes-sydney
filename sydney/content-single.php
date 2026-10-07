@@ -9,6 +9,10 @@ $disable_title                  = get_post_meta( $post->ID, '_sydney_page_disabl
 $disable_featured               = get_post_meta( $post->ID, '_sydney_page_disable_post_featured', true );
 $single_post_image_placement    = get_theme_mod( 'single_post_image_placement', 'below' );
 $single_post_meta_position      = get_theme_mod( 'single_post_meta_position', 'below-title' );
+
+$single_post_image_placement = apply_filters( 'sydney_single_image_placement', $single_post_image_placement, get_post_type() );
+
+$header_layout = apply_filters( 'sydney_content_header_layout', 'layout1', get_post_type() );
 ?>
 
 <?php do_action( 'sydney_before_single_entry' ); ?>
@@ -16,12 +20,13 @@ $single_post_meta_position      = get_theme_mod( 'single_post_meta_position', 'b
 	<div class="content-inner">
 	<?php do_action('sydney_inside_top_post'); ?>
 
-	<?php if ( 'above' === $single_post_image_placement ) : ?>
+	<?php if ( 'above' === $single_post_image_placement && 'layout1' === $header_layout ) : ?>
 		<?php sydney_single_post_thumbnail( $disable_featured, $class = 'feat-img-top' ); ?>
 	<?php endif; ?>
 
-	<?php if ( !$disable_title ) : ?>
+	<?php if ( !$disable_title && 'layout3' !== $header_layout && ! apply_filters( 'sydney_disable_page_title', false ) ) : ?>
 	<header class="entry-header">
+		<?php do_action( 'sydney_before_title' ); ?>
 		<?php if ( 'post' === get_post_type() && 'above-title' === $single_post_meta_position ) : ?>
 			<?php sydney_single_post_meta( 'entry-meta-above' ); ?>
 		<?php endif; ?>
@@ -34,7 +39,7 @@ $single_post_meta_position      = get_theme_mod( 'single_post_meta_position', 'b
 	</header><!-- .entry-header -->
 	<?php endif; ?>
 
-	<?php if ( 'below' === $single_post_image_placement ) : ?>
+	<?php if ( 'below' === $single_post_image_placement && 'layout1' === $header_layout ) : ?>
 		<?php sydney_single_post_thumbnail( $disable_featured ); ?>
 	<?php endif; ?>	
 
@@ -47,6 +52,8 @@ $single_post_meta_position      = get_theme_mod( 'single_post_meta_position', 'b
 			) );
 		?>
 	</div><!-- .entry-content -->
+
+	<?php do_action( 'sydney_before_single_post_footer' ); ?>
 
 	<footer class="entry-footer">
 		<?php sydney_entry_footer(); ?>

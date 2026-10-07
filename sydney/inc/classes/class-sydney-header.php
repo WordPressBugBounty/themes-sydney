@@ -30,6 +30,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 
 			if ( get_option( 'sydney-update-header' ) ) {
 				add_action( 'sydney_header', array( $this, 'header_markup' ) );
+				add_action( 'sydney_header', array( $this, 'offcanvas_markup' ) );
 				add_action( 'sydney_header', array( $this, 'header_mobile_markup' ) );
 			} else {
 				add_action( 'sydney_header', array( $this, 'header_legacy' ) );
@@ -65,11 +66,29 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		 */     
 		public function header_mobile_markup() {
 			$layout = get_theme_mod( 'header_layout_mobile', 'header_mobile_layout_1' );
+
+			$template   = apply_filters( 'sydney_header_mobile_layout', array( $this, $layout ) );
+
+			if ( is_callable( $template ) ) {
+				call_user_func( $template );
+			}
+		}
+
+		/**
+		 * Offcanvas panel markup
+		 *
+		 * Registered on sydney_header between the desktop and the mobile header,
+		 * which is where this markup has always been emitted from. Pro detaches it
+		 * there and re-attaches it to sydney_after_site; see
+		 * inc/pro/classes/class-sydney-pro-header.php.
+		 */
+		public function offcanvas_markup() {
 			$offcanvas_header               = get_theme_mod( 'offcanvas_header', 'branding' );
 			$offcanvas_header_custom_text   = get_theme_mod( 'offcanvas_header_custom_text', esc_html__( 'Menu', 'sydney' ) );
+			$offcanvas_content_type         = sydney_is_pro() ? get_theme_mod( 'offcanvas_content_type', 'default' ) : 'default';
 			?>
 
-			<div class="sydney-offcanvas-menu">
+			<div class="sydney-offcanvas-menu"<?php if ( sydney_is_pro() ) : ?> data-link-animation="<?php echo esc_attr( get_theme_mod( 'offcanvas_link_animation', 'none' ) ); ?>"<?php endif; ?>>
 				<div class="mobile-header-item">
 					<div class="row valign">
 						<div class="col-xs-8">
@@ -86,7 +105,8 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 				</div>
-				<div class="mobile-header-item">
+				<?php if ( 'default' === $offcanvas_content_type ) : ?>
+				<div class="mobile-header-item<?php if ( sydney_is_pro() ) : ?> offcanvas-menu<?php endif; ?>">
 					<?php if ( has_nav_menu( 'mobile' ) ) {
 						$this->mobile_menu();
 					} else {
@@ -96,10 +116,19 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 				<div class="mobile-header-item offcanvas-items">
 					<?php $this->render_components( 'offcanvas' ); ?>
 				</div>				
+				<?php elseif ( 'elementor' === $offcanvas_content_type && class_exists( 'Elementor\Plugin' ) ) : ?>
+				<div class="mobile-header-item">
+					<nav id="mainnav" class="mainnav"><ul></ul></nav>
+					<?php
+					echo Elementor\Plugin::$instance->frontend->get_builder_content_for_display( get_theme_mod( 'offcanvas_elementor_template' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?>
+				</div>
+				<?php endif; ?>
 			</div>
-			
-			<?php call_user_func( array( $this, $layout ) ); ?>
 			<?php
+			if ( sydney_is_pro() ) {
+				echo '<div class="offcanvas-background"></div>';
+			}
 		}
 		
 		/**
@@ -126,6 +155,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 					<?php $this->search_form(); ?>
+					<?php do_action( 'sydney_before_header_close' ); ?>
 				</header>
 			<?php
 		}
@@ -155,6 +185,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 					<?php $this->search_form(); ?>
+					<?php do_action( 'sydney_before_header_close' ); ?>
 				</header>
 			<?php
 		}
@@ -206,6 +237,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 							</div>
 						</div>
 					</div>	
+					<?php do_action( 'sydney_before_bottom_header_row_close' ); ?>
 				</div>	
 				<?php if ( $transparent_menu || $transparent_header ) : ?>
 				</div>
@@ -260,6 +292,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 							</div>
 						</div>
 					</div>	
+					<?php do_action( 'sydney_before_bottom_header_row_close' ); ?>
 				</div>		
 				<?php if ( $transparent_menu || $transparent_header ) : ?>
 				</div>
@@ -315,6 +348,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 							</div>
 						</div>
 					</div>	
+					<?php do_action( 'sydney_before_bottom_header_row_close' ); ?>
 				</div>	
 				<?php if ( $transparent_menu || $transparent_header ) : ?>
 				</div>
@@ -329,7 +363,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		public function header_mobile_layout_1() {
 			$container = get_theme_mod( 'header_container', 'container-fluid' );
 			?>
-				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>">
+				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>"<?php if ( sydney_is_pro() ) : ?> data-mobile-breakpoint="<?php echo esc_attr( get_theme_mod( 'mobile_menu_breakpoint', '1024' ) ); ?>"<?php endif; ?>>
 					<div class="<?php echo esc_attr( $container ); ?>">
 						<div class="row valign">
 							<div class="col-sm-4 col-grow-mobile">
@@ -342,6 +376,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 					<?php $this->search_form(); ?>
+					<?php do_action( 'sydney_before_mobile_header_close' ); ?>
 				</header>
 			<?php
 		}   
@@ -352,7 +387,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		public function header_mobile_layout_2() {
 			$container = get_theme_mod( 'header_container', 'container-fluid' );
 			?>
-				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>">
+				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>"<?php if ( sydney_is_pro() ) : ?> data-mobile-breakpoint="<?php echo esc_attr( get_theme_mod( 'mobile_menu_breakpoint', '1024' ) ); ?>"<?php endif; ?>>
 					<div class="<?php echo esc_attr( $container ); ?>">
 						<div class="row valign">
 							<div class="col-sm-4 col-xs-4 header-elements valign">
@@ -367,6 +402,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 					<?php $this->search_form(); ?>
+					<?php do_action( 'sydney_before_mobile_header_close' ); ?>
 				</header>
 			<?php
 		}   
@@ -377,7 +413,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		public function header_mobile_layout_3() {
 			$container = get_theme_mod( 'header_container', 'container-fluid' );
 			?>
-				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>">
+				<header id="masthead-mobile" class="main-header mobile-header <?php echo esc_attr( $this->sticky( 'mobile' ) ); ?>"<?php if ( sydney_is_pro() ) : ?> data-mobile-breakpoint="<?php echo esc_attr( get_theme_mod( 'mobile_menu_breakpoint', '1024' ) ); ?>"<?php endif; ?>>
 					<div class="<?php echo esc_attr( $container ); ?>">
 						<div class="row valign">
 							<div class="col-sm-4 col-xs-4">
@@ -392,6 +428,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 						</div>
 					</div>
 					<?php $this->search_form(); ?>
+					<?php do_action( 'sydney_before_mobile_header_close' ); ?>
 				</header>
 			<?php
 		}           
@@ -404,7 +441,14 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 			$components = get_theme_mod( 'header_components_' . $location, $defaults[$location] );
 
 			foreach ( $components as $component ) {
-				call_user_func( array( $this, $component ) );
+				$callback = apply_filters( 'sydney_header_component_callback', array( $this, $component ), $component );
+
+				// Skips names this edition does not implement. Components must stay
+				// zero-argument methods: is_callable() cannot catch a real method
+				// called with too few arguments.
+				if ( is_callable( $callback ) ) {
+					call_user_func( $callback );
+				}
 			}
 		}
 
@@ -420,16 +464,19 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		/**
 		 * Main navigation
 		 */
-		public function menu() {
+		public function menu( $class = '' ) {
+			$class = $class ? ' ' . $class : '';
+
 			if ( function_exists('max_mega_menu_is_enabled') && max_mega_menu_is_enabled( 'primary' ) ) : ?>
 				<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 			<?php else: ?>	
-			<nav id="mainnav" class="mainnav">
+			<nav id="mainnav" class="mainnav<?php echo esc_attr( $class ); ?>">
 				<?php
 				wp_nav_menu(
 					array(
 						'theme_location' => 'primary',
 						'menu_id'        => 'primary-menu',
+						'walker'         => apply_filters( 'sydney_primary_wp_nav_menu_walker', '' ),
 					)
 				);
 				?>
@@ -508,6 +555,15 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		 * Search icon
 		 */
 		public function search() {
+			$layout         = get_theme_mod( 'header_layout_desktop', 'header_layout_2' );
+			$search_display = get_theme_mod( 'header_search_display', 'icon' );
+
+			// Free has neither header_layout_7 nor the field display, so it always takes the icon branch below.
+			if ( sydney_is_pro() && 'header_layout_7' === $layout ) :
+				$this->search_form();
+			elseif ( sydney_is_pro() && 'field' === $search_display ) :
+				$this->search_form( 'header-item header-search-field' );
+			else :
 			?>
 				<a href="#" class="header-search header-item" role="button">
 					<span class="screen-reader-text"><?php echo esc_html__( 'Search', 'sydney' ); ?></span>
@@ -515,19 +571,31 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 					<i class="sydney-svg-icon icon-cancel"><?php sydney_get_svg_icon( 'icon-cancel', true ); ?></i>
 				</a>
 			<?php
+			endif;
 		}
 
 		/**
 		 * Search form
 		 */
-		public function search_form() {
+		public function search_form( $class = 'header-search-form' ) {
+			$opening_mode   = get_theme_mod( 'header_search_layout', 'standard' );
+			$post_types     = get_theme_mod( 'header_search_post_types', array( 'post', 'page' ) );
+			$search_display = get_theme_mod( 'header_search_display', 'icon' );
+			$field_style    = 'minimal';
+			if ( 'field' === $search_display ) {
+				$field_style = get_theme_mod( 'header_search_field_style', 'minimal' );
+			}
 			?>
-			<div class="header-search-form">
+			<div class="<?php echo esc_attr( $class ); ?>"<?php if ( sydney_is_pro() ) : ?> data-opening-mode="<?php echo esc_attr( $opening_mode ); ?>" data-post-types="<?php echo esc_attr( wp_json_encode( $post_types ) ); ?>" data-field-style="<?php echo esc_attr( $field_style ); ?>"<?php endif; ?>>
 			<?php
 				if ( class_exists( 'DGWT_WC_Ajax_Search' ) ) {
 					echo do_shortcode('[wcas-search-form]');
 				} else {
 					get_search_form();
+				}
+
+				if ( sydney_is_pro() && ( 'full' === $opening_mode || 'flydown' === $opening_mode ) && 'field' !== $search_display ) {
+					echo '<span class="close-full-search"><i class="sydney-svg-icon icon-cancel">' . sydney_get_svg_icon( 'icon-cancel', false ) . '</i></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			?>
 			</div>
@@ -539,15 +607,17 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 		*/      
 		public function logo( $context = false ) {
 			$logo_site_title    = get_theme_mod('logo_site_title', 0);
+			$mobile_logo        = sydney_is_pro() ? get_theme_mod( 'site_logo_mobile' ) : '';
 			?>
 			<div class="site-branding">
 
 				<?php if ( get_theme_mod('site_logo') ) : ?>
-					<?php
-						$logo_id    = attachment_url_to_postid( get_theme_mod( 'site_logo' ) );
-						$logo_attrs = wp_get_attachment_image_src( $logo_id, 'large' );
-					?>						
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
+					<?php if ( $mobile_logo ) : ?>
+						<?php $mobile_logo_attrs = $this->logo_image_src( $mobile_logo ); ?>
+						<a class="mobile-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $mobile_logo_attrs[1] ); ?>" height="<?php echo esc_attr( $mobile_logo_attrs[2] ); ?>" class="site-logo mobile-site-logo" src="<?php echo esc_url( $mobile_logo ); ?>" alt="<?php bloginfo('name'); ?>"/></a>
+					<?php endif; ?>
+					<?php $logo_attrs = $this->logo_image_src( get_theme_mod( 'site_logo' ) ); ?>
+					<a <?php if ( sydney_is_pro() ) : ?>class="desktop-logo-link" <?php endif; ?>href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
 				
 					<?php if ( $logo_site_title ) : //display site title and description with the logo
 						echo '<div class="site-branding-text">';
@@ -558,9 +628,30 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 					<?php endif; ?>
 				<?php else : ?>
 					<?php $this->site_title_desc(); ?>
-				<?php endif; ?>	
+				<?php endif; ?>
 			</div><!-- .site-branding -->
 			<?php
+		}
+
+		/**
+		 * Attachment image src for a logo URL, memoized per request.
+		 *
+		 * attachment_url_to_postid() is an uncached guid lookup. logo() alone calls
+		 * it from the offcanvas, the desktop layout and the mobile layout, and
+		 * header_layout_7() needs the same site_logo lookup, so cache by URL instead
+		 * of re-querying on every call.
+		 *
+		 * @param string $url Attachment URL (site_logo or site_logo_mobile theme mod).
+		 * @return array|false wp_get_attachment_image_src() return value.
+		 */
+		public function logo_image_src( $url ) {
+			static $cache = array();
+
+			if ( ! array_key_exists( $url, $cache ) ) {
+				$cache[ $url ] = wp_get_attachment_image_src( attachment_url_to_postid( $url ), 'large' );
+			}
+
+			return $cache[ $url ];
 		}
 
 		/**

@@ -1,23 +1,126 @@
 <wpml-config>
+  <custom-types>
+    <custom-type translate="1">pricing_tables</custom-type>
+  </custom-types>
   <admin-texts>
     <key name="theme_mods_sydney">
+      <key name="header_shortcode"/>
       <key name="slider_image_1"/>
       <key name="slider_title_1"/>
       <key name="slider_subtitle_1"/>
+      <key name="slider_button_url_1"/>
+      <key name="slider_button_text_1"/>
       <key name="slider_image_2"/>
       <key name="slider_title_2"/>
       <key name="slider_subtitle_2"/>
+      <key name="slider_button_url_2"/>
+      <key name="slider_button_text_2"/>
       <key name="slider_image_3"/>
       <key name="slider_title_3"/>
       <key name="slider_subtitle_3"/>
+      <key name="slider_button_url_3"/>
+      <key name="slider_button_text_3"/>
       <key name="slider_image_4"/>
       <key name="slider_title_4"/>
       <key name="slider_subtitle_4"/>
+      <key name="slider_button_url_4"/>
+      <key name="slider_button_text_4"/>
       <key name="slider_image_5"/>
       <key name="slider_title_5"/>
       <key name="slider_subtitle_5"/>
+      <key name="slider_button_url_5"/>
+      <key name="slider_button_text_5"/>
       <key name="slider_button_url"/>
       <key name="slider_button_text"/>
+      <key name="footer_credits"/>
+      <key name="contact_details_title"/>
+      <key name="contact_details"/>
+      <key name="contact_form_shortcode"/>
+      <key name="contact_phone"/>
+      <key name="contact_email"/>
+      <key name="contact_address"/>
+      <key name="quick_links_group"/>
+      <key name="related_posts_title"/>
     </key>
   </admin-texts>
+  <elementor-widgets>
+    <widget name="athemes-elementor-food-menu">
+      <fields>
+        <field>food_menu_list</field>
+      </fields>
+      <fields-in-item items_of="food_menu_list">
+        <field type="Food menu: image URL">image>url</field>
+        <field type="Food menu: name">name</field>
+        <field type="Food menu: description">description</field>
+        <field type="Food menu: price">price</field>
+      </fields-in-item>
+    </widget>
+    <widget name="athemes-elementor-dual-heading">
+      <fields>
+        <field type="Dual heading: first text">first_text</field>
+        <field type="Dual heading: second text">second_text</field>
+        <field type="Dual heading: link URL">link>url</field>
+      </fields>
+    </widget>
+    <widget name="athemes-animated-heading">
+      <fields>
+        <field type="Animated Heading: text before">text_before</field>
+        <field>typed_strings</field>
+        <field type="Animated Heading: text after">text_after</field>
+      </fields>
+      <fields-in-item items_of="typed_strings">
+        <field type="Animated Heading: string">animated_heading_field</field>
+      </fields-in-item>
+    </widget>
+
+    <widget name="athemes-elementor-wpforms">
+      <fields>
+        <field type="WPForms: form title">form_title</field>
+      </fields>
+    </widget>
+    <widget name="athemes-elementor-dual-buttons">
+      <fields>
+        <field type="Dual buttons: first text">text_first</field>
+        <field type="Dual buttons: first URL">link>url</field>
+        <field type="Dual buttons: separator text">text_separator</field>
+        <field type="Dual buttons: second text">text_second</field>
+        <field type="Dual buttons: second URL">link_second>url</field>
+      </fields>
+    </widget>
+    <widget name="athemes-image-hotspots">
+      <fields>
+        <field>hotspot_elements</field>
+      </fields>
+      <fields-in-item items_of="hotspot_elements">
+        <field type="Image hotspots: element">hotspot_element</field>
+      </fields-in-item>
+    </widget>
+    <widget name="athemes-advanced-tabs">
+      <fields>
+        <field>tabs</field>
+      </fields>
+      <fields-in-item items_of="tabs">
+        <field type="Adv. tabs: title">tab_title</field>
+        <field type="Adv. tabs: content">tab_content</field>
+        <field type="Adv. tabs: description">tab_desc</field>
+      </fields-in-item>
+    </widget>    
+    <widget name="athemes-advanced-carousel">
+      <fields>
+        <field>slides</field>
+      </fields>
+      <fields-in-item items_of="slides">
+        <field type="Adv. carousel: image URL">image>url</field>
+        <field type="Adv. carousel: video URL">video_link</field>
+        <field type="Adv. carousel: title">title</field>
+        <field type="Adv. carousel: text">text</field>
+        <field type="Adv. carousel: link to URL">image_link>url</field>
+      </fields-in-item>
+    </widget>
+    <widget name="athemes-news-bar">
+      <fields>
+        <field type="News bar: title">title</field>
+      </fields>
+    </widget>        
+  </elementor-widgets>
 </wpml-config>

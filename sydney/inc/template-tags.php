@@ -31,8 +31,8 @@ function sydney_post_navigation() {
 		<h2 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'sydney' ); ?></h2>
 		<div class="nav-links clearfix">
 		<?php
-				previous_post_link( '<div class="nav-previous"><span><svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.19643 0.741072C5.19643 0.660715 5.16071 0.589286 5.10714 0.535715L4.66071 0.0892859C4.60714 0.0357151 4.52679 0 4.45536 0C4.38393 0 4.30357 0.0357151 4.25 0.0892859L0.0892857 4.25C0.0357143 4.30357 0 4.38393 0 4.45536C0 4.52679 0.0357143 4.60714 0.0892857 4.66072L4.25 8.82143C4.30357 8.875 4.38393 8.91072 4.45536 8.91072C4.52679 8.91072 4.60714 8.875 4.66071 8.82143L5.10714 8.375C5.16071 8.32143 5.19643 8.24107 5.19643 8.16964C5.19643 8.09822 5.16071 8.01786 5.10714 7.96429L1.59821 4.45536L5.10714 0.946429C5.16071 0.892858 5.19643 0.8125 5.19643 0.741072Z" fill="#6d7685"/></svg></span>%link</div>', '%title' );
-				next_post_link( '<div class="nav-next">%link<span><svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.19643 4.45536C5.19643 4.38393 5.16071 4.30357 5.10714 4.25L0.946429 0.0892859C0.892857 0.0357151 0.8125 0 0.741071 0C0.669643 0 0.589286 0.0357151 0.535714 0.0892859L0.0892857 0.535715C0.0357143 0.589286 0 0.669643 0 0.741072C0 0.8125 0.0357143 0.892858 0.0892857 0.946429L3.59821 4.45536L0.0892857 7.96429C0.0357143 8.01786 0 8.09822 0 8.16964C0 8.25 0.0357143 8.32143 0.0892857 8.375L0.535714 8.82143C0.589286 8.875 0.669643 8.91072 0.741071 8.91072C0.8125 8.91072 0.892857 8.875 0.946429 8.82143L5.10714 4.66072C5.16071 4.60714 5.19643 4.52679 5.19643 4.45536Z" fill="#6d7685"/></svg></span></div>', '%title' );
+				previous_post_link( '<div class="nav-previous"><span><svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.19643 0.741072C5.19643 0.660715 5.16071 0.589286 5.10714 0.535715L4.66071 0.0892859C4.60714 0.0357151 4.52679 0 4.45536 0C4.38393 0 4.30357 0.0357151 4.25 0.0892859L0.0892857 4.25C0.0357143 4.30357 0 4.38393 0 4.45536C0 4.52679 0.0357143 4.60714 0.0892857 4.66072L4.25 8.82143C4.30357 8.875 4.38393 8.91072 4.45536 8.91072C4.52679 8.91072 4.60714 8.875 4.66071 8.82143L5.10714 8.375C5.16071 8.32143 5.19643 8.24107 5.19643 8.16964C5.19643 8.09822 5.16071 8.01786 5.10714 7.96429L1.59821 4.45536L5.10714 0.946429C5.16071 0.892858 5.19643 0.8125 5.19643 0.741072Z"/></svg></span>%link</div>', '%title' );
+				next_post_link( '<div class="nav-next">%link<span><svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.19643 4.45536C5.19643 4.38393 5.16071 4.30357 5.10714 4.25L0.946429 0.0892859C0.892857 0.0357151 0.8125 0 0.741071 0C0.669643 0 0.589286 0.0357151 0.535714 0.0892859L0.0892857 0.535715C0.0357143 0.589286 0 0.669643 0 0.741072C0 0.8125 0.0357143 0.892858 0.0892857 0.946429L3.59821 4.45536L0.0892857 7.96429C0.0357143 8.01786 0 8.09822 0 8.16964C0 8.25 0.0357143 8.32143 0.0892857 8.375L0.535714 8.82143C0.589286 8.875 0.669643 8.91072 0.741071 8.91072C0.8125 8.91072 0.892857 8.875 0.946429 8.82143L5.10714 4.66072C5.16071 4.60714 5.19643 4.52679 5.19643 4.45536Z"/></svg></span></div>', '%title' );
 			?>
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
@@ -56,6 +56,18 @@ function sydney_posts_navigation() {
 		'prev_text' => '&lt;',
 		'next_text' => '&gt;',
 	) );    
+
+	/**
+	 * Fires after the archive pagination.
+	 *
+	 * Pro's infinite-load button hangs off this
+	 * (inc/pro/modules/ext-blog/ext-blog.php). Free registers nothing, so the
+	 * call is inert there; it lives in the shared file rather than a Pro copy
+	 * because a bare do_action costs free nothing.
+	 *
+	 * @since 2.71
+	 */
+	do_action( 'sydney_after_posts_navigation' );
 }
 endif;
 
@@ -89,6 +101,15 @@ if ( ! function_exists( 'sydney_posted_by' ) ) :
 	 */
 	function sydney_posted_by() {
 		global $post;
+
+		// The byline is one of the elements sydney_single_post_meta() walks, and
+		// Pro reaches that walk from the page header rather than from the loop,
+		// so there is no post to read on a 404 or on an archive that matched
+		// nothing.
+		if ( ! isset( $post->post_author ) ) {
+			return;
+		}
+
 		$author = $post->post_author;
 		$show_avatar = get_theme_mod( 'show_avatar', 0 );
 
@@ -103,7 +124,12 @@ if ( ! function_exists( 'sydney_posted_by' ) ) :
 			/* translators: %1$s: avatar, %2$s: author name. */
 			esc_html_x( 'By %1$s %2$s', 'post author', 'sydney' ),
 			$avatar,
-			'<a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a>'
+			// Resolved from the post, not from the loop globals: Pro renders the
+			// single page header on sydney_before_main_container_start, which
+			// fires before the_post(), so get_the_author() and
+			// get_the_author_meta( 'ID' ) both read an unset $authordata and
+			// return nothing. Sydney#610.
+			'<a class="url fn n" href="' . esc_url( get_author_posts_url( $author ) ) . '">' . esc_html( get_the_author_meta( 'display_name', $author ) ) . '</a>'
 		);
 
 		$byline .= '</span>';
@@ -243,6 +269,26 @@ endif;
 
 
 
+/**
+ * The registered image size the theme asks for on featured images.
+ *
+ * Free registers sydney-large-thumb (functions.php:87); Pro's overlay still
+ * registers the unprefixed large-thumb (build/pro/functions.php:91) and Pro
+ * sites carry generated files under that name, so asking for free's name on a
+ * Pro install would miss the intermediate size and fall back to full. Pro
+ * returns its own name from inc/pro/template-tags.php until the two size
+ * tables converge, which is a migration rather than a rename.
+ *
+ * @since 2.71
+ *
+ * @return string A registered image size name.
+ */
+if ( ! function_exists( 'sydney_get_post_thumbnail_size' ) ) :
+	function sydney_get_post_thumbnail_size() {
+		return apply_filters( 'sydney_post_thumbnail_size', 'sydney-large-thumb' );
+	}
+endif;
+
 if ( ! function_exists( 'sydney_single_post_thumbnail' ) ) :
 	/**
 	 * Single post featured image
@@ -257,7 +303,7 @@ if ( ! function_exists( 'sydney_single_post_thumbnail' ) ) :
 
 		?>
 		<div class="entry-thumb <?php echo esc_attr( $class ? $class : '' ); ?>">
-			<?php the_post_thumbnail('sydney-large-thumb'); ?>
+			<?php the_post_thumbnail( sydney_get_post_thumbnail_size() ); ?>
 		</div>
 		<?php
 	}

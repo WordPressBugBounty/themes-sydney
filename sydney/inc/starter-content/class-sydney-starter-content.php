@@ -639,3 +639,28 @@ function sydney_starter_content_force_hf_builder( $modules ) {
 }
 add_filter( 'option_sydney-modules', 'sydney_starter_content_force_hf_builder' );
 add_filter( 'default_option_sydney-modules', 'sydney_starter_content_force_hf_builder' );
+
+/**
+ * Store the builder state the fresh-site override was supplying, once the site stops being fresh.
+ *
+ * @param mixed $old_value Previous `fresh_site` value.
+ * @param mixed $value     New `fresh_site` value.
+ */
+function sydney_starter_content_persist_hf_builder( $old_value, $value ) {
+	if ( ! $old_value || $value ) {
+		return;
+	}
+
+	$modules = get_option( 'sydney-modules' );
+	$modules = is_array( $modules ) ? $modules : array();
+
+	// An explicitly stored state always wins, including an explicit opt-out.
+	if ( array_key_exists( 'hf-builder', $modules ) ) {
+		return;
+	}
+
+	$modules['hf-builder'] = true;
+
+	update_option( 'sydney-modules', $modules );
+}
+add_action( 'update_option_fresh_site', 'sydney_starter_content_persist_hf_builder', 10, 2 );

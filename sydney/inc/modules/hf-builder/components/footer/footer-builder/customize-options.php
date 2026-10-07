@@ -272,7 +272,7 @@ $wp_customize->add_control( new Sydney_Text_Control( $wp_customize, 'sydney_sect
 );
 
 // Upsell
-if( ! defined( 'SYDNEY_AWL_ACTIVE' ) && ! defined( 'SYDNEY_PRO_VERSION' ) ) {
+if( ! sydney_is_white_labelled() && ! defined( 'SYDNEY_PRO_VERSION' ) ) {
 	$wp_customize->add_setting( 
 		'sydney_section_fb_wrapper__footer_builder_upsell',
 		array(

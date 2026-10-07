@@ -22,7 +22,17 @@
         any: function() {
             return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
         }
-    };	
+    };
+
+    var testiPad;
+    var isiPad = {
+        iOS: function() {
+            return navigator.userAgent.match(/iPad/i);
+        },
+        any: function() {
+            return ( isiPad.iOS() );
+        }
+    };   	
 
 	var rollAnimation = function() {
 		$('.orches-animation').each( function() {
@@ -117,8 +127,8 @@
 				$(this).find('h1:not(.ignore),h2:not(.ignore),h3:not(.widget-title):not(.ignore),h4:not(.ignore),h5:not(.ignore),h6:not(.ignore),h3:not(.ignore) a').css('color', headingsColor );
 			}			
 		});	
-	};    
-
+	};  
+	
 	var videoPopup = function() {
 
 		function closePopup() {
@@ -165,17 +175,17 @@
 		$('.sydney-video.vid-lightbox').parents('.panel-row-style').css({'z-index': '12', 'overflow': 'visible'});	
 
 	};	
-
+	
 	var panelscrolls = function() {
 		testMobile = isMobile.any();
 		if (testMobile == null) {
 			$(".panel-row-style").parallax("50%", 0.3);
 		}
-	};	
+	};
 
 	var teamCarousel = function(){
 		if ( $().owlCarouselFork ) {
-			$(".roll-team:not(.roll-team.no-carousel)").owlCarouselFork({
+			$(".roll-team:not(.roll-team.no-carousel)").not('.roll-team.type-b').owlCarouselFork({
 				navigation : false,
 				pagination: true,
 				responsive: true,
@@ -187,10 +197,11 @@
 				touchDrag: true,
 				mouseDrag: true,
 				autoHeight: false,
-				autoPlay: false,
+				autoPlay: $(".roll-team").data('autoplay')
 			}); // end owlCarouselFork
+
 		} // end if
-	};
+	};	
 
 	var testimonialCarousel = function(){
 		if ( $().owlCarouselFork ) {
@@ -209,12 +220,13 @@
 				autoHeight: true,
 				autoPlay: $('.roll-testimonials').data('autoplay')
 			});
+
 		}
 	};	
 
 	var socialMenu = function() {
 	    $('.widget_fp_social a').attr( 'target','_blank' );
-	};
+	};	
 
 	var portfolioIsotope = function(){
 
@@ -270,21 +282,29 @@
 	
 		}
 	
-	  };	
+	  }	
+
+  	var teamStyle2 = function() {
+		$( '.roll-team.type-b.style2').find( '.team-item' ).each( function() {
+			var socials = $(this).find( '.team-social' );
+			socials.appendTo( $(this).find( '.team-inner') );
+		});
+	}		  
 
 	// Dom Ready
 	$(function() {       
 		counter();
 		progressBar();
 		detectViewport();
-		videoPopup();
         rollAnimation();
 		panelsStyling();
 		projectEffect();
-		teamCarousel();
-		socialMenu();
-		testimonialCarousel();
-		portfolioIsotope();
+		videoPopup();
 		panelscrolls();
+		teamCarousel();
+		testimonialCarousel();
+		socialMenu();
+		portfolioIsotope();
+		teamStyle2();
    	});
 })(jQuery); 

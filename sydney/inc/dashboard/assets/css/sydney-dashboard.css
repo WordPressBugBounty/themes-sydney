@@ -1577,6 +1577,27 @@ body.wp-core-ui .sydney-dashboard .button .dashicons {
 .sydney-dashboard-module-card .sydney-dashboard-module-card-header .sydney-dashboard-module-card-header-actions {
   padding-top: var(--sydney-dashboard-space-7);
 }
+
+/* Sydney Dashboard Well
+   A sunken inset for a secondary row inside a card, so it reads as an aside to
+   the card's main control rather than a second control of equal weight. Same
+   surface, border and radius as .template-builder-pro-notice, minus that one's
+   typography, which is scoped to the builder tab. */
+.sydney-dashboard-well {
+  padding: var(--sydney-dashboard-space-3) var(--sydney-dashboard-space-5);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-md);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
+}
+
+/* Brand mark sitting in a run of text. The offset is in em so it tracks the
+   font size of whatever line it lands in, rather than only the one it was
+   measured against. */
+.sydney-dashboard-brand-icon {
+  vertical-align: -0.1em;
+  margin-left: 1px;
+  margin-right: 2px;
+}
 .sydney-dashboard-container {
   width: 100%;
   margin: 0 auto

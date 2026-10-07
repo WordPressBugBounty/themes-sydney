@@ -84,7 +84,7 @@ function sydney_woo_actions() {
 	}
 
     //Archive layout
-	if ( is_shop() || is_product_category() || is_product_tag() || is_tax( 'product_brand' ) ) {
+	if ( is_shop() || is_product_category() || is_product_tag() || is_tax( 'product_brand' ) || is_cart() ) {
 
 		if ( 'product-list' === $layout ) {
 			add_action( 'woocommerce_before_shop_loop_item', function() use ($loop_image_wrap_extra_class) { echo '<div class="row valign"><div class="col-md-4"><div class="loop-image-wrap '. esc_attr( $loop_image_wrap_extra_class ) .'">'; }, 1 );
@@ -240,8 +240,12 @@ function sydney_woo_actions() {
 		remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash' );
 		add_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_sale_flash', 99 );
 
-		// Sticky add to cart
-		if( $single_sticky_add_to_cart ) {
+		// Sticky add to cart. The renderer ships in
+		// inc/pro/modules/ext-woocommerce/sticky-add-to-cart.php, where Sydney#560
+		// relocated it. That path is stripped from the free zip, so this shared
+		// file only ever reaches the renderer in the pro edition and the
+		// is_callable() guard is permanent.
+		if( $single_sticky_add_to_cart && is_callable( 'sydney_single_sticky_add_to_cart' ) ) {
 			$single_sticky_add_to_cart_position = get_theme_mod( 'single_sticky_add_to_cart_position', 'bottom' );
 
 			if( $single_sticky_add_to_cart_position === 'bottom' ) {
@@ -280,7 +284,11 @@ function sydney_woo_actions() {
 			}
 		}
 
-		if( 'layout1' !== $wishlist_layout ) {
+		// sydney_wishlist_button() is declared only by the Pro ext-woocommerce
+		// module, in inc/pro/modules/ext-woocommerce/wishlist.php where Sydney#560
+		// relocated it, so a site downgraded from Pro keeps a persisted layout here
+		// and would hook a function that no longer exists.
+		if( 'layout1' !== $wishlist_layout && function_exists( 'sydney_wishlist_button' ) ) {
 			add_action( 'woocommerce_before_shop_loop_item_title', 'sydney_wishlist_button', 10 );
 		}
 	}   
@@ -318,7 +326,7 @@ add_filter( 'woocommerce_enqueue_styles', 'sydney_dequeue_styles' );
  * Enqueue custom CSS for Woocommerce
  */
 function sydney_woocommerce_css() {
-    wp_enqueue_style( 'sydney-wc-css', get_template_directory_uri() . '/woocommerce/css/wc.min.css', array(), '20220616' );
+    wp_enqueue_style( 'sydney-wc-css', get_template_directory_uri() . '/woocommerce/css/' . sydney_edition_dir() . '/wc.min.css', array(), '20220616' );
 
 
 	//Enqueue gallery scripts for quick view
@@ -473,7 +481,17 @@ if ( ! function_exists( 'sydney_woocommerce_cart_link' ) ) {
 	function sydney_woocommerce_cart_link() {
 
 		$link = '<a class="cart-contents" href="' . esc_url( wc_get_cart_url() ) . '" title="' . esc_attr__( 'View your shopping cart', 'sydney' ) . '">';
-		$link .= '<span class="cart-count"><i class="sydney-svg-icon">' . sydney_get_svg_icon( 'icon-cart', false ) . '</i><span class="count-number">' . esc_html( WC()->cart->get_cart_contents_count() ) . '</span></span>';
+		$link .= '<span class="cart-count"><i class="sydney-svg-icon">' . sydney_get_svg_icon( 'icon-cart', false ) . '</i><span class="count-number">';
+
+		// WC()->cart is null outside a customer-facing request, so this reads it
+		// only when WooCommerce has built one. Pro guards it; free did not.
+		if ( null !== WC()->cart ) {
+			$link .= esc_html( WC()->cart->get_cart_contents_count() );
+		} else {
+			$link .= '0';
+		}
+
+		$link .= '</span></span>';
 		$link .= '</a>';
 
 		return $link;
@@ -519,6 +537,7 @@ if ( ! function_exists( 'sydney_woocommerce_header_cart' ) ) {
 		</div>
 		<?php endif; ?>
 		<?php if ( !$hf_builder_active ) : ?>
+		<?php do_action( 'sydney_header_woo_icons_after' ); ?>
 		</div>
 		<?php endif; ?>
 		<?php
@@ -531,7 +550,9 @@ if ( ! function_exists( 'sydney_woocommerce_header_cart' ) ) {
 function sydney_shop_descriptions() { 
     $number = get_theme_mod( 'swc_columns_number', 3 );
 
-    if ( $number === 1 ) {
+    // Cast: Pro registers swc_columns_number as a select with string choices, so
+    // the saved mod is '1', which never matched the strict comparison.
+    if ( 1 === (int) $number ) {
         the_excerpt(); 
     }
 } 
@@ -826,15 +847,44 @@ function sydney_wc_archive_layout() {
 function sydney_loop_product_structure() {
 	$elements   = get_theme_mod( 'shop_card_elements', array( 'woocommerce_template_loop_product_title', 'woocommerce_template_loop_rating', 'woocommerce_template_loop_price' ) );
 
-	foreach ( $elements as $element ) {
+	// shop_product_card_layout is registered only in inc/pro/customizer/, so the
+	// read is gated: a site downgraded from Pro would otherwise keep a persisted
+	// layout2 and render a two-column card free has no stylesheet for.
+	$layout = sydney_is_pro() ? get_theme_mod( 'shop_product_card_layout', 'layout1' ) : 'layout1';
 
-		if ( 'woocommerce_template_loop_product_title' === $element ) { //wrap product title in link
-			echo '<a href="' . esc_url( get_the_permalink() ) . '">';
+	if ( 'layout1' === $layout ) {
+		foreach ( $elements as $element ) {
+
+			if ( 'woocommerce_template_loop_product_title' === $element ) { //wrap product title in link
+				// Typo kept: Pro's edition copy of wc.css gives this class
+				// display:block, and renaming it would have to rename that rule.
+				echo '<a class="loop_prouduct_title_link" href="' . esc_url( get_the_permalink() ) . '">';
+					call_user_func( $element );
+				echo '</a>';
+			} else {
 				call_user_func( $element );
-			echo '</a>';
-		} else {
-			call_user_func( $element );
+			}
 		}
+	} else {
+		$elements = array_diff( $elements, array( 'woocommerce_template_loop_price' ) );
+
+		echo '<div class="row">';
+			echo '<div class="col-md-7">';
+				foreach ( $elements as $element ) {
+
+					if ( 'woocommerce_template_loop_product_title' === $element ) { //wrap product title in link
+						echo '<a href="' . esc_url( get_the_permalink() ) . '">';
+							call_user_func( $element );
+						echo '</a>';
+					} else {
+						call_user_func( $element );
+					}
+				}
+			echo '</div>';
+			echo '<div class="col-md-5 loop-price-inline">';
+				woocommerce_template_loop_price();
+			echo '</div>';
+		echo '</div>';
 	}
 }
 
@@ -851,7 +901,7 @@ function sydney_loop_product_category() {
 function sydney_loop_product_description() {
 	$content = get_the_excerpt();
 
-	echo '<div>' . wp_kses_post( wp_trim_words( $content, 12, '&hellip;' ) ) . '</div>';
+	echo '<div class="product-description">' . wp_kses_post( wp_trim_words( $content, 12, '&hellip;' ) ) . '</div>';
 }
 
 /**
@@ -962,10 +1012,21 @@ function sydney_quick_view_content_callback_function() {
 		return;
 	}
 
+	$product_id = absint( $_POST['product_id'] );
+
+	// content-quick-view.php calls wc_get_product() and dereferences the result
+	// on the next line. absint() guarantees an integer, not an existing product,
+	// and this handler is registered on wp_ajax_nopriv_ with its nonce printed
+	// for logged-out visitors, so without this any visitor could turn a bogus
+	// product_id into a fatal.
+	if ( ! wc_get_product( $product_id ) ) {
+		wp_die();
+	}
+
 	$args = array(
-		'product_id' => absint( $_POST['product_id'] ),
+		'product_id' => $product_id,
 	);
-	
+
 	sydney_get_template_part( 'content', 'quick-view', $args );
 	
 	wp_die();
@@ -977,7 +1038,7 @@ add_action( 'wp_ajax_nopriv_sydney_quick_view_content', 'sydney_quick_view_conte
  * sydney output for simple product add to cart area.
  * The purpose is avoid third party plugins hooking here
  */
-function sydney_simple_add_to_cart( $product, $hook_prefix = '' ) {
+function sydney_simple_add_to_cart( $product, $hook_prefix = '', $classes = 'single_add_to_cart_button button alt' ) {
 	if ( ! $product->is_purchasable() ) {
 		return;
 	}
@@ -1005,7 +1066,7 @@ function sydney_simple_add_to_cart( $product, $hook_prefix = '' ) {
 			do_action( "sydney_{$hook_prefix}_after_add_to_cart_quantity" );
 			?>
 	
-			<button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+			<button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="<?php echo esc_attr( $classes ); ?>"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 	
 			<?php do_action( "sydney_{$hook_prefix}_after_add_to_cart_button" ); ?>
 		</form>
@@ -1019,7 +1080,7 @@ function sydney_simple_add_to_cart( $product, $hook_prefix = '' ) {
  * sydney output for grouped product add to cart area.
  * The purpose is avoid third party plugins hooking here
  */
-function sydney_grouped_add_to_cart( $product, $hook_prefix = '' ) {
+function sydney_grouped_add_to_cart( $product, $hook_prefix = '', $classes = 'single_add_to_cart_button button alt' ) {
 	$products = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
 
 	if ( $products ) :
@@ -1125,7 +1186,7 @@ function sydney_grouped_add_to_cart( $product, $hook_prefix = '' ) {
 
 				<?php do_action( "sydney_{$hook_prefix}_before_add_to_cart_button" ); ?>
 
-				<button type="submit" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+				<button type="submit" class="<?php echo esc_attr( $classes ); ?>"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 
 				<?php do_action( "sydney_{$hook_prefix}_after_add_to_cart_button" ); ?>
 
@@ -1141,7 +1202,7 @@ function sydney_grouped_add_to_cart( $product, $hook_prefix = '' ) {
  * sydney output for variable product add to cart area.
  * The purpose is avoid third party plugins hooking here
  */
-function sydney_variable_add_to_cart( $product, $hook_prefix = '' ) {
+function sydney_variable_add_to_cart( $product, $hook_prefix = '', $classes = 'single_add_to_cart_button button alt' ) {
 	// Get Available variations?
 	$get_variations = count( $product->get_children() ) <= apply_filters( "sydney_{$hook_prefix}_ajax_variation_threshold", 30, $product );
 
@@ -1208,7 +1269,7 @@ function sydney_variable_add_to_cart( $product, $hook_prefix = '' ) {
 						do_action( "sydney_{$hook_prefix}_after_add_to_cart_quantity" );
 						?>
 
-						<button type="submit" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+						<button type="submit" class="<?php echo esc_attr( $classes ); ?>"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 
 						<?php do_action( "sydney_{$hook_prefix}_after_add_to_cart_button" ); ?>
 
@@ -1239,7 +1300,7 @@ function sydney_variable_add_to_cart( $product, $hook_prefix = '' ) {
  * sydney output for external product add to cart area.
  * The purpose is avoid third party plugins hooking here
  */
-function sydney_external_add_to_cart( $product, $hook_prefix = '' ) {
+function sydney_external_add_to_cart( $product, $hook_prefix = '', $classes = 'single_add_to_cart_button button alt' ) {
 	if ( ! $product->add_to_cart_url() ) {
 		return;
 	}
@@ -1252,7 +1313,7 @@ function sydney_external_add_to_cart( $product, $hook_prefix = '' ) {
 	<form class="cart" action="<?php echo esc_url( $product_url ); ?>" method="get">
 		<?php do_action( "sydney_{$hook_prefix}_before_add_to_cart_button" ); ?>
 
-		<button type="submit" class="single_add_to_cart_button button alt"><?php echo esc_html( $button_text ); ?></button>
+		<button type="submit" class="<?php echo esc_attr( $classes ); ?>"><?php echo esc_html( $button_text ); ?></button>
 
 		<?php wc_query_string_form_fields( $product_url ); ?>
 

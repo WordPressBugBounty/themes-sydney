@@ -145,7 +145,7 @@ $wp_customize->add_panel( 'sydney_lifterlms', array(
         'sydney_lifter_loop_title_color',
         array(
             'default'           => '',
-            'sanitize_callback' => 'sanitize_hex_color',
+            'sanitize_callback' => 'sydney_sanitize_hex_rgba',
         )
     );
     $wp_customize->add_control(
@@ -164,7 +164,7 @@ $wp_customize->add_panel( 'sydney_lifterlms', array(
         'sydney_lifter_loop_title_color_hover',
         array(
             'default'           => '',
-            'sanitize_callback' => 'sanitize_hex_color',
+            'sanitize_callback' => 'sydney_sanitize_hex_rgba',
         )
     );
     $wp_customize->add_control(
@@ -183,7 +183,7 @@ $wp_customize->add_panel( 'sydney_lifterlms', array(
         'sydney_lifter_loop_meta_color',
         array(
             'default'           => '',
-            'sanitize_callback' => 'sanitize_hex_color',
+            'sanitize_callback' => 'sydney_sanitize_hex_rgba',
         )
     );
     $wp_customize->add_control(
@@ -232,7 +232,7 @@ $wp_customize->add_setting(
     'sydney_lifter_course_title_color',
     array(
         'default'           => '',
-        'sanitize_callback' => 'sanitize_hex_color',
+        'sanitize_callback' => 'sydney_sanitize_hex_rgba',
     )
 );
 $wp_customize->add_control(
@@ -269,7 +269,7 @@ $wp_customize->add_setting(
     'sydney_lifter_course_accent_color',
     array(
         'default'           => '',
-        'sanitize_callback' => 'sanitize_hex_color',
+        'sanitize_callback' => 'sydney_sanitize_hex_rgba',
     )
 );
 $wp_customize->add_control(
@@ -297,7 +297,7 @@ $wp_customize->add_setting(
     'sydney_lifter_lesson_title_color',
     array(
         'default'           => '',
-        'sanitize_callback' => 'sanitize_hex_color',
+        'sanitize_callback' => 'sydney_sanitize_hex_rgba',
     )
 );
 $wp_customize->add_control(

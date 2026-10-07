@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">
 				<div class="sydney-dashboard-box-link">
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=atss-onboarding-wizard' ) ); ?>" class="sydney-dashboard-link sydney-dashboard-link-primary button button-primary">
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=atss-onboarding-wizard' ) ); ?>" class="sydney-dashboard-link sydney-dashboard-link-primary button button-primary button-medium">
 						<?php echo esc_html__( 'Relaunch Wizard', 'sydney' ); ?>
 					</a>
 				</div>

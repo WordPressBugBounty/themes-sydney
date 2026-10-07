@@ -49,6 +49,30 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 				),
 			);
 
+			/**
+			 * Filters the module catalog, keyed by category.
+			 *
+			 * The pro layer registers its own rows through this filter
+			 * (inc/pro/modules.php); free ships only the entries above. A
+			 * callback that returns anything but an array is ignored rather
+			 * than honoured: the dashboard renders this catalog directly, so a
+			 * bad return would blank the features tab instead of failing.
+			 *
+			 * Note this runs on the catalog only. is_module_active() resolves
+			 * against get_module_defaults() and never calls get_modules(), so
+			 * nothing here is reachable from the file-scope gate that module
+			 * bootstrap files use before init.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array $modules Module rows keyed by category.
+			 */
+			$filtered = apply_filters( 'sydney_modules', $modules );
+
+			if ( is_array( $filtered ) ) {
+				$modules = $filtered;
+			}
+
 			if ( $category ) {
 				return isset( $modules[ $category ] ) ? $modules[ $category ] : array();
 			}

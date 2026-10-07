@@ -5,11 +5,15 @@
  * @package Sydney
  */
 
-if ( ! is_active_sidebar( 'sidebar-1' ) ) {
+$sydney_sidebar_id = apply_filters( 'sydney_sidebar_id', 'sidebar-1' );
+
+if ( ! is_active_sidebar( $sydney_sidebar_id ) ) {
 	return;
 }
 ?>
 
 <div id="secondary" class="widget-area col-md-3" role="complementary" <?php sydney_do_schema( 'sidebar' ); ?>>
-	<?php dynamic_sidebar( 'sidebar-1' ); ?>
+	<?php do_action( 'sydney_sidebar_after_start' ); ?>
+	<?php dynamic_sidebar( $sydney_sidebar_id ); ?>
+	<?php do_action( 'sydney_sidebar_before_end' ); ?>
 </div><!-- #secondary -->

@@ -65,6 +65,23 @@ function sydney_header_style() {
     }
 
 	if ( get_header_image() && ( get_theme_mod('front_header_type') === 'image' && is_front_page() || $site_header === 'image' && !is_front_page() ) ) {
+
+		/**
+		 * The mobile background-image reset for .header-image.
+		 *
+		 * Free prints `none`, Pro prints `none !important`, and that was the
+		 * only behavioral difference between the two copies of this file. It is
+		 * not cosmetic: nothing in either stylesheet sets background-image on
+		 * .header-image, but this block is printed by the custom-header
+		 * wp-head-callback, and Additional CSS prints later in wp_head, so the
+		 * flag decides whether a site's own rule can put an image back at
+		 * <= 1024px. Free has never had it and does not gain it here.
+		 *
+		 * @since 2.71
+		 *
+		 * @param string $reset A CSS background-image value.
+		 */
+		$mobile_background_reset = apply_filters( 'sydney_header_image_mobile_background', 'none' );
 	?>
 	<style type="text/css">
 		.header-image {
@@ -76,7 +93,7 @@ function sydney_header_style() {
 				display: block;
 			}
 			.header-image {
-				background-image: none;
+				background-image: <?php echo esc_attr( $mobile_background_reset ); ?>;
 				height: auto !important;
 			}
 		}

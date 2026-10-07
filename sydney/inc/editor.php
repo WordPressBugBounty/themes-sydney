@@ -39,6 +39,14 @@ function sydney_editor_heading_typography_selector() {
 }
 
 function sydney_editor_styles() {
+	// Inert under enqueue_block_editor_assets, which only fires in wp-admin.
+	// Pro swaps this callback onto enqueue_block_assets, which also fires on the
+	// front end, and the guard is what keeps the editor CSS out of the page
+	// there. See inc/pro/editor.php.
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	wp_enqueue_style( 'sydney-block-editor-styles', get_theme_file_uri( '/sydney-gutenberg-editor-styles.css' ), '', '20260824', 'all' );
 
 	// Google Fonts are loaded into the editor iframe via add_editor_style() in sydney_setup().
@@ -74,6 +82,10 @@ function sydney_editor_styles() {
 
 	$body_font      = json_decode( $body_font, true );
 	$headings_font  = json_decode( $headings_font, true );
+
+	// A stored value that is not the font object decodes to null or a string, and every read below indexes it. Fall back to the defaults, which read as System default and skip the rule.
+	$body_font      = is_array( $body_font )     ? $body_font     : json_decode( $typography_defaults, true );
+	$headings_font  = is_array( $headings_font ) ? $headings_font : json_decode( $typography_defaults, true );
 
 	$custom .= ".editor-styles-wrapper, .editor-styles-wrapper .editor-block-list__block { font-family:\"" . esc_attr( $body_font['font'] ) . "\"," . esc_attr( $body_font['category'] ) . '; font-weight: ' . esc_attr( $body_font['regularweight'] ) . ';}' . "\n";
 	$custom .= ".editor-post-title__block .editor-post-title__input, .editor-styles-wrapper .editor-post-title__input, .editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3, .editor-styles-wrapper h4, .editor-styles-wrapper h5, .editor-styles-wrapper h6 { font-family:\"" . esc_attr( $headings_font['font'] ) . "\"," . esc_attr( $headings_font['category'] ) . '; font-weight: ' . esc_attr( $headings_font['regularweight'] ) . ';}' . "\n";
@@ -131,7 +143,7 @@ function sydney_editor_styles() {
 	$custom .= Sydney_Custom_CSS::get_top_bottom_padding_css( 'button_top_bottom_padding', $defaults = array( 'desktop' => 12, 'tablet' => 12, 'mobile' => 12 ), '.editor-styles-wrapper .wp-block-button__link,button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );
 	$custom .= Sydney_Custom_CSS::get_left_right_padding_css( 'button_left_right_padding', $defaults = array( 'desktop' => 35, 'tablet' => 35, 'mobile' => 35 ), '.editor-styles-wrapper .wp-block-button__link,button,a.button,.wp-block-button__link,input[type="button"],input[type="reset"],input[type="submit"]' );
 
-	$buttons_radius = get_theme_mod( 'buttons_radius', 3 );
+	$buttons_radius = get_theme_mod( 'buttons_radius', 0 );
 	$custom .= ".editor-styles-wrapper .wp-block-button__link { border-radius:" . intval( $buttons_radius ) . "px;}" . "\n";
 
 	$custom .= ".editor-styles-wrapper .wp-block-button__link { box-sizing: border-box; border: 2px solid transparent; }\n";
@@ -154,6 +166,21 @@ function sydney_editor_styles() {
 	$custom .= ".editor-styles-wrapper .wp-block-button__link:hover { border-color:" . esc_attr( $button_border_color_hover ) . ";}" . "\n";
 
 	
+	/**
+	 * The editor's generated CSS, before it is attached to the stylesheet.
+	 *
+	 * Pro appends its Adobe and custom font-library rules here, and the
+	 * text-decoration declaration free has never emitted, rather than keeping a
+	 * second copy of this file. Appended rules land after everything above,
+	 * which is where Pro's own copy already had them relative to the base
+	 * font-family rules they override.
+	 *
+	 * @since 2.71
+	 *
+	 * @param string $custom The accumulated CSS.
+	 */
+	$custom = apply_filters( 'sydney_editor_styles_css', $custom );
+
 	//Output all the styles
 	wp_add_inline_style( 'sydney-block-editor-styles', $custom );   
 }

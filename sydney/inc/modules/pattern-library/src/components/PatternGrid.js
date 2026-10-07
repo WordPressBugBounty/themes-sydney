@@ -70,12 +70,12 @@ export function PatternGrid( { patterns, isLoading, onInsert } ) {
 	const freePatterns = sorted.filter( ( p ) => ! p.sydney_pro );
 	const proPatterns = sorted.filter( ( p ) => p.sydney_pro );
 
-	function handleClickPattern( pattern, blocks ) {
+	function handleClickPattern( pattern ) {
 		if ( pattern.sydney_pro && ! isPro ) {
 			window.open( upgradeUrl, '_blank' );
 			return;
 		}
-		onInsert( pattern, blocks );
+		onInsert( pattern );
 	}
 
 	if ( isLoading ) {
@@ -124,43 +124,72 @@ export function PatternGrid( { patterns, isLoading, onInsert } ) {
 
 function PatternPreview( { pattern, onClick, isPro = false } ) {
 	const blockRef = useRef( null );
-	const hasReportedLoaded = useRef( false );
 	const [ inViewport, setInViewport ] = useState( false );
-	const [ isLoaded, setIsLoaded ] = useState( false );
 
-	const blocks = useMemo( () => {
-		return rawHandler( { HTML: pattern.content } );
-	}, [ pattern.content ] );
-
-	// Trigger render only when scrolled into view.
+	// Mount the live preview only while the card is near the viewport, and
+	// unmount it once the card scrolls away, so iframes do not accumulate.
+	// The root is the grid's scroll container: against the page viewport the
+	// container clips cards first and the margin never applies.
 	useEffect( () => {
 		const el = blockRef.current;
 		if ( ! el ) return;
-		const observer = new IntersectionObserver( ( entries ) => {
-			if ( entries[ 0 ].isIntersecting ) {
-				setInViewport( true );
-				observer.disconnect();
+		const observer = new IntersectionObserver(
+			( entries ) => setInViewport( entries[ 0 ].isIntersecting ),
+			{
+				root: el.closest( '.sydney-pattern-library-modal-grid-container' ),
+				rootMargin: '300px 0px',
 			}
-		} );
+		);
 		observer.observe( el );
 		return () => observer.disconnect();
 	}, [] );
 
+	return (
+		<div
+			ref={ blockRef }
+			className="sydney-pattern-library-pattern-item"
+		>
+			<FavoriteToggle patternName={ pattern.name } />
+			<button
+				type="button"
+				className="sydney-pattern-library-pattern-item__action"
+				aria-label={ pattern.title }
+				onClick={ () => onClick( pattern ) }
+			>
+				{ isPro && (
+					<span className="sydney-pattern-library-pro-badge">{ __( 'Pro', 'sydney' ) }</span>
+				) }
+				{ inViewport ? (
+					<LivePreview content={ pattern.content } containerRef={ blockRef } />
+				) : (
+					<div className="sydney-pattern-library-pattern-skeleton" aria-hidden="true" />
+				) }
+			</button>
+		</div>
+	);
+}
+
+function LivePreview( { content, containerRef } ) {
+	const [ isLoaded, setIsLoaded ] = useState( false );
+
+	// Parsed only for cards that are about to render.
+	const blocks = useMemo( () => rawHandler( { HTML: content } ), [ content ] );
+
 	// Watch for the BlockPreview iframe to finish loading, then drop the skeleton.
 	useEffect( () => {
-		if ( ! inViewport || hasReportedLoaded.current ) return;
-		const el = blockRef.current;
+		const el = containerRef.current;
 		if ( ! el ) return;
+		let done = false;
 
 		function handleLoad() {
-			if ( ! hasReportedLoaded.current ) {
-				hasReportedLoaded.current = true;
+			if ( ! done ) {
+				done = true;
 				setIsLoaded( true );
 			}
 		}
 
 		function checkIframe( iframe ) {
-			if ( hasReportedLoaded.current ) return;
+			if ( done ) return;
 			try {
 				if ( iframe.contentDocument?.readyState === 'complete' ) {
 					handleLoad();
@@ -191,39 +220,25 @@ function PatternPreview( { pattern, onClick, isPro = false } ) {
 		const timeout = setTimeout( handleLoad, 8000 );
 
 		return () => {
+			// Unmounted: a late iframe load must not set state.
+			done = true;
 			mutObs.disconnect();
 			clearTimeout( timeout );
 		};
-	}, [ inViewport ] );
+	}, [ containerRef ] );
 
 	return (
-		<div
-			ref={ blockRef }
-			className="sydney-pattern-library-pattern-item"
-		>
-			<FavoriteToggle patternName={ pattern.name } />
-			<button
-				type="button"
-				className="sydney-pattern-library-pattern-item__action"
-				aria-label={ pattern.title }
-				onClick={ () => onClick( pattern, blocks ) }
-			>
-				{ isPro && (
-					<span className="sydney-pattern-library-pro-badge">{ __( 'Pro', 'sydney' ) }</span>
-				) }
-				{ inViewport && (
-					<BlockPreview
-						blocks={ blocks }
-						viewportWidth={ 1600 }
-						additionalStyles={ [
-							{ css: '.is-root-container > .wp-block-cover,.is-root-container > .wp-block-group { max-width: 100% !important;margin-bottom: 0 !important; } .wp-block-cover { min-height: 500px !important; }' },
-						] }
-					/>
-				) }
-				{ ! isLoaded && (
-					<div className="sydney-pattern-library-pattern-skeleton" aria-hidden="true" />
-				) }
-			</button>
-		</div>
+		<>
+			<BlockPreview
+				blocks={ blocks }
+				viewportWidth={ 1600 }
+				additionalStyles={ [
+					{ css: '.is-root-container > .wp-block-cover,.is-root-container > .wp-block-group { max-width: 100% !important;margin-bottom: 0 !important; } .wp-block-cover { min-height: 500px !important; }' },
+				] }
+			/>
+			{ ! isLoaded && (
+				<div className="sydney-pattern-library-pattern-skeleton" aria-hidden="true" />
+			) }
+		</>
 	);
 }

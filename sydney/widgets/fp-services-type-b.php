@@ -96,6 +96,8 @@ class Sydney_Services_Type_B extends WP_Widget {
 			'category_name'       => $category,          
 		) );
 
+		$cols_no = '';
+
 		if ( $cols == '1' ) {
 			$cols_no = '';
 		} elseif ( $cols == '3' ) {

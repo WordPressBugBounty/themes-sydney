@@ -19,7 +19,7 @@
 			<p><?php
 			printf( 
 				/* translators: %1$s: URL to create a new post */
-				esc_html__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'sydney' ), esc_url( admin_url( 'post-new.php' ) ) 
+				wp_kses( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'sydney' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'post-new.php' ) ) 
 			);
 			?></p>
 

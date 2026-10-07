@@ -36,7 +36,7 @@ export function PatternLibraryModal({ onClose, onInsert }) {
   const isRecentActive = selectedType === "recent";
   const showRecentFilter = recentlyUsed.length > 0;
 
-  function handleInsert(pattern, blocks) {
+  function handleInsert(pattern) {
     trackPatternInsert(pattern.name);
     apiFetch({
       path: "/sydney/v1/pattern-insert",
@@ -47,7 +47,7 @@ export function PatternLibraryModal({ onClose, onInsert }) {
       // eslint-disable-next-line no-console
       console.error("Sydney pattern library: failed to track pattern insert", error);
     });
-    onInsert(pattern, blocks);
+    onInsert(pattern);
   }
 
   return (

@@ -30,9 +30,16 @@ class Template_Library_Manager {
         wp_enqueue_script( 'sydney-template-library-script', get_template_directory_uri() . '/inc/integrations/elementor/library/template-library.min.js', [ 'elementor-editor', 'jquery-hover-intent' ], '1.0.0', true );
 		wp_enqueue_style( 'sydney-template-library-style', get_template_directory_uri() . '/inc/integrations/elementor/library/template-library.min.css', array(), '20250901' );
 
+		/*
+		 * isProActive is the one value this shared file varies by edition. The
+		 * sole consumer is template-library.min.js, byte-identical in both
+		 * editions, which switches the insert button's class and the per-template
+		 * "Pro" label on it. sydney_is_pro() answers it directly: there is no Pro
+		 * option name or Pro logic here to lift into inc/pro/, only the edition.
+		 */
 		$localized_data = [
             'sydneyProWidgets' => [],
-			'isProActive' => false,
+			'isProActive' => sydney_is_pro(),
 			'i18n' => [
 				'templatesEmptyTitle' => esc_html__( 'No Templates Found', 'sydney' ),
 				'templatesEmptyMessage' => esc_html__( 'Try different category or sync for new templates.', 'sydney' ),

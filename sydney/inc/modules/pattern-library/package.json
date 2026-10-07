@@ -1,0 +1,16 @@
+{
+  "name": "sydney-pattern-library",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "wp-scripts build src/index.js --output-path=build",
+    "start": "wp-scripts start src/index.js --output-path=build"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.0.0"
+  },
+"dependencies": {
+		"@wordpress/icons": "^10.0.0",
+		"your-project": "file:../../.."
+	}
+}

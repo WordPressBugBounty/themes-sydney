@@ -114,6 +114,6 @@ return array(
 	'radius' => array(
 		'theme_mod' => 'buttons_radius',
 		'type'      => 'int',
-		'default'   => 3,
+		'default'   => 0,
 	),
 );

@@ -515,7 +515,7 @@ $wp_customize->add_control( new \Kirki\Control\Sortable( $wp_customize, 'header_
 ) ) );
 
 $wp_customize->add_setting( 'header_components_l5topright', array(
-	'default'           => $default_components['l5topleft'],
+	'default'           => $default_components['l5topright'],
 	'sanitize_callback' => 'sydney_sanitize_header_components',
 	//'transport'           => 'postMessage'
 ) );
@@ -528,7 +528,7 @@ $wp_customize->add_control( new \Kirki\Control\Sortable( $wp_customize, 'header_
 ) ) );
 
 $wp_customize->add_setting( 'header_components_l5bottom', array(
-	'default'           => $default_components['l5topleft'],
+	'default'           => $default_components['l5bottom'],
 	'sanitize_callback' => 'sydney_sanitize_header_components',
 	//'transport'           => 'postMessage'
 ) );

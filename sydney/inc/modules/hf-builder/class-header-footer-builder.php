@@ -304,7 +304,7 @@ class Sydney_Header_Footer_Builder {
         wp_enqueue_script( 'jquery-ui-sortable' );
 
         wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20260819' );
-        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20260709', true );
+        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20260929.1', true );
         wp_localize_script( 'sydney-shfb', 'sydney_hfb', array(
             'rows' => array(
                 'defaults' => array(
@@ -342,7 +342,7 @@ class Sydney_Header_Footer_Builder {
                 'footer'  => apply_filters( 'sydney_header_builder_footer_components', $this->footer_components ),
             ),
             'upsell_components' => array(
-                'enable' => ! defined( 'SYDNEY_AWL_ACTIVE' ) && ! defined( 'SYDNEY_PRO_VERSION' ) ? true : false,
+                'enable' => ! sydney_is_white_labelled() && ! defined( 'SYDNEY_PRO_VERSION' ) ? true : false,
 
                 /**
                  * Hook 'sydney_header_builder_upsell_components'
@@ -1113,6 +1113,19 @@ class Sydney_Header_Footer_Builder {
 
         ?> 
         
+        <?php
+        /**
+         * Hook 'sydney_after_header_hfb'
+         *
+         * Fires once after both the desktop and mobile headers, unlike
+         * 'sydney_after_header' above, which fires inside the device loop.
+         * Pro's breadcrumbs module is the reason it exists.
+         *
+         * @since 1.0.0
+         */
+        do_action( 'sydney_after_header_hfb' );
+        ?>
+
         <div class="search-overlay"></div>
 
         <?php
@@ -1148,6 +1161,16 @@ class Sydney_Header_Footer_Builder {
      */
     public function footer_front_output() {
         $devices = array( 'desktop' );
+
+        /**
+         * Hook 'sydney_shfb_before_footer'
+         *
+         * Fires before the builder's footer markup.
+         *
+         * @since 1.0.0
+         */
+        do_action( 'sydney_shfb_before_footer' );
+
         foreach( $devices as $device ) { ?>
 
             <footer id="colophon" class="shfb shfb-footer shfb-<?php echo esc_attr( $device ); ?>" <?php sydney_get_schema( 'footer' ); ?>>

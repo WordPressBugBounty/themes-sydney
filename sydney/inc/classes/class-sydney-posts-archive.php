@@ -68,7 +68,7 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 			$classes[] = 'post-vertical-align-' . esc_attr( $vertical_align );
 
 
-			if ( 'layout3' === $this->blog_layout() || 'layout5' === $this->blog_layout() ) {
+			if ( 'layout3' === $this->blog_layout() || 'layout5' === $this->blog_layout() || ( sydney_is_pro() && 'layout7' === $this->blog_layout() ) ) {
 				$classes[] = $columns;
 			} else {
 				$classes[] = 'col-md-12';
@@ -161,6 +161,22 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 					echo '</div>';  
 					
 					break;                      
+
+				case 'layout7':
+					// Pro's cover layout. Free cannot select it, and never renders it
+					// even if a downgraded site still has the value in its mods.
+					if ( ! sydney_is_pro() ) {
+						break;
+					}
+
+					echo '<div class="cover-post">';
+						$this->post_image();
+						$this->post_meta( 'above-title' );
+						$this->post_title();
+						$this->post_meta( 'below-excerpt' );
+					echo '</div>';
+
+					break;
 			}
 		}
 
@@ -171,7 +187,7 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 			$enable = get_theme_mod( 'index_feat_image', 1 );
 
 			if ( has_post_thumbnail() && $enable ) : ?>
-				<div class="entry-thumb">
+				<div class="entry-thumb<?php if ( sydney_is_pro() ) : ?> hover-effect-<?php echo esc_attr( get_theme_mod( 'feat_image_hover', 'none' ) ); ?><?php endif; ?>">
 					<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('sydney-large-thumb'); ?></a>
 				</div>
 			<?php endif;
@@ -185,13 +201,32 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 			$elements               = get_theme_mod( 'archive_meta_elements', $this->default_meta_elements() );
 			$archive_meta_delimiter = get_theme_mod( 'archive_meta_delimiter', 'dot' );
 
+			/* cover layout displays meta in two positions */
+			// layout7 is Pro's cover layout. free's post_markup() already breaks out
+			// of that case, so the gate guards a direct or third-party call from
+			// handing a free site Pro's archive_meta_elements_extra.
+			if ( sydney_is_pro() && 'layout7' === $this->blog_layout() ) {
+				if ( 'above-title' === $position ) {
+					$elements = get_theme_mod( 'archive_meta_elements', array( 'post_categories' ) );
+				} else {
+					$elements = get_theme_mod( 'archive_meta_elements_extra', array( 'post_date' ) );
+				}
+			}
+
 			if ( 'post' !== get_post_type() || empty( $elements ) ) {
 				return;
 			}
 
 			echo '<div class="entry-meta ' . esc_attr( $position ) . ' delimiter-' . esc_attr( $archive_meta_delimiter ) . '">';
 			foreach( $elements as $element ) {
-				call_user_func( array( $this, $element ) );
+				$callback = apply_filters( 'sydney_archive_meta_callback', array( $this, $element ), $element );
+
+				// Skips names this edition does not implement. Meta elements must stay
+				// zero-argument methods: is_callable() cannot catch a real method
+				// called with too few arguments.
+				if ( is_callable( $callback ) ) {
+					call_user_func( $callback );
+				}
 			}           
 			echo '</div>';
 		}   
@@ -220,6 +255,19 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 			if ( !$excerpt ) {
 				return;
 			}
+
+			// Not esc_html__(): the echo below escapes. Pro's default keeps the
+			// extra esc_html__() because that is what Pro renders today.
+			$read_more_text         = __( 'Read more', 'sydney' );
+			$read_more_class        = 'read-more';
+
+			if ( sydney_is_pro() ) {
+				$read_more_text = get_theme_mod( 'read_more_text', esc_html__( 'Read more', 'sydney' ) );
+
+				if ( 'link' !== get_theme_mod( 'read_more_display', 'link' ) ) {
+					$read_more_class = 'button roll-button';
+				}
+			}
 			?>
 			<div class="entry-post" <?php sydney_do_schema( 'entry_content' ); ?>>
 				<?php
@@ -230,7 +278,7 @@ if ( !class_exists( 'Sydney_Posts_Archive' ) ) :
 				}
 
 				if ( $read_more ) {
-					echo '<a class="read-more" title="' . esc_attr( wp_strip_all_tags( get_the_title() ) ) . '" href="' . esc_url( get_permalink() ) . '">' . esc_html__( 'Read more', 'sydney' ) . '</a>';
+					echo '<a class="' . esc_attr( $read_more_class ) . '" title="' . esc_attr( wp_strip_all_tags( get_the_title() ) ) . '" href="' . esc_url( get_permalink() ) . '">' . esc_html( $read_more_text ) . '</a>';
 				}
 				?>
 			</div>

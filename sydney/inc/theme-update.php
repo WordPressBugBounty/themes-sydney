@@ -120,7 +120,10 @@ function sydney_header_update_notice_1_8_1() {
     </div>
     <?php }
 }
-add_action( 'admin_notices', 'sydney_header_update_notice_1_8_1' );
+// the 1.8.1 header notice.
+if ( ! sydney_is_pro() ) {
+	add_action( 'admin_notices', 'sydney_header_update_notice_1_8_1' );
+}
 
 
 /**
@@ -137,7 +140,9 @@ function sydney_header_update_notice_1_8_1_callback() {
 		'success' => true,
 	) );
 }
-add_action( 'wp_ajax_sydney_header_update_notice_1_8_1_callback', 'sydney_header_update_notice_1_8_1_callback' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'wp_ajax_sydney_header_update_notice_1_8_1_callback', 'sydney_header_update_notice_1_8_1_callback' );
+}
 
 /**
  * Header update ajax callback
@@ -153,7 +158,9 @@ function sydney_header_update_dismiss_notice_1_8_2_callback() {
 		'success' => true,
 	) );
 }
-add_action( 'wp_ajax_sydney_header_update_dismiss_notice_1_8_2_callback', 'sydney_header_update_dismiss_notice_1_8_2_callback' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'wp_ajax_sydney_header_update_dismiss_notice_1_8_2_callback', 'sydney_header_update_dismiss_notice_1_8_2_callback' );
+}
 
 /**
  * Migrate font families and sizes
@@ -234,7 +241,10 @@ function sydney_migrate_typography() {
     //Set flag
     set_theme_mod( 'sydney_migrate_typography', true );
 }
-add_action( 'init', 'sydney_migrate_typography' );
+// free's defaults were Raleway; Pro's were Poppins and Ubuntu, so the same test means the opposite thing on each edition.
+if ( ! sydney_is_pro() ) {
+	add_action( 'init', 'sydney_migrate_typography' );
+}
 
 
 /**
@@ -249,9 +259,48 @@ function sydney_migrate_woo_options() {
         return;
     }
 
+    // Pro-era options, migrated here so the shared function covers both upgrade
+    // paths. Every one defaults to a value whose branch is skipped, so on a site
+    // that never ran Pro this block is a no-op.
+    $swc_content_position = get_theme_mod( 'swc_content_position', 'right' );
+
+    if ( 'left' === $swc_content_position ) {
+        set_theme_mod( 'shop_archive_sidebar', 'sidebar-right' );
+    }
+
     $swc_sidebar_archives = get_theme_mod( 'swc_sidebar_archives', 0 );
     if ( $swc_sidebar_archives ) {
         set_theme_mod( 'shop_archive_sidebar', 'no-sidebar' );
+    }
+
+    $swc_archive_results = get_theme_mod( 'swc_archive_results', 0 );
+
+    if ( $swc_archive_results ) {
+        set_theme_mod( 'shop_results_count', 0 );
+    }
+
+    $swc_archive_sorting = get_theme_mod( 'swc_archive_sorting', 0 );
+
+    if ( $swc_archive_sorting ) {
+        set_theme_mod( 'shop_product_sorting', 0 );
+    }
+
+    $wc_button_hover = get_theme_mod( 'wc_button_hover', 0 );
+
+    if ( $wc_button_hover ) {
+        set_theme_mod( 'shop_product_add_to_cart_layout', 'layout3' );
+    }
+
+    $swc_product_cats = get_theme_mod( 'swc_product_cats', 0 );
+
+    if ( $swc_product_cats ) {
+        set_theme_mod( 'single_product_categories', 0 );
+    }
+
+    $swc_disable_single_breadcrumbs = get_theme_mod( 'swc_disable_single_breadcrumbs', 0 );
+
+    if ( $swc_disable_single_breadcrumbs ) {
+        set_theme_mod( 'single_breadcrumbs', 0 );
     }
 
     //Set flag
@@ -316,7 +365,9 @@ add_action( 'after_switch_theme', 'sydney_footer_default_colors' );
 function sydney_default_local_google_fonts() {
     set_theme_mod( 'perf_google_fonts_local', 1 );
 }
-add_action( 'after_switch_theme', 'sydney_default_local_google_fonts' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'after_switch_theme', 'sydney_default_local_google_fonts' );
+}
 
 /**
  * Migrate primary color to global color 1
@@ -428,7 +479,10 @@ function sydney_hf_update_notice_2_52_callback() {
 		'success' => true,
 	) );
 }
-add_action( 'wp_ajax_sydney_hf_update_notice_2_52_callback', 'sydney_hf_update_notice_2_52_callback' );
+// the 2.52 header/footer notice.
+if ( ! sydney_is_pro() ) {
+	add_action( 'wp_ajax_sydney_hf_update_notice_2_52_callback', 'sydney_hf_update_notice_2_52_callback' );
+}
 
 /**
  * Header update ajax callback
@@ -444,7 +498,9 @@ function sydney_hf_update_dismiss_notice_2_52_callback() {
 		'success' => true,
 	) );
 }
-add_action( 'wp_ajax_sydney_hf_update_dismiss_notice_2_52_callback', 'sydney_hf_update_dismiss_notice_2_52_callback' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'wp_ajax_sydney_hf_update_dismiss_notice_2_52_callback', 'sydney_hf_update_dismiss_notice_2_52_callback' );
+}
 
 /**
  * Update settings
@@ -468,7 +524,9 @@ function sydney_update_settings_2_54() {
         set_theme_mod( 'sydney_default_sticky_background_flag', true );
     }
 }
-add_action( 'after_switch_theme', 'sydney_update_settings_2_54' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'after_switch_theme', 'sydney_update_settings_2_54' );
+}
 
 /**
  * Set footer border opacity defaults for new users
@@ -536,7 +594,9 @@ function sydney_hf_mobile_offcanvas_background() {
     // Set flag
     set_theme_mod( 'sydney_hf_mobile_offcanvas_background_flag', true );
 }
-add_action( 'init', 'sydney_hf_mobile_offcanvas_background' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'init', 'sydney_hf_mobile_offcanvas_background' );
+}
 
 /**
  * Use height instead of max-height for logo for new users
@@ -594,7 +654,9 @@ function sydney_setup_checklist_enable_for_new_users( $old_theme_name ) {
     }
     update_option( 'sydney_setup_checklist_eligible', 1 );
 }
-add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );
+if ( ! sydney_is_pro() ) {
+	add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );
+}
 
 /**
  * YITH Compare icon migration for existing installs.

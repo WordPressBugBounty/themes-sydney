@@ -4,8 +4,8 @@
  *
  * A single option row with a mode dropdown (Off / Read-only / Read & write) on
  * the right that maps to the two gating options, plus a "Connect external AI
- * clients" row that installs the Vibe AI plugin (reusing the dashboard's
- * plugin-ajax link). No divider between the two rows.
+ * clients" row that installs the WPVibe plugin (reusing the dashboard's
+ * plugin-ajax button). No divider between the two rows.
  *
  * @package Sydney
  */
@@ -16,6 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Sydney_Abilities' ) ) {
 	require_once get_template_directory() . '/inc/abilities/class-sydney-abilities.php';
+}
+
+if ( ! function_exists( 'sydney_dashboard_brand_icon' ) ) {
+	require_once get_template_directory() . '/inc/dashboard/dashboard-icons.php';
 }
 
 // Current mode derived through the same filtered accessors that gate
@@ -31,11 +35,11 @@ $sydney_ai_modes = array(
 	'write' => esc_html__( 'Read & write', 'sydney' ),
 );
 
-// Vibe AI plugin (the external MCP bridge). Status drives the install link.
+// WPVibe plugin (the external MCP bridge). Status drives the install link.
 $sydney_vibe_path   = 'vibe-ai/vibe-ai.php';
 $sydney_vibe_status = method_exists( $this, 'get_plugin_status' ) ? $this->get_plugin_status( $sydney_vibe_path ) : 'not_installed';
 
-// After a successful install/activate, send the user to Vibe AI's settings page.
+// After a successful install/activate, send the user to WPVibe's settings page.
 $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 
 ?>
@@ -74,27 +78,33 @@ $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 			</div>
 		</div>
 
-		<div class="sydney-abilities-writes-warning" style="margin-top:var(--sydney-dashboard-space-4); padding:var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-3); border-radius:var(--sydney-dashboard-radius-sm); color:var(--sydney-dashboard-danger); background-color:var(--sydney-dashboard-danger-tint);<?php echo ( 'write' === $sydney_ai_mode ) ? '' : ' display:none;'; ?>">
-			<?php esc_html_e( 'Write access is enabled: every logged-in user who can edit theme options — including AI clients connected over REST or MCP — can change theme settings, install recommended plugins, and create pages on this site.', 'sydney' ); ?>
-		</div>
-
-		<div class="sydney-dashboard-module-card-header bt-mt-5 bt-align-items-end">
+		<div class="sydney-dashboard-module-card-header sydney-dashboard-well bt-mt-5 bt-align-items-center">
 			<div class="sydney-dashboard-module-card-header-info">
-				<p class="bt-text-color-grey bt-m-0"><?php esc_html_e( '[Optional] Install Vibe AI to expose these abilities over MCP, so clients like Claude, ChatGPT, and Cursor can connect.', 'sydney' ); ?></p>
+				<p class="bt-text-color-grey bt-m-0">
+					<?php
+					printf(
+						/* translators: %1$s, %2$s and %3$s are the Claude, ChatGPT and Cursor logos, each shown immediately before the name it belongs to. */
+						esc_html__( 'Install WPVibe to expose these abilities over MCP, so clients like %1$sClaude, %2$sChatGPT, and %3$sCursor can connect.', 'sydney' ),
+						sydney_dashboard_brand_icon( 'claude' ),  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Theme SVG, assembled and escaped in sydney_dashboard_brand_icon().
+						sydney_dashboard_brand_icon( 'chatgpt' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Theme SVG, assembled and escaped in sydney_dashboard_brand_icon().
+						sydney_dashboard_brand_icon( 'cursor' )   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Theme SVG, assembled and escaped in sydney_dashboard_brand_icon().
+					);
+					?>
+				</p>
 			</div>
 			<div class="sydney-dashboard-module-card-header-actions bt-pt-0">
 				<div class="sydney-dashboard-box-link">
 					<?php if ( 'active' === $sydney_vibe_status ) : ?>
-						<span class="sydney-dashboard-external-link sydney-dashboard-link-success">
-							<?php echo esc_html__( 'Vibe AI active', 'sydney' ); ?>
-						</span>
+						<a href="<?php echo esc_url( $sydney_vibe_settings_url ); ?>" class="button button-primary button-medium">
+							<?php echo esc_html__( 'Go to WPVibe Settings', 'sydney' ); ?>
+						</a>
 					<?php elseif ( 'inactive' === $sydney_vibe_status ) : ?>
-						<a href="<?php echo esc_url( $sydney_vibe_settings_url ); ?>" class="sydney-dashboard-external-link sydney-dashboard-link-success sydney-dashboard-plugin-ajax-button sydney-ajax-success-redirect" data-type="activate" data-path="<?php echo esc_attr( $sydney_vibe_path ); ?>" data-slug="vibe-ai">
-							<?php echo esc_html__( 'Activate Vibe AI', 'sydney' ); ?>
+						<a href="<?php echo esc_url( $sydney_vibe_settings_url ); ?>" class="button button-primary button-medium sydney-dashboard-plugin-ajax-button sydney-ajax-success-redirect" data-type="activate" data-path="<?php echo esc_attr( $sydney_vibe_path ); ?>" data-slug="vibe-ai">
+							<?php echo esc_html__( 'Activate WPVibe', 'sydney' ); ?>
 						</a>
 					<?php else : ?>
-						<a href="<?php echo esc_url( $sydney_vibe_settings_url ); ?>" class="sydney-dashboard-external-link sydney-dashboard-link-success sydney-dashboard-plugin-ajax-button sydney-ajax-success-redirect" data-type="install" data-path="<?php echo esc_attr( $sydney_vibe_path ); ?>" data-slug="vibe-ai">
-							<?php echo esc_html__( 'Install Vibe AI', 'sydney' ); ?>
+						<a href="<?php echo esc_url( $sydney_vibe_settings_url ); ?>" class="button button-primary button-medium sydney-dashboard-plugin-ajax-button sydney-ajax-success-redirect" data-type="install" data-path="<?php echo esc_attr( $sydney_vibe_path ); ?>" data-slug="vibe-ai">
+							<?php echo esc_html__( 'Install WPVibe', 'sydney' ); ?>
 						</a>
 					<?php endif; ?>
 				</div>
@@ -120,8 +130,6 @@ $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 		} ).done( function ( response ) {
 			if ( ! response || ! response.success ) {
 				$feedback.text( window.sydney_dashboard.i18n.failed_message ).show();
-			} else {
-				$( '.sydney-abilities-writes-warning' ).toggle( 'write' === mode );
 			}
 		} ).fail( function () {
 			$feedback.text( window.sydney_dashboard.i18n.failed_message ).show();

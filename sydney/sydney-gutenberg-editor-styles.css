@@ -8,7 +8,7 @@
 	--sydney-global-color-7: #F4F5F7;
 	--sydney-global-color-8: #dbdbdb;
 	--sydney-global-color-9: #ffffff;
-
+	
 	--sydney-headings-color: var(--sydney-global-color-4);
 	--sydney-dark-background: var(--sydney-global-color-6);
 	--sydney-grey-color: var(--sydney-global-color-5);
@@ -16,6 +16,7 @@
 	--sydney-light-background: var(--sydney-global-color-7);
 	--sydney-button-background: var(--sydney-global-color-1);
 	--sydney-border-color: var(--sydney-global-color-8);
+	--sydney-scrolltop-distance: 800;
 }
 
 /* General */
@@ -40,7 +41,10 @@
 	margin-top: 0;
 	margin-bottom: 1.5em;
 }
-
+.editor-styles-wrapper .wp-block-site-title,
+.editor-styles-wrapper .wp-block-navigation {
+	margin-bottom: 0;
+}
 .editor-styles-wrapper .wp-block-heading {
 	margin-bottom: 0.5em;
 }
@@ -143,6 +147,29 @@
 	border-color: var(--sydney-button-background);
 	color: #fff;
 }
+
+/* aThemes templates styles */
+.post-type-athemes_hf .wp-block-group:where(.has-background) {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.post-type-athemes_hf .wp-block-group .wp-block-columns {
+	margin-bottom: 0;
+}
+.post-type-athemes_hf .wp-block-column > *:last-of-type {
+	margin-bottom: 0;
+}
+.is-style-sydney-no-margin {
+	margin: 0;
+}
+.wp-block-site-title a {
+	color: currentColor;
+	text-decoration: none;
+}
+.post-type-athemes_hf .wp-block-column {
+	margin-bottom: 0;
+}
+
 /* List */
 .editor-styles-wrapper .wp-block-list li {
 	margin-bottom: 0;

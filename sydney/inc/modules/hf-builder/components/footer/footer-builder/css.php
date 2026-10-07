@@ -53,6 +53,23 @@ if( $fb_background_image ) {
 }
 
 // Background Color
-$css .= Sydney_Custom_CSS::get_background_color_css( 'sydney_section_fb_wrapper__footer_builder_background_color', '', '.shfb-footer' );
+/**
+ * Filters the builder footer's background colour default.
+ *
+ * Pro has shipped '#f5f5f5' here since 2025-04-22; free has rendered no
+ * background since the builder landed. Both editions register the control at
+ * '#f5f5f5', so free's picker shows grey while the site shows none - but
+ * raising free's default would repaint the footer of every existing free site
+ * that never touched the setting, so the editions stay split here.
+ *
+ * @since 1.0.0
+ *
+ * @param string $default Colour value, or '' for no background.
+ */
+$css .= Sydney_Custom_CSS::get_background_color_css(
+	'sydney_section_fb_wrapper__footer_builder_background_color',
+	apply_filters( 'sydney_footer_builder_background_default', '' ),
+	'.shfb-footer'
+);
 
 // @codingStandardsIgnoreEnd WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

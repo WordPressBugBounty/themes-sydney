@@ -44,10 +44,17 @@ class Sydney_Palette_Control extends WP_Customize_Control {
 
 		$colors = array();
 		foreach ( array_keys( $this->settings ) as $key ) {
+			$setting = $this->settings[ $key ];
+			// $setting can be null if a 3rd-party removed it via
+			// remove_setting() after the control was constructed.
+			// In PHP 8+ `$setting->default` would fatal.
+			if ( ! is_object( $setting ) ) {
+				continue;
+			}
 			$colors[] = array(
 				'key'     => $key,
-				'id'      => $this->settings[ $key ]->id,
-				'default' => $this->settings[ $key ]->default,
+				'id'      => $setting->id,
+				'default' => isset( $setting->default ) ? $setting->default : '',
 				'value'   => $this->value( $key ),
 			);
 		}

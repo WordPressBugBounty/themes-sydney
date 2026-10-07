@@ -6,12 +6,46 @@
  */
 
 /**
+ * Default font families and heading weights, before any saved theme mod.
+ *
+ * The three values below are the whole of what used to separate this file's
+ * two editions: free ships Raleway for both families and a single 600 heading
+ * weight, Pro ships Poppins, Ubuntu and 500,600. Pro now returns its three
+ * from sydney_pro_font_family_defaults() in inc/pro/functions.php instead of
+ * carrying a second copy of the file.
+ *
+ * One filter carrying all three rather than three filters, so that #569 has one
+ * place to read them from when it converges inc/theme-update.php: that file's
+ * typography migration compares a saved body_font against the same default and
+ * still hardcodes it at :172 and :188. Nothing outside this file reads these
+ * values yet.
+ *
+ * @since 2.71
+ *
+ * @return array Keys: body, headings, headings_weights.
+ */
+if ( ! function_exists( 'sydney_get_font_family_defaults' ) ) :
+	function sydney_get_font_family_defaults() {
+		return apply_filters(
+			'sydney_font_family_defaults',
+			array(
+				'body'             => 'Raleway',
+				'headings'         => 'Raleway',
+				'headings_weights' => array( '600' ),
+			)
+		);
+	}
+endif;
+
+/**
  * Get font family options
  */
 if ( ! function_exists( 'sydney_get_font_families_options' ) ) :
 	function sydney_get_font_families_options() {
-		$fonts['body']      = get_theme_mod( 'body_font', 'Raleway');
-		$fonts['headings']  = get_theme_mod( 'headings_font', 'Raleway' );
+		$defaults = sydney_get_font_family_defaults();
+
+		$fonts['body']      = get_theme_mod( 'body_font', $defaults['body'] );
+		$fonts['headings']  = get_theme_mod( 'headings_font', $defaults['headings'] );
 
 		return $fonts;
 	}
@@ -35,7 +69,8 @@ if ( !function_exists('sydney_enqueue_google_fonts') ) :
 		$body_font          = $fonts['body'] . ':' . implode( ',', $body_weights );
 
 		//Headings fonts
-		$headings_weights   = get_theme_mod( 'headings_font_weights', array( '600' ) );
+		$defaults           = sydney_get_font_family_defaults();
+		$headings_weights   = get_theme_mod( 'headings_font_weights', $defaults['headings_weights'] );
 		$headings_font      = $fonts['headings'] . ':' . implode( ',', $headings_weights );
 
 		//Subsets

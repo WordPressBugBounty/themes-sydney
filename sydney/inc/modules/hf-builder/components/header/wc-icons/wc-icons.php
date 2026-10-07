@@ -14,4 +14,6 @@ echo '<div class="shfb-builder-item shfb-component-woo_icons" data-component-id=
     $this->customizer_edit_button();
     
     echo sydney_woocommerce_header_cart( true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped    
+    
+    do_action( 'sydney_header_woo_icons_after' ); //adds the wishlist icon
 echo '</div>';

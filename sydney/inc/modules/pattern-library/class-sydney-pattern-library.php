@@ -81,6 +81,13 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		private static $instance;
 
 		/**
+		 * Whether register_patterns() has already loaded the pattern files.
+		 *
+		 * @var bool
+		 */
+		private $patterns_registered = false;
+
+		/**
 		 * Initiator
 		 */
 		public static function get_instance() {
@@ -94,13 +101,14 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
+			add_action( 'init', array( $this, 'register_categories' ) );
 			if ( $this->should_register_on_init() ) {
 				add_action( 'init', array( $this, 'register_patterns' ) );
 			}
 			if ( $this->is_org_pattern_preview() ) {
 				add_action( 'wp', array( $this, 'force_org_preview_layout' ) );
 			}
-			add_action( 'rest_api_init', array( $this, 'register_patterns' ) );
+			add_filter( 'rest_pre_dispatch', array( $this, 'register_patterns_for_rest' ), 10, 3 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
 		}
@@ -158,38 +166,24 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		/**
 		 * Whether this request needs patterns registered on `init`.
 		 *
-		 * Patterns are only ever read in three request types:
-		 * 1. wordpress.org pattern previews (issue #412): wp-themes.com renders
-		 *    each preview via a plain front-end request carrying a `pattern_name`
-		 *    query var. Without registering here, the .org "Patterns" section
-		 *    shows empty boxes.
-		 * 2. Block-editor admin screens, where WP builds the editor settings
-		 *    from the pattern registry during page render (pre-6.0 WP relies
-		 *    on this; newer WP preloads via REST).
-		 * 3. REST requests, including the editor's preloaded
-		 *    /wp/v2/block-patterns call. Covered by the separate
-		 *    rest_api_init hook in the constructor, not by this check.
+		 * Only wordpress.org pattern previews do: wp-themes.com renders each
+		 * preview via a plain front-end request carrying a `pattern_name` query
+		 * var, and without registration the .org "Patterns" section shows empty
+		 * boxes.
 		 *
-		 * Everything else (plain front-end views, unrelated admin screens such
-		 * as plugins.php) skips registration so the pattern files are not
-		 * loaded on requests where nothing reads them.
+		 * Block-editor screens do not. The editor fetches patterns from
+		 * /wp/v2/block-patterns/patterns in the browser, which
+		 * register_patterns_for_rest() covers, and core's in-page REST preload
+		 * only requests the categories route. Registering here would also run
+		 * the pattern files during the editor page render and, when a second
+		 * hook re-registered them, inline the whole library into the page.
+		 *
+		 * Public: site snippets call it.
 		 *
 		 * @return bool
 		 */
 		public function should_register_on_init() {
-			if ( $this->is_org_pattern_preview() ) {
-				return true;
-			}
-
-			if ( ! is_admin() || wp_doing_ajax() || wp_doing_cron() ) {
-				return false;
-			}
-
-			global $pagenow;
-
-			$editor_screens = array( 'post.php', 'post-new.php', 'site-editor.php', 'widgets.php', 'customize.php' );
-
-			return in_array( $pagenow, $editor_screens, true );
+			return $this->is_org_pattern_preview();
 		}
 
 		/**
@@ -224,22 +218,57 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		}
 
 		/**
-		 * Register block patterns
+		 * Register the Sydney pattern categories.
+		 *
+		 * Runs on every `init`: thirteen registry entries and no file I/O, and
+		 * the editor preloads the categories route in-page, so categories must
+		 * exist before any REST dispatch.
 		 */
-		public function register_patterns() {
-			require_once get_template_directory() . '/inc/modules/pattern-library/library-helpers.php';
-
-			$categories = $this->get_categories();
-
-			foreach ( $categories as $slug => $label ) {
+		public function register_categories() {
+			foreach ( $this->get_categories() as $slug => $label ) {
 				if ( ! WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( $slug ) ) {
 					register_block_pattern_category( $slug, array( 'label' => $label ) );
 				}
 			}
+		}
+
+		/**
+		 * Register block patterns.
+		 *
+		 * Loads the pattern files at most once per request, whichever caller
+		 * gets here first: the .org preview `init`, the patterns REST route,
+		 * or an ability that reads the registry.
+		 */
+		public function register_patterns() {
+			if ( $this->patterns_registered ) {
+				return;
+			}
+			$this->patterns_registered = true;
+
+			require_once get_template_directory() . '/inc/modules/pattern-library/library-helpers.php';
 
 			foreach ( $this->get_pattern_files() as $pattern_file ) {
 				require $pattern_file;
 			}
+		}
+
+		/**
+		 * Register patterns just before core serves the patterns REST route.
+		 *
+		 * `rest_pre_dispatch` fires once the route is known, for real REST
+		 * requests and for core's in-process preloads alike, so every other
+		 * REST request skips the pattern files.
+		 *
+		 * @param mixed            $result  Response to replace the requested version with, or null.
+		 * @param \WP_REST_Server  $server  Server instance.
+		 * @param \WP_REST_Request $request Request used to generate the response.
+		 * @return mixed Unchanged $result.
+		 */
+		public function register_patterns_for_rest( $result, $server, $request ) {
+			if ( '/wp/v2/block-patterns/patterns' === $request->get_route() ) {
+				$this->register_patterns();
+			}
+			return $result;
 		}
 
 		/**
