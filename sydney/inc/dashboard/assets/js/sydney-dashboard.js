@@ -54,14 +54,20 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 
 		if ($template_save.length) {
 
+			//A second click before the first save answers would post the same
+			//revision again, and its refusal would read as a change made elsewhere.
+			var template_saving = false;
+
 			$template_save.on('click', function (e) {
 
 				e.preventDefault();
 
 				//Nothing has changed since the last save, so there is nothing to store.
-				if (this.disabled) {
+				if (this.disabled || template_saving) {
 					return;
 				}
+
+				template_saving = true;
 
 				$( this ).html( '<i class="dashicons dashicons-update-alt"></i>' + window.sydney_dashboard.i18n.saving );
 
@@ -113,9 +119,16 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				$.post( window.sydney_dashboard.ajax_url, {
 					action: 'sydney_template_builder_data',
 					data: data,
+					//The stored templates this tab was built from. The save is
+					//refused when another writer has changed them since.
+					revision: $('#sydney-templates-revision').val(),
 					nonce: window.sydney_dashboard.nonce,
 				}, function ( response ) {
 					if( response.success ) {
+						//This save changed the stored templates, so the next save
+						//from this tab has to carry their new revision.
+						$('#sydney-templates-revision').val(response.data.revision);
+
 						$template_save.html(window.sydney_dashboard.i18n.saved);
 
 						$('#save-templates').addClass('saved');
@@ -129,11 +142,15 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 							$template_save.html(window.sydney_dashboard.i18n.save);
 							$template_save.blur();
 						},2000);
+					} else if ( response.data && 'stale_revision' === response.data.code ) {
+						show_stale_dialog();
 					} else {
 						save_failed();
 					}
 				}).fail(function () {
 					save_failed();
+				}).always(function () {
+					template_saving = false;
 				});
 
 				// Nothing was stored, so the 'saved' class stays off and the
@@ -145,6 +162,32 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 						$template_save.html(window.sydney_dashboard.i18n.save);
 						$template_save.blur();
 					},2000);
+				}
+
+				//Another writer saved the templates after this tab loaded. Saving
+				//this list would drop what it added, so the way on is a reload.
+				function show_stale_dialog() {
+					var i18n = window.sydney_dashboard.i18n;
+
+					$template_save.html(i18n.save);
+
+					template_confirm({
+						title:         i18n.stale_title,
+						message:       i18n.stale_message,
+						confirm_label: i18n.stale_button,
+						trigger:       $template_save[0]
+					}, function () {
+
+						//Disarm the unsaved changes warning before navigating away.
+						$('#save-templates').addClass('saved');
+
+						var url = new URL(window.location.href);
+						url.hash = '';
+						url.searchParams.set('tab', 'builder');
+
+						window.location.replace(url.href);
+
+					});
 				}
 			});
 		}
@@ -1331,16 +1374,42 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				} );
 			};
 
+			// Publishes the height the wrapped tab rows add, so the tab cards grow their top spacing and divider by it.
+			const publishTabsNavGrowth = function( nav ) {
+				const container = nav.closest( '.sydney-dashboard-container' );
+
+				if( nav.getAttribute( 'data-tab-wrapper-id' ) !== 'main' || ! container ) {
+					return;
+				}
+
+				const bottoms = Array.prototype.map.call( nav.querySelectorAll( '.sydney-dashboard-tabs-nav-item' ), function( item ){
+					return item.getBoundingClientRect().bottom;
+				} );
+
+				if( ! bottoms.length ) {
+					return;
+				}
+
+				const growth = ( Math.max.apply( null, bottoms ) - Math.min.apply( null, bottoms ) ) + 'px';
+
+				// Writing an unchanged value still invalidates style, so skip it.
+				if( container.style.getPropertyValue( '--sydney-dashboard-tabs-nav-growth' ) !== growth ) {
+					container.style.setProperty( '--sydney-dashboard-tabs-nav-growth', growth );
+				}
+			};
+
 			tabs.each(function(){
 				const tabWrapperId = $( this ).data( 'tab-wrapper-id' );
 				const nav          = this;
 
+				publishTabsNavGrowth( nav );
 				moveTabsIndicator( nav );
 
 				const navList = nav.querySelector( 'ul' );
 
 				if( navList && window.ResizeObserver ) {
 					new window.ResizeObserver( function(){
+						publishTabsNavGrowth( nav );
 						moveTabsIndicator( nav );
 					} ).observe( navList );
 				}
@@ -1734,7 +1803,7 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				);
 
 				if (response.data.all_done) {
-					window.location.reload();
+					showSetupComplete();
 				}
 			}).fail(function () {
 				$button.removeClass('is-loading');
@@ -1786,12 +1855,18 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				updateCategoryDoneState($row.closest('.sydney-setup-checklist-category'));
 
 				if (response.data.all_done) {
-					window.location.reload();
+					showSetupComplete();
 				}
 			}).fail(function () {
 				$button.html(caption).removeAttr('disabled');
 			});
 		});
+
+		// Setup Checklist — swap the finished checklist for the completion card.
+		function showSetupComplete() {
+			$('.sydney-setup-checklist').hide();
+			$('.sydney-setup-complete').prop('hidden', false).find('h2').trigger('focus');
+		}
 
 		// Setup Checklist — collapse/expand a fully-done section
 		$(document).on('click', '.sydney-setup-checklist-category-toggle', function (e) {
@@ -1930,4 +2005,315 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 
 	});
 
+})(jQuery);
+
+/* Sydney Pro upgrade from a license key (Settings tab card + progress popup). */
+(function ($) {
+	$(function () {
+		var $card    = $('.sydney-pro-upgrade');
+		var $overlay = $('.sydney-pro-upgrade-modal-overlay');
+
+		if (!$card.length || !$overlay.length) {
+			return;
+		}
+
+		// Fixed positioning and stacking must not depend on the card's containers.
+		$overlay.appendTo(document.body);
+
+		var $prompt   = $card.find('.sydney-pro-upgrade-prompt');
+		var $reveal   = $card.find('.sydney-pro-upgrade-reveal');
+		var $panel    = $card.find('.sydney-pro-upgrade-form');
+		var $form     = $panel.find('form');
+		var $key      = $panel.find('#sydney-pro-upgrade-key');
+		var $button   = $panel.find('.sydney-pro-upgrade-start');
+		var $cancel   = $panel.find('.sydney-pro-upgrade-cancel');
+		var $error    = $panel.find('.sydney-pro-upgrade-error');
+		var $modal    = $overlay.find('.sydney-pro-upgrade-modal');
+		var $runLabel = $overlay.find('.sydney-pro-upgrade-modal__running-label');
+		var $counter  = $overlay.find('.sydney-pro-upgrade-modal__counter');
+		var $errorSub = $overlay.find('.sydney-pro-upgrade-modal__error-sub');
+		var $message  = $overlay.find('.sydney-pro-upgrade-modal__message');
+		var i18n      = window.sydney_dashboard.i18n;
+		// The key check runs on the button; the popup covers what follows it.
+		var steps     = [i18n.upgrade_step_install, i18n.upgrade_step_switch];
+		var failures  = [i18n.upgrade_failed_install, i18n.upgrade_failed_switch];
+		// Each state names the dialog after the heading it shows.
+		var labels    = {
+			running: 'sydney-pro-upgrade-modal-running-label',
+			success: 'sydney-pro-upgrade-modal-title',
+			error:   'sydney-pro-upgrade-modal-error-label'
+		};
+		var redirect  = '';
+		var busy      = false;
+		var running   = false;
+
+		function showForm() {
+			$prompt.attr('hidden', true);
+			$panel.removeAttr('hidden');
+			$key.trigger('focus');
+		}
+
+		function hideForm() {
+			$panel.attr('hidden', true);
+			$prompt.removeAttr('hidden');
+			$key.val('');
+			$error.attr('hidden', true).text('');
+			$reveal.trigger('focus');
+		}
+
+		// The form stays locked from the key check until the popup closes.
+		function setBusy(on) {
+			busy = on;
+			$button.prop('disabled', on);
+			$cancel.prop('disabled', on);
+			$key.prop('disabled', on);
+		}
+
+		// A failed key check looks like Sydney Pro's own license form: the same
+		// popup markup as license.js, styled by license.css.
+		function keyError(msg) {
+			var $notice = $(
+				'<div class="athemes-modal-overlay">' +
+					'<div class="athemes-modal athemes-modal--error" role="dialog" aria-modal="true">' +
+						'<div class="athemes-modal__icon" aria-hidden="true"></div>' +
+						'<div class="athemes-modal__message"></div>' +
+						'<div class="athemes-modal__actions">' +
+							'<button type="button" class="button button-primary athemes-modal__ok"></button>' +
+						'</div>' +
+					'</div>' +
+				'</div>'
+			);
+
+			// Server messages keep only <a> tags (wp_kses in respond()).
+			$notice.find('.athemes-modal__message').html(msg || i18n.failed_message);
+			$notice.find('.athemes-modal__ok').html(i18n.upgrade_ok);
+
+			// The key stays in the field, ready to correct.
+			function close() {
+				$(document).off('keydown.sydneyProUpgradeKey');
+				$notice.remove();
+				$key.trigger('focus').trigger('select');
+			}
+
+			$notice.on('click', function (event) {
+				if (event.target === $notice[0] || $(event.target).closest('.athemes-modal__ok').length) {
+					close();
+				}
+			});
+
+			$(document).on('keydown.sydneyProUpgradeKey', function (event) {
+				if (event.key === 'Escape') {
+					close();
+				}
+			});
+
+			$notice.appendTo(document.body);
+			$notice.find('.athemes-modal__ok').trigger('focus');
+		}
+
+		// The state class decides which of the three panels shows. Focus moves
+		// to the shown panel's main button, or to the dialog itself while
+		// nothing can be pressed.
+		function setState(state) {
+			$modal.removeClass('is-running is-success is-error').addClass('is-' + state).attr('aria-labelledby', labels[state]);
+			running = (state === 'running');
+
+			var $primary = $modal.find('.sydney-pro-upgrade-modal__' + state + ' .button-primary');
+			($primary.length ? $primary : $modal).trigger('focus');
+		}
+
+		// Running is one line: the current step plus "Step N of 2".
+		function setPhase(index) {
+			$runLabel.html(steps[index] + '…');
+			$counter.html(i18n.upgrade_step_of.replace('%1$s', index + 1).replace('%2$s', steps.length));
+		}
+
+		function closeModal() {
+			$overlay.attr('hidden', true);
+			setBusy(false);
+			$key.trigger('focus');
+		}
+
+		function succeed(url) {
+			redirect = url;
+			setState('success');
+		}
+
+		function fail(index, msg) {
+			$errorSub.html(failures[index] || failures[0]);
+			// Server messages keep only <a> tags (wp_kses in respond()).
+			$message.html(msg || i18n.failed_message);
+			setState('error');
+		}
+
+		function request(action, data) {
+			return $.post(window.sydney_dashboard.ajax_url, $.extend({
+				action: action,
+				nonce: window.sydney_dashboard.nonce
+			}, data));
+		}
+
+		// The step's own message. A reply that is not the step's JSON (an empty
+		// or HTML body with HTTP 200) means the server stopped part-way.
+		function message(response) {
+			if (!response || typeof response !== 'object') {
+				return i18n.upgrade_server_stopped;
+			}
+
+			return response.data && response.data.message ? response.data.message : '';
+		}
+
+		// A request that got no JSON answer. 0: the browser could not reach the
+		// site. 400: logged out (admin-ajax has no handler for logged-out users).
+		// 403: the dashboard nonce expired. Anything else (500, a timeout page,
+		// unparsable output) means the server stopped during the step.
+		function transportMessage(xhr) {
+			var status = xhr ? xhr.status : 0;
+
+			if (status === 0) {
+				return i18n.upgrade_offline;
+			}
+
+			if (status === 400 || status === 403) {
+				return i18n.upgrade_session_expired;
+			}
+
+			return i18n.upgrade_server_stopped;
+		}
+
+		// install -> switch. Safe to re-run after a failure: the server skips the
+		// download when a usable Sydney Pro is already on disk.
+		function install() {
+			$message.empty();
+			$overlay.removeAttr('hidden');
+			setState('running');
+			setPhase(0);
+
+			request('sydney_pro_upgrade_install').done(function (r1) {
+				if (!r1 || !r1.success) { return fail(0, message(r1)); }
+				setPhase(1);
+				request('sydney_pro_upgrade_switch').done(function (r2) {
+					if (!r2 || !r2.success) { return fail(1, message(r2)); }
+					succeed(r2.data.redirect);
+				}).fail(function (xhr) { fail(1, transportMessage(xhr)); });
+			}).fail(function (xhr) { fail(0, transportMessage(xhr)); });
+		}
+
+		$reveal.on('click', showForm);
+		$cancel.on('click', hideForm);
+
+		// Submit covers the button and Enter in the key field. The key check runs
+		// on the button with its spinner, like Sydney Pro's Activate.
+		$form.on('submit', function (event) {
+			event.preventDefault();
+
+			if (busy) {
+				return;
+			}
+
+			var key = $.trim($key.val());
+
+			if (!key) {
+				$error.html(i18n.enter_license_key).removeAttr('hidden');
+				$key.trigger('focus');
+				return;
+			}
+
+			$error.attr('hidden', true).text('');
+			setBusy(true);
+			$button.addClass('athemes-license-loading');
+
+			function rejected(msg) {
+				$button.removeClass('athemes-license-loading');
+				setBusy(false);
+				keyError(msg);
+			}
+
+			request('sydney_pro_upgrade_activate', { license_key: key }).done(function (response) {
+				if (!response || !response.success) {
+					return rejected(message(response));
+				}
+
+				$button.removeClass('athemes-license-loading');
+				install();
+			}).fail(function (xhr) {
+				rejected(transportMessage(xhr));
+			});
+		});
+
+		// While the Starter Sites link installs its plugin, leaving the page
+		// would abandon that request, so OK, Esc and the overlay wait for it.
+		function installingPlugin() {
+			return $overlay.find('.sydney-pro-upgrade-modal__link.is-installing').length > 0;
+		}
+
+		// Success: OK moves on to the (now Pro) dashboard.
+		$overlay.on('click', '.sydney-pro-upgrade-modal__ok', function () {
+			if (installingPlugin()) {
+				return;
+			}
+
+			if (redirect) {
+				window.location.href = redirect;
+			} else {
+				window.location.reload();
+			}
+		});
+
+		// Try again never resends the key: it is already active on this site.
+		$overlay.on('click', '.sydney-pro-upgrade-modal__retry', function () {
+			install();
+		});
+		$overlay.on('click', '.sydney-pro-upgrade-modal__close', closeModal);
+
+		// Starter Sites link: install and activate the plugin before opening the
+		// wizard. Only rendered with --needs-plugin when the plugin is not active.
+		$overlay.on('click', '.sydney-pro-upgrade-modal__link--needs-plugin', function (event) {
+			event.preventDefault();
+
+			var $link = $(this);
+
+			if ($link.hasClass('is-installing')) {
+				return;
+			}
+
+			var href = $link.attr('href');
+			var $err = $link.find('.sydney-pro-upgrade-modal__link-error');
+
+			$err.removeClass('is-visible').text('');
+			$link.addClass('is-installing');
+
+			function linkFail() {
+				$link.removeClass('is-installing');
+				$err.html(i18n.failed_message).addClass('is-visible');
+			}
+
+			$.post(window.sydney_dashboard.ajax_url, {
+				action: 'sydney_plugin',
+				nonce: window.sydney_dashboard.nonce,
+				slug: $link.data('slug'),
+				type: 'install',
+				path: $link.data('path')
+			}).done(function (response) {
+				if (response && response.success) {
+					window.location.href = href;
+				} else {
+					linkFail();
+				}
+			}).fail(linkFail);
+		});
+
+		// Overlay click and Esc close the popup only once it has stopped running.
+		$overlay.on('click', function (event) {
+			if (event.target === $overlay[0] && !running && !installingPlugin()) {
+				if (redirect) { window.location.href = redirect; } else { closeModal(); }
+			}
+		});
+
+		$(document).on('keydown.sydneyProUpgrade', function (event) {
+			if (event.key === 'Escape' && !$overlay.attr('hidden') && !running && !installingPlugin()) {
+				if (redirect) { window.location.href = redirect; } else { closeModal(); }
+			}
+		});
+	});
 })(jQuery);

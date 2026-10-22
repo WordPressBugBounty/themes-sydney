@@ -52,6 +52,7 @@ class Sydney_Dashboard
 
         if( $this->is_sydney_dashboard_page() ) {
             add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
+            add_filter( 'submenu_file', array( $this, 'highlight_tab_submenu_item' ) );
 
             //The constant says the pro layer booted, not that every pro file
             //is present: this template ships in inc/templates-builder/, which
@@ -90,9 +91,13 @@ class Sydney_Dashboard
         add_action( 'wp_ajax_sydney_setup_checklist_toggle',    array( $this, 'ajax_setup_checklist_toggle' ) );
         add_action( 'wp_ajax_sydney_setup_homepage',            array( $this, 'ajax_setup_homepage' ) );
         add_action( 'wp_ajax_sydney_setup_checklist_mark_used', array( $this, 'ajax_setup_checklist_mark_used' ) );
-        add_action( 'wp_ajax_sydney_template_builder_data', array( $this, 'ajax_template_builder_data' ) );
-        add_action( 'wp_ajax_insert_template_part_callback', array( $this, 'insert_template_part_callback' ) );
-        add_action( 'wp_ajax_edit_template_part_callback', array( $this, 'edit_template_part_callback' ) );
+        //The Template Builder's data class is Pro's. Free has no UI that calls
+        //these, so they are registered only where the class exists.
+        if ( class_exists( 'Sydney_Templates_Data' ) ) {
+            add_action( 'wp_ajax_sydney_template_builder_data', array( $this, 'ajax_template_builder_data' ) );
+            add_action( 'wp_ajax_insert_template_part_callback', array( $this, 'insert_template_part_callback' ) );
+            add_action( 'wp_ajax_edit_template_part_callback', array( $this, 'edit_template_part_callback' ) );
+        }
 
         add_action('switch_theme', array( $this, 'reset_notices' ));
         add_action('after_switch_theme', array( $this, 'reset_notices' ));
@@ -128,25 +133,6 @@ class Sydney_Dashboard
             /* Would navigate the iframe to the post list, with no way back. */
             .edit-post-fullscreen-mode-close, .editor-document-tools__back { display: none !important; }
         </style>';
-    }
-
-    /**
-     * The admin URL that opens a template part for editing.
-     *
-     * @param int    $post_id Template part id.
-     * @param string $action  post.php action: elementor or edit.
-     * @return string
-     */
-    public function template_part_edit_url( $post_id, $action ) {
-
-        $url = get_admin_url() . 'post.php?post=' . absint( $post_id ) . '&action=' . $action;
-
-        //Elementor's editor is already chrome-free; the block editor is not.
-        if ( 'elementor' !== $action ) {
-            $url = add_query_arg( 'sydney-canvas', '1', $url );
-        }
-
-        return $url;
     }
 
     /**
@@ -213,6 +199,38 @@ class Sydney_Dashboard
     }
 
     /**
+     * Highlight the submenu item that links to the current dashboard tab.
+     *
+     * Every tab is the same admin page, so core would highlight Theme Dashboard
+     * on all of them. Tabs without an item of their own keep that default.
+     * The value returned is the slug add_submenu_page() stored, so it matches
+     * core's strict comparison in wp-admin/menu-header.php.
+     *
+     * @param string|null $submenu_file The submenu file.
+     * @return string|null
+     */
+    public function highlight_tab_submenu_item( $submenu_file ) {
+        global $submenu;
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+
+        if ( '' === $tab || empty( $submenu['sydney-dashboard'] ) ) {
+            return $submenu_file;
+        }
+
+        $suffix = '&tab=' . $tab;
+
+        foreach ( $submenu['sydney-dashboard'] as $item ) {
+            if ( isset( $item[2] ) && substr( $item[2], -strlen( $suffix ) ) === $suffix ) {
+                return $item[2];
+            }
+        }
+
+        return $submenu_file;
+    }
+
+    /**
      * Settings
      *
      * @param array $settings The settings.
@@ -238,13 +256,14 @@ class Sydney_Dashboard
             58.9
         );
 
-        // Add 'Theme Dashboard' page
+        // Add 'Theme Dashboard' page. It takes the menu's own slug: with any
+        // other slug core copies the top-level item in as a duplicate first entry.
         add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page
             'sydney-dashboard',
             esc_html__('Theme Dashboard', 'sydney'),
             esc_html__('Theme Dashboard', 'sydney'),
             'manage_options',
-            get_admin_url() . 'admin.php?page=sydney-dashboard',
+            'sydney-dashboard',
             '',
             0
         );
@@ -288,15 +307,32 @@ class Sydney_Dashboard
 
         // Add 'Upgrade' link
         if( !defined( 'SYDNEY_PRO_VERSION' ) ) {
+            $upgrade_link = sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_submenu_page', 'utm_medium' => 'button', 'utm_campaign' => 'Sydney' ), 'admin-menu-upgrade-link' );
+
             add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page
                 'sydney-dashboard',
                 esc_html__('Upgrade to Pro', 'sydney'),
                 esc_html__('Upgrade to Pro', 'sydney'),
                 'manage_options',
-                'https://athemes.com/sydney-upgrade?utm_source=theme_submenu_page&utm_medium=button&utm_campaign=Sydney',
+                $upgrade_link,
                 '',
                 6
             );
+
+            // Core prints a submenu item's fifth field as the class of its <li>
+            // and its link, and stores the slug through plugin_basename(). The
+            // button style and the new-tab script in
+            // add_admin_footer_internal_scripts() select this class, so neither
+            // depends on the link's URL.
+            global $submenu;
+
+            if ( isset( $submenu['sydney-dashboard'] ) ) {
+                foreach ( $submenu['sydney-dashboard'] as $key => $item ) {
+                    if ( plugin_basename( $upgrade_link ) === $item[2] ) {
+                        $submenu['sydney-dashboard'][ $key ][4] = 'sydney-dashboard-upgrade-link'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+                    }
+                }
+            }
         }
     }
 
@@ -375,16 +411,22 @@ class Sydney_Dashboard
     public function add_admin_footer_internal_scripts() {
         ?>
         <style>
-            #adminmenu .toplevel_page_sydney-dashboard .wp-submenu a[href="admin.php?page=sydney-dashboard"] {
-                display: none;
+            #adminmenu .toplevel_page_sydney-dashboard .wp-submenu a.sydney-dashboard-upgrade-link {
+                margin: 4px 8px;
+                border-radius: 3px;
+                background: #008a20;
+                color: #fff;
+                font-weight: 600;
             }
-            #adminmenu .toplevel_page_sydney-dashboard .wp-submenu a[href="https://athemes.com/sydney-upgrade?utm_source=theme_submenu_page&utm_medium=button&utm_campaign=Sydney"] {
-                color: #05d105;
+            #adminmenu .toplevel_page_sydney-dashboard .wp-submenu a.sydney-dashboard-upgrade-link:hover,
+            #adminmenu .toplevel_page_sydney-dashboard .wp-submenu a.sydney-dashboard-upgrade-link:focus {
+                background: #007017;
+                color: #fff;
             }
         </style>
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", function() {
-                const sydneyUpsellMenuItem = document.querySelector( '#adminmenu .toplevel_page_sydney-dashboard .wp-submenu a[href="https://athemes.com/sydney-upgrade?utm_source=theme_submenu_page&utm_medium=button&utm_campaign=Sydney"]' );
+                const sydneyUpsellMenuItem = document.querySelector( '#adminmenu .toplevel_page_sydney-dashboard .wp-submenu a.sydney-dashboard-upgrade-link' );
 
                 if ( ! sydneyUpsellMenuItem ) {
                     return;
@@ -409,13 +451,13 @@ class Sydney_Dashboard
     public function admin_enqueue_scripts($hook)
     {
 
-        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20260917.4');
+        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20261021');
 
         if (is_rtl()) {
-            wp_enqueue_style('sydney-dashboard-rtl', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard-rtl.min.css', array(), '20260610');
+            wp_enqueue_style('sydney-dashboard-rtl', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard-rtl.min.css', array(), '20261016');
         }
 
-        wp_enqueue_script('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/js/sydney-dashboard.min.js', array( 'jquery', 'wp-util', 'jquery-ui-sortable' ), '20260828.6', true);
+        wp_enqueue_script('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/js/sydney-dashboard.min.js', array( 'jquery', 'wp-util', 'jquery-ui-sortable' ), '20261019', true);
 
         // Only the display conditions modal uses select2, and that lives in the
         // template builder - no need to ship it alongside the themes.php notice.
@@ -459,6 +501,20 @@ class Sydney_Dashboard
                 'confirm_delete_title' => esc_html__('Delete this template?', 'sydney'),
                 'confirm_delete_message' => esc_html__('This template and all of its part assignments will be removed from the builder. The change becomes permanent when you save.', 'sydney'),
                 'confirm_delete_button' => esc_html__('Delete template', 'sydney'),
+                'stale_title' => esc_html__( 'Templates were changed elsewhere', 'sydney' ),
+                'stale_message' => esc_html__( 'Another editor or tool saved the templates after this page loaded. Reload to see them. Unsaved changes on this page will be lost.', 'sydney' ),
+                'stale_button' => esc_html__( 'Reload', 'sydney' ),
+                'enter_license_key' => esc_html__( 'Please enter your license key.', 'sydney' ),
+                'upgrade_ok' => esc_html__( 'OK', 'sydney' ),
+                'upgrade_offline' => esc_html__( 'Could not reach your site. Please check your connection and try again.', 'sydney' ),
+                'upgrade_session_expired' => esc_html__( 'Your session has expired. Please reload the page and try again.', 'sydney' ),
+                'upgrade_server_stopped' => esc_html__( 'Your server stopped before this step finished. This usually means it ran out of time or memory. Please try again, or install Sydney Pro manually from your aThemes account.', 'sydney' ),
+                'upgrade_step_install' => esc_html__( 'Installing Sydney Pro', 'sydney' ),
+                'upgrade_step_switch' => esc_html__( 'Activating theme', 'sydney' ),
+                /* translators: %1$s: current step number, %2$s: total step count. */
+                'upgrade_step_of' => esc_html__( 'Step %1$s of %2$s', 'sydney' ),
+                'upgrade_failed_install' => esc_html__( 'Failed while: installing Sydney Pro', 'sydney' ),
+                'upgrade_failed_switch' => esc_html__( 'Failed while: activating theme', 'sydney' ),
             ),
         ));
     }
@@ -657,35 +713,35 @@ class Sydney_Dashboard
         $text = sprintf(
 			/* translators: %s: https://wordpress.org/ */
 			__( 'Thank you for creating your website with <a href="%s" class="sydney-dashboard-footer-link" target="_blank">Sydney</a>.', 'sydney' ),
-			'https://athemes.com/theme/sydney/'
+			esc_url( sydney_admin_upgrade_link( 'https://athemes.com/theme/sydney/', array( 'utm_source' => 'dashboard_footer', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'dashboard-footer-link' ) )
 		);
 
         return $text;
     }
 
     /**
-     * Check if the latest notification is read
+     * How many notifications are newer than the last one the user opened.
+     *
+     * @return int
      */
-    public function latest_notification_is_read() {
+    public function unread_notifications_count() {
         if( ! isset( $this->settings[ 'notifications' ] ) || empty( $this->settings[ 'notifications' ] ) ) {
-            return false;
-        }
-        
-        $user_id                     = get_current_user_id();
-        $user_read_meta              = get_user_meta( $user_id, 'sydney_dashboard_notifications_latest_read', true );
-
-        $last_notification_date      = strtotime( is_string( $this->settings[ 'notifications' ][0]->post_date ) ? $this->settings[ 'notifications' ][0]->post_date : '' );
-        $last_notification_date_ondb = $user_read_meta ? strtotime( $user_read_meta ) : false;
-
-        if( ! $last_notification_date_ondb ) {
-            return false;
+            return 0;
         }
 
-        if( $last_notification_date > $last_notification_date_ondb ) {
-            return false;
+        $user_read_meta = get_user_meta( get_current_user_id(), 'sydney_dashboard_notifications_latest_read', true );
+        $read_date      = $user_read_meta ? strtotime( $user_read_meta ) : false;
+        $count          = 0;
+
+        foreach ( $this->settings[ 'notifications' ] as $notification ) {
+            $date = isset( $notification->post_date ) && is_string( $notification->post_date ) ? strtotime( $notification->post_date ) : false;
+
+            if ( ! $read_date || ( $date && $date > $read_date ) ) {
+                $count++;
+            }
         }
 
-        return true;
+        return $count;
     }
 
     /**
@@ -978,264 +1034,36 @@ class Sydney_Dashboard
         if( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error();
         }
-    
+
+        $revision = isset( $_POST['revision'] ) ? sanitize_text_field( wp_unslash( $_POST['revision'] ) ) : '';
+
         $data = isset( $_POST['data'] ) ? $_POST['data'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
         $data = stripslashes_deep( $data );
 
-        //Header options live on the part, not in the option below, so they are
-        //written from the same request but kept out of the stored rows.
-        $this->save_header_options( $data );
+        //Refused when the stored templates changed after this tab loaded: the
+        //posted list would drop whatever the other writer added.
+        $result = Sydney_Templates_Data::replace_rows( $data, $revision );
 
-        $data = $this->sanitize_template_builder_data( $data );
+        if ( is_wp_error( $result ) ) {
 
-        update_option('sydney_template_builder_data', $data);
+            $code = ( Sydney_Templates_Data::STALE_REVISION === $result->get_error_code() ) ? 'stale_revision' : 'save_failed';
 
-        wp_send_json_success($data);
-    }
-
-    /**
-     * Persist the Header Options each posted row carries for its header part.
-     *
-     * Rows with no header assigned have nothing to write to. Two rows pointing
-     * at the same part write the same keys, so the later row wins - the builder
-     * keeps every card holding that part in step, so they agree by the time
-     * they are posted.
-     *
-     * @param mixed $data Raw rows from the request.
-     * @return void
-     */
-    private function save_header_options( $data ) {
-
-        if ( ! is_array( $data ) ) {
-            return;
-        }
-
-        foreach ( $data as $row ) {
-
-            if ( ! is_array( $row ) ) {
-                continue;
-            }
-
-            $part_id = $this->sanitize_template_part_id( isset( $row['header'] ) ? $row['header'] : '' );
-
-            if ( ! $part_id ) {
-                continue;
-            }
-
-            sydney_set_header_options(
-                $part_id,
+            wp_send_json_error(
                 array(
-                    'sticky'      => isset( $row['header_sticky'] ) ? $row['header_sticky'] : 0,
-                    'transparent' => isset( $row['header_transparent'] ) ? $row['header_transparent'] : 0,
+                    'code'    => $code,
+                    'message' => $result->get_error_message(),
                 )
             );
         }
-    }
 
-    /**
-     * Sanitize the rows posted by the template builder before they hit the option.
-     *
-     * Everything not explicitly allowed is dropped: unknown row keys, unknown page
-     * builders, and part IDs that do not resolve to a published `athemes_hf` post.
-     *
-     * @param mixed $data Raw rows from the request.
-     * @return array Sanitized rows, re-indexed.
-     */
-    private function sanitize_template_builder_data( $data ) {
-
-        if ( ! is_array( $data ) ) {
-            return array();
-        }
-
-        $parts    = array( 'header', 'page_title', 'content', 'footer' );
-        $builders = array( 'elementor', 'editor', '' );
-        $clean    = array();
-
-        foreach ( $data as $row ) {
-
-            if ( ! is_array( $row ) ) {
-                continue;
-            }
-
-            $row_id = isset( $row['id'] ) ? $row['id'] : '';
-
-            $item = array(
-                // 'global' is the reserved id the renderer matches on, so it is kept verbatim.
-                'id'            => ( 'global' === $row_id ) ? 'global' : sanitize_key( $row_id ),
-                'template_name' => isset( $row['template_name'] ) ? sanitize_text_field( $row['template_name'] ) : '',
-                'conditions'    => $this->sanitize_template_builder_conditions( isset( $row['conditions'] ) ? $row['conditions'] : '' ),
-            );
-
-            foreach ( $parts as $part ) {
-                $builder = isset( $row[ $part . '_builder' ] ) ? $row[ $part . '_builder' ] : '';
-
-                $item[ $part ]              = $this->sanitize_template_part_id( isset( $row[ $part ] ) ? $row[ $part ] : '' );
-                $item[ $part . '_builder' ] = in_array( $builder, $builders, true ) ? $builder : '';
-            }
-
-            $clean[] = $item;
-        }
-
-        return $clean;
-    }
-
-    /**
-     * Reduce a template part reference to a published `athemes_hf` post ID.
-     *
-     * Blanks out anything else - deleted posts, drafts, private posts, and IDs
-     * pointing at unrelated post types - so a saved row can never render content
-     * the builder did not create.
-     *
-     * @param mixed $part_id Raw part ID.
-     * @return int|string Published post ID, or '' when there is nothing to render.
-     */
-    private function sanitize_template_part_id( $part_id ) {
-
-        if ( '' === $part_id || null === $part_id ) {
-            return '';
-        }
-
-        $part_id = absint( $part_id );
-
-        if ( ! $part_id ) {
-            return '';
-        }
-
-        $post = get_post( $part_id );
-
-        if ( ! $post || 'athemes_hf' !== $post->post_type || 'publish' !== $post->post_status ) {
-            return '';
-        }
-
-        return $part_id;
-    }
-
-    /**
-     * Sanitize the display conditions JSON attached to a template row.
-     *
-     * @param mixed $conditions Raw conditions JSON.
-     * @return string Re-encoded JSON, or '' when nothing valid is left.
-     */
-    private function sanitize_template_builder_conditions( $conditions ) {
-
-        if ( '' === $conditions || null === $conditions ) {
-            return '';
-        }
-
-        $rules = is_string( $conditions ) ? json_decode( $conditions, true ) : $conditions;
-
-        if ( ! is_array( $rules ) ) {
-            return '';
-        }
-
-        $clean = array();
-
-        foreach ( $rules as $rule ) {
-
-            if ( ! is_array( $rule ) ) {
-                continue;
-            }
-
-            $type = isset( $rule['type'] ) ? $rule['type'] : '';
-
-            if ( ! in_array( $type, array( 'include', 'exclude' ), true ) ) {
-                continue;
-            }
-
-            $condition = isset( $rule['condition'] ) ? strtolower( trim( (string) $rule['condition'] ) ) : '';
-
-            // Shape check on purpose, not a list of known condition names: new
-            // conditions ship regularly and a hardcoded list here would silently
-            // drop them.
-            if ( ! preg_match( '/^[a-z0-9_-]+$/', $condition ) ) {
-                continue;
-            }
-
-            $item = array(
-                'type'      => $type,
-                'condition' => $condition,
-            );
-
-            if ( in_array( $condition, array( 'cpt-taxonomy-id', 'post-type-archive', 'singular-post-type' ), true ) ) {
-
-                // These conditions store a taxonomy or post type slug, not an ID:
-                // absint() would destroy it and the rule would then match any
-                // taxonomy or post type archive. sanitize_key() is not used either -
-                // it would rewrite a key that does not match what is registered
-                // (register_taxonomy() keeps the case it is given) and the rule would
-                // then silently never fire. The raw value is validated against the
-                // registered keys instead, so an unknown slug is dropped.
-                $object_slug = ( isset( $rule['id'] ) && is_scalar( $rule['id'] ) ) ? trim( (string) $rule['id'] ) : '';
-
-                if ( '' !== $object_slug ) {
-
-                    $slug_exists = ( 'cpt-taxonomy-id' === $condition ) ? taxonomy_exists( $object_slug ) : post_type_exists( $object_slug );
-
-                    if ( $slug_exists ) {
-                        $item['id'] = $object_slug;
-                    }
-                }
-            } elseif ( in_array( $condition, array( 'user-can', 'language' ), true ) ) {
-
-                // A capability and a language code are both keys, so sanitize_key()
-                // is the whole check: there is no registry to validate them against -
-                // capabilities are added at runtime and the language list belongs to
-                // whichever plugin is active.
-                $object_key = ( isset( $rule['id'] ) && is_scalar( $rule['id'] ) ) ? sanitize_key( (string) $rule['id'] ) : '';
-
-                if ( '' !== $object_key ) {
-                    $item['id'] = $object_key;
-                }
-            } elseif ( 'schedule' === $condition ) {
-
-                // The one condition with no id: it carries a start and an end
-                // datetime-local string instead. Either bound may be left empty,
-                // which is stored as a missing key, so only a well shaped value is
-                // kept - the engine cannot compare anything else.
-                foreach ( array( 'start', 'end' ) as $bound ) {
-
-                    $bound_value = ( isset( $rule[ $bound ] ) && is_scalar( $rule[ $bound ] ) ) ? trim( (string) $rule[ $bound ] ) : '';
-
-                    if ( preg_match( '/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/', $bound_value ) ) {
-                        $item[ $bound ] = $bound_value;
-                    }
-                }
-
-                // Neither bound kept means a row that can never match, so it is not
-                // stored at all rather than persisted as dead configuration.
-                if ( ! isset( $item['start'] ) && ! isset( $item['end'] ) ) {
-                    continue;
-                }
-            } elseif ( 'page-template' === $condition ) {
-
-                // This condition stores a template file such as
-                // `templates/full-width.php`, so sanitize_key() would strip the
-                // slash and the dot out of it. get_page_templates() is keyed by
-                // template file, so an unknown file is dropped instead of stored.
-                $object_template = ( isset( $rule['id'] ) && is_scalar( $rule['id'] ) ) ? sanitize_text_field( (string) $rule['id'] ) : '';
-
-                if ( '' !== $object_template ) {
-
-                    $page_templates = (array) wp_get_theme()->get_page_templates();
-
-                    if ( isset( $page_templates[ $object_template ] ) ) {
-                        $item['id'] = $object_template;
-                    }
-                }
-            } else {
-
-                $object_id = isset( $rule['id'] ) ? absint( $rule['id'] ) : 0;
-
-                if ( $object_id ) {
-                    $item['id'] = $object_id;
-                }
-            }
-
-            $clean[] = $item;
-        }
-
-        return ! empty( $clean ) ? wp_json_encode( $clean ) : '';
+        //The tab posts this revision back with its next save.
+        wp_send_json_success(
+            array(
+                'rows'     => $result,
+                'revision' => Sydney_Templates_Data::revision(),
+            )
+        );
     }
 
 	/**
@@ -1288,13 +1116,7 @@ class Sydney_Dashboard
 			$assigned_id = 0;
 		}
 
-		$post_title = '';
-
 		if ( ! $assigned_id ) {
-
-			//Set once, never regenerated - the part is renameable in the CPT editor.
-			$part_labels = $this->get_template_part_labels();
-			$part_label  = isset( $part_labels[ $part_type ] ) ? $part_labels[ $part_type ] : $part_type;
 
 			if ( 'global' === $key ) {
 				$card_label = __( 'Global', 'sydney' );
@@ -1303,56 +1125,29 @@ class Sydney_Dashboard
 				$card_label = '' !== trim( $card_label ) ? trim( $card_label ) : __( 'Untitled', 'sydney' );
 			}
 
-			$post_title = $this->unique_template_part_title(
-				sprintf(
-					/* translators: 1: template name, e.g. "Global" or "Blog". 2: part name, e.g. "Content". */
-					_x( '%1$s — %2$s', 'template part title', 'sydney' ),
-					$card_label,
-					$part_label
+			$part = Sydney_Templates_Data::create_part(
+				array(
+					'slot'      => $part_type,
+					'builder'   => 'elementor' === $page_builder ? 'elementor' : 'editor',
+					'title'     => Sydney_Templates_Data::default_part_title( $card_label, $part_type ),
+					'post_name' => $post_name,
 				)
 			);
 
-			$params = array(
-				'post_content' => '',
-				'post_type'    => 'athemes_hf',
-				'post_title'   => $post_title,
-				'post_name'    => $post_name,
-				'post_status'  => 'publish',
-			);
+			if ( is_wp_error( $part ) ) {
+				wp_send_json_error( array( 'message' => $part->get_error_message() ) );
+			}
 
-            //The presets ship with the templates builder, which the free theme does not have.
-            $has_presets = class_exists( 'Sydney_Template_Presets' );
-
-            if( $page_builder === 'elementor' ) {
-                $params['meta_input'] = array(
-                    '_elementor_edit_mode' => 'builder',
-                    '_wp_page_template'    => 'elementor_canvas',
-                );
-
-                $preset = $has_presets ? Sydney_Template_Presets::get_elementor_data( $part_type ) : '';
-
-                if ( '' !== $preset ) {
-                    $params['meta_input']['_elementor_data'] = $preset;
-
-                    //Without a version Elementor replays every upgrade routine over the preset.
-                    if ( defined( 'ELEMENTOR_VERSION' ) ) {
-                        $params['meta_input']['_elementor_version'] = ELEMENTOR_VERSION;
-                    }
-                }
-            } elseif ( $has_presets ) {
-                $params['post_content'] = Sydney_Template_Presets::get_block_content( $part_type );
-            }
-
-			$post_id = wp_insert_post( $params );
+			$post_id    = $part['id'];
+			$post_title = $part['title'];
+			$edit_url   = $part['url'];
 
 		} else { // edit the part the card already points at.
 			$post_id    = $assigned_id;
 			$post_title = get_the_title( $assigned_id );
+
+			$edit_url = Sydney_Templates_Data::part_edit_url( $post_id, 'elementor' === $page_builder ? 'elementor' : 'editor' );
 		}
-
-        $action = $page_builder === 'elementor' ? 'elementor' : 'edit';
-
-		$edit_url = $this->template_part_edit_url( $post_id, $action );
 
 		$result = array(
 			'url'   => $edit_url,
@@ -1361,7 +1156,7 @@ class Sydney_Dashboard
 		);
 
 		wp_send_json_success( $result );
-	}    
+	}
 
     /**
      * Edit template
@@ -1388,17 +1183,8 @@ class Sydney_Dashboard
             wp_send_json_error();
         }
 
-        $action = 'edit';
-
-        if ( class_exists( 'Elementor\Plugin' ) ) {
-            $document = Elementor\Plugin::$instance->documents->get( $post_id );
-
-            if ( $document && $document->is_built_with_elementor() ) {
-                $action = 'elementor';
-            }
-        }
-
-        $edit_url = $this->template_part_edit_url( $post_id, $action );
+        $builder  = Sydney_Templates_Data::part_builder( $post_id );
+        $edit_url = Sydney_Templates_Data::part_edit_url( $post_id, $builder );
 
         $result = array(
             'url'   => $edit_url,
@@ -1421,30 +1207,6 @@ class Sydney_Dashboard
             'content'    => __( 'Content', 'sydney' ),
             'footer'     => __( 'Footer', 'sydney' ),
         );
-    }
-
-    /**
-     * A part title no existing part is already using.
-     *
-     * Titles are set once at creation and name the part everywhere it is
-     * offered afterwards, so two cards sharing a name would otherwise leave the
-     * picker with two rows reading the same thing.
-     *
-     * @param string $title Title the part would be created with.
-     * @return string The same title, suffixed when it is taken.
-     */
-    private function unique_template_part_title( $title ) {
-
-        $taken  = $this->get_template_parts();
-        $unique = $title;
-        $index  = 2;
-
-        while ( in_array( $unique, $taken, true ) ) {
-            $unique = $title . ' (' . $index . ')';
-            $index++;
-        }
-
-        return $unique;
     }
 
     /**
@@ -1542,7 +1304,7 @@ class Sydney_Dashboard
      */
     function template_builder_tutorial_link() {
 
-        return '<a class="template-builder-tutorial" target="_blank" href="https://quicksnip.com/embed/N1AknaTpH4xyuSO" data-video-embed="https://quicksnip.com/embed/N1AknaTpH4xyuSO">'
+        return '<a class="template-builder-tutorial" target="_blank" href="https://www.youtube.com/watch?v=1Y52KXeqb3A" data-video-embed="https://www.youtube.com/embed/1Y52KXeqb3A">'
             . sydney_dashboard_icon( 'play', 20 )
             . esc_html__( 'Watch tutorial', 'sydney' )
             . '</a>';
@@ -1567,7 +1329,7 @@ class Sydney_Dashboard
             $html .= '<p>' . esc_html( $copy ) . '</p>';
         }
 
-        $html .= '<a class="button button-primary button-medium" href="' . esc_url( $this->settings['upgrade_pro_builder'] ) . '">' . esc_html__( 'Upgrade to Sydney Pro', 'sydney' ) . '</a>';
+        $html .= '<a class="button button-primary button-medium" href="' . esc_url( $this->settings['upgrade_pro_builder_card'] ) . '" target="_blank" rel="noopener">' . esc_html__( 'Upgrade to Sydney Pro', 'sydney' ) . '</a>';
 
         return $html . '</div></div>';
     }
@@ -1627,8 +1389,8 @@ class Sydney_Dashboard
     public function html_dashboard() {
         $user_id             = get_current_user_id();
         $current_user        = wp_get_current_user();
-        $notification_read   = $this->latest_notification_is_read();
-        $notifications_count = 1;
+        $notifications_count = $this->unread_notifications_count();
+        $notification_read   = 0 === $notifications_count;
 
         $theme_slug    = get_template();
         $theme_version = defined( 'SYDNEY_PRO_VERSION' ) ? SYDNEY_PRO_VERSION : wp_get_theme( $theme_slug )->get( 'Version' );
@@ -1636,7 +1398,7 @@ class Sydney_Dashboard
 		?>
       	<div class="sydney-dashboard sydney-dashboard-wrap">
 			<div class="sydney-dashboard-top-bar">
-				<a href="<?php echo esc_url($this->settings['upgrade_pro']); ?>" class="sydney-dashboard-top-bar-logo" target="_blank">
+				<a href="<?php echo esc_url( add_query_arg( 'page', $this->settings['menu_slug'], admin_url( 'admin.php' ) ) ); ?>" class="sydney-dashboard-top-bar-logo">
 					<svg width="96" height="24" viewBox="0 0 96 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M23.4693 1.32313L8.45381 14.3107L0.67962 4.82163L23.4693 1.32313Z" fill="#335EEA"/>
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M23.2942 1.17329L8.23868 14.112L16.0129 23.601L23.2942 1.17329Z" fill="#BECCF9"/>
@@ -1656,7 +1418,7 @@ class Sydney_Dashboard
 						</a>
 					</div>
 					<div class="sydney-dashboard-top-bar-info-item">
-                        <?php $link = $this->settings[ 'has_pro' ] ? $this->settings['website_link'] : $this->settings['upgrade_pro']; ?>
+                        <?php $link = $this->settings[ 'has_pro' ] ? $this->settings['website_link'] : $this->settings['upgrade_pro_website']; ?>
 
 						<a href="<?php echo esc_url( $link ); ?>" class="sydney-dashboard-theme-website" target="_blank">
 							<?php echo esc_html__( 'Website', 'sydney' ); ?>

@@ -53,7 +53,7 @@ $disabled = $is_preview ? 'style="pointer-events:none;"' : '';
 					<p><?php esc_html_e( 'Build your own headers, footers and page layouts with Elementor or the block editor. Requires Sydney Pro.', 'sydney' ); ?></p>
 					<div class="template-builder-pro-notice-actions">
 						<?php echo $this->template_builder_tutorial_link(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						<a class="button button-primary button-medium" href="<?php echo esc_url( $this->settings['upgrade_pro_builder'] ); ?>"><?php esc_html_e( 'Upgrade now', 'sydney' ); ?></a>
+						<a class="button button-primary button-medium" href="<?php echo esc_url( $this->settings['upgrade_pro_builder_notice'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Upgrade now', 'sydney' ); ?></a>
 					</div>
 				</div>
 			<?php else : ?>
@@ -155,6 +155,8 @@ $disabled = $is_preview ? 'style="pointer-events:none;"' : '';
 			<?php //Nothing the preview can save, so the free tab drops the whole bar rather than showing two dead buttons in the primary action slot. ?>
 			<?php if ( !$is_preview ) : ?>
 			<div class="template-builder-footer">
+				<?php //The stored templates this tab was built from: Save is refused once another writer has changed them. ?>
+				<input type="hidden" id="sydney-templates-revision" value="<?php echo esc_attr( Sydney_Templates_Data::revision() ); ?>">
 				<button class="button button-medium" id="discard-templates" disabled><?php esc_html_e( 'Discard', 'sydney' ); ?></button>
 				<button class="button button-primary button-medium" id="save-templates" disabled><?php esc_html_e( 'Save Changes', 'sydney' ); ?></button>
 			</div>

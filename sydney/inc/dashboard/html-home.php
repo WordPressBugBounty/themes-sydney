@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
         
         <!-- Customize Your Size -->
         <div class="sydney-dashboard-card sydney-dashboard-card-top-spacing sydney-dashboard-card-tabs-divider">
+
             <div class="sydney-dashboard-card-header bt-d-flex bt-justify-content-between bt-align-items-center">
                 <h2><?php echo esc_html__( 'Customize your site', 'sydney' ); ?></h2>
                 <a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="sydney-dashboard-external-link" target="_blank">
@@ -83,13 +84,18 @@ if (!defined('ABSPATH')) {
         </div>
 
         <!-- Do more with Sydney Pro -->
-        <div class="sydney-dashboard-card">
+        <div class="sydney-dashboard-card" id="sydney-pro-modules" tabindex="-1">
             <div class="sydney-dashboard-card-header bt-d-flex bt-justify-content-between bt-align-items-center">
-                <h2><?php echo esc_html__( 'Do more with Sydney Pro', 'sydney' ); ?></h2>
+                <div>
+                    <h2><?php echo $this->settings[ 'has_pro' ] ? esc_html__( 'Your Pro modules', 'sydney' ) : esc_html__( 'Do more with Sydney Pro', 'sydney' ); ?></h2>
+                    <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
+                        <p class="sydney-dashboard-upgrade-reassurance"><?php echo esc_html__( '14-day money-back guarantee, no questions asked.', 'sydney' ); ?></p>
+                    <?php endif; ?>
+                </div>
 
                 <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
                     <a href="<?php echo esc_url( $this->settings['upgrade_pro_module'] ); ?>" class="sydney-dashboard-external-link" target="_blank">
-                        <?php echo esc_html__( 'Upgrade To Pro', 'sydney' ); ?>
+                        <?php echo esc_html__( 'Get Sydney Pro', 'sydney' ); ?>
                         <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                     </a>
                 <?php /*
@@ -107,17 +113,42 @@ if (!defined('ABSPATH')) {
             </div>
             <div class="sydney-dashboard-card-body">
                 <div class="sydney-dashboard-row">
-                    <?php foreach ($this->settings[ 'features' ] as $feature) : // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedVariableFound 
-                        if( $feature[ 'type' ] !== 'pro' ) {
+                    <?php
+                    $sydney_pro_features = array();
+                    $sydney_pro_last     = array();
+
+                    foreach ( $this->settings[ 'features' ] as $feature ) { // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedVariableFound
+                        if ( 'pro' !== $feature[ 'type' ] ) {
                             continue;
                         }
-                        
-                        ?>
+
+                        // Free can't switch these on, so it orders them for the site
+                        // instead: Extended WooCommerce first on a store, and cards
+                        // whose plugin isn't active last.
+                        if ( $this->settings[ 'has_pro' ] ) {
+                            $sydney_pro_features[] = $feature;
+                        } elseif ( Sydney_Modules::has_unmet_dependencies( $feature ) ) {
+                            $sydney_pro_last[] = $feature;
+                        } elseif ( isset( $feature[ 'module' ] ) && 'ext-woocommerce' === $feature[ 'module' ] ) {
+                            array_unshift( $sydney_pro_features, $feature );
+                        } else {
+                            $sydney_pro_features[] = $feature;
+                        }
+                    }
+
+                    $sydney_pro_features = array_merge( $sydney_pro_features, $sydney_pro_last );
+                    ?>
+                    <?php foreach ( $sydney_pro_features as $feature ) : // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedVariableFound ?>
 
                         <div class="sydney-dashboard-column sydney-dashboard-column-4">
                             <div class="sydney-dashboard-feature-card">
                                 <div class="sydney-dashboard-feature-card-title">
                                     <h3><?php echo esc_html( $feature[ 'title' ] ); ?></h3>
+                                    <?php if ( ! empty( $feature[ 'desc' ] ) ) : ?>
+                                        <span class="sydney-dashboard-feature-card-info sydney-dashboard-pro-tooltip" tabindex="0" role="img" aria-label="<?php echo esc_attr( $feature[ 'desc' ] ); ?>" data-tooltip-message="<?php echo esc_attr( $feature[ 'desc' ] ); ?>">
+                                            <?php echo sydney_dashboard_icon( 'info', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="sydney-dashboard-feature-card-actions">
                                     <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
@@ -127,7 +158,7 @@ if (!defined('ABSPATH')) {
                                                 <?php echo esc_html__( 'Learn More', 'sydney' ); ?>
                                             </a>
                                         <?php endif; ?>
-                                        <a href="<?php echo esc_url( $this->settings['upgrade_pro_module'] ); ?>" class="sydney-dashboard-feature-card-link-icon sydney-dashboard-feature-card-link-icon-always-visible sydney-dashboard-pro-tooltip" target="_blank" data-tooltip-message="<?php echo esc_attr__( 'This option is only available on Sydney Pro', 'sydney' ); ?>">
+                                        <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'dashboard_module', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney', 'utm_content' => isset( $feature[ 'utm_content' ] ) ? $feature[ 'utm_content' ] : ( isset( $feature[ 'module' ] ) ? 'card_' . str_replace( '-', '_', $feature[ 'module' ] ) : 'card' ) ), 'dashboard-upgrade-pro-module-card-link' ) ); ?>" class="sydney-dashboard-feature-card-link-icon sydney-dashboard-feature-card-link-icon-always-visible sydney-dashboard-pro-tooltip" target="_blank" data-tooltip-message="<?php echo esc_attr__( 'This option is only available on Sydney Pro', 'sydney' ); ?>">
                                             <svg class="sydney-svg-accent" width="28" height="16" viewBox="0 0 28 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M7.41309 8.90723H5.58203V7.85254H7.41309C7.71257 7.85254 7.95508 7.80371 8.14062 7.70605C8.32943 7.60514 8.46777 7.46842 8.55566 7.2959C8.64355 7.12012 8.6875 6.91992 8.6875 6.69531C8.6875 6.47721 8.64355 6.27376 8.55566 6.08496C8.46777 5.89616 8.32943 5.74316 8.14062 5.62598C7.95508 5.50879 7.71257 5.4502 7.41309 5.4502H6.02148V11.5H4.67871V4.39062H7.41309C7.96647 4.39062 8.43848 4.48991 8.8291 4.68848C9.22298 4.88379 9.52246 5.1556 9.72754 5.50391C9.93587 5.84896 10.04 6.24284 10.04 6.68555C10.04 7.14453 9.93587 7.54004 9.72754 7.87207C9.52246 8.2041 9.22298 8.45964 8.8291 8.63867C8.43848 8.81771 7.96647 8.90723 7.41309 8.90723ZM11.0947 4.39062H13.6777C14.2181 4.39062 14.682 4.47201 15.0693 4.63477C15.4567 4.79753 15.7546 5.03841 15.9629 5.35742C16.1712 5.67643 16.2754 6.06868 16.2754 6.53418C16.2754 6.90202 16.2103 7.22103 16.0801 7.49121C15.9499 7.76139 15.766 7.98763 15.5283 8.16992C15.2939 8.35221 15.0173 8.49544 14.6982 8.59961L14.2783 8.81445H11.998L11.9883 7.75488H13.6924C13.9691 7.75488 14.1986 7.70605 14.3809 7.6084C14.5632 7.51074 14.6999 7.37565 14.791 7.20312C14.8854 7.0306 14.9326 6.83366 14.9326 6.6123C14.9326 6.37467 14.887 6.1696 14.7959 5.99707C14.7048 5.82129 14.5664 5.6862 14.3809 5.5918C14.1953 5.4974 13.9609 5.4502 13.6777 5.4502H12.4375V11.5H11.0947V4.39062ZM15.1084 11.5L13.4629 8.31641L14.8838 8.31152L16.5488 11.4316V11.5H15.1084ZM23.209 7.76465V8.13086C23.209 8.66797 23.1374 9.15137 22.9941 9.58105C22.8509 10.0075 22.6475 10.3704 22.3838 10.6699C22.1201 10.9694 21.806 11.1989 21.4414 11.3584C21.0768 11.5179 20.6715 11.5977 20.2256 11.5977C19.7861 11.5977 19.3825 11.5179 19.0146 11.3584C18.6501 11.1989 18.3343 10.9694 18.0674 10.6699C17.8005 10.3704 17.5938 10.0075 17.4473 9.58105C17.3008 9.15137 17.2275 8.66797 17.2275 8.13086V7.76465C17.2275 7.22428 17.3008 6.74089 17.4473 6.31445C17.5938 5.88802 17.7988 5.52507 18.0625 5.22559C18.3262 4.92285 18.6403 4.69173 19.0049 4.53223C19.3727 4.37272 19.7764 4.29297 20.2158 4.29297C20.6618 4.29297 21.0671 4.37272 21.4316 4.53223C21.7962 4.69173 22.1104 4.92285 22.374 5.22559C22.641 5.52507 22.846 5.88802 22.9893 6.31445C23.1357 6.74089 23.209 7.22428 23.209 7.76465ZM21.8516 8.13086V7.75488C21.8516 7.36751 21.8158 7.02734 21.7441 6.73438C21.6725 6.43815 21.5667 6.18913 21.4268 5.9873C21.2868 5.78548 21.1143 5.63411 20.9092 5.5332C20.7041 5.42904 20.473 5.37695 20.2158 5.37695C19.9554 5.37695 19.7243 5.42904 19.5225 5.5332C19.3239 5.63411 19.1546 5.78548 19.0146 5.9873C18.8747 6.18913 18.7673 6.43815 18.6924 6.73438C18.6208 7.02734 18.585 7.36751 18.585 7.75488V8.13086C18.585 8.51497 18.6208 8.85514 18.6924 9.15137C18.7673 9.44759 18.8747 9.69824 19.0146 9.90332C19.1579 10.1051 19.3304 10.2581 19.5322 10.3623C19.734 10.4665 19.9652 10.5186 20.2256 10.5186C20.486 10.5186 20.7171 10.4665 20.9189 10.3623C21.1208 10.2581 21.29 10.1051 21.4268 9.90332C21.5667 9.69824 21.6725 9.44759 21.7441 9.15137C21.8158 8.85514 21.8516 8.51497 21.8516 8.13086Z" fill="currentColor"/>
                                                 <rect x="0.5" y="1" width="27" height="14" rx="1.5" stroke="currentColor"/>
@@ -144,6 +175,11 @@ if (!defined('ABSPATH')) {
                                             <?php if( isset( $feature[ 'link_url' ] ) ) : ?>
                                                 <a href="<?php echo esc_url( $feature['link_url'] ); ?>" class="sydney-dashboard-link sydney-dashboard-link-default sydney-dashboard-customize-link" target="_blank">
                                                     <?php echo esc_html__( 'Customize', 'sydney' ); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if( isset( $feature[ 'upgrade_url' ] ) ) : ?>
+                                                <a href="<?php echo esc_url( $feature['upgrade_url'] ); ?>" class="sydney-dashboard-link" target="_blank" title="<?php echo esc_attr( $feature['upgrade_tooltip'] ); ?>">
+                                                    <?php echo esc_html( $feature['upgrade_label'] ); ?>
                                                 </a>
                                             <?php endif; ?>
                                         <?php elseif ( Sydney_Modules::is_module_active( $feature['module'] ) ) : ?>
@@ -220,15 +256,42 @@ if (!defined('ABSPATH')) {
         <div class="sydney-dashboard-sticky-wrapper">
             
             <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
-                <!-- Priority Support -->
+                <?php
+                $sydney_pro_benefits = array(
+                    __( 'Template Builder for custom headers, footers and layouts', 'sydney' ),
+                    $this->settings['starter_counts']['pro']
+                        /* translators: %d: number of Pro starter sites */
+                        ? sprintf( _n( '%d Pro starter site', '%d Pro starter sites', $this->settings['starter_counts']['pro'], 'sydney' ), $this->settings['starter_counts']['pro'] )
+                        : __( 'Pro starter sites', 'sydney' ),
+                );
+
+                if ( class_exists( 'WooCommerce' ) ) {
+                    $sydney_pro_benefits[] = __( 'Extended WooCommerce: wishlist, swatches, multi-step checkout', 'sydney' );
+                } elseif ( defined( 'ELEMENTOR_VERSION' ) ) {
+                    $sydney_pro_benefits[] = __( 'Elementor Tools: custom CSS, particles, sticky sections', 'sydney' );
+                } else {
+                    $sydney_pro_benefits[] = __( 'Custom fonts, modals, hooks and more Pro modules', 'sydney' );
+                }
+
+                $sydney_pro_benefits[] = __( '12 months of premium email support', 'sydney' );
+                ?>
+                <!-- Sydney Pro -->
                 <div class="sydney-dashboard-card bt-border-color-primary">
                     <div class="sydney-dashboard-card-header">
-                        <h2><?php echo esc_html__( 'Premium support', 'sydney' ); ?></h2>
+                        <h2><?php echo esc_html__( 'Sydney Pro', 'sydney' ); ?></h2>
                     </div>
                     <div class="sydney-dashboard-card-body">
-                        <p><?php echo esc_html__( 'Get support from our team of WordPress experts via email. We typically reply to requests within 8 business hours.', 'sydney' ); ?></p>
+                        <ul class="sydney-dashboard-pro-benefits">
+                            <?php foreach ( $sydney_pro_benefits as $sydney_pro_benefit ) : ?>
+                                <li>
+                                    <?php echo sydney_dashboard_icon( 'check-bold', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                    <?php echo esc_html( $sydney_pro_benefit ); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <p class="bt-text-color-grey"><?php echo esc_html__( '14-day money-back guarantee.', 'sydney' ); ?></p>
                         <a href="<?php echo esc_url( $this->settings['upgrade_pro_support'] ); ?>" class="sydney-dashboard-external-link" target="_blank">
-                            <?php echo esc_html__( 'Get Premium Support With Sydney Pro', 'sydney' ); ?>
+                            <?php echo esc_html__( 'Get Sydney Pro', 'sydney' ); ?>
                             <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                         </a>
                     </div>
@@ -281,12 +344,16 @@ if (!defined('ABSPATH')) {
             <!-- Need Help? -->
             <div class="sydney-dashboard-card">
                 <div class="sydney-dashboard-card-header">
-                    <h2><?php echo esc_html__( 'Support', 'sydney' ); ?></h2>
+                    <h2><?php echo ! empty( $this->settings[ 'license_active' ] ) ? esc_html__( 'Premium support', 'sydney' ) : esc_html__( 'Support', 'sydney' ); ?></h2>
                 </div>
                 <div class="sydney-dashboard-card-body">
-                    <p><?php echo esc_html__( 'Have a question? Hit a bug? Find solutions or ask a member of our expert team for help.', 'sydney' ); ?></p>
+                    <?php if ( ! empty( $this->settings[ 'license_active' ] ) ) : ?>
+                        <p><?php echo esc_html__( 'Your Sydney Pro license includes premium email support from our team of WordPress experts. We typically reply to requests within 8 business hours.', 'sydney' ); ?></p>
+                    <?php else : ?>
+                        <p><?php echo esc_html__( 'Have a question? Hit a bug? Find solutions or ask a member of our expert team for help.', 'sydney' ); ?></p>
+                    <?php endif; ?>
                     <a href="<?php echo esc_url( $this->settings['support_link'] ); ?>" class="button button-primary button-outline button-medium bt-font-weight-500" target="_blank">
-                        <?php echo esc_html__( 'Get Support', 'sydney' ); ?>
+                        <?php echo ! empty( $this->settings[ 'license_active' ] ) ? esc_html__( 'Get Premium Support', 'sydney' ) : esc_html__( 'Get Support', 'sydney' ); ?>
                     </a>
                 </div>
             </div>

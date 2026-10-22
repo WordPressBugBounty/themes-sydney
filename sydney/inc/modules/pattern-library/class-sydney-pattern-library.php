@@ -361,7 +361,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				'sydneyPatternLibrary',
 				array(
 					'isPro'        => defined( 'SYDNEY_PRO_VERSION' ),
-					'upgradeUrl'   => 'https://athemes.com/sydney-upgrade/',
+					'upgradeUrl'   => sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade/', array( 'utm_source' => 'theme_pattern_library', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'pattern-library-upgrade-link' ),
 					'favorites'    => self::get_user_favorites( get_current_user_id() ),
 					'recentlyUsed' => self::get_user_recently_used( get_current_user_id() ),
 					'typeOrder'    => array_keys( $this->get_categories() ),

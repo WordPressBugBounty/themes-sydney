@@ -332,7 +332,7 @@ function sydney_scripts() {
 	}
 
 	if ( !$is_amp ) {
-		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/functions.min.js', array(), '20260611', true );
+		wp_enqueue_script( 'sydney-functions', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/functions.min.js', array(), '20261013', true );
 		
 		//Enqueue hero slider script only if the slider is in use
 		$slider_home = get_theme_mod('front_header_type','nothing');
@@ -735,6 +735,13 @@ require get_template_directory() . '/inc/notices/class-sydney-review.php';
 require get_template_directory() . '/inc/notices/class-sydney-campaign.php';
 
 /**
+ * Pro upsell notices
+ */
+if ( ! sydney_is_pro() ) {
+	require get_template_directory() . '/inc/notices/class-sydney-pro-upsell.php';
+}
+
+/**
  * Schema
  */
 require get_template_directory() . '/inc/schema.php';
@@ -796,6 +803,7 @@ if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
  * Theme dashboard.
  */
 require get_template_directory() . '/inc/dashboard/class-dashboard.php';
+require get_template_directory() . '/inc/dashboard/class-pro-upgrade.php';
 
 require get_template_directory() . '/inc/dashboard/class-setup-checklist.php';
 require get_template_directory() . '/inc/dashboard/class-setup-checklist-rest.php';
@@ -805,6 +813,13 @@ require get_template_directory() . '/inc/customizer/controls/typography/class-sy
  * Theme dashboard settings.
  */
 require get_template_directory() . '/inc/dashboard/class-dashboard-settings.php';
+
+/**
+ * Command palette shortcuts.
+ */
+if ( is_admin() ) {
+	require get_template_directory() . '/inc/classes/class-sydney-command-palette.php';
+}
 
 /**
  * Performance

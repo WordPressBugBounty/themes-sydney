@@ -243,16 +243,34 @@ sydney.backToTop = {
 		this.icon = document.getElementsByClassName( 'go-top' )[0];
 
 		if ( typeof(this.icon) != 'undefined' && this.icon != null ) {
-			this.icon.addEventListener( 'click', function() {
+			this.icon.addEventListener( 'click', function( e ) {
+				e.preventDefault();
+
+				this.focusTop();
+
 				window.scrollTo({
 					top: 0,
 					left: 0,
 					behavior: 'smooth',
 				});
-			} );
+			}.bind( this ) );
 		}
 
 		this.displayButton();
+	},
+
+	focusTop: function() {
+		var target = document.getElementById( 'toptarget' );
+
+		// header.php and header-contact.php print #toptarget; header-no-header.php and header-featured-image.php do not, so create it.
+		if ( null === target ) {
+			target = document.createElement( 'span' );
+			target.id = 'toptarget';
+			document.body.insertBefore( target, document.body.firstChild );
+		}
+
+		target.setAttribute( 'tabindex', '-1' );
+		target.focus( { preventScroll: true } );
 	},
 
 	setup: function() {

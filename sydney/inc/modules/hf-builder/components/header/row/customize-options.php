@@ -12,6 +12,8 @@
  * Rows
  */
 
+$color_links = Sydney_Custom_CSS::get_default_color_links();
+
 foreach( $this->header_rows as $row ) {
     $wp_customize->add_setting(
         'sydney_header_row__' . $row['id'],
@@ -642,10 +644,11 @@ foreach( $this->header_rows as $row ) {
     );
 
     // Sticky Header - Background.
+    $sticky_background = 'sydney_header_row__' . $row['id'] . '_sticky_background_color';
     $wp_customize->add_setting(
-        'global_sydney_header_row__' . $row['id'] . '_sticky_background_color',
+        'global_' . $sticky_background,
         array(
-            'default'           => '',
+            'default'           => isset( $color_links[ $sticky_background ] ) ? $color_links[ $sticky_background ] : '',
             'sanitize_callback' => 'wp_kses_post',
             'transport'         => 'postMessage'
         )

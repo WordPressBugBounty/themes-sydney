@@ -5,6 +5,39 @@
  * @package Sydney
  */
 
+/**
+ * Keep the theme's template parts out of template lists while block templates are off.
+ *
+ * Core lists every file in parts/ as a template part whether or not the theme
+ * declares block-template-parts support, and the command palette offers each
+ * one as an Edit command. Parts the user edited are kept, so they stay reachable.
+ *
+ * @param WP_Block_Template[] $templates     Templates core found.
+ * @param array               $query         Query arguments.
+ * @param string              $template_type wp_template or wp_template_part.
+ * @return WP_Block_Template[]
+ */
+function sydney_hide_inactive_block_template_parts( $templates, $query, $template_type ) {
+	if ( 'wp_template_part' !== $template_type ) {
+		return $templates;
+	}
+
+	// Same condition functions.php uses to declare block-template-parts support.
+	if ( get_theme_mod( 'enable_block_templates', 0 ) && Sydney_Modules::is_module_active( 'block-templates' ) ) {
+		return $templates;
+	}
+
+	return array_values(
+		array_filter(
+			$templates,
+			function ( $template ) {
+				return 'theme' !== $template->source;
+			}
+		)
+	);
+}
+add_filter( 'get_block_templates', 'sydney_hide_inactive_block_template_parts', 10, 3 );
+
 if ( !Sydney_Modules::is_module_active( 'block-templates' ) ) {
 	return;
 }

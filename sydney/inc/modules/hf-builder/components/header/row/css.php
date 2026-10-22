@@ -27,7 +27,7 @@ foreach( $rows as $row ) {
     $css .= Sydney_Custom_CSS::get_background_color_css( "sydney_header_row__{$row}_background_color", '', ".shfb-$row" );
 
     // Transparent Header Background Color
-    $css .= Sydney_Custom_CSS::get_background_color_css( "sydney_header_row__{$row}_transparent_background_color", '', ".transparent-header .shfb-$row:not(.sticky-header-active .has-sticky-header .shfb-$row)" );
+    $css .= Sydney_Custom_CSS::get_background_color_css( "sydney_header_row__{$row}_transparent_background_color", '', ".transparent-header .shfb-$row:not(.sticky-active):not(.sticky-header-active .sticky-row-all .shfb-$row)" );
 
     // Background Image
     $background_image = get_theme_mod( "sydney_header_row__{$row}_background_image", '' );
@@ -108,10 +108,10 @@ foreach( $rows as $row ) {
     if( sydney_callback_sticky_header() ) {
         
         // Sticky Header - Background Color
-        $css .= Sydney_Custom_CSS::get_background_color_css( "sydney_header_row__{$row}_sticky_background_color", '', ".sticky-header-active .has-sticky-header .shfb-$row" ); 
+        $css .= Sydney_Custom_CSS::get_background_color_css( "sydney_header_row__{$row}_sticky_background_color", '', ".has-sticky-header .shfb-$row.sticky-active, .sticky-header-active .sticky-row-all .shfb-$row" );
 
         // Sticky Header - Border Bottom Color
-        $css .= Sydney_Custom_CSS::get_border_bottom_color_rgba_css( "sydney_header_row__{$row}_sticky_border_bottom_color", '#EAEAEA', ".sticky-header-active .has-sticky-header .shfb-$row" );
+        $css .= Sydney_Custom_CSS::get_border_bottom_color_rgba_css( "sydney_header_row__{$row}_sticky_border_bottom_color", '#EAEAEA', ".has-sticky-header .shfb-$row.sticky-active, .sticky-header-active .sticky-row-all .shfb-$row" );
 
     }
 

@@ -84,6 +84,6 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 III. Documentation
 
-Theme documentation is available on http://athemes.com/documentation/sydney/
+Theme documentation is available on https://docs.athemes.com/documentation/sydney/
 
 ec08ujth7tslp2ksowa4cmdchzljo5oj

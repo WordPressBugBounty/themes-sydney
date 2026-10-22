@@ -64,7 +64,7 @@ class Sydney_Theme_Review_Notice {
 			</p>
 
 			<p>
-				<a href="https://wordpress.org/support/theme/sydney/reviews/?filter=5#new-post" class="btn button-primary" target="_blank"><?php esc_html_e( 'Sure', 'sydney' ); ?></a>
+				<a href="https://wordpress.org/support/theme/sydney/reviews/?filter=5#new-post" class="btn button-primary" target="_blank" data-dismiss-url="<?php echo esc_url( wp_nonce_url( add_query_arg( 'nag_sydney_disable_review_notice', '0' ), 'sydney_review_notice_nonce' ) ); ?>" onclick="fetch( this.dataset.dismissUrl, { credentials: 'same-origin' } ); this.closest( '.notice' ).style.display = 'none';"><?php esc_html_e( 'Sure', 'sydney' ); ?></a>
 
 				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'delay_sydney_disable_review_notice_partially', '0' ), 'sydney_review_notice_nonce' ) ); ?>" class="btn button-secondary"><?php esc_html_e( 'Maybe later', 'sydney' ); ?></a>
 
@@ -74,6 +74,7 @@ class Sydney_Theme_Review_Notice {
 			<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'nag_sydney_disable_review_notice', '0' ), 'sydney_review_notice_nonce' ) ); ?>" style="text-decoration:none;"></a>
 		</div>
 		<?php
+		do_action( 'sydney_admin_notice_printed' );
 	}
 
 	/**

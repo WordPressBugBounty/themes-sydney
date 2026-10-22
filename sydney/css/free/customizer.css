@@ -1143,6 +1143,33 @@ li#customize-control-sydney_upsell_mobile_header {
 .sydney-radio-images-col-3.sydney-radio-images-medium label {
   width: calc(33.333% - 7px);
 }
+.customize-control-sydney-radio-image label.is-pro {
+  cursor: pointer;
+}
+.customize-control-sydney-radio-image label.is-pro:before {
+  content: "\f160";
+  font-family: dashicons;
+  font-size: 16px;
+  line-height: 1;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  color: #1e1e1e;
+}
+.customize-control-sydney-radio-image label.is-pro:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
 .sydney-radio-images-col-3 label.is-pro:before {
   background-size: 15px !important;
   width: 15px !important;

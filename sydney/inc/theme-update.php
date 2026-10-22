@@ -118,7 +118,9 @@ function sydney_header_update_notice_1_8_1() {
         <a href="#" class="button sydney-update-header" data-nonce="<?php echo esc_attr( wp_create_nonce( 'sydney-update-header-nonce' ) ); ?>" style="margin-top: 15px;"><?php esc_html_e( 'Upgrade Theme Header', 'sydney' ); ?></a>
         <a href="#" class="button sydney-update-header-dismiss" data-nonce="<?php echo esc_attr( wp_create_nonce( 'sydney-update-header-dismiss-nonce' ) ); ?>" style="margin-top: 15px;"><?php esc_html_e( 'Continue to use the old header', 'sydney' ); ?></a> 
     </div>
-    <?php }
+    <?php
+        do_action( 'sydney_admin_notice_printed' );
+    }
 }
 // the 1.8.1 header notice.
 if ( ! sydney_is_pro() ) {
@@ -509,7 +511,7 @@ if ( ! sydney_is_pro() ) {
  */
 function sydney_update_settings_2_54() {
     // Enable page min height
-    $flag = get_theme_mod( 'sydney_enable_page_min_height', false );
+    $flag = get_theme_mod( 'sydney_enable_page_min_height_flag', false );
 
     if ( true !== $flag ) {
         set_theme_mod( 'sydney_enable_page_min_height', true );
@@ -517,7 +519,7 @@ function sydney_update_settings_2_54() {
     }
 
     // Default sticky background
-    $flag = get_theme_mod( 'sydney_default_sticky_background', false );
+    $flag = get_theme_mod( 'sydney_default_sticky_background_flag', false );
 
     if ( true !== $flag ) {
         set_theme_mod( 'sydney_header_row__main_header_row_sticky_background_color', '#ffffff' );
@@ -552,7 +554,8 @@ add_action( 'after_switch_theme', 'sydney_hf_border_opacity_defaults' );
 /**
  * Set mobile offcanvas background color defaults
  * 
- * The goal here is to change the offcanvas background color to #00102E if it is not set or is #FFF.
+ * The goal here is to change the offcanvas background color to #00102E if it is not set or is #FFF,
+ * unless a drawer background image is set or the header builder is inactive.
  * 
  * @since 2.57
  */
@@ -560,6 +563,20 @@ function sydney_hf_mobile_offcanvas_background() {
     $flag = get_theme_mod( 'sydney_hf_mobile_offcanvas_background_flag', false );
 
     if ( true === $flag ) {
+        return;
+    }
+
+    // The classic header drawer follows the global dark color (this also skips
+    // free classic-header sites); leave the flag
+    // unset so the migration can run if the header builder is enabled later.
+    if ( class_exists( 'Sydney_Modules' ) && ! Sydney_Modules::is_module_active( 'hf-builder' ) ) {
+        return;
+    }
+
+    // Pro's drawer background image (offcanvas_background_image) is tinted by an
+    // ::after overlay painted from offcanvas_menu_background; an opaque navy value would hide the image.
+    // Leave the flag unset so removing the image later still gets the fix.
+    if ( get_theme_mod( 'offcanvas_background_image' ) ) {
         return;
     }
 
@@ -594,9 +611,7 @@ function sydney_hf_mobile_offcanvas_background() {
     // Set flag
     set_theme_mod( 'sydney_hf_mobile_offcanvas_background_flag', true );
 }
-if ( ! sydney_is_pro() ) {
-	add_action( 'init', 'sydney_hf_mobile_offcanvas_background' );
-}
+add_action( 'init', 'sydney_hf_mobile_offcanvas_background' );
 
 /**
  * Use height instead of max-height for logo for new users
@@ -616,28 +631,6 @@ function sydney_use_height_for_logo() {
 add_action( 'after_switch_theme', 'sydney_use_height_for_logo' );
 
 /**
- * Enable CSS variables for global colors for new users
- * 
- * When a color option is connected to a global color, output var(--sydney-global-color-X)
- * instead of the hex value. This ensures colors stay in sync when global colors change.
- * 
- * Only enabled for new users to avoid unexpected changes for existing users.
- * 
- * @since 2.61
- */
-function sydney_enable_global_color_css_vars() {
-    $flag = get_theme_mod( 'sydney_global_color_css_vars', false );
-
-    if ( true === $flag ) {
-        return;
-    }
-
-    // Set flag - only runs for new users (after_switch_theme)
-    set_theme_mod( 'sydney_global_color_css_vars', true );
-}
-add_action( 'after_switch_theme', 'sydney_enable_global_color_css_vars' );
-
-/**
  * Setup Checklist
  * Enable the dashboard Setup tab for new users only. Existing sites that
  * update into the version that ships this feature never trigger
@@ -654,9 +647,7 @@ function sydney_setup_checklist_enable_for_new_users( $old_theme_name ) {
     }
     update_option( 'sydney_setup_checklist_eligible', 1 );
 }
-if ( ! sydney_is_pro() ) {
-	add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );
-}
+add_action( 'after_switch_theme', 'sydney_setup_checklist_enable_for_new_users' );
 
 /**
  * YITH Compare icon migration for existing installs.

@@ -63,7 +63,7 @@ $wp_customize->add_setting(
 	'blog_layout',
 	array(
 		'default'           => 'layout2',
-		'sanitize_callback' => 'sanitize_key',
+		'sanitize_callback' => 'sydney_sanitize_radio_images',
 		'transport'         => 'postMessage',
 	)
 );
@@ -99,6 +99,11 @@ $wp_customize->add_control(
 				'layout6' => array(
 					'label' => esc_html__( 'List zig-zag', 'sydney' ),
 					'url'   => '%s/images/customizer/bl6.svg',
+				),
+				'layout7' => array(
+					'label'  => esc_html__( 'Covers', 'sydney' ),
+					'url'    => '%s/images/customizer/bl7.svg',
+					'is_pro' => true,
 				),
 			),
 			'show_labels' => true,

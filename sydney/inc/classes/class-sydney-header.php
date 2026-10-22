@@ -614,10 +614,10 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 				<?php if ( get_theme_mod('site_logo') ) : ?>
 					<?php if ( $mobile_logo ) : ?>
 						<?php $mobile_logo_attrs = $this->logo_image_src( $mobile_logo ); ?>
-						<a class="mobile-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $mobile_logo_attrs[1] ); ?>" height="<?php echo esc_attr( $mobile_logo_attrs[2] ); ?>" class="site-logo mobile-site-logo" src="<?php echo esc_url( $mobile_logo ); ?>" alt="<?php bloginfo('name'); ?>"/></a>
+						<a class="mobile-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><?php do_action( 'sydney_before_site_logo_image', 'mobile' ); ?><img width="<?php echo esc_attr( $mobile_logo_attrs[1] ); ?>" height="<?php echo esc_attr( $mobile_logo_attrs[2] ); ?>" class="site-logo mobile-site-logo" src="<?php echo esc_url( $mobile_logo ); ?>" alt="<?php bloginfo('name'); ?>"/></a>
 					<?php endif; ?>
 					<?php $logo_attrs = $this->logo_image_src( get_theme_mod( 'site_logo' ) ); ?>
-					<a <?php if ( sydney_is_pro() ) : ?>class="desktop-logo-link" <?php endif; ?>href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
+					<a <?php if ( sydney_is_pro() ) : ?>class="desktop-logo-link" <?php endif; ?>href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><?php do_action( 'sydney_before_site_logo_image', 'desktop' ); ?><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
 				
 					<?php if ( $logo_site_title ) : //display site title and description with the logo
 						echo '<div class="site-branding-text">';
@@ -724,7 +724,7 @@ if ( !class_exists( 'Sydney_Header' ) ) :
 									$logo_id    = attachment_url_to_postid( get_theme_mod( 'site_logo' ) );
 									$logo_attrs = wp_get_attachment_image_src( $logo_id );
 								?>						
-								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><?php do_action( 'sydney_before_site_logo_image', 'desktop' ); ?><img width="<?php echo esc_attr( $logo_attrs[1] ); ?>" height="<?php echo esc_attr( $logo_attrs[2] ); ?>" class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
 								<?php if ( is_home() && !is_front_page() ) : ?>
 									<h1 class="site-title screen-reader-text"><?php bloginfo( 'name' ); ?></h1>
 								<?php endif; ?>

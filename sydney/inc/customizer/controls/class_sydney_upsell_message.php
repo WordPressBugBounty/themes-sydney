@@ -37,6 +37,7 @@ class Sydney_Upsell_Message extends WP_Customize_Control {
                     'utm_source'   => 'theme_customizer_deep',
                     'utm_medium'   => 'sydney_customizer',
                     'utm_campaign' => 'Sydney',
+                    'utm_content'  => $id,
                 ),
                 'customizer-upsell-message-button'
             );
@@ -47,7 +48,7 @@ class Sydney_Upsell_Message extends WP_Customize_Control {
 	 * Render the control in the customizer
 	 */
 	public function render_content() { 
-		$this->button_title = __( 'Upgrade to Sydney Pro', 'sydney' ); ?>
+		$this->button_title = __( 'Get Sydney Pro', 'sydney' ); ?>
 
 		<?php if ( $this->show_separator ) : ?>
 			<hr class="sydney-cust-divider">

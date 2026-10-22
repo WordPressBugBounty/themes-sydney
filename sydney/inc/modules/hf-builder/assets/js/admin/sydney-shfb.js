@@ -103,7 +103,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           wp.customize.section('sydney_section_fb_wrapper').focus();
         });
       }
-      var sections = ['sub-accordion-section-sydney_section_hb_presets', 'sub-accordion-section-sydney_section_hb_above_header_row', 'sub-accordion-section-sydney_section_hb_main_header_row', 'sub-accordion-section-sydney_section_hb_below_header_row', 'sub-accordion-section-sydney_section_hb_mobile_offcanvas', 'sub-accordion-section-header_image', 'sub-accordion-section-sydney_section_hb_component__logo', 'sub-accordion-section-sydney_section_hb_component__search', 'sub-accordion-section-sydney_section_hb_component__social', 'sub-accordion-section-sydney_section_hb_component__menu', 'sub-accordion-section-sydney_section_hb_component__secondary_menu', 'sub-accordion-section-sydney_section_hb_component__contact_info', 'sub-accordion-section-sydney_section_hb_component__button', 'sub-accordion-section-sydney_section_hb_component__button2', 'sub-accordion-section-sydney_section_hb_component__html', 'sub-accordion-section-sydney_section_hb_component__html2', 'sub-accordion-section-sydney_section_hb_component__shortcode', 'sub-accordion-section-sydney_section_hb_component__shortcode2', 'sub-accordion-section-sydney_section_hb_component__shortcode3', 'sub-accordion-section-sydney_section_hb_component__login_register', 'sub-accordion-section-sydney_section_hb_component__woo_icons', 'sub-accordion-section-sydney_section_hb_component__pll_switcher', 'sub-accordion-section-sydney_section_hb_component__wpml_switcher', 'sub-accordion-section-sydney_section_hb_component__mobile_offcanvas_menu', 'sub-accordion-section-sydney_section_hb_component__mobile_hamburger',
+      var sections = ['sub-accordion-section-sydney_section_hb_presets', 'sub-accordion-section-sydney_section_hb_above_header_row', 'sub-accordion-section-sydney_section_hb_main_header_row', 'sub-accordion-section-sydney_section_hb_below_header_row', 'sub-accordion-section-sydney_section_hb_mobile_offcanvas', 'sub-accordion-section-header_image', 'sub-accordion-section-sydney_section_hb_component__logo', 'sub-accordion-section-sydney_section_hb_component__search', 'sub-accordion-section-sydney_section_hb_component__social', 'sub-accordion-section-sydney_section_hb_component__menu', 'sub-accordion-section-sydney_section_hb_component__secondary_menu', 'sub-accordion-section-sydney_section_hb_component__contact_info', 'sub-accordion-section-sydney_section_hb_component__button', 'sub-accordion-section-sydney_section_hb_component__button2', 'sub-accordion-section-sydney_section_hb_component__html', 'sub-accordion-section-sydney_section_hb_component__html2', 'sub-accordion-section-sydney_section_hb_component__shortcode', 'sub-accordion-section-sydney_section_hb_component__shortcode2', 'sub-accordion-section-sydney_section_hb_component__shortcode3', 'sub-accordion-section-sydney_section_hb_component__login_register', 'sub-accordion-section-sydney_section_hb_component__woo_icons', 'sub-accordion-section-sydney_section_hb_component__pll_switcher', 'sub-accordion-section-sydney_section_hb_component__wpml_switcher', 'sub-accordion-section-sydney_section_hb_component__mobile_offcanvas_menu', 'sub-accordion-section-sydney_section_hb_component__mobile_hamburger', 'sub-accordion-section-sydney_section_hb_component__dark_mode_switch',
       // Footer
       'sub-accordion-section-sydney_section_fb_above_footer_row', 'sub-accordion-section-sydney_section_fb_main_footer_row', 'sub-accordion-section-sydney_section_fb_below_footer_row', 'sub-accordion-section-sydney_section_fb_component__footer_menu', 'sub-accordion-section-sydney_section_fb_component__copyright', 'sub-accordion-section-sydney_section_fb_component__social', 'sub-accordion-section-sydney_section_fb_component__button', 'sub-accordion-section-sydney_section_fb_component__button2', 'sub-accordion-section-sydney_section_fb_component__html', 'sub-accordion-section-sydney_section_fb_component__html2', 'sub-accordion-section-sydney_section_fb_component__shortcode', 'sub-accordion-section-sydney_section_fb_component__widget1', 'sub-accordion-section-sydney_section_fb_component__widget2', 'sub-accordion-section-sydney_section_fb_component__widget3', 'sub-accordion-section-sydney_section_fb_component__widget4'];
 
@@ -483,29 +483,65 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (!sydney_hfb.upsell_components.enable) {
         return false;
       }
-      var upsellComponentsHTML = '',
-        components = _this.currentBuilderType === 'header' ? sydney_hfb.upsell_components.header : sydney_hfb.upsell_components.footer;
+      var builderType = _this.currentBuilderType === 'header' ? 'header' : 'footer',
+        upsell = sydney_hfb.upsell_components,
+        freeComponents = builderType === 'header' ? sydney_hfb.components.desktop : sydney_hfb.components.footer,
+        unusedIds = _this.getElementsUnused().desktop.map(function (item) {
+          return item.id;
+        }),
+        placed = freeComponents.filter(function (item) {
+          return unusedIds.indexOf(item.id) === -1;
+        }),
+        getPlacedTwin = function getPlacedTwin(component) {
+          return placed.find(function (item) {
+            return item.id === component.twin;
+          });
+        },
+        lockIcon = '<svg class="shfb-lock-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>',
+        twinsHTML = '',
+        upsellComponentsHTML = '',
+        buttonLink = upsell.link;
+
+      // Pro twins of components the user already placed come first.
+      var components = upsell[builderType].slice().sort(function (a, b) {
+        return !!getPlacedTwin(b) - !!getPlacedTwin(a);
+      });
       var _iterator9 = _createForOfIteratorHelper(components),
         _step9;
       try {
         for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-          var component = _step9.value;
-          upsellComponentsHTML += "\n                    <div class=\"sydney-shfb-element sydney-shfb-element-desktop\">\n                        <a href=\"#\" class=\"shfb-button\">".concat(component.label, "</a> \n                    </div>\n                ");
+          var component = _step9.value,
+            twin = getPlacedTwin(component);
+          if (twin && unusedIds.length) {
+            twinsHTML += '<p class="shfb-upsell-twin">' + upsell.twin.replace('%s', twin.label) + '</p>';
+          }
+          upsellComponentsHTML += "\n                    <div class=\"sydney-shfb-element sydney-shfb-element-desktop\">\n                        <a href=\"".concat(component.link, "\" target=\"_blank\" class=\"shfb-button\">").concat(component.label).concat(lockIcon, "</a> \n                    </div>\n                ");
         }
       } catch (err) {
         _iterator9.e(err);
       } finally {
         _iterator9.f();
       }
-      var upsellHTML = "\n                <div class=\"sydney-shfb-upsell-components-wrapper\">\n                    <h4>".concat(sydney_hfb.upsell_components.title, "</h4>\n                    <div class=\"sydney-shfb-upsell-components\">").concat(upsellComponentsHTML, "</div>\n                    <p>").concat(sydney_hfb.upsell_components.total, "</p>\n                    <a href=\"").concat(sydney_hfb.upsell_components.link, "\" target=\"_blank\" class=\"shfb-upsell-button\">").concat(sydney_hfb.upsell_components.button, "</a>\n                </div>\n            ");
+
+      // Every free component is placed: say what Pro adds instead.
+      if (!unusedIds.length) {
+        $('.sydney-shfb-elements-desktop .shfb-elements-message').html(upsell.full[builderType]);
+        buttonLink = upsell.full_link;
+      }
+      var upsellHTML = "\n                <div class=\"sydney-shfb-upsell-components-wrapper\">\n                    <h4>".concat(upsell.title, "</h4>\n                    ").concat(twinsHTML, "\n                    <div class=\"sydney-shfb-upsell-components\">").concat(upsellComponentsHTML, "</div>\n                    <p>").concat(upsell.description[builderType], "</p>\n                    <a href=\"").concat(buttonLink, "\" target=\"_blank\" class=\"shfb-upsell-button\">").concat(upsell.button, "</a>\n                </div>\n            ");
       $('#sydney-shfb-elements .sydney-shfb-elements-wrapper .sydney-shfb-upsell-components-wrapper').remove();
       $('#sydney-shfb-elements .sydney-shfb-elements-wrapper').append(upsellHTML);
     },
     elementsButton: function elementsButton() {
       var _this = this;
       $(document).on('click', '.sydney-shfb-element > a', function (e) {
-        e.preventDefault();
         e.stopPropagation();
+
+        // Pro placeholders are upgrade links: let them open.
+        if ($(this).closest('.sydney-shfb-upsell-components').length) {
+          return;
+        }
+        e.preventDefault();
         var id = $(this).data('shfb-id'),
           focusSection = $(this).data('shfb-focus-section');
         if ($(this).closest('#sydney-shfb-elements').length) {
@@ -542,10 +578,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       // Do not add specific components on specific areas. 
       // E.g: Don't add 'Mobile Offcanvas Menu' on areas that are not the 'offcanvas wrapper'
+      // Redraw the grid so a refused drop does not stay in the column it was dropped on.
       if (_this.currentComponent === 'mobile_offcanvas_menu' && !_this.currentRow.hasClass('sydney-shfb-area-offcanvas')) {
+        _this.builderGridContent();
         return false;
       }
       if (_this.currentComponent === 'mobile_hamburger' && _this.currentRow.hasClass('sydney-shfb-area-offcanvas')) {
+        _this.builderGridContent();
         return false;
       }
 
@@ -631,7 +670,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 row = area.data('shfb-row'),
                 column = areaColumn(area),
                 prevRow = ui.sender !== null ? ui.sender.data('shfb-row') : null,
-                prevColumn = ui.sender !== null ? areaColumn(ui.sender) : null;
+                prevColumn = ui.sender !== null ? areaColumn(ui.sender) : null,
+                fromAvailable = ui.sender !== null && ui.sender.hasClass('shfb-available-components');
               if (ui.sender === null) {
                 // Reordered within the available components list: no row value to change.
                 if (area.hasClass('shfb-available-components')) {
@@ -642,21 +682,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 _this.elementsButtonAdd('', true);
                 return false;
               }
-              if (!ui.sender.hasClass('shfb-available-components')) {
+
+              // A component from the available components list is in no row: there is nothing to remove.
+              if (!fromAvailable) {
                 _this.currentRowInput = $('#_customize-input-sydney_' + _this.currentBuilderType + '_row__' + prevRow);
 
                 // elementsButtonRemove() and elementsButtonAdd() pick the value key from currentRow,
                 // which the drag leaves pointing at whichever area the pointer last crossed.
                 _this.currentRow = areaRow(ui.sender);
+                _this.currentColumnPos = prevColumn;
+                _this.elementsButtonRemove(component_id, true);
               }
-              _this.currentColumnPos = prevColumn;
-              _this.elementsButtonRemove(component_id, true);
 
               // Dropped back onto the available components list: there is no row to add it to.
               if (ui.item.parent().hasClass('shfb-available-components')) {
                 return false;
               }
-              if (!ui.sender.hasClass('shfb-available-components')) {
+              if (!fromAvailable) {
                 _this.currentRowInput = $('#_customize-input-sydney_' + _this.currentBuilderType + '_row__' + row);
               }
               _this.currentRow = areaRow(area);
@@ -845,7 +887,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var self = this;
       var sections = [
       // Header
-      'sydney_section_hb_wrapper', 'sydney_section_hb_presets', 'sydney_section_hb_above_header_row', 'sydney_section_hb_main_header_row', 'sydney_section_hb_below_header_row', 'sydney_section_hb_mobile_offcanvas', 'header_image', 'sydney_section_hb_component__logo', 'sydney_section_hb_component__search', 'sydney_section_hb_component__social', 'sydney_section_hb_component__menu', 'sydney_section_hb_component__secondary_menu', 'sydney_section_hb_component__contact_info', 'sydney_section_hb_component__button', 'sydney_section_hb_component__button2', 'sydney_section_hb_component__html', 'sydney_section_hb_component__html2', 'sydney_section_hb_component__shortcode', 'sydney_section_hb_component__shortcode2', 'sydney_section_hb_component__shortcode3', 'sydney_section_hb_component__login_register', 'sydney_section_hb_component__woo_icons', 'sydney_section_hb_component__pll_switcher', 'sydney_section_hb_component__wpml_switcher', 'sydney_section_hb_component__mobile_offcanvas_menu', 'sydney_section_hb_component__mobile_hamburger',
+      'sydney_section_hb_wrapper', 'sydney_section_hb_presets', 'sydney_section_hb_above_header_row', 'sydney_section_hb_main_header_row', 'sydney_section_hb_below_header_row', 'sydney_section_hb_mobile_offcanvas', 'header_image', 'sydney_section_hb_component__logo', 'sydney_section_hb_component__search', 'sydney_section_hb_component__social', 'sydney_section_hb_component__menu', 'sydney_section_hb_component__secondary_menu', 'sydney_section_hb_component__contact_info', 'sydney_section_hb_component__button', 'sydney_section_hb_component__button2', 'sydney_section_hb_component__html', 'sydney_section_hb_component__html2', 'sydney_section_hb_component__shortcode', 'sydney_section_hb_component__shortcode2', 'sydney_section_hb_component__shortcode3', 'sydney_section_hb_component__login_register', 'sydney_section_hb_component__woo_icons', 'sydney_section_hb_component__pll_switcher', 'sydney_section_hb_component__wpml_switcher', 'sydney_section_hb_component__mobile_offcanvas_menu', 'sydney_section_hb_component__mobile_hamburger', 'sydney_section_hb_component__dark_mode_switch',
       // Footer
       'sydney_section_fb_wrapper', 'sydney_section_fb_above_footer_row', 'sydney_section_fb_main_footer_row', 'sydney_section_fb_below_footer_row', 'sydney_section_fb_component__social', 'sydney_section_fb_component__footer_menu', 'sydney_section_fb_component__copyright', 'sydney_section_fb_component__button', 'sydney_section_fb_component__button2', 'sydney_section_fb_component__html', 'sydney_section_fb_component__html2', 'sydney_section_fb_component__shortcode', 'sydney_section_fb_component__widget1', 'sydney_section_fb_component__widget2', 'sydney_section_fb_component__widget3', 'sydney_section_fb_component__widget4'];
 

@@ -756,9 +756,25 @@ jQuery(document).ready(function ($) {
 
 		});
 
-		// Disconnect global if manually changed
+		// Disconnect global if manually changed: dragged, or typed to a new value.
+		// Pickr reports every keyup in the hex field as a typed change, even one
+		// that leaves the value as it was (copy, Tab, arrow keys), so compare.
+		var colorBefore = null;
+		var pickrColorString = function (color) {
+			return ( 1 === color.a ? color.toHEXA() : color.toRGBA() ).toString(0);
+		};
+
+		pickr.on('init', function (instance) {
+			colorBefore = pickrColorString(instance.getColor());
+		});
+
 		pickr.on('change', function (color, source) {
-			if ( 'slider' === source ) {
+			var colorAfter = pickrColorString(color);
+			var changed    = colorAfter !== colorBefore;
+
+			colorBefore = colorAfter;
+
+			if ( 'slider' === source || ( 'input' === source && changed ) ) {
 				$colorPicker.parent().prev('.sydney-global-control').find('.dashicons').removeClass('active');
 				$colorPicker.parent().prev('.sydney-global-control').find('.sydney-connected-global').val('').trigger('change');
 				$colorPicker.parent().prev('.sydney-global-control').find('.global-color').removeClass('active');
@@ -1494,46 +1510,38 @@ jQuery(document).ready(function ($) {
 
   var hasLocalized = (typeof window.syd_data !== 'undefined' && typeof window.syd_data.customizer_upgrade_link_with_utm_content_markup === 'string');
   var baseUpgrade = hasLocalized ? decodeURIComponent(window.syd_data.customizer_upgrade_link_with_utm_content_markup) : '';
-  var generalFeaturesUrl = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'general_panel_features') + '#features' : 'https://athemes.com/sydney-upgrade/#features?utm_source=theme_customizer_general_panel&utm_medium=sydney_customizer&utm_campaign=Sydney';
+  var generalFeaturesUrl = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'general_panel_features') + '#features-general' : 'https://athemes.com/sydney-upgrade/?utm_source=theme_customizer_general_panel&utm_medium=sydney_customizer&utm_campaign=Sydney#features-general';
   var generalButtonUrl   = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'general_panel_button') : 'https://athemes.com/sydney-upgrade/?utm_source=theme_customizer_general_panel&utm_medium=sydney_customizer&utm_campaign=Sydney';
 
-  var upsell = $('<div class="sydney-upsell-feature-wrapper" style="margin:5px 15px 15px;">' +
-              '<h3 style="max-width:100%;"><em>Take your site to the next level with Sydney Pro!</em></h3><p>You’ll get access to:</p>' +
-              '<ul class="sydney-upsell-features">' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Templates Builder</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Breadcrumbs</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Unlimited Sidebars</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Modal Popup</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Live Chat module</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Offcanvas Content</li>' +
-                 '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Mailchimp support</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span><a target="_blank" href="' + generalFeaturesUrl + '">&hellip;and many more premium features</a></li>' +
-              '</ul><p><a href="' + generalButtonUrl + '" role="button" class="button-secondary deep-upsell-button button" target="_blank">Upgrade to Sydney Pro</a></p></div>')
+  var upsellText = window.syd_data.upsell_panels;
+
+  function sydneyUpsellBox( text, featuresUrl, buttonUrl ) {
+    var box      = $('<div class="sydney-upsell-feature-wrapper" style="margin:5px 15px 15px;"></div>');
+    var features = $('<ul class="sydney-upsell-features"></ul>');
+
+    $.each( text.features, function ( i, feature ) {
+      features.append( $('<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span></li>').append( document.createTextNode( feature ) ) );
+    } );
+    features.append( $('<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span></li>').append( $('<a target="_blank"></a>').attr( 'href', featuresUrl ).text( text.more ) ) );
+
+    box.append( $('<h3 style="max-width:100%;"></h3>').append( $('<em></em>').text( text.title ) ) );
+    box.append( $('<p></p>').text( text.intro ) );
+    box.append( features );
+
+    box.append( $('<p></p>').append( $('<a role="button" class="button-secondary deep-upsell-button button" target="_blank"></a>').attr( 'href', buttonUrl ).text( text.button ) ) );
+
+    return box;
+  }
+
+  var upsell = sydneyUpsellBox( upsellText.general, generalFeaturesUrl, generalButtonUrl );
 
   upsell.appendTo('#sub-accordion-panel-sydney_panel_general');
 
 
-  var wooFeaturesUrl = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'woocommerce_features') + '#features' : 'https://athemes.com/sydney-upgrade/#features?utm_source=theme_customizer_woocommerce&utm_medium=sydney_customizer&utm_campaign=Sydney';
+  var wooFeaturesUrl = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'woocommerce_features') + '#features-woocommerce' : 'https://athemes.com/sydney-upgrade/?utm_source=theme_customizer_woocommerce&utm_medium=sydney_customizer&utm_campaign=Sydney#features-woocommerce';
   var wooButtonUrl   = hasLocalized ? baseUpgrade.replace('{{utm_content}}', 'woocommerce_button') : 'https://athemes.com/sydney-upgrade/?utm_source=theme_customizer_woocommerce&utm_medium=sydney_customizer&utm_campaign=Sydney';
 
-  var upsellWoo = $('<div class="sydney-upsell-feature-wrapper" style="margin:5px 15px 15px;">' +
-              '<h3><em>Take your store to the next level with Sydney Pro!</em></h3>' +
-              '<p>You’ll get access to:</p>' +
-              '<ul class="sydney-upsell-features">' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Wishlist</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Product Swatch</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Product Gallery Layouts</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Multistep checkout</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Single sticky add to cart</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Shop header styles</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Product tab styles</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>More Shop pagination types</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Advanced reviews</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Extra single product elements</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>Extra shop sidebar layouts</li>' +
-                  '<li class="sydney-hide-control"><span class="dashicons dashicons-yes"></span>AJAX product search</li>' +
-                  '<a target="_blank" href="' + wooFeaturesUrl + '">&hellip;and many more premium features</a>' +
-              '</ul><p><a href="' + wooButtonUrl + '" role="button" class="button-secondary deep-upsell-button button" target="_blank">Upgrade Now</a></p></div>')
+  var upsellWoo = sydneyUpsellBox( upsellText.woocommerce, wooFeaturesUrl, wooButtonUrl );
 
   upsellWoo.appendTo('#sub-accordion-panel-woocommerce');
 
@@ -1840,6 +1848,12 @@ jQuery(document).ready(function($) {
 	wp.customize.controlConstructor['sydney-dimensions-control'] = wp.customize.SydneyDeferredControl;
 	wp.customize.controlConstructor['sydney-radio-buttons'] = wp.customize.SydneyDeferredControl;
 	wp.customize.controlConstructor['sydney-responsive-slider'] = wp.customize.SydneyDeferredControl;
+
+	// Locked Pro choices can't be selected: a click opens the upgrade page instead.
+	jQuery(document).on('click', '.customize-control-sydney-radio-image label.is-pro', function (e) {
+		e.preventDefault();
+		window.open(jQuery(this).data('pro-url'), '_blank', 'noopener');
+	});
 
 	wp.customize.controlConstructor['sydney-radio-image'] = wp.customize.SydneyDeferredControl.extend({
 		// jQuery UI buttonset must re-run per control once its DOM exists

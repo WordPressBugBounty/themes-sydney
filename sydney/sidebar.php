@@ -5,9 +5,9 @@
  * @package Sydney
  */
 
-$sydney_sidebar_id = apply_filters( 'sydney_sidebar_id', 'sidebar-1' );
+$sydney_sidebar_id = sydney_get_active_sidebar_id();
 
-if ( ! is_active_sidebar( $sydney_sidebar_id ) ) {
+if ( '' === $sydney_sidebar_id ) {
 	return;
 }
 ?>

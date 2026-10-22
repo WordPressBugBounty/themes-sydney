@@ -61,6 +61,19 @@ if ( ! class_exists( 'Sydney_Color_References' ) ) :
 				}
 			}
 
+			// A setting linked only by the Customizer default holds a copy of the
+			// global when the Customizer last wrote one. Keep that copy in step;
+			// a custom color stays as the owner set it.
+			foreach ( Sydney_Custom_CSS::get_default_color_links() as $setting => $slot ) {
+				if ( ! isset( $global_color_values[ $slot ] ) || array_key_exists( 'global_' . $setting, $theme_mods ) || ! array_key_exists( $setting, $theme_mods ) ) {
+					continue;
+				}
+
+				if ( ! Sydney_Custom_CSS::has_custom_color( $setting, $slot ) ) {
+					$pending[ $setting ] = $global_color_values[ $slot ];
+				}
+			}
+
 			return $pending;
 		}
 	}

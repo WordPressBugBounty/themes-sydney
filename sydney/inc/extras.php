@@ -67,9 +67,18 @@ function sydney_body_classes( $classes ) {
 	$sidebar_archives       = get_theme_mod( 'sidebar_archives', 1 );
 	$sidebar_single_post    = get_theme_mod( 'sidebar_single_post', 1 );
 
+	$is_woo_page            = class_exists( 'Woocommerce' ) && is_woocommerce();
+	$is_archive_or_post     = ! is_singular() || is_singular( 'post' );
+
 	if ( ( !is_singular() && !$sidebar_archives ) || ( is_singular( 'post' ) && !$sidebar_single_post ) ) {
 		$classes[] = 'no-sidebar';
-	} 
+	} elseif ( $is_archive_or_post && ! $is_woo_page && '' === sydney_get_active_sidebar_id() ) {
+		//Woo pages are left out: their layout classes come from the Woo branch of
+		//sydney_page_content_classes().
+		//Pages and other singulars get no-sidebar from the content area class, not
+		//the body, to keep .no-sidebar .page-wrap overflow off them.
+		$classes[] = 'no-sidebar';
+	}
 
 	//Transparent header
 	global $post;
@@ -198,9 +207,34 @@ function sydney_page_content_classes() {
 		}
 	}   
 
+	//An empty sidebar renders nothing, so take the same classes the toggles give
+	if ( '' === sydney_get_active_sidebar_id() ) {
+		return is_singular() ? 'no-sidebar' : 'col-md-12';
+	}
+
 	return 'col-md-9'; //default
 }
 add_filter( 'sydney_content_area_class', 'sydney_page_content_classes' );
+
+/**
+ * The sidebar id sidebar.php would print for this request, before the
+ * per-view sidebar toggles are applied.
+ *
+ * Callable before output, so the layout classes can follow what sidebar.php
+ * will do. Empty when the resolved sidebar has no widgets, in which case
+ * sidebar.php prints nothing.
+ *
+ * @return string Sidebar id, or '' when that sidebar has no widgets.
+ */
+function sydney_get_active_sidebar_id() {
+	$sidebar_id = apply_filters( 'sydney_sidebar_id', 'sidebar-1' );
+
+	if ( ! is_active_sidebar( $sidebar_id ) ) {
+		return '';
+	}
+
+	return $sidebar_id;
+}
 
 /**
  * Sidebar output function
@@ -359,12 +393,17 @@ function sydney_append_gotop_html() {
 	$icon       = get_theme_mod( 'scrolltop_icon', 'icon2' );
 	$visibility = get_theme_mod( 'scrolltop_visibility', 'all' );
 	$position   = get_theme_mod( 'scrolltop_position', 'right' );
+	$label      = trim( $text );
 
-	echo '<a on="tap:toptarget.scrollTo(duration=200)" class="go-top visibility-' . esc_attr( $visibility ) . ' position-' . esc_attr( $position ) . '">';
+	if ( '' === $label ) {
+		$label = __( 'Back to top', 'sydney' );
+	}
+
+	echo '<a href="#toptarget" aria-label="' . esc_attr( $label ) . '" on="tap:toptarget.scrollTo(duration=200)" class="go-top visibility-' . esc_attr( $visibility ) . ' position-' . esc_attr( $position ) . '">';
 	if ( 'text' === $type ) {
 		echo '<span>' . esc_html( $text ) . '</span>';
 	}
-	echo    '<i class="sydney-svg-icon">' . sydney_get_svg_icon( 'icon-btt-' . $icon, false ) . '</i>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo    '<i class="sydney-svg-icon" aria-hidden="true">' . sydney_get_svg_icon( 'icon-btt-' . $icon, false ) . '</i>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '</a>';
 }
 add_action('wp_footer', 'sydney_append_gotop_html', 1);
@@ -1444,3 +1483,31 @@ function sydney_nav_menu_link_attributes( $atts, $menu_item, $args, $depth ) {
     return $atts;
 }
 add_filter( 'nav_menu_link_attributes', 'sydney_nav_menu_link_attributes', 10, 4 );
+
+/**
+ * Remove core's Appearance > Fonts, Design, Header and Background menu items.
+ *
+ * Neither Fonts nor Design controls Sydney: its fonts come from the Customizer,
+ * and Design only opens the site editor's Patterns and Style Book screens.
+ * Header and Background only open their own control in the Customizer. Every
+ * page stays reachable by URL, which the Block Templates module links to.
+ *
+ * Priority 20: core hooks the legacy Header and Background screens to
+ * admin_menu after the theme's callbacks.
+ */
+function sydney_remove_core_appearance_menu_items() {
+	global $submenu;
+
+	remove_submenu_page( 'themes.php', 'font-library.php' );
+	remove_submenu_page( 'themes.php', 'site-editor.php' );
+	remove_submenu_page( 'themes.php', 'custom-header' );
+	remove_submenu_page( 'themes.php', 'custom-background' );
+
+	// The Customizer shortcuts carry a per-request return URL, so match the control they open.
+	foreach ( $submenu['themes.php'] as $key => $item ) {
+		if ( preg_match( '/autofocus%5Bcontrol%5D=(header|background)_image/', $item[2] ) ) {
+			unset( $submenu['themes.php'][ $key ] );
+		}
+	}
+}
+add_action( 'admin_menu', 'sydney_remove_core_appearance_menu_items', 20 );

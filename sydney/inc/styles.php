@@ -4,6 +4,30 @@
  *
  */
 
+if ( ! function_exists( 'sydney_hero_thumbnail_replaces_header_image' ) ) :
+	/**
+	 * Whether free's hero shows a WooCommerce thumbnail (shop page or product
+	 * category) as its background, so the site header image must not print on it.
+	 * Pro resets that background below 1024px, so the header image stays there.
+	 *
+	 * @return bool
+	 */
+	function sydney_hero_thumbnail_replaces_header_image() {
+		if ( sydney_is_pro() || ! class_exists( 'Woocommerce' ) ) {
+			return false;
+		}
+
+		if ( is_product_category() ) {
+			global $wp_query;
+			$cat = $wp_query->get_queried_object();
+
+			return (bool) wp_get_attachment_url( get_term_meta( $cat->term_id, 'thumbnail_id', true ) );
+		}
+
+		return is_shop() && (bool) get_the_post_thumbnail_url( get_option( 'woocommerce_shop_page_id' ) );
+	}
+endif;
+
 if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 	/**
@@ -22,14 +46,6 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		public $customizer_js;
 		public $customizer_js_css_vars;
 		public static $css_to_replace = array();
-
-		/**
-		 * Cached result of `get_theme_mod('sydney_global_color_css_vars')`.
-		 * Stored on the singleton instance so that resetSingleton() (which nulls
-		 * $instance) automatically clears the cache between test cases — avoiding
-		 * the cross-test pollution that a PHP function-scope `static` would cause.
-		 */
-		private $use_css_vars_cache = null;
 
 		/**
 		 * Initiator
@@ -67,6 +83,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			add_action( 'updated_option', array( $this, 'maybe_flush_on_option_change' ) );
 			add_action( 'added_option', array( $this, 'maybe_flush_on_option_change' ) );
 			add_action( 'deleted_option', array( $this, 'maybe_flush_on_option_change' ) );
+
+			add_action( 'customize_register', array( $this, 'drop_overridden_color_links' ), 9999 );
 		}
 
 		/**
@@ -140,18 +158,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
         
         
             //__COLORS
-            $global_color_defaults = sydney_get_global_color_defaults();            
             $global_colors = array();
             
-            $custom .= ":root {" . "\n";
-            for ($i = 1; $i <= 9; $i++) {
-                $color = get_theme_mod("global_color_" . $i, $global_color_defaults["global_color_" . $i]);
-                $custom .= "  --sydney-global-color-" . $i . ":" . $color . ";" . "\n";
-            }
-            foreach ( sydney_get_extra_global_colors() as $n => $value ) {
-                $custom .= "  --sydney-extra-global-color-" . $n . ":" . esc_attr( $value ) . ";" . "\n";
-            }
-            $custom .= "}" . "\n";
+            $custom .= self::get_global_colors_css();
 
             //Primary color
             $primary_color = 'var(--sydney-global-color-1)';
@@ -183,13 +192,13 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
             $slider_text = get_theme_mod( 'slider_text', '#ffffff' );
             $custom .= ".text-slider .maintitle, .text-slider .subtitle { color:" . esc_attr($slider_text) . "}"."\n";
             //Body
-            $body_text = get_theme_mod( 'body_text_color' );
+            $body_text = self::resolve_global_color_mod( 'body_text_color', get_theme_mod( 'body_text_color' ) );
             $custom .= "body { color:" . esc_attr($body_text) . "}"."\n";
             //Sidebar background
-            $sidebar_background = get_theme_mod( 'sidebar_background', '#ffffff' );
+            $sidebar_background = self::resolve_global_color_mod( 'sidebar_background', get_theme_mod( 'sidebar_background', '#ffffff' ) );
             $custom .= "#secondary { background-color:" . esc_attr($sidebar_background) . "}"."\n";
             //Sidebar color
-            $sidebar_color = get_theme_mod( 'sidebar_color', '#6d7685' );
+            $sidebar_color = self::resolve_global_color_mod( 'sidebar_color', get_theme_mod( 'sidebar_color', '#6d7685' ) );
             $custom .= "#secondary, #secondary a:not(.wp-block-button__link) { color:" . esc_attr($sidebar_color) . "}"."\n";           
 
             //Mobile menu icon
@@ -197,7 +206,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
             $custom .= ".btn-menu .sydney-svg-icon { fill:" . esc_attr($mobile_menu_color) . "}"."\n";
         
             //Menu items hover
-            $menu_items_hover = get_theme_mod( 'menu_items_hover', '#d65050' );
+            $menu_items_hover = self::resolve_global_color_mod( 'menu_items_hover', get_theme_mod( 'menu_items_hover', '#d65050' ) );
             $custom .= "#mainnav ul li a:hover, .main-header #mainnav .menu > li > a:hover { color:" . esc_attr($menu_items_hover) . "}"."\n";
 		
             //Rows overlay
@@ -251,12 +260,12 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$custom .= ".go-top.show { border-radius:" . esc_attr( $scrolltop_radius ) . "px;bottom:" . esc_attr( $scrolltop_bottom_offset ) . "px;}" . "\n";
 			$custom .= ".go-top.position-right { right:" . esc_attr( $scrolltop_side_offset ) . "px;}" . "\n";
 			$custom .= ".go-top.position-left { left:" . esc_attr( $scrolltop_side_offset ) . "px;}" . "\n";
-			$custom .= $this->get_background_color_css( 'scrolltop_bg_color', '', '.go-top', false, 'global_color_1' );
+			$custom .= $this->get_background_color_css( 'scrolltop_bg_color', 'var(--sydney-global-color-1)', '.go-top' );
 			$custom .= $this->get_background_color_css( 'scrolltop_bg_color_hover', '', '.go-top:hover' );
 			$custom .= $this->get_color_css( 'scrolltop_color', '', '.go-top' );
 			$custom .= $this->get_stroke_css( 'scrolltop_color', '', '.go-top svg' );
-			$custom .= $this->get_color_css( 'scrolltop_color_hover', '', '.go-top:hover', false, 'global_color_1' );
-			$custom .= $this->get_stroke_css( 'scrolltop_color_hover', '', '.go-top:hover svg', 'global_color_1' );
+			$custom .= $this->get_color_css( 'scrolltop_color_hover', 'var(--sydney-global-color-1)', '.go-top:hover' );
+			$custom .= $this->get_stroke_css( 'scrolltop_color_hover', 'var(--sydney-global-color-1)', '.go-top:hover svg' );
 			$custom .= ".go-top .sydney-svg-icon, .go-top .sydney-svg-icon svg { width:" . esc_attr( $scrolltop_icon_size ) . "px;height:" . esc_attr( $scrolltop_icon_size ) . "px;}" . "\n";
 			$custom .= ".go-top { padding:" . esc_attr( $scrolltop_padding ) . "px;}" . "\n";
         
@@ -264,7 +273,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$footer_widgets_divider         = get_theme_mod( 'footer_widgets_divider', 0 );
 			$footer_widgets_divider_width   = get_theme_mod( 'footer_widgets_divider_width', 'contained' );
 			$footer_widgets_divider_size    = get_theme_mod( 'footer_widgets_divider_size', 1 );
-			$footer_widgets_divider_color   = get_theme_mod( 'footer_widgets_divider_color' );
+			$footer_widgets_divider_color   = self::resolve_global_color_mod( 'footer_widgets_divider_color', get_theme_mod( 'footer_widgets_divider_color' ) );
 
 			if ( $footer_widgets_divider ) {
 				if ( 'contained' === $footer_widgets_divider_width ) {
@@ -277,7 +286,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$footer_credits_divider         = get_theme_mod( 'footer_credits_divider', 0 );
 			$footer_credits_divider_width   = get_theme_mod( 'footer_credits_divider_width', 'contained' );
 			$footer_credits_divider_size    = get_theme_mod( 'footer_credits_divider_size', 0 );
-			$footer_credits_divider_color   = get_theme_mod( 'footer_credits_divider_color', 'rgba(33,33,33,0.1)' );            
+			$footer_credits_divider_color   = self::resolve_global_color_mod( 'footer_credits_divider_color', get_theme_mod( 'footer_credits_divider_color', 'rgba(33,33,33,0.1)' ) );            
 			if ( $footer_credits_divider ) {
 				if ( 'contained' === $footer_credits_divider_width ) {
 					$custom .= ".site-info { border-top:" . esc_attr( $footer_credits_divider_size ) . 'px solid ' . esc_attr( $footer_credits_divider_color ) . ";}" . "\n";
@@ -291,7 +300,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			$footer_widgets_column_spacing_desktop = get_theme_mod( 'footer_widgets_column_spacing_desktop', 30 );
 			$custom .= ".footer-widgets-grid { gap:" . esc_attr( $footer_widgets_column_spacing_desktop ) . "px;}" . "\n";
 			$custom .= $this->get_top_bottom_padding_css( 'footer_widgets_padding', $defaults = array( 'desktop' => 95, 'tablet' => 60, 'mobile' => 60 ), '.footer-widgets-grid' );
-			$custom .= $this->get_font_sizes_css( 'footer_widgets_title_size', $defaults = array( 'desktop' => 22, 'tablet' => 22, 'mobile' => 22 ), '.sidebar-column .widget .widget-title' );
+			$custom .= $this->get_font_sizes_css( 'footer_widgets_title_size', $defaults = array( 'desktop' => 22, 'tablet' => 22, 'mobile' => 22 ), '.sidebar-column .widget .widget-title, .sidebar-column .widget_block h1, .sidebar-column .widget_block h2, .sidebar-column .widget_block h3' );
 			$custom .= $this->get_font_sizes_css( 'footer_widgets_body_size', $defaults = array( 'desktop' => 16, 'tablet' => 16, 'mobile' => 16 ), '.footer-widgets' );
 			
 			$custom .= $this->get_background_color_css( 'footer_widgets_background', '', '.footer-widgets' );
@@ -345,8 +354,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= $this->get_color_css( 'button_color_hover', '', ':root .wp-element-button:hover,:root .wp-block-button__link:hover' );
 			}
 
-			$button_border_color = get_theme_mod( 'button_border_color', '' );
-			$button_border_color_hover = get_theme_mod( 'button_border_color_hover', '' );
+			$button_border_color = self::resolve_global_color_mod( 'button_border_color', get_theme_mod( 'button_border_color', '' ) );
+			$button_border_color_hover = self::resolve_global_color_mod( 'button_border_color_hover', get_theme_mod( 'button_border_color_hover', '' ) );
 			$custom .= ".is-style-outline .wp-block-button__link, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit],div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button, .roll-button, .wp-block-button__link.is-style-outline,button,a.button,.wp-block-button__link,input[type=\"button\"],input[type=\"reset\"],input[type=\"submit\"] { border-color:" . esc_attr( $button_border_color ) . ";}" . "\n";
 			$custom .= "button:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form button[type=submit]:hover,div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form .wpforms-page-button:hover,.roll-button:hover,a.button:hover,.wp-block-button__link:hover,input[type=\"button\"]:hover,input[type=\"reset\"]:hover,input[type=\"submit\"]:hover { border-color:" . esc_attr( $button_border_color_hover ) . ";}" . "\n";
 
@@ -403,7 +412,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 				$main_header_divider_width  = get_theme_mod( 'main_header_divider_width', 'fullwidth' );
 				$main_header_divider_size   = get_theme_mod( 'main_header_divider_size', 0 );
-				$main_header_divider_color  = get_theme_mod( 'main_header_divider_color', 'rgba(255,255,255,0.1)' );
+				$main_header_divider_color  = self::resolve_global_color_mod( 'main_header_divider_color', get_theme_mod( 'main_header_divider_color', 'rgba(255,255,255,0.1)' ) );
 				
 				if ( 'fullwidth' === $main_header_divider_width ) {
 					$custom .= ".main-header, .bottom-header-row { border-bottom:" . esc_attr( $main_header_divider_size ) . 'px solid ' . esc_attr( $main_header_divider_color ) . ";}" . "\n";
@@ -478,7 +487,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= ".sydney-offcanvas-menu #mainnav ul ul li a { font-size:" . intval($offcanvas_submenu_font_size) . "px; }"."\n";
 
 				$mobile_menu_link_separator     = get_theme_mod( 'mobile_menu_link_separator', 0 );
-				$link_separator_color           = get_theme_mod( 'link_separator_color', 'rgba(238, 238, 238, 0.14)' );
+				$link_separator_color           = self::resolve_global_color_mod( 'link_separator_color', get_theme_mod( 'link_separator_color', 'rgba(238, 238, 238, 0.14)' ) );
 				$mobile_header_separator_width  = get_theme_mod( 'mobile_header_separator_width', 1 );
 
 				if ( $mobile_menu_link_separator ) {
@@ -517,10 +526,10 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
             if ( $logo_site_title && '' !== get_theme_mod( 'site_logo' ) ) {
                 $custom .= ".site-branding { display: flex;gap:15px;align-items:center; }"."\n";
             }           
-            $site_title = get_theme_mod( 'site_title_color' );
+            $site_title = self::resolve_global_color_mod( 'site_title_color', get_theme_mod( 'site_title_color' ) );
             $custom .= ".site-title a, .site-title a:visited, .main-header .site-title a, .main-header .site-title a:visited  { color:" . esc_attr($site_title) . "}"."\n";
             //Site desc
-            $site_desc = get_theme_mod( 'site_desc_color' );
+            $site_desc = self::resolve_global_color_mod( 'site_desc_color', get_theme_mod( 'site_desc_color' ) );
             $custom .= ".site-description, .main-header .site-description { color:" . esc_attr($site_desc) . "}"."\n";
 
 			$custom .= $this->get_font_sizes_css( 'site_title_font_size', $defaults = array( 'desktop' => 32, 'tablet' => 24, 'mobile' => 20 ), '.site-title' );
@@ -713,9 +722,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 
 			$custom .= $this->get_color_css( 'color_forms_text', '', 'div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="number"]:focus, input[type="tel"]:focus, input[type="date"]:focus, textarea:focus, select:focus, .woocommerce .select2-container .select2-selection--single:focus, .woocommerce-page .select2-container .select2-selection--single:focus,.select2-container--default .select2-selection--single .select2-selection__rendered,.wp-block-search .wp-block-search__input,.wp-block-search .wp-block-search__input:focus' );
 			$custom .= $this->get_background_color_css( 'color_forms_background', '', 'div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],input[type="number"],input[type="tel"],input[type="date"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type="text"]' );
-			$color_forms_borders    = get_theme_mod( 'color_forms_borders' );
+			$color_forms_borders    = self::resolve_global_color_mod( 'color_forms_borders', get_theme_mod( 'color_forms_borders' ) );
 			$custom .= "div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=date], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=email], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=number], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=password], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=search], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=tel], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=text], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form input[type=url], div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form select, div.wpforms-container-full:not(.wpforms-render-modern) .wpforms-form textarea,input[type=\"text\"],input[type=\"email\"],input[type=\"url\"],input[type=\"password\"],input[type=\"search\"],input[type=\"number\"],input[type=\"tel\"],input[type=\"range\"],input[type=\"date\"],input[type=\"month\"],input[type=\"week\"],input[type=\"time\"],input[type=\"datetime\"],input[type=\"datetime-local\"],input[type=\"color\"],textarea,select,.woocommerce .select2-container .select2-selection--single,.woocommerce-page .select2-container .select2-selection--single,.woocommerce-account fieldset,.woocommerce-account .woocommerce-form-login, .woocommerce-account .woocommerce-form-register,.woocommerce-cart .woocommerce-cart-form .actions .coupon input[type=\"text\"],.wp-block-search .wp-block-search__input { border-color:" . esc_attr( $color_forms_borders ) . ";}" . "\n";
-			$color_forms_placeholder    = get_theme_mod( 'color_forms_placeholder' );
+			$color_forms_placeholder    = self::resolve_global_color_mod( 'color_forms_placeholder', get_theme_mod( 'color_forms_placeholder' ) );
 			$custom .= "input::placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";opacity:1;}" . "\n";
 			$custom .= "input:-ms-input-placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";}" . "\n";
 			$custom .= "input::-ms-input-placeholder { color:" . esc_attr( $color_forms_placeholder ) . ";}" . "\n";
@@ -798,9 +807,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 			// win over the token defaults above; a per-form builder value still
 			// beats these via #wpforms-{id}. Only emit set controls so unset
 			// ones keep the defaults.
-			$forms_text   = get_theme_mod( 'color_forms_text' );
-			$forms_bg     = get_theme_mod( 'color_forms_background' );
-			$forms_border = get_theme_mod( 'color_forms_borders' );
+			$forms_text   = self::resolve_global_color_mod( 'color_forms_text', get_theme_mod( 'color_forms_text' ) );
+			$forms_bg     = self::resolve_global_color_mod( 'color_forms_background', get_theme_mod( 'color_forms_background' ) );
+			$forms_border = self::resolve_global_color_mod( 'color_forms_borders', get_theme_mod( 'color_forms_borders' ) );
 			if ( $forms_border ) {
 				$vars .= '--wpforms-field-border-color:' . esc_attr( $forms_border ) . ';';
 			}
@@ -904,7 +913,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		 */
 		private function cache_signature() {
 			$data = array(
-				'schema'   => 3,
+				'schema'   => 4,
 				'theme'    => wp_get_theme( get_template() )->get( 'Version' ),
 				'child'    => get_stylesheet(),
 				'hfb'      => Sydney_Modules::is_module_active( 'hf-builder' ),
@@ -1149,63 +1158,164 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		}
 
 		/**
-		 * Resolve a color mod against its connected global color.
+		 * Color settings the Customizer links to a global color by default.
 		 *
-		 * When the setting has a connected global color, the global is
-		 * authoritative and wins over a stale literal value.
+		 * The front end cannot see Customizer defaults, so they are kept here as
+		 * literals. ColorLinksCanonTest pins them to both editions' Customizer.
 		 *
-		 * @param string $setting        The color setting name.
-		 * @param string $mod            The literal theme mod value.
-		 * @param string $global_default Default for the global slot (for settings whose global setting has a customizer-registered default).
-		 * @return string The resolved color value (or the literal mod when no global is connected).
+		 * @return array<string,string> Setting name => global color slot.
 		 */
-		public static function resolve_global_color_mod( $setting, $mod, $global_default = '' ) {
-			// Read the css-vars flag once per request; ~30+ color helpers call this
-			// function, so avoid re-invoking get_theme_mod and its filter pipeline
-			// on every rule.
-			// Read via the singleton instance so the cache is tied to the instance
-			// lifetime — nulling the singleton (e.g. in resetSingleton()) clears the
-			// cache automatically, which prevents cross-test pollution in PHPUnit.
-			$self = self::get_instance();
-			if ( null === $self->use_css_vars_cache ) {
-				$self->use_css_vars_cache = get_theme_mod( 'sydney_global_color_css_vars', false );
+		public static function get_default_color_links() {
+			return array(
+				'background_color'             => 'global_color_9',
+				'body_text_color'              => 'global_color_3',
+				'breadcrumbs_color'            => 'global_color_3',
+				'breadcrumbs_link_color'       => 'global_color_5',
+				'breadcrumbs_link_hover_color' => 'global_color_5',
+				'color_bh_widgets'             => 'global_color_5',
+				'color_forms_background'       => 'global_color_9',
+				'color_forms_borders'          => 'global_color_8',
+				'color_forms_placeholder'      => 'global_color_8',
+				'color_forms_text'             => 'global_color_5',
+				'color_heading_1'              => 'global_color_4',
+				'color_heading_2'              => 'global_color_4',
+				'color_heading_3'              => 'global_color_4',
+				'color_heading_4'              => 'global_color_4',
+				'color_heading_5'              => 'global_color_4',
+				'color_heading_6'              => 'global_color_4',
+				'color_link_default'           => 'global_color_1',
+				'color_link_hover'             => 'global_color_2',
+				'forms_border_color'           => 'global_color_8',
+				'loop_post_meta_color'         => 'global_color_5',
+				'loop_post_text_color'         => 'global_color_3',
+				'loop_post_title_color'        => 'global_color_4',
+				'main_header_background'       => 'global_color_6',
+				'menu_items_hover'             => 'global_color_1',
+				'scrolltop_bg_color'           => 'global_color_1',
+				'scrolltop_color_hover'        => 'global_color_1',
+				'sidebar_background'           => 'global_color_9',
+				'sidebar_color'                => 'global_color_5',
+				'single_post_meta_color'       => 'global_color_5',
+				'single_post_title_color'      => 'global_color_4',
+				'sydney_header_row__main_header_row_sticky_background_color' => 'global_color_9',
+				'topbar_background'            => 'global_color_6',
+			);
+		}
+
+		/**
+		 * Resolve a color mod against its linked global color.
+		 *
+		 * A linked color prints the global's CSS variable, so it follows the
+		 * global wherever its value changes.
+		 *
+		 * @param string $setting The color setting name.
+		 * @param string $mod     The literal theme mod value.
+		 * @return string The global's CSS variable, or the literal mod when the setting is not linked.
+		 */
+		public static function resolve_global_color_mod( $setting, $mod ) {
+			$link         = get_theme_mod( 'global_' . $setting, null );
+			$default_link = null === $link;
+
+			if ( $default_link ) {
+				$default_links = self::get_default_color_links();
+				$link          = isset( $default_links[ $setting ] ) ? $default_links[ $setting ] : '';
 			}
-			$use_css_vars = $self->use_css_vars_cache;
 
-			// Check if a global color is connected.
-			// Intentional: the global is unconditionally authoritative once connected.
-			// The previous colors_match() guard (which only substituted when the literal
-			// happened to equal the global) was removed deliberately — users who connect a
-			// global slot accept that the global always wins, and the literal is treated as
-			// a stale cache until the global is disconnected.
-			$global_setting = get_theme_mod( 'global_' . $setting, $global_default );
-
-			if ( $global_setting && strpos( $global_setting, 'global_color_' ) === 0 ) {
-				if ( $use_css_vars ) {
-					// Extract the color number and use the CSS variable
-					$color_number = str_replace( 'global_color_', '', $global_setting );
-					return 'var(--sydney-global-color-' . $color_number . ')';
-				}
-
-				// Get the global color value using proper defaults
-				$global_color_defaults = sydney_get_global_color_defaults();
-				$global_color_default  = isset( $global_color_defaults[ $global_setting ] ) ? $global_color_defaults[ $global_setting ] : '';
-				$global_color_value    = get_theme_mod( $global_setting, $global_color_default );
-
-				if ( $global_color_value ) {
-					return $global_color_value;
-				}
+			if ( ! is_string( $link ) || 0 !== strpos( $link, 'global_color_' ) ) {
+				return $mod;
 			}
 
-			return $mod;
+			$css_var = 'var(--sydney-global-color-' . substr( $link, strlen( 'global_color_' ) ) . ')';
+
+			// Intentional: a saved link is authoritative. Users who link a global
+			// slot accept that the global always wins, and the literal is treated
+			// as a stale copy until the link is removed.
+			if ( ! $default_link ) {
+				return $css_var;
+			}
+
+			// A link that only comes from the Customizer default never overrides
+			// a color the owner saved.
+			if ( self::has_custom_color( $setting, $link ) ) {
+				return $mod;
+			}
+
+			// Empty output stays empty: the static stylesheet colors the element.
+			return empty( $mod ) ? $mod : $css_var;
+		}
+
+		/**
+		 * Whether the owner saved their own color for a setting.
+		 *
+		 * Editing a global in the Customizer copies its new value into every
+		 * setting linked to it, so a saved value equal to the global's current
+		 * value is that copy, not a custom color.
+		 *
+		 * @param string $setting The color setting name.
+		 * @param string $link    The global color slot it is linked to, e.g. global_color_5.
+		 * @return bool
+		 */
+		public static function has_custom_color( $setting, $link ) {
+			$saved = get_theme_mod( $setting, null );
+
+			if ( null === $saved ) {
+				return false;
+			}
+
+			$global_defaults = sydney_get_global_color_defaults();
+			$global_value    = get_theme_mod( $link, isset( $global_defaults[ $link ] ) ? $global_defaults[ $link ] : '' );
+
+			return ! self::colors_match( $saved, $global_value );
+		}
+
+		/**
+		 * Drop the Customizer's default link from colors the owner customized.
+		 *
+		 * The front end lets a saved custom color win over a link that only comes
+		 * from the Customizer default. Clearing that default here makes the
+		 * control, the preview and the copy made when a global color is edited
+		 * treat the color the same way.
+		 *
+		 * @param WP_Customize_Manager $wp_customize Customizer manager.
+		 */
+		public function drop_overridden_color_links( $wp_customize ) {
+			foreach ( self::get_default_color_links() as $setting => $link ) {
+				$link_setting = $wp_customize->get_setting( 'global_' . $setting );
+
+				if ( $link_setting && null === get_theme_mod( 'global_' . $setting, null ) && self::has_custom_color( $setting, $link ) ) {
+					$link_setting->default = '';
+				}
+			}
+		}
+
+		/**
+		 * The global color variables, for any document that prints Sydney's
+		 * colors without loading the theme stylesheet.
+		 *
+		 * @return string
+		 */
+		public static function get_global_colors_css() {
+			$global_color_defaults = sydney_get_global_color_defaults();
+
+			$css = ":root {" . "\n";
+			for ($i = 1; $i <= 9; $i++) {
+				$color = get_theme_mod("global_color_" . $i, $global_color_defaults["global_color_" . $i]);
+				$css .= "  --sydney-global-color-" . $i . ":" . $color . ";" . "\n";
+			}
+			foreach ( sydney_get_extra_global_colors() as $n => $value ) {
+				$css .= "  --sydney-extra-global-color-" . $n . ":" . esc_attr( $value ) . ";" . "\n";
+			}
+			$css .= "}" . "\n";
+
+			return $css;
 		}
 
 		/**
 		 * Get color CSS
 		 */
-		public static function get_background_color_css( $setting, $default, $selector, $important = false, $global_default = '' ) {
+		public static function get_background_color_css( $setting, $default, $selector, $important = false ) {
 			$mod = get_theme_mod( $setting, $default );
-			$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
+			$mod = self::resolve_global_color_mod( $setting, $mod );
 
 			Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'background-color', '', $important );
 
@@ -1230,9 +1340,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 	/**
 	 * Get color CSS
 	 */
-	public static function get_color_css( $setting, $default, $selector, $important = false, $global_default = '' ) {
+	public static function get_color_css( $setting, $default, $selector, $important = false ) {
 		$mod = get_theme_mod( $setting, $default );
-		$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
+		$mod = self::resolve_global_color_mod( $setting, $mod );
 
         Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'color', '', $important );
 
@@ -1242,9 +1352,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 	/**
 	 * Get border color CSS
 	 */
-	public static function get_border_color_css( $setting = '', $default = '', $selector = '', $important = false, $global_default = '' ) {
+	public static function get_border_color_css( $setting = '', $default = '', $selector = '', $important = false ) {
 		$mod = get_theme_mod( $setting, $default );
-		$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
+		$mod = self::resolve_global_color_mod( $setting, $mod );
 
 		Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'border-color', '', $important );
 
@@ -1254,9 +1364,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 	/**
 	 * Get fill CSS
 	 */
-	public static function get_fill_css( $setting, $default, $selector, $important = false, $global_default = '' ) {
+	public static function get_fill_css( $setting, $default, $selector, $important = false ) {
 		$mod = get_theme_mod( $setting, $default );
-		$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
+		$mod = self::resolve_global_color_mod( $setting, $mod );
 
 		Sydney_Custom_CSS::get_instance()->mount_customizer_js_options( $selector, $setting, 'fill', '', $important );
 
@@ -1266,9 +1376,9 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 	/**
 	 * Get stroke CSS
 	 */
-	public static function get_stroke_css( $setting, $default, $selector, $global_default = '' ) {
+	public static function get_stroke_css( $setting, $default, $selector ) {
 		$mod = get_theme_mod( $setting, $default );
-		$mod = self::resolve_global_color_mod( $setting, $mod, $global_default );
+		$mod = self::resolve_global_color_mod( $setting, $mod );
 
 		return $selector . '{ stroke:' . esc_attr( $mod ) . ';}' . "\n";
 	}

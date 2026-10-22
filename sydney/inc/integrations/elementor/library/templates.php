@@ -49,9 +49,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 </script>
 
 <script type="text/template" id="template-sydney-templateLibrary-pro-button">
-	<a class="elementor-template-library-template-action elementor-button sydney-templateLibrary-pro-button" href="https://athemes.com/sydney-pricing/" target="_blank">
+	<a class="elementor-template-library-template-action elementor-button sydney-templateLibrary-pro-button" href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade/', array( 'utm_source' => 'theme_elementor_library', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'elementor-library-pro-button' ) ); ?>" target="_blank">
 		<i class="eicon-external-link-square" aria-hidden="true"></i>
-		<span class="elementor-button-title"><?php esc_html_e( 'Get Pro', 'sydney' ); ?></span>
+		<span class="elementor-button-title"><?php esc_html_e( 'Get Sydney Pro', 'sydney' ); ?></span>
 	</a>
 </script>
 

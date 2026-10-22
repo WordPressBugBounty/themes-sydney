@@ -454,10 +454,10 @@ if( ! sydney_is_white_labelled() && ! defined( 'SYDNEY_PRO_VERSION' ) ) {
 					__( 'Extra header layouts', 'sydney' ),
 					__( 'Language switcher', 'sydney' ),
 					__( 'Page Headers module', 'sydney' ),
-					__( 'Custom breakpoints', 'sydney' ),
+					__( 'Shortcode components', 'sydney' ),
 					__( 'A mobile-only menu & logo', 'sydney' ),
 					__( 'Elementor mega menu builder', 'sydney' ),
-                    '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_main_header', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'customizer-main-header-features-link' ) ) . '#features">' . __( '&hellip;and many more premium features', 'sydney' ) . '</a>',
+                    '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade#features-header', array( 'utm_source' => 'theme_customizer_main_header', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'header_builder' ), 'customizer-main-header-features-link' ) ) . '">' . __( '&hellip;and many more premium features', 'sydney' ) . '</a>',
 				),    
 				'priority'    => 999
 			)

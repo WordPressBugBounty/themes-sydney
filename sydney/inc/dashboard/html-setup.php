@@ -158,6 +158,28 @@ $categories = $state['categories'];
 
 				</div>
 
+				<?php
+				/*
+				 * Swapped in for the checklist when its last item is ticked. The tab
+				 * only shows while items remain, so it is gone on the next visit.
+				 * The next step stays inside the dashboard: this is onboarding.
+				 */
+				?>
+				<div class="sydney-dashboard-next-step-card sydney-setup-complete" hidden>
+					<h2 tabindex="-1"><?php esc_html_e( 'Your site\'s basics are done.', 'sydney' ); ?></h2>
+					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+						<p><?php esc_html_e( 'Next step for your store: Sydney Pro adds a wishlist, product swatches, sticky add-to-cart and a multi-step checkout.', 'sydney' ); ?></p>
+						<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'sydney-dashboard', 'tab' => 'free-vs-pro' ), admin_url( 'admin.php' ) ) ); ?>" class="button button-primary">
+							<?php esc_html_e( 'Compare Free and Pro', 'sydney' ); ?>
+						</a>
+					<?php else : ?>
+						<p><?php esc_html_e( 'Next step: build your own headers, footers and page layouts with the Template Builder in Sydney Pro.', 'sydney' ); ?></p>
+						<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'sydney-dashboard', 'tab' => 'builder' ), admin_url( 'admin.php' ) ) ); ?>" class="button button-primary">
+							<?php esc_html_e( 'See the Template Builder', 'sydney' ); ?>
+						</a>
+					<?php endif; ?>
+				</div>
+
 			</div>
 		</div>
 	</div>

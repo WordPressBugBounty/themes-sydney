@@ -450,6 +450,9 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
           justify-content: flex-start;
   padding: 0px 25px;
 }
+.sydney-shfb.sydney-shfb-header .sydney-shfb-bottom .sydney-shfb-bottom-upsell {
+  padding-left: 300px;
+}
 .sydney-shfb .sydney-shfb-bottom .sydney-shfb-bottom-settings {
   width: 50px;
   color: #1E1E1E;
@@ -872,17 +875,24 @@ body.shfb-active .sydney-shfb.show-bottom .sydney-shfb-top {
 }
 .sydney-shfb-upsell-components-wrapper .sydney-shfb-upsell-components .shfb-button {
   position: relative;
-  pointer-events: none;
 }
 .sydney-shfb-upsell-components-wrapper .sydney-shfb-upsell-components .shfb-button .shfb-lock-icon {
   position: absolute;
   top: 5px;
   right: 4px;
-  width: 17px;
-  height: 17px;
+  width: 13px;
+  height: 13px;
   fill: var(--wp-admin-theme-color, #2271b1);
 }
 .sydney-shfb-upsell-components-wrapper p {
   margin: 0 0 5px;
   opacity: 0.5;
+}
+.sydney-shfb-upsell-components-wrapper .shfb-upsell-twin {
+  margin: 10px 0 0;
+  text-align: left;
+  opacity: 1;
+}
+.sydney-shfb .sydney-shfb-elements .sydney-shfb-upsell-components .sydney-shfb-element .shfb-button {
+  padding: 12px 20px;
 }

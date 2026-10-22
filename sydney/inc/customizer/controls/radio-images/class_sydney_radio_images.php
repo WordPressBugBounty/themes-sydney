@@ -25,11 +25,24 @@ class Sydney_Radio_Images extends WP_Customize_Control {
 
 		$choices = array();
 		foreach ( $this->choices as $value => $args ) {
+			$is_pro = ! empty( $args['is_pro'] );
+
 			$choices[] = array(
-				'value'  => $value,
-				'label'  => $args['label'],
-				'url'    => sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ),
-				'is_pro' => ! empty( $args['is_pro'] ),
+				'value'   => $value,
+				/* translators: %s: layout name */
+				'label'   => $is_pro ? sprintf( __( '%s (Pro)', 'sydney' ), $args['label'] ) : $args['label'],
+				'url'     => sprintf( $args['url'], get_template_directory_uri(), get_stylesheet_directory_uri() ),
+				'is_pro'  => $is_pro,
+				'pro_url' => $is_pro ? sydney_admin_upgrade_link(
+					'https://athemes.com/sydney-upgrade',
+					array(
+						'utm_source'   => 'theme_customizer_deep',
+						'utm_medium'   => 'sydney_customizer',
+						'utm_campaign' => 'Sydney',
+						'utm_content'  => ! empty( $args['utm_content'] ) ? $args['utm_content'] : $this->id . '_' . $value,
+					),
+					'customizer-locked-choice-link'
+				) : '',
 			);
 		}
 
@@ -108,8 +121,8 @@ class Sydney_Radio_Images extends WP_Customize_Control {
 				#>
 					<div id="input_{{ data.id }}{{ suffix }}" class="sydney-radio-images-wrapper {{ cls }}">
 						<# _.each( data.choices, function( choice ) { #>
-							<label for="{{ data.id }}{{ suffix }}-{{ choice.value }}"<# if ( choice.is_pro ) { #> class="is-pro"<# } #>>
-								<input type="radio" value="{{ choice.value }}" name="_customize-radio-{{ data.id }}{{ suffix }}" id="{{ data.id }}{{ suffix }}-{{ choice.value }}" data-customize-setting-key-link="{{ device }}" <# if ( String( choice.value ) === String( data.values[ device ] ) ) { #>checked<# } #> />
+							<label for="{{ data.id }}{{ suffix }}-{{ choice.value }}"<# if ( choice.is_pro ) { #> class="is-pro" data-pro-url="{{ choice.pro_url }}"<# } #>>
+								<input type="radio" value="{{ choice.value }}" name="_customize-radio-{{ data.id }}{{ suffix }}" id="{{ data.id }}{{ suffix }}-{{ choice.value }}" data-customize-setting-key-link="{{ device }}" <# if ( choice.is_pro ) { #>disabled<# } else if ( String( choice.value ) === String( data.values[ device ] ) ) { #>checked<# } #> />
 								<span class="screen-reader-text">{{ choice.label }}</span>
 								<figure><img src="{{ choice.url }}" title="{{ choice.label }}" alt="{{ choice.label }}" /></figure>
 								<span class="label-tooltip">{{ choice.label }}</span>

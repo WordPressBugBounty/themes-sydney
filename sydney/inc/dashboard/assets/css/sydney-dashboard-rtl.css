@@ -52,3 +52,22 @@
   margin-left: 0;
   margin-right: var(--sydney-dashboard-space-2);
 }
+
+/* Get Sydney Pro: upgrade card and popup */
+.sydney-pro-upgrade-row .sydney-license-key-input i {
+  left: auto;
+  right: 10px;
+}
+
+.sydney-pro-upgrade-row .sydney-license-key-input input {
+  padding-left: var(--sydney-dashboard-space-3);
+  padding-right: var(--sydney-dashboard-space-9);
+}
+
+.sydney-pro-upgrade-modal__links {
+  text-align: right;
+}
+
+.sydney-pro-upgrade-modal__link-arrow::after {
+  transform: translate(-35%, -50%) rotate(-135deg);
+}

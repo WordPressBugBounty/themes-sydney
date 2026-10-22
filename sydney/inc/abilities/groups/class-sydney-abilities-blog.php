@@ -74,7 +74,7 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 				'sydney/get-blog-layout',
 				array(
 					'label'            => __( 'Get blog layout', 'sydney' ),
-					'description'      => __( 'Read the blog/archive listing layout: layout style, number of grid columns, whether post content shows, excerpt length, the read-more link, and which post-meta elements appear. Call before sydney/update-blog-layout.', 'sydney' ),
+					'description'      => __( 'Read the blog/archive listing layout: layout style, number of grid columns, whether post content shows, excerpt length, the read-more link, and which post-meta elements appear. Call before sydney/update-blog-layout. When sydney/get-templates is available (Sydney Pro), call it first: a Template Builder content part assigned to blog pages replaces this layout there.', 'sydney' ),
 					'input_schema'     => array( 'type' => 'object' ),
 					'output_schema'    => Sydney_Ability::envelope_schema(
 						array(
@@ -100,6 +100,14 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 								'type'        => 'object',
 								'description' => 'Allowed values for layout, columns and meta_elements.',
 							),
+							'overridden_by_templates' => array(
+								'type'        => 'array',
+								'description' => 'Sydney Pro only: Template Builder templates with a content part, which replaces this layout on the pages they match. Each entry has template_id, name, slots, conditions and everywhere, which is true when that template alone wins every page. Empty when none.',
+							),
+							'overridden_everywhere' => array(
+								'type'        => 'object',
+								'description' => 'Sydney Pro only: content is true when Template Builder content parts replace this layout on every page, so the blog layout is never used. Read this, not an entry\'s everywhere.',
+							),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_get_blog_layout' ),
@@ -119,7 +127,7 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update blog layout', 'sydney' ),
-					'description'      => __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first.', 'sydney' ),
+					'description'      => __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first. When sydney/get-templates is available, a Template Builder content part overrides this layout wherever its template matches; the response carries a notice when that is the case everywhere.', 'sydney' ),
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,
@@ -162,6 +170,10 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 								'type'  => 'array',
 								'items' => array( 'type' => 'string' ),
 							),
+							'notice'  => array(
+								'type'        => 'string',
+								'description' => 'Sydney Pro only: present when a Template Builder content part is active on every page, so the blog layout is not visible.',
+							),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_update_blog_layout' ),
@@ -182,21 +194,31 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 			$map  = $this->get_blog_map();
 			$meta = get_theme_mod( $map['meta_elements']['theme_mod'], $map['meta_elements']['default'] );
 
+			$data = array(
+				'layout'         => (string) get_theme_mod( $map['layout']['theme_mod'], $map['layout']['default'] ),
+				'columns'        => (int) get_theme_mod( $map['columns']['theme_mod'], $map['columns']['default'] ),
+				'show_content'   => (bool) get_theme_mod( $map['show_content']['theme_mod'], $map['show_content']['default'] ),
+				'excerpt_length' => (int) get_theme_mod( $map['excerpt_length']['theme_mod'], $map['excerpt_length']['default'] ),
+				'read_more_link' => (bool) get_theme_mod( $map['read_more_link']['theme_mod'], $map['read_more_link']['default'] ),
+				'meta_elements'  => array_values( (array) $meta ),
+				'available'      => array(
+					'layout'        => self::LAYOUTS,
+					'columns'       => self::COLUMNS,
+					'meta_elements' => self::META_ELEMENTS,
+				),
+			);
+
+			/**
+			 * Filters the get-blog-layout data. Sydney Pro adds the templates whose
+			 * content part replaces this layout.
+			 *
+			 * @param array $data Blog layout data.
+			 */
+			$data = apply_filters( 'sydney_abilities_blog_layout_data', $data );
+
 			return Sydney_Abilities_Response::success(
 				__( 'Blog layout retrieved.', 'sydney' ),
-				array(
-					'layout'         => (string) get_theme_mod( $map['layout']['theme_mod'], $map['layout']['default'] ),
-					'columns'        => (int) get_theme_mod( $map['columns']['theme_mod'], $map['columns']['default'] ),
-					'show_content'   => (bool) get_theme_mod( $map['show_content']['theme_mod'], $map['show_content']['default'] ),
-					'excerpt_length' => (int) get_theme_mod( $map['excerpt_length']['theme_mod'], $map['excerpt_length']['default'] ),
-					'read_more_link' => (bool) get_theme_mod( $map['read_more_link']['theme_mod'], $map['read_more_link']['default'] ),
-					'meta_elements'  => array_values( (array) $meta ),
-					'available'      => array(
-						'layout'        => self::LAYOUTS,
-						'columns'       => self::COLUMNS,
-						'meta_elements' => self::META_ELEMENTS,
-					),
-				)
+				$data
 			);
 		}
 
@@ -293,9 +315,17 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 
 			Sydney_Ability::set_theme_mods( $mods );
 
+			/**
+			 * Filters the update-blog-layout result. Sydney Pro adds a notice when a
+			 * template hides this change on every page.
+			 *
+			 * @param array $data Result data.
+			 */
+			$data = apply_filters( 'sydney_abilities_blog_layout_result', array( 'updated' => $updated ) );
+
 			return Sydney_Abilities_Response::success(
 				__( 'Blog layout updated.', 'sydney' ),
-				array( 'updated' => $updated )
+				$data
 			);
 		}
 	}

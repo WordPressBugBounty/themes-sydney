@@ -19,6 +19,24 @@ function sydney_sanitize_select( $input, $setting ){
 }
 
 /**
+ * Sanitize radio images
+ *
+ * Like sydney_sanitize_select(), and also rejects the locked Pro choices.
+ */
+function sydney_sanitize_radio_images( $input, $setting ) {
+
+    $input = sanitize_key( $input );
+
+    $choices = $setting->manager->get_control( $setting->id )->choices;
+
+    if ( ! array_key_exists( $input, $choices ) || ! empty( $choices[ $input ]['is_pro'] ) ) {
+        return $setting->default;
+    }
+
+    return $input;
+}
+
+/**
  * Sanitize blog elements
  *
  * The allowed list is the free edition's; Pro widens it with the three

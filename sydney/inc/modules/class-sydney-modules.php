@@ -15,7 +15,9 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-			add_action( 'admin_init', array( $this, 'activate_modules' ) );
+			// Before Sydney_Dashboard builds its tab list on init (priority 10),
+			// so a module turned on by URL shows its tab on that same page.
+			add_action( 'init', array( $this, 'activate_modules' ), 5 );
 		}       
 
 		/**

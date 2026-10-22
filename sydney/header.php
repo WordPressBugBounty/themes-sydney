@@ -52,28 +52,21 @@
 		<div class="header-image">
 			<?php sydney_header_overlay(); ?>
 			<?php
+			// Same default as sydney_header_style(): a site that never ran the header upgrade and never saved a type has an image header.
 			$sydney_header_is_image = ( get_theme_mod( 'front_header_type', 'nothing' ) === 'image' && is_front_page() )
-				|| ( get_theme_mod( 'site_header_type' ) === 'image' && ! is_front_page() );
+				|| ( get_theme_mod( 'site_header_type', get_option( 'sydney-update-header' ) ? 'nothing' : 'image' ) === 'image' && ! is_front_page() );
 
 			/**
-			 * The shop fallback. Free can only reach it behind an image header, so
-			 * the leading test keeps get_the_post_thumbnail_url() off every page
-			 * that cannot use the answer.
+			 * An image header renders the <img> that takes over from the background
+			 * below 1024px, unless free's hero already shows a shop or category
+			 * thumbnail. The shop page falls back to it when it has no thumbnail.
+			 * Short-circuit keeps get_the_post_thumbnail_url() off non-shop pages.
 			 */
-			$sydney_shop_needs_header = ( sydney_is_pro() || $sydney_header_is_image )
-				&& class_exists( 'Woocommerce' ) && is_shop()
-				&& ! get_the_post_thumbnail_url( get_option( 'woocommerce_shop_page_id' ) );
-
-			/**
-			 * Pro shows the header image for any image header or on the shop
-			 * fallback; free shows it only where both hold. Free defaults
-			 * front_header_type to 'nothing' and Pro to 'slider', and neither
-			 * equals 'image', so both terms are identical in the two editions and
-			 * only the operator differs.
-			 */
-			$sydney_show_header_inner = sydney_is_pro()
-				? ( $sydney_header_is_image || $sydney_shop_needs_header )
-				: ( $sydney_header_is_image && $sydney_shop_needs_header );
+			$sydney_show_header_inner = ( $sydney_header_is_image && ! sydney_hero_thumbnail_replaces_header_image() )
+				|| (
+					class_exists( 'Woocommerce' ) && is_shop()
+					&& ! get_the_post_thumbnail_url( get_option( 'woocommerce_shop_page_id' ) )
+				);
 			?>
 			<?php if ( $sydney_show_header_inner ) : ?>
 				<img class="header-inner" src="<?php header_image(); ?>" width="<?php echo esc_attr( get_custom_header()->width ); ?>" alt="<?php bloginfo('name'); ?>" title="<?php bloginfo('name'); ?>">

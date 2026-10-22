@@ -20,6 +20,7 @@ class Sydney_Page_Metabox {
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'sydney_page_metabox_fields', array( $this, 'render_pro_upsell' ), 99 );
 	}
 
 	public function add_meta_box( $post_type ) {
@@ -82,6 +83,21 @@ class Sydney_Page_Metabox {
 	<?php endif; ?>
 	<?php do_action( 'sydney_page_metabox_fields', $post ); ?>
 
+	<?php
+	}
+
+	/**
+	 * Points free users at the per-page options Sydney Pro adds to this box.
+	 */
+	public function render_pro_upsell() {
+		if ( defined( 'SYDNEY_PRO_VERSION' ) ) {
+			return;
+		}
+	?>
+	<p class="description">
+		<?php esc_html_e( 'Hide the title, sidebar or featured image per page with Sydney Pro.', 'sydney' ); ?>
+		<a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_page_metabox', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'page-metabox-upgrade-link' ) ); ?>" target="_blank"><?php esc_html_e( 'Learn more', 'sydney' ); ?></a>
+	</p>
 	<?php
 	}
 

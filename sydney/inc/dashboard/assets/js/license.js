@@ -293,6 +293,15 @@
 
 		event.preventDefault();
 
+		// A button can ask before it acts, e.g. Deactivate, which a single misclick would otherwise fire.
+		var confirmMessage = button.getAttribute( 'data-confirm' );
+
+		if ( confirmMessage && ! window.confirm( confirmMessage ) ) {
+			event.stopImmediatePropagation();
+
+			return;
+		}
+
 		// Take over the click in the capture phase so the product's own license-button handler
 		// (e.g. a dashboard script) never runs — those typically swap the button for a spinner
 		// that only resets on a full-page form submit, which no longer happens now that

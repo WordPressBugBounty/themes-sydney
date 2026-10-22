@@ -174,13 +174,20 @@ class Sydney_Usage_Tracking {
 			'athemes_sydney_version'             => $this->get_sydney_version(),
 			'athemes_sydney_pro_version'         => $is_pro ? SYDNEY_PRO_VERSION : '',
 			'athemes_sydney_license_key'         => $this->get_license_key(),
+			'athemes_sydney_license_status'      => $this->get_license_status(),
+			'athemes_sydney_license_deactivated_at' => $this->get_license_deactivated_at(),
 			'athemes_sydney_license_type'        => $this->get_license_type(),
 			'athemes_sydney_is_pro'              => (int) $is_pro,
 			'athemes_sydney_lite_installed_date' => $this->get_installed_date( 'lite' ),
 			'athemes_sydney_pro_installed_date'  => $is_pro ? $this->get_installed_date( 'pro' ) : '',
+			'athemes_sydney_pro_upgrade_date'    => (int) get_option( 'sydney_pro_upgrade_date', 0 ),
+			'athemes_sydney_pro_upgrade_source'  => (string) get_option( 'sydney_pro_upgrade_source', '' ),
 			'athemes_sydney_active_modules'      => $this->get_active_modules(),
 			'athemes_sydney_settings'            => $this->get_settings(),
 			'athemes_sydney_block_editor_enabled' => (int) $this->is_block_editor_enabled(),
+			'athemes_sydney_abilities_enabled' => (int) Sydney_Abilities::is_enabled(),
+			'athemes_sydney_abilities_allow_writes' => (int) Sydney_Abilities::writes_enabled(),
+			'athemes_sydney_abilities_api_available' => (int) function_exists( 'wp_register_ability' ),
 		);
 
 		if ( $data['is_multisite'] ) {
@@ -246,6 +253,35 @@ class Sydney_Usage_Tracking {
 	}
 
 	/**
+	 * Get the license status the license client stored: valid, expired,
+	 * disabled, invalid, or '' when no key is stored.
+	 *
+	 * @return string
+	 */
+	private function get_license_status() {
+
+		if ( ! defined( 'SYDNEY_PRO_VERSION' ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( (string) get_option( 'sydney_pro_license_status', '' ) );
+	}
+
+	/**
+	 * Get when the license was last deactivated on this site.
+	 *
+	 * @return int Unix timestamp, 0 when never.
+	 */
+	private function get_license_deactivated_at() {
+
+		if ( ! defined( 'SYDNEY_PRO_VERSION' ) ) {
+			return 0;
+		}
+
+		return (int) get_option( 'sydney_pro_license_deactivated_at', 0 );
+	}
+
+	/**
 	 * Get the license type.
 	 *
 	 * @return string
@@ -299,6 +335,8 @@ class Sydney_Usage_Tracking {
 		if ( empty( $theme_mods ) || ! is_array( $theme_mods ) ) {
 			return array();
 		}
+
+		unset( $theme_mods['mailchimp_api_key'], $theme_mods['sydney_pro_maps_api'] );
 
 		return $theme_mods;
 	}

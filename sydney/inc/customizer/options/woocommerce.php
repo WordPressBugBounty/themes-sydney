@@ -38,7 +38,7 @@ $wp_customize->add_control(
 		array(
 			'label'                 => '',
 			'section'               => 'woocommerce_product_catalog',
-			'controls_general'      => wp_json_encode( array( '#customize-control-woocommerce_catalog_rows', '#customize-control-woocommerce_catalog_columns', '#customize-control-swc_loop_product_alignment', '#customize-control-shop_breadcrumbs', '#customize-control-accordion_shop_layout', '#customize-control-swc_products_number', '#customize-control-swc_columns_number', '#customize-control-shop_archive_layout', '#customize-control-shop_archive_sidebar', '#customize-control-shop_archive_divider_1', '#customize-control-shop_page_elements_title', '#customize-control-shop_page_title', '#customize-control-shop_page_description', '#customize-control-shop_product_sorting', '#customize-control-shop_results_count', '#customize-control-accordion_shop_product_card', '#customize-control-shop_product_card_layout', '#customize-control-shop_product_add_to_cart_layout', '#customize-control-shop_product_quickview_layout', '#customize-control-shop_card_elements', '#customize-control-shop_product_alignment', '#customize-control-shop_product_element_spacing', '#customize-control-accordion_shop_sale_tag', '#customize-control-shop_product_sale_tag_layout', '#customize-control-shop_sale_tag_spacing', '#customize-control-shop_sale_tag_radius', '#customize-control-sale_badge_text', '#customize-control-sale_badge_percent', '#customize-control-sale_percentage_text', '#customize-control-accordion_shop_categories', '#customize-control-shop_categories_layout', '#customize-control-shop_categories_alignment', '#customize-control-shop_categories_radius', '#customize-control-shop_cart_layout', '#customize-control-swc_df_checkout', '#customize-control-shop_checkout_layout' ) ),
+			'controls_general'      => wp_json_encode( array( '#customize-control-woocommerce_catalog_rows', '#customize-control-sydney_upsell_shop_catalog', '#customize-control-woocommerce_catalog_columns', '#customize-control-swc_loop_product_alignment', '#customize-control-shop_breadcrumbs', '#customize-control-accordion_shop_layout', '#customize-control-swc_products_number', '#customize-control-swc_columns_number', '#customize-control-shop_archive_layout', '#customize-control-shop_archive_sidebar', '#customize-control-shop_archive_divider_1', '#customize-control-shop_page_elements_title', '#customize-control-shop_page_title', '#customize-control-shop_page_description', '#customize-control-shop_product_sorting', '#customize-control-shop_results_count', '#customize-control-accordion_shop_product_card', '#customize-control-shop_product_card_layout', '#customize-control-shop_product_add_to_cart_layout', '#customize-control-shop_product_quickview_layout', '#customize-control-shop_card_elements', '#customize-control-shop_product_alignment', '#customize-control-shop_product_element_spacing', '#customize-control-accordion_shop_sale_tag', '#customize-control-shop_product_sale_tag_layout', '#customize-control-shop_sale_tag_spacing', '#customize-control-shop_sale_tag_radius', '#customize-control-sale_badge_text', '#customize-control-sale_badge_percent', '#customize-control-sale_percentage_text', '#customize-control-accordion_shop_categories', '#customize-control-shop_categories_layout', '#customize-control-shop_categories_alignment', '#customize-control-shop_categories_radius', '#customize-control-shop_cart_layout', '#customize-control-swc_df_checkout', '#customize-control-shop_checkout_layout' ) ),
 			'controls_design'      => wp_json_encode( array( '#customize-control-swc_loop_product_price_font_size', '#customize-control-swc_loop_product_price_color', '#customize-control-swc_archive_button_icon', '#customize-control-swc_loop_button_bg', '#customize-control-swc_loop_button_color', '#customize-control-swc_loop_button_size', '#customize-control-swc_loop_button_font_size', '#customize-control-accordion_shop_styling_buttons', '#customize-control-swc_loop_product_title_color', '#customize-control-accordion_shop_styling_card', '#customize-control-shop_product_card_style', '#customize-control-shop_product_card_radius', '#customize-control-shop_product_card_thumb_radius', '#customize-control-shop_product_card_background', '#customize-control-shop_product_card_border_size', '#customize-control-shop_product_card_border_color', '#customize-control-accordion_shop_styling_sale', '#customize-control-swc_loop_salebadge_bg_color', '#customize-control-swc_loop_salebadge_color' ) ),
 			'priority'              =>  -10,
 		)
@@ -630,7 +630,7 @@ $wp_customize->add_setting(
 	'shop_checkout_layout',
 	array(
 		'default'           => 'layout1',
-		'sanitize_callback' => 'sanitize_key',
+		'sanitize_callback' => 'sydney_sanitize_radio_images',
 	)
 );
 $wp_customize->add_control(
@@ -640,7 +640,7 @@ $wp_customize->add_control(
 		array(
 			'label'     => esc_html__( 'Layout', 'sydney' ),
 			'section'   => 'woocommerce_checkout',
-			'cols'      => 2,
+			'cols'      => 3,
 			'choices'  => array(
 				'layout1' => array(
 					'label' => esc_html__( 'Layout 1', 'sydney' ),
@@ -650,6 +650,12 @@ $wp_customize->add_control(
 					'label' => esc_html__( 'Layout 2', 'sydney' ),
 					'url'   => '%s/images/customizer/checkout2.svg',
 				),      
+				'layout3' => array(
+					'label'       => esc_html__( 'Multistep', 'sydney' ),
+					'url'         => '%s/images/customizer/checkout3.svg',
+					'is_pro'      => true,
+					'utm_content' => 'checkout_layout_multistep',
+				),
 			),
 			'priority'   => 20,
 		)

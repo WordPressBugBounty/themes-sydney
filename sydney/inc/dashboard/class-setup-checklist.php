@@ -549,24 +549,17 @@ class Sydney_Setup_Checklist {
 	/**
 	 * Whether the Setup tab should be shown to the user.
 	 *
-	 * Free-only feature: Sydney Pro has its own dashboard onboarding, so the
-	 * tab never shows there. Checked first so this file stays identical
-	 * between the free and Pro codebases.
-	 *
-	 * Otherwise gated by the `sydney_setup_checklist_eligible` option, which is
+	 * Gated by the `sydney_setup_checklist_eligible` option, which is
 	 * set once via `after_switch_theme` for sites newly activating Sydney from a
 	 * non-Sydney theme. Existing sites that update into this feature never
 	 * become eligible. The `sydney_dashboard_show_setup_tab` filter overrides
 	 * that resolved value either way — pass true to force-show, false to hide.
-	 * The Pro check above takes precedence over the filter.
+	 * Both editions show it, so a site partway through the checklist keeps it
+	 * after upgrading to Pro.
 	 *
 	 * @return bool
 	 */
 	public function should_show_tab() {
-		if ( defined( 'SYDNEY_PRO_VERSION' ) ) {
-			return false;
-		}
-
 		if ( ! get_option( 'sydney_setup_checklist_eligible' ) ) {
 			return (bool) apply_filters( 'sydney_dashboard_show_setup_tab', false );
 		}

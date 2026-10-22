@@ -108,7 +108,7 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				'sydney/get-hf-layout',
 				array(
 					'label'            => __( 'Get header/footer layout', 'sydney' ),
-					'description'      => __( 'Read the full header and footer builder layout: every row, device, and column with its ordered component ids. These rows and columns are what add/remove/move-hf-component operate on.', 'sydney' ),
+					'description'      => __( 'Read the full header and footer builder layout: every row, device, and column with its ordered component ids. These rows and columns are what add/remove/move-hf-component operate on. The header/footer builder is the site-wide header and footer. When sydney/get-templates is available (Sydney Pro), call it first: a Template Builder header or footer replaces this builder\'s output on every page its template matches.', 'sydney' ),
 					'input_schema'     => array(
 						'type'       => 'object',
 						'properties' => new stdClass(),
@@ -117,6 +117,14 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 						array(
 									'header' => array( 'type' => 'object' ),
 									'footer' => array( 'type' => 'object' ),
+									'overridden_by_templates' => array(
+										'type'        => 'array',
+										'description' => 'Sydney Pro only: Template Builder templates whose header or footer replaces this builder\'s output on the pages they match. Each entry has template_id, name, slots, conditions and everywhere, which is true when that template alone wins every page. Empty when none.',
+									),
+									'overridden_everywhere' => array(
+										'type'        => 'object',
+										'description' => 'Sydney Pro only: header and footer, each true when Template Builder templates replace that part of this builder on every page, so a change to it is not visible anywhere. Read this, not an entry\'s everywhere, to know whether the builder shows on any page.',
+									),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_get_hf_layout' ),
@@ -285,7 +293,7 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				array(
 					'write' => true,
 					'label'            => __( 'Update header/footer component settings', 'sydney' ),
-					'description'      => __( 'Set the content and functional settings of one header or footer builder component. Only curated settings are writable; the raw HTML component is not. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row.', 'sydney' ),
+					'description'      => __( 'Set the content and functional settings of one header or footer builder component. Only curated settings are writable; the raw HTML component is not. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row. When sydney/get-templates is available, a Template Builder header or footer overrides this builder wherever its template matches; the response carries a notice when that is the case everywhere.', 'sydney' ),
 					'input_schema'     => array(
 						'type'                 => 'object',
 						// Top-level only: reject any property other than the three below.
@@ -330,6 +338,10 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 											),
 										),
 									),
+									'notice'  => array(
+										'type'        => 'string',
+										'description' => 'Sydney Pro only: present when a Template Builder header or footer is active on every page, so this change is not visible.',
+									),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_update_hf_component_settings' ),
@@ -358,6 +370,14 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 					$out[ $area ][ $row ] = Sydney_HF_Layout::load( $area, $row );
 				}
 			}
+
+			/**
+			 * Filters the get-hf-layout data. Sydney Pro adds the templates that
+			 * replace this builder's output.
+			 *
+			 * @param array $out Layout keyed by area, then row.
+			 */
+			$out = apply_filters( 'sydney_abilities_hf_layout_data', $out );
 
 			return Sydney_Abilities_Response::success(
 				__( 'Header/footer layout retrieved.', 'sydney' ),
@@ -722,15 +742,24 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				);
 			}
 
-			return Sydney_Abilities_Response::success(
-				$message,
-				array(
-					'area'         => $area,
-					'component_id' => $component_id,
-					'updated'      => $updated,
-					'ignored'      => $ignored,
-				)
+			$data = array(
+				'area'         => $area,
+				'component_id' => $component_id,
+				'updated'      => $updated,
+				'ignored'      => $ignored,
 			);
+
+			/**
+			 * Filters the update-hf-component-settings result. Sydney Pro adds a
+			 * notice when a template hides this change on every page.
+			 *
+			 * @param array  $data         Result data.
+			 * @param string $area         header or footer.
+			 * @param string $component_id Component id.
+			 */
+			$data = apply_filters( 'sydney_abilities_hf_component_settings_result', $data, $area, $component_id );
+
+			return Sydney_Abilities_Response::success( $message, $data );
 		}
 
 		/**

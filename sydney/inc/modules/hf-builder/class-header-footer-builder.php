@@ -212,19 +212,37 @@ class Sydney_Header_Footer_Builder {
             ),
         );
 
-        // Upsell Header Components
+        // Upsell Header Components ('twin' is the free component a Pro one duplicates).
         $this->header_upsell_components = array(
             array(
                 'id'    => 'button2',
                 'label' => esc_html__( 'Button 2', 'sydney' ),
+                'twin'  => 'button',
             ),
             array(
                 'id'    => 'html2',
                 'label' => esc_html__( 'HTML 2', 'sydney' ),
+                'twin'  => 'html',
             ),
             array(
-                'id'    => 'social',
-                'label' => esc_html__( 'Login/Register', 'sydney' ),
+                'id'    => 'shortcode',
+                'label' => esc_html__( 'Shortcode', 'sydney' ),
+            ),
+            array(
+                'id'    => 'shortcode2',
+                'label' => esc_html__( 'Shortcode 2', 'sydney' ),
+            ),
+            array(
+                'id'    => 'shortcode3',
+                'label' => esc_html__( 'Shortcode 3', 'sydney' ),
+            ),
+            array(
+                'id'    => 'dark_mode_switch',
+                'label' => esc_html__( 'Dark Mode Switch', 'sydney' ),
+            ),
+            array(
+                'id'    => 'language_switcher',
+                'label' => esc_html__( 'Language Switcher', 'sydney' ),
             ),
         );
 
@@ -237,10 +255,16 @@ class Sydney_Header_Footer_Builder {
             array(
                 'id'    => 'html2',
                 'label' => esc_html__( 'HTML 2', 'sydney' ),
+                'twin'  => 'html',
             ),
             array(
                 'id'    => 'button2',
                 'label' => esc_html__( 'Button 2', 'sydney' ),
+                'twin'  => 'button',
+            ),
+            array(
+                'id'    => 'shortcode',
+                'label' => esc_html__( 'Shortcode', 'sydney' ),
             ),
         );
 
@@ -303,8 +327,8 @@ class Sydney_Header_Footer_Builder {
 
         wp_enqueue_script( 'jquery-ui-sortable' );
 
-        wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20260819' );
-        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20260929.1', true );
+        wp_enqueue_style( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/css/admin/sydney-shfb.min.css', array(), '20261009.2' );
+        wp_enqueue_script( 'sydney-shfb', get_template_directory_uri() . '/inc/modules/hf-builder/assets/js/admin/sydney-shfb.min.js', array(), '20261019', true );
         wp_localize_script( 'sydney-shfb', 'sydney_hfb', array(
             'rows' => array(
                 'defaults' => array(
@@ -349,24 +373,45 @@ class Sydney_Header_Footer_Builder {
                  *
                  * @since 1.0.0
                  */
-                'header' => apply_filters( 'sydney_header_builder_upsell_components', $this->header_upsell_components ),
+                'header' => $this->upsell_components_links( apply_filters( 'sydney_header_builder_upsell_components', $this->header_upsell_components ) ),
 
                 /**
                  * Hook 'sydney_header_builder_footer_upsell_components'
                  *
                  * @since 1.0.0
                  */
-                'footer' => apply_filters( 'sydney_header_builder_footer_upsell_components', $this->footer_upsell_components ),
+                'footer' => $this->upsell_components_links( apply_filters( 'sydney_header_builder_footer_upsell_components', $this->footer_upsell_components ) ),
                 'title'  => esc_html__( 'PRO Components', 'sydney' ),
-                'total'  => esc_html__( '13+ Components Available', 'sydney' ),
-                'button' => esc_html__( 'Get Sydney Pro Now!', 'sydney' ),
+                'description' => array(
+                    'header' => esc_html__( 'Add shortcodes, a second button, a language switcher or a dark mode switch to any row.', 'sydney' ),
+                    'footer' => esc_html__( 'Add a footer menu, a shortcode, a second button or a second HTML block to any row.', 'sydney' ),
+                ),
+                'full'   => array(
+                    'header' => esc_html__( 'You\'re using every free header component. Sydney Pro adds up to 8 more: a second button, a second HTML block, 3 shortcode slots, WPML/Polylang switchers and a dark mode switch.', 'sydney' ),
+                    'footer' => esc_html__( 'You\'re using every free footer component. Sydney Pro adds 4 more: a footer menu, a second button, a second HTML block and a shortcode slot.', 'sydney' ),
+                ),
+                /* translators: %s: name of a free header or footer component, e.g. Button */
+                'twin'   => esc_html__( 'You\'re already using %s. Sydney Pro adds a second one.', 'sydney' ),
+                'button' => esc_html__( 'Get Sydney Pro', 'sydney' ),
                 'link'   => esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_deep', 'utm_content' => 'hf_builder', 'utm_medium' => 'button', 'utm_campaign' => 'Sydney' ), 'customizer-deep-hf-builder-button' ) ),
+                'full_link' => esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_deep', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'hf_builder_full' ), 'customizer-deep-hf-builder-full' ) ),
             ),
             'header_presets' => $this->header_presets_values(),
             'i18n' => array(
                 'elementsMessage' => esc_html__( 'It looks like you already are using all available components.', 'sydney' ),
             ),
         ) );
+    }
+
+    /**
+     * Give each upsell component its own upgrade link.
+     */
+    public function upsell_components_links( $components ) {
+        foreach ( $components as $key => $component ) {
+            $components[ $key ]['link'] = esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_deep', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'hf_builder_' . $component['id'] ), 'customizer-deep-hf-builder-component' ) );
+        }
+
+        return $components;
     }
 
     /**
@@ -953,7 +998,19 @@ class Sydney_Header_Footer_Builder {
                 </div>
             </div>
             <div class="sydney-shfb-bottom">
-                <div class="sydney-shfb-bottom-upsell"></div>
+                <div class="sydney-shfb-bottom-upsell">
+                    <?php if ( ! sydney_is_white_labelled() && ! defined( 'SYDNEY_PRO_VERSION' ) ) :
+                        $upsell_link = '<a href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_deep', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'hf_builder_bottom_bar' ), 'customizer-deep-hf-builder-bottom-bar' ) ) . '" target="_blank">' . esc_html__( 'Sydney Pro', 'sydney' ) . '</a>';
+
+                        if ( $area === 'header' ) {
+                            /* translators: %s: link to Sydney Pro */
+                            echo '<span>' . wp_kses_post( sprintf( __( 'Add shortcodes, a second button, a language switcher or a dark mode switch with %s', 'sydney' ), $upsell_link ) ) . '</span>';
+                        } else {
+                            /* translators: %s: link to Sydney Pro */
+                            echo '<span>' . wp_kses_post( sprintf( __( 'Add a footer menu, a shortcode or a second button with %s', 'sydney' ), $upsell_link ) ) . '</span>';
+                        }
+                    endif; ?>
+                </div>
                 <a href="#" class="sydney-shfb-bottom-settings" onClick="wp.customize.section('sydney_section_<?php echo esc_js( $area_prefix ); ?>_wrapper').focus();">
                     <span class="dashicons dashicons-admin-generic"></span>
                 </a>
@@ -1011,6 +1068,10 @@ class Sydney_Header_Footer_Builder {
 
                 <div class="shfb-rows">
                     <?php
+                    // An empty Main Row has nothing to pin on this device, so the Below Row sticks in its place
+                    $main_row_data    = $this->get_row_data( 'main_header_row', 'header' );
+                    $below_row_sticky = in_array( $sticky_row, array( 'all', 'below-header-row' ), true ) || ( $main_row_data !== NULL && $this->is_row_empty( $main_row_data->$device ) );
+
                     foreach( (array) $this->header_rows as $row ) {
                         if( $this->get_row_data( $row['id'], 'header' ) === NULL ) {
                             continue;
@@ -1034,7 +1095,7 @@ class Sydney_Header_Footer_Builder {
                                 $classes[] = ' shfb-sticky-header';
                             }
 
-                            if( $row[ 'id' ] === 'below_header_row' ) {
+                            if( $row[ 'id' ] === 'below_header_row' && $below_row_sticky ) {
                                 $classes[] = ' shfb-sticky-header';
                             }
                         }
@@ -1045,7 +1106,7 @@ class Sydney_Header_Footer_Builder {
                                 $classes[] = ' shfb-sticky-header';
                             }
 
-                            if( $row[ 'id' ] === 'below_header_row' ) {
+                            if( $row[ 'id' ] === 'below_header_row' && $below_row_sticky ) {
                                 $classes[] = ' shfb-sticky-header';
                             }
                         }

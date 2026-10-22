@@ -23,7 +23,7 @@
                         $dimension_attrs = sprintf( 'width="%d" height="%d"', intval( $mobile_logo_attrs[1] ), intval( $mobile_logo_attrs[2] ) );
                     }
                 ?>
-                <a class="mobile-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img <?php echo $dimension_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="site-logo mobile-site-logo" src="<?php echo esc_url( is_array( $mobile_logo_attrs ) ? $mobile_logo_attrs[0] : get_theme_mod( 'site_logo_mobile' ) ); ?>" alt="<?php bloginfo('name'); ?>"/></a>
+                <a class="mobile-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><?php do_action( 'sydney_before_site_logo_image', 'mobile' ); ?><img <?php echo $dimension_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="site-logo mobile-site-logo" src="<?php echo esc_url( is_array( $mobile_logo_attrs ) ? $mobile_logo_attrs[0] : get_theme_mod( 'site_logo_mobile' ) ); ?>" alt="<?php bloginfo('name'); ?>"/></a>
             <?php endif; ?>      
             <?php
                 $logo_id     = attachment_url_to_postid( get_theme_mod( 'site_logo' ) );
@@ -33,7 +33,7 @@
                     $dimension_attrs = sprintf( 'width="%d" height="%d"', intval( $logo_attrs[1] ), intval( $logo_attrs[2] ) );
                 }
             ?>
-            <a class="desktop-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img <?php echo $dimension_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
+            <a class="desktop-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><?php do_action( 'sydney_before_site_logo_image', 'desktop' ); ?><img <?php echo $dimension_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" <?php sydney_do_schema( 'logo' ); ?> /></a>
         <?php endif;
 
         if ( get_theme_mod('logo_site_title', 0) || empty( get_theme_mod('site_logo') ) ) :

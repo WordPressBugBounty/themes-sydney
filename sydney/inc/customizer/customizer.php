@@ -527,10 +527,10 @@ $wp_customize->register_control_type( 'Sydney_Toggle_Control' );
             'title' => __('Theme info', 'sydney'),
             'priority' => 139,
             'description' => 
-            '<p style="padding-bottom: 10px;border-bottom: 1px solid #d3d2d2">' . __(' 1. Documentation for Sydney can be found ', 'sydney') . '<a target="_blank" href="https://docs.athemes.com/category/8-sydney">here</a></p>' 
-            . '<p style="padding-bottom: 10px;border-bottom: 1px solid #d3d2d2">' . __(' 2. All of our starter sites, both free and pro, can be previewed ', 'sydney') . '<a target="_blank" href="https://athemes.com/sydney-demos">here</a></p>'
+            '<p style="padding-bottom: 10px;border-bottom: 1px solid #d3d2d2">' . __(' 1. Documentation for Sydney can be found ', 'sydney') . '<a target="_blank" href="https://docs.athemes.com/documentation/sydney/">here</a></p>' 
+            . '<p style="padding-bottom: 10px;border-bottom: 1px solid #d3d2d2">' . __(' 2. All of our starter sites, both free and pro, can be previewed ', 'sydney') . '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-demos', array( 'utm_source' => 'theme_customizer_theme_info', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'demos_link' ), 'customizer-theme-info-demos-link' ) ) . '">here</a></p>'
             . '<p style="padding-bottom: 10px;border-bottom: 1px solid #d3d2d2">' .  __(' 3. You can receive free support on the community forums ', 'sydney') . '<a target="_blank" href="https://wordpress.org/support/theme/sydney/">here</a></p>'
-            .  __(' 4. Priority email support is available for our premium users. You can upgrade ', 'sydney') . '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_theme_info', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'customizer-theme-info-link' ) ) . '">here</a>',   
+            .  __(' 4. 12 months of premium email support included with Sydney Pro (', 'sydney') . '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/support/', array( 'utm_source' => 'theme_customizer_theme_info', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney', 'utm_content' => 'support_terms' ), 'customizer-theme-info-support-terms-link' ) ) . '">' . __( 'support terms', 'sydney' ) . '</a>' . __('). You can upgrade ', 'sydney') . '<a target="_blank" href="' . esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_theme_info', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'customizer-theme-info-link' ) ) . '">here</a>',   
                  
         )
     );
@@ -714,7 +714,7 @@ function sydney_sanitize_selects( $input, $setting ){
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function sydney_customize_preview_js() {
-	wp_enqueue_script( 'sydney_customizer', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/customizer.min.js', array( 'customize-preview' ), '20260810', true );
+	wp_enqueue_script( 'sydney_customizer', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/customizer.min.js', array( 'customize-preview' ), '20261014', true );
 
     $post_type_array = sydney_get_posts_types_for_js();
 
@@ -733,8 +733,8 @@ require get_template_directory() . '/inc/customizer/controls/display-conditions/
  */
 function sydney_customize_footer_scripts() {
     
-    wp_enqueue_style( 'sydney-customizer-styles', get_template_directory_uri() . '/css/' . sydney_edition_dir() . '/customizer.min.css', '', '20260819' );
-    wp_enqueue_script( 'sydney-customizer-scripts', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/customize-controls.min.js', array( 'jquery', 'jquery-ui-core' ), '20260710', true );
+    wp_enqueue_style( 'sydney-customizer-styles', get_template_directory_uri() . '/css/' . sydney_edition_dir() . '/customizer.min.css', '', '20261019' );
+    wp_enqueue_script( 'sydney-customizer-scripts', get_template_directory_uri() . '/js/' . sydney_edition_dir() . '/customize-controls.min.js', array( 'jquery', 'jquery-ui-core' ), '20261019', true );
     
     $post_type_array = sydney_get_posts_types_for_js();
 
@@ -795,6 +795,47 @@ function sydney_customize_footer_scripts() {
                     'utm_campaign' => 'Sydney',
                 ),
                 'customizer-upgrade-link'
+            ),
+            'upsell_panels' => array(
+                'general' => array(
+                    'title'    => __( 'Take your site to the next level with Sydney Pro!', 'sydney' ),
+                    'intro'    => __( 'You’ll get access to:', 'sydney' ),
+                    'features' => array(
+                        __( 'Templates Builder', 'sydney' ),
+                        __( 'Breadcrumbs', 'sydney' ),
+                        __( 'Unlimited Sidebars', 'sydney' ),
+                        __( 'Modal Popup', 'sydney' ),
+                        __( 'Live Chat module', 'sydney' ),
+                        __( 'Offcanvas Content', 'sydney' ),
+                        __( 'Mailchimp support', 'sydney' ),
+                        __( 'Quick Links', 'sydney' ),
+                        __( 'Browser Tools', 'sydney' ),
+                    ),
+                    'more'     => __( '…and many more premium features', 'sydney' ),
+                    'button'   => __( 'Get Sydney Pro', 'sydney' ),
+                ),
+                'woocommerce' => array(
+                    'title'    => __( 'Take your store to the next level with Sydney Pro!', 'sydney' ),
+                    'intro'    => __( 'You’ll get access to:', 'sydney' ),
+                    'features' => array(
+                        __( 'Wishlist', 'sydney' ),
+                        __( 'Product Swatch', 'sydney' ),
+                        __( 'Product Gallery Layouts', 'sydney' ),
+                        __( 'Multistep checkout', 'sydney' ),
+                        __( 'Single sticky add to cart', 'sydney' ),
+                        __( 'Shop header styles', 'sydney' ),
+                        __( 'Product tab styles', 'sydney' ),
+                        __( 'More Shop pagination types', 'sydney' ),
+                        __( 'Advanced reviews', 'sydney' ),
+                        __( 'Extra single product elements', 'sydney' ),
+                        __( 'Extra shop sidebar layouts', 'sydney' ),
+                        __( 'AJAX product search', 'sydney' ),
+                        __( 'Quick view', 'sydney' ),
+                        __( 'Product card layouts', 'sydney' ),
+                    ),
+                    'more'     => __( '…and many more premium features', 'sydney' ),
+                    'button'   => __( 'Get Sydney Pro', 'sydney' ),
+                ),
             ),
     ) );
 }

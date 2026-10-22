@@ -54,6 +54,16 @@ $transient = sprintf('%s_hero_notice', get_template());
 					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary sydney-dashboard-hero-button">
 						<?php esc_html_e("Let's Get Started", 'sydney'); ?>
 					</a>
+				<?php elseif ( 'active' === $this->get_plugin_status( $this->settings['starter_plugin_path'] ) && $this->settings['wizard_pro_pick'] ) : ?>
+					<a href="<?php echo esc_url( $this->settings['upgrade_pro_hero'] ); ?>" class="button button-primary sydney-dashboard-hero-button" target="_blank" rel="noopener">
+						<?php
+						/* translators: %s: starter site name */
+						echo esc_html( sprintf( __( 'Unlock %s', 'sydney' ), $this->settings['wizard_pro_pick']['name'] ) );
+						?>
+					</a>
+					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary button-outline sydney-dashboard-hero-button">
+						<?php esc_html_e( 'Choose a free template', 'sydney' ); ?>
+					</a>
 				<?php elseif ( 'active' === $this->get_plugin_status( $this->settings['starter_plugin_path'] ) && ! empty( get_option( 'atss_wizard_state' ) ) ) : ?>
 					<a href="<?php echo esc_url(add_query_arg(array( 'page' => 'atss-onboarding-wizard' ), admin_url('admin.php'))); ?>" class="button button-primary sydney-dashboard-hero-button">
 						<?php esc_html_e('Resume wizard', 'sydney'); ?>

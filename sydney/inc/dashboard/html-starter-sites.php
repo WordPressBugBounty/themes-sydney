@@ -41,6 +41,25 @@ if (!defined('ABSPATH')) {
 
                 <?php else : ?>
 
+                <?php if ( ! $this->settings['has_pro'] && $this->settings['starter_counts']['pro'] ) : ?>
+                    <div class="sydney-dashboard-starter-sites-pro-row">
+                        <p>
+                            <?php
+                            echo esc_html( sprintf(
+                                /* translators: 1: number of Pro starter sites, 2: number of all starter sites */
+                                __( '%1$d of %2$d starter sites are Pro. Sydney Pro unlocks all of them, plus the Template Builder. 14-day money-back guarantee.', 'sydney' ),
+                                $this->settings['starter_counts']['pro'],
+                                $this->settings['starter_counts']['total']
+                            ) );
+                            ?>
+                        </p>
+                        <a href="<?php echo esc_url( $this->settings['upgrade_pro_starter_sites'] ); ?>" class="sydney-dashboard-external-link" target="_blank" rel="noopener">
+                            <?php esc_html_e( 'Get Sydney Pro', 'sydney' ); ?>
+                            <?php echo sydney_dashboard_icon( 'external', 16, 'sydney-svg-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
+
                 <div class="sydney-dashboard-row">
                     <?php
                     if (has_action('atss_starter_sites')) {

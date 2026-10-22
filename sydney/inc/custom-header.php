@@ -82,6 +82,15 @@ function sydney_header_style() {
 		 * @param string $reset A CSS background-image value.
 		 */
 		$mobile_background_reset = apply_filters( 'sydney_header_image_mobile_background', 'none' );
+
+		/*
+		 * Below 1024px the image is the img.header-inner, so the box takes the
+		 * img's height. A fixed height from Additional CSS (the old workaround
+		 * for the missing mobile image) would otherwise leave that CSS's own
+		 * background showing under the img. :has() leaves the shop and product
+		 * category thumbnail heroes, which print no img, at their 300px. Free
+		 * only: Pro has always printed the img, and its mobile hero keeps its height.
+		 */
 	?>
 	<style type="text/css">
 		.header-image {
@@ -96,6 +105,11 @@ function sydney_header_style() {
 				background-image: <?php echo esc_attr( $mobile_background_reset ); ?>;
 				height: auto !important;
 			}
+			<?php if ( ! sydney_is_pro() ) : ?>
+			.sydney-hero-area .header-image:has(.header-inner) {
+				height: auto !important;
+			}
+			<?php endif; ?>
 		}
 	</style>
 	<?php

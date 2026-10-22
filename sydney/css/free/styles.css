@@ -1846,6 +1846,16 @@ Widgets
 	padding-bottom: 24px;
 	margin: 0;
 }
+/* Block widgets print a bare heading without .widget-title, so they miss the 22px rule above and would inherit the 32px h2 size. */
+.widget-area .widget_block h1,
+.widget-area .widget_block h2,
+.widget-area .widget_block h3,
+.footer-widgets .widget_block h1,
+.footer-widgets .widget_block h2,
+.footer-widgets .widget_block h3 {
+	font-size: 22px;
+	line-height: normal;
+}
 .widget-area .widget ul li {
 	padding: 5px 0;
 }
