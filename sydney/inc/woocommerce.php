@@ -948,6 +948,38 @@ function sydney_wrap_loop_button_start() {
 }
 
 /**
+ * Whether the current visitor may see a product through Quick View.
+ *
+ * Mirrors what WordPress shows on the single product page: published products
+ * for everyone, other statuses only for users who can read them, and nothing
+ * for a password-protected product whose password has not been entered.
+ *
+ * @param WC_Product $product Product to check.
+ * @return bool
+ */
+function sydney_quick_view_product_is_viewable( $product ) {
+	$ids = array( $product->get_id() );
+
+	// A disabled variation is stored as private under a published parent, so a
+	// variation has to pass on its own and through its parent.
+	if ( $product instanceof WC_Product_Variation ) {
+		$ids[] = $product->get_parent_id();
+	}
+
+	foreach ( $ids as $id ) {
+		if ( post_password_required( $id ) ) {
+			return false;
+		}
+
+		if ( 'publish' !== get_post_status( $id ) && ! current_user_can( 'read_post', $id ) ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * Quick view button
  */
 function sydney_quick_view_button( $product = false, $echo = true ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.echoFound
@@ -960,6 +992,10 @@ function sydney_quick_view_button( $product = false, $echo = true ) { // phpcs:i
 	if( 'layout1' === $quick_view_layout ) {
 		return '';
 	} 
+
+	if ( ! sydney_quick_view_product_is_viewable( $product ) ) {
+		return '';
+	}
 	
 	if( $echo === false ) {
 		ob_start();
@@ -1014,12 +1050,14 @@ function sydney_quick_view_content_callback_function() {
 
 	$product_id = absint( $_POST['product_id'] );
 
-	// content-quick-view.php calls wc_get_product() and dereferences the result
-	// on the next line. absint() guarantees an integer, not an existing product,
-	// and this handler is registered on wp_ajax_nopriv_ with its nonce printed
-	// for logged-out visitors, so without this any visitor could turn a bogus
-	// product_id into a fatal.
-	if ( ! wc_get_product( $product_id ) ) {
+	// This handler is registered on wp_ajax_nopriv_ and its nonce is printed for
+	// logged-out visitors, so any visitor can send any product_id.
+	// Existence check: content-quick-view.php dereferences wc_get_product() on
+	// the next line, so a bogus id would be a fatal.
+	// Visibility check: without it, a visitor could read drafts, private and
+	// password-protected products.
+	$product = wc_get_product( $product_id );
+	if ( ! $product || ! sydney_quick_view_product_is_viewable( $product ) ) {
 		wp_die();
 	}
 

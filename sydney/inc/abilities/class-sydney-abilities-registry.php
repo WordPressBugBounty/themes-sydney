@@ -53,7 +53,7 @@ if ( ! class_exists( 'Sydney_Abilities_Registry' ) ) :
 				self::CATEGORY,
 				array(
 					'label'       => __( 'Sydney Theme', 'sydney' ),
-					'description' => __( 'Customize the active Sydney theme: the global color palette, typography (fonts, sizes, styling), button styling (colors, padding, font size, corner radius), the drag-and-drop header/footer builder (layout and per-component content), Sydney block patterns, and assembling full pages from those patterns.', 'sydney' ),
+					'description' => __( 'Customize the active Sydney theme: the global color palette, typography (fonts, sizes, styling), button styling (colors, padding, font size, corner radius), the drag-and-drop header/footer builder (layout and per-component content), Sydney block patterns, assembling full pages from those patterns, and the Coming Soon / Maintenance Site mode.', 'sydney' ),
 				)
 			);
 		}
@@ -99,6 +99,8 @@ if ( ! class_exists( 'Sydney_Abilities_Registry' ) ) :
 			require_once get_template_directory() . '/inc/abilities/groups/class-sydney-abilities-custom-css.php';
 			require_once get_template_directory() . '/inc/abilities/groups/class-sydney-abilities-shop.php';
 			require_once get_template_directory() . '/inc/abilities/groups/class-sydney-abilities-page-structure.php';
+			require_once get_template_directory() . '/inc/abilities/groups/class-sydney-abilities-pro-features.php';
+			require_once get_template_directory() . '/inc/abilities/groups/class-sydney-abilities-site-mode.php';
 		}
 
 		/**
@@ -154,6 +156,8 @@ if ( ! class_exists( 'Sydney_Abilities_Registry' ) ) :
 					'Sydney_Abilities_Custom_Css',
 					'Sydney_Abilities_Shop',
 					'Sydney_Abilities_Page_Structure',
+					'Sydney_Abilities_Pro_Features',
+					'Sydney_Abilities_Site_Mode',
 				)
 			);
 

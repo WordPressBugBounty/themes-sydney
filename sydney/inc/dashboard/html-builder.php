@@ -163,22 +163,6 @@ $disabled = $is_preview ? 'style="pointer-events:none;"' : '';
 			<?php endif; ?>
 
 			<?php
-			// One confirm dialog for every destructive action on this tab. The title,
-			// message and confirm label are filled in by the JS when it opens.
-			?>
-			<dialog class="sydney-confirm-dialog" id="sydney-template-builder-confirm" aria-labelledby="sydney-template-builder-confirm-title" aria-describedby="sydney-template-builder-confirm-message">
-				<span class="sydney-confirm-dialog-icon">
-					<?php echo sydney_dashboard_icon( 'caution', 40 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				</span>
-				<h2 class="sydney-confirm-dialog-title" id="sydney-template-builder-confirm-title"></h2>
-				<p class="sydney-confirm-dialog-message" id="sydney-template-builder-confirm-message"></p>
-				<div class="sydney-confirm-dialog-actions">
-					<button type="button" class="button sydney-confirm-dialog-cancel"><?php esc_html_e( 'Cancel', 'sydney' ); ?></button>
-					<button type="button" class="button button-warning sydney-confirm-dialog-confirm"></button>
-				</div>
-			</dialog>
-
-			<?php
 			// Options carried by the header part itself, so the same dialog serves
 			// every card. Nothing is stored until Save Changes, same as the rest of
 			// the builder.
@@ -215,11 +199,6 @@ $disabled = $is_preview ? 'style="pointer-events:none;"' : '';
 					<iframe class="sydney-video-dialog-iframe" allow="autoplay; fullscreen" allowfullscreen title="<?php esc_attr_e( 'Watch tutorial', 'sydney' ); ?>"></iframe>
 				</div>
 			</dialog>
-
-			<div class="sydney-elementor-iframe-wrapper" style="display:none;">
-				<iframe class="sydney-elementor-iframe"></iframe>
-				<a href="#" class="sydney-editor-close"><?php sydney_get_svg_icon( 'icon-cancel', true ); ?></a>
-			</div>			
 
 			</div>
 		</div>

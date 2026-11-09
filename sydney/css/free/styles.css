@@ -2679,6 +2679,13 @@ SVGs
 	opacity: 0.85;
 	color: #fff;
 }
+.is-style-outline .wp-block-button__link,
+.wp-block-button__link.is-style-outline {
+	border-color: currentColor;
+}
+.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background):not(:hover) {
+	background-color: transparent;
+}
 .wp-block-button.is-style-outline a:not(.has-text-color) {
 	color: var(--sydney-button-background);
 }

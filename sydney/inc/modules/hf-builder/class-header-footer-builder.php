@@ -73,8 +73,11 @@ class Sydney_Header_Footer_Builder {
         remove_all_actions( 'sydney_header' );
         add_action( 'sydney_header', array( $this, 'header_front_output' ) );
 
-        // Important: Priority 20 is required here to ensure the mobile offcanvas is not outputted
-        // inside the header transparent wrapper which causes issues with large mobile breakpoints.
+        // The callback only schedules the mobile offcanvas panel after #page. It stays registered
+        // on 'sydney_header' so the Template Builder's remove_action() and block templates'
+        // remove_all_actions( 'sydney_header' ) still suppress the panel. Keep priority 20 in step
+        // with the remove_action( ..., 20 ) calls in class-sydney-templates-v2.php and
+        // legacy/class-sydney-templates.php.
         add_action( 'sydney_header', array( $this, 'mobile_offcanvas_output' ), 20 );
 
         remove_all_actions( 'sydney_footer' );
@@ -1193,9 +1196,23 @@ class Sydney_Header_Footer_Builder {
     }
 
     /**
-     * Mobile Offcanvas output.
+     * Schedule the mobile offcanvas panel after #page.
+     *
+     * The name stays 'output' because the Template Builder's remove_action() callers reference it.
+     * Nothing is printed here.
+     *
+     * Opening effects transform #page, and a fixed panel inside it moves with it, so the panel
+     * prints after #page. Priority 8 keeps it ahead of Pro's classic panel (9), because the menu
+     * JS binds to the first '.sydney-offcanvas-menu'.
      */
     public function mobile_offcanvas_output() {
+        add_action( 'sydney_after_site', array( $this, 'mobile_offcanvas_markup' ), 8 );
+    }
+
+    /**
+     * Mobile Offcanvas markup.
+     */
+    public function mobile_offcanvas_markup() {
         /**
          * Hook 'sydney_mobile_offcanvas_classes'
          *

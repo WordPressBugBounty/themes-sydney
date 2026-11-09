@@ -46,7 +46,7 @@ $wp_customize->add_control(
                         '#customize-control-footer_html_content',
                         '#customize-control-sydney_section_fb_component__html_text_align',
                         '#customize-control-sydney_section_fb_component__html_visibility'
-                    ),
+                    )
                 )
             ),
             'controls_design'		=> wp_json_encode(

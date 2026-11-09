@@ -469,7 +469,8 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 				$custom .= $this->get_background_color_rgba_css( 'body_text_color', '#233452', '.main-header-cart .widget_shopping_cart .widgettitle:after, .main-header-cart .widget_shopping_cart .woocommerce-mini-cart__buttons:before', '0.1' );
 
 				//Mobile menu
-				$mobile_menu_alignment = get_theme_mod( 'mobile_menu_alignment', 'left' );
+				// Render fallback is the logical 'start'; the Customizer default ('right' on RTL, 'left' otherwise) renders the same, so an unsaved site matches its preview.
+				$mobile_menu_alignment = get_theme_mod( 'mobile_menu_alignment', 'start' );
 				$custom .= ".sydney-offcanvas-menu .mainnav ul li,.mobile-header-item.offcanvas-items,.mobile-header-item.offcanvas-items .social-profile { text-align:" . esc_attr( $mobile_menu_alignment ) . ";}" . "\n";
 				$custom .= ".sydney-offcanvas-menu #mainnav ul li { text-align:" . esc_attr( $mobile_menu_alignment ) . ";}" . "\n";
 				if ( 'center' === $mobile_menu_alignment ) {
@@ -913,7 +914,7 @@ if ( !class_exists( 'Sydney_Custom_CSS' ) ) :
 		 */
 		private function cache_signature() {
 			$data = array(
-				'schema'   => 4,
+				'schema'   => 5,
 				'theme'    => wp_get_theme( get_template() )->get( 'Version' ),
 				'child'    => get_stylesheet(),
 				'hfb'      => Sydney_Modules::is_module_active( 'hf-builder' ),

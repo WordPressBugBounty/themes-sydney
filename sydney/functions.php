@@ -791,6 +791,7 @@ if ( sydney_is_pro() ) {
 }
 
 require get_template_directory() . '/inc/modules/pattern-library/class-sydney-pattern-library.php';
+require get_template_directory() . '/inc/modules/coming-soon/class-sydney-coming-soon.php';
 
 /**
  * Action Scheduler.

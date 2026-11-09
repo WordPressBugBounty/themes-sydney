@@ -46,6 +46,18 @@ $sections = array(
 				'pro'   => '25',
 			),
 			array(
+				'label' => __( 'Dark Mode', 'sydney' ),
+				'free'  => false,
+				'pro'   => true,
+				'desc'  => __( 'Dark palette, follows the visitor\'s system setting, dark mode logo, switch as a header component or Elementor widget. Off by default.', 'sydney' ),
+			),
+			array(
+				'label' => __( 'AI abilities for AI agents', 'sydney' ),
+				'free'  => true,
+				'pro'   => __( 'Yes, plus Pro abilities', 'sydney' ),
+				'desc'  => __( 'WordPress Abilities API, off by default, WordPress 6.9 or later.', 'sydney' ),
+			),
+			array(
 				'label' => __( 'Templates Builder Module', 'sydney' ),
 				'free'  => false,
 				'pro'   => true,
@@ -184,6 +196,17 @@ $sections = array(
 		'title' => __( 'Header', 'sydney' ),
 		'rows'  => array(
 			array(
+				'label' => __( 'Header Builder (drag and drop)', 'sydney' ),
+				'free'  => true,
+				'pro'   => true,
+			),
+			array(
+				'label' => __( 'Header Builder components', 'sydney' ),
+				'free'  => '11',
+				'pro'   => '19',
+				'desc'  => __( 'Pro adds Button 2, HTML 2, Shortcode 1 to 3, Dark Mode Switch, WPML and Polylang switchers.', 'sydney' ),
+			),
+			array(
 				'label' => __( 'Mega Menu module', 'sydney' ),
 				'free'  => false,
 				'pro'   => true,
@@ -201,7 +224,7 @@ $sections = array(
 				'sub'   => true,
 			),
 			array(
-				'label' => __( 'HTML/Shortcode components', 'sydney' ),
+				'label' => __( 'Extra HTML and Shortcode components', 'sydney' ),
 				'free'  => false,
 				'pro'   => true,
 				'sub'   => true,
@@ -341,6 +364,17 @@ $sections = array(
 	array(
 		'title' => __( 'Footer', 'sydney' ),
 		'rows'  => array(
+			array(
+				'label' => __( 'Footer Builder (drag and drop)', 'sydney' ),
+				'free'  => true,
+				'pro'   => true,
+			),
+			array(
+				'label' => __( 'Footer Builder components', 'sydney' ),
+				'free'  => '8',
+				'pro'   => '12',
+				'desc'  => __( 'Pro adds Footer Menu, Button 2, HTML 2, Shortcode.', 'sydney' ),
+			),
 			array(
 				'label' => __( 'Widget Areas', 'sydney' ),
 				'free'  => true,

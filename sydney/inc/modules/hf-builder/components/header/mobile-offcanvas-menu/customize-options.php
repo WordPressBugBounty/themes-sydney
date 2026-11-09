@@ -52,7 +52,7 @@ $wp_customize->add_control(
                         '#customize-control-mobile_offcanvas_menu_visibility'
                     ),
                     array_map( function( $name ){ return "#customize-control-$name"; }, $opts_to_move[ 'general' ] )
-                ),
+                )
             ),
             'controls_design'		=> wp_json_encode(
                 array_merge(

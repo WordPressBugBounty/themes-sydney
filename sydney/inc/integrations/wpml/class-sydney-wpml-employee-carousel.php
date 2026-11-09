@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Integration with WPML for aThemes: Testimonials block
+ * Integration with WPML for aThemes: Employee carousel block
  */
 class Sydney_Pro_WPML_Elementor_Employees extends WPML_Elementor_Module_With_Items {
 	
@@ -33,7 +33,7 @@ class Sydney_Pro_WPML_Elementor_Employees extends WPML_Elementor_Module_With_Ite
 		  	case 'position':
 				return esc_html__( '[aThemes Employees] Position', 'sydney' );
    
-			case 'link':
+			case 'url':
 				return esc_html__( '[aThemes Employees] Link', 'sydney' );
    
 			default:
@@ -50,9 +50,11 @@ class Sydney_Pro_WPML_Elementor_Employees extends WPML_Elementor_Module_With_Ite
 		switch( $field ) {
 			case 'person':
 			case 'position':
-			case 'link':    
 				return 'LINE';
-   
+
+			case 'url':
+				return 'LINK';
+
 			default:
 				return '';
 		}

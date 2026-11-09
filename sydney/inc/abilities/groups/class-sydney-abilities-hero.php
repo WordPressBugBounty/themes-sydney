@@ -95,12 +95,16 @@ if ( ! class_exists( 'Sydney_Abilities_Hero' ) ) :
 		 * Register sydney/update-hero (write). Type-only by design.
 		 */
 		protected function register_update_hero() {
+			$description = __( 'Set the hero type for the front page and/or all other pages. Values: "slider" (full-screen slider), "image" (header image), "core-video" (video), "nothing" (menu only). Omitted fields are left unchanged. Only the hero type can be changed here — slide content, height and overlay are not affected.', 'sydney' );
+
+			$description = Sydney_Abilities_Response::pro_hint( $description );
+
 			Sydney_Ability::register(
 				'sydney/update-hero',
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update hero type', 'sydney' ),
-					'description'      => __( 'Set the hero type for the front page and/or all other pages. Values: "slider" (full-screen slider), "image" (header image), "core-video" (video), "nothing" (menu only). Omitted fields are left unchanged. Only the hero type can be changed here — slide content, height and overlay are not affected.', 'sydney' ),
+					'description'      => $description,
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,

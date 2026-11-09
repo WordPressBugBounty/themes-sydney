@@ -57,7 +57,7 @@ foreach( $this->header_rows as $row ) {
                             "#customize-control-{$section_id}_inner_layout",
                             "#customize-control-{$section_id}_horizontal_alignment",
                             "#customize-control-{$section_id}_elements_spacing",
-                        ),
+                        )
                     ),
                     'controls_design'		=> wp_json_encode(
                         array(

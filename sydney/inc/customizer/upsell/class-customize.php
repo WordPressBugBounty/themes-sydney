@@ -73,8 +73,7 @@ final class Sydney_Customize_Upsell {
 				$manager,
 				'sydney_upsell',
 				array(
-					'title'    => esc_html__( 'Want more customization options?', 'sydney' ),
-					'pro_text' => esc_html__( 'Buy Sydney Pro',  'sydney' ),
+					'pro_text' => esc_html__( 'View Pro Features', 'sydney' ),
                     'pro_url'  => sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade', array( 'utm_source' => 'theme_customizer_main_button', 'utm_medium' => 'sydney_customizer', 'utm_campaign' => 'Sydney' ), 'customizer-main-button-link' ),
 					'priority' => -999,
 				)
@@ -103,7 +102,7 @@ final class Sydney_Customize_Upsell {
 			'sydney-upsell-customize-controls',
 			trailingslashit( get_template_directory_uri() ) . 'inc/customizer/upsell/customize-controls.css',
 			array(),
-			'20260819'
+			'20261109'
 		);
 	}
 }

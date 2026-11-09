@@ -213,8 +213,6 @@
 	function request( task, root, button ) {
 		var slug   = root.getAttribute( 'data-athemes-license-slug' ) || '';
 		var config = configFor( slug );
-		var input  = root.querySelector( '.athemes-license-key' );
-		var key    = input ? input.value.trim() : '';
 
 		// No published config for this slug means the product never attached the client's inline
 		// config, or did so without registering. Firing the request would post an empty action and
@@ -232,7 +230,14 @@
 		body.append( 'nonce', config.nonce );
 		body.append( 'task', task );
 		body.append( 'slug', slug );
-		body.append( 'license', key );
+
+		// The deactivate-state input holds only a mask. With no key posted, the licensing client
+		// deactivates the stored key.
+		if ( task === 'activate' ) {
+			var input = root.querySelector( '.athemes-license-key' );
+
+			body.append( 'license', input ? input.value.trim() : '' );
+		}
 
 		fetch( config.ajaxUrl, {
 			method: 'POST',

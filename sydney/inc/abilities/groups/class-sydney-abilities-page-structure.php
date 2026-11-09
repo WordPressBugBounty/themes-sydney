@@ -270,8 +270,17 @@ if ( ! class_exists( 'Sydney_Abilities_Page_Structure' ) ) :
 				);
 			}
 
+			// While a Site mode is on, this loopback request would be served the
+			// Placeholder page. A short-lived signed token lets it read the real
+			// site; the cache key above stays on the URL as asked.
+			$fetch_url = $url;
+
+			if ( class_exists( 'Sydney_Coming_Soon' ) && Sydney_Coming_Soon::is_on() ) {
+				$fetch_url = add_query_arg( Sydney_Coming_Soon::TOKEN_ARG, Sydney_Coming_Soon::create_bypass_token( Sydney_Coming_Soon::token_path( $url ) ), $url );
+			}
+
 			$response = wp_remote_get(
-				$url,
+				$fetch_url,
 				array(
 					'timeout'     => 10,
 					'redirection' => 2,

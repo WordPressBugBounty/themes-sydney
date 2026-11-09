@@ -122,12 +122,16 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 		 * Register sydney/update-blog-layout (write).
 		 */
 		protected function register_update_blog_layout() {
+			$description = __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first. When sydney/get-templates is available, a Template Builder content part overrides this layout wherever its template matches; the response carries a notice when that is the case everywhere.', 'sydney' );
+
+			$description = Sydney_Abilities_Response::pro_hint( $description );
+
 			Sydney_Ability::register(
 				'sydney/update-blog-layout',
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update blog layout', 'sydney' ),
-					'description'      => __( 'Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first. When sydney/get-templates is available, a Template Builder content part overrides this layout wherever its template matches; the response carries a notice when that is the case everywhere.', 'sydney' ),
+					'description'      => $description,
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,
@@ -248,43 +252,43 @@ if ( ! class_exists( 'Sydney_Abilities_Blog' ) ) :
 			}
 
 			if ( array_key_exists( 'columns', $args ) ) {
-				if ( ! in_array( $args['columns'], self::COLUMNS, true ) ) {
+				if ( ! rest_is_integer( $args['columns'] ) || ! in_array( (int) $args['columns'], self::COLUMNS, true ) ) {
 					return Sydney_Abilities_Response::error(
 						__( 'columns must be 2, 3 or 4.', 'sydney' )
 					);
 				}
 				// archives_grid_columns stores as a string radio value.
-				$mods[ $map['columns']['theme_mod'] ] = (string) $args['columns'];
+				$mods[ $map['columns']['theme_mod'] ] = (string) (int) $args['columns'];
 				$updated[]                            = 'columns';
 			}
 
 			if ( array_key_exists( 'show_content', $args ) ) {
-				if ( ! is_bool( $args['show_content'] ) ) {
+				if ( ! rest_is_boolean( $args['show_content'] ) ) {
 					return Sydney_Abilities_Response::error(
 						__( 'show_content must be a boolean.', 'sydney' )
 					);
 				}
-				$mods[ $map['show_content']['theme_mod'] ] = $args['show_content'] ? 1 : '';
+				$mods[ $map['show_content']['theme_mod'] ] = rest_sanitize_boolean( $args['show_content'] ) ? 1 : '';
 				$updated[]                                 = 'show_content';
 			}
 
 			if ( array_key_exists( 'excerpt_length', $args ) ) {
-				if ( ! is_int( $args['excerpt_length'] ) || $args['excerpt_length'] < 0 || $args['excerpt_length'] > 120 ) {
+				if ( ! rest_is_integer( $args['excerpt_length'] ) || (int) $args['excerpt_length'] < 0 || (int) $args['excerpt_length'] > 120 ) {
 					return Sydney_Abilities_Response::error(
 						__( 'excerpt_length must be an integer between 0 and 120.', 'sydney' )
 					);
 				}
-				$mods[ $map['excerpt_length']['theme_mod'] ] = $args['excerpt_length'];
+				$mods[ $map['excerpt_length']['theme_mod'] ] = (int) $args['excerpt_length'];
 				$updated[]                                   = 'excerpt_length';
 			}
 
 			if ( array_key_exists( 'read_more_link', $args ) ) {
-				if ( ! is_bool( $args['read_more_link'] ) ) {
+				if ( ! rest_is_boolean( $args['read_more_link'] ) ) {
 					return Sydney_Abilities_Response::error(
 						__( 'read_more_link must be a boolean.', 'sydney' )
 					);
 				}
-				$mods[ $map['read_more_link']['theme_mod'] ] = $args['read_more_link'] ? 1 : '';
+				$mods[ $map['read_more_link']['theme_mod'] ] = rest_sanitize_boolean( $args['read_more_link'] ) ? 1 : '';
 				$updated[]                                   = 'read_more_link';
 			}
 

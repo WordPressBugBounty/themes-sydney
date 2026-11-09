@@ -15,7 +15,8 @@
 	display: none;
 }
 #customize-theme-controls #accordion-section-sydney_upsell .button {
-	margin-left: 20px;
+	width: 100%;
+	text-align: center;
 }
 
 .sydney-upsell-feature-wrapper {

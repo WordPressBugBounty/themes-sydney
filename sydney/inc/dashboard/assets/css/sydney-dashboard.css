@@ -3641,3 +3641,240 @@ button.sydney-pro-upgrade-start {
   padding-top: 16px;
   border-top: 1px solid var(--sydney-dashboard-gray-100);
 }
+
+/* Coming Soon settings section. The markup is the AI Abilities section's:
+   heading, description, then a grey well with the status and the controls.
+   These rules cover the controls - neutral buttons, a split Edit page button
+   and three dropdowns - and the Create page popover, which is the part menu
+   with a second panel for the designs. Printed last so the popover's
+   two-panel track wins over the three-panel one it is built on. */
+.sydney-coming-soon-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sydney-dashboard-space-2);
+}
+/* Anchors its dropdown, and the design menu on the page control. */
+.sydney-coming-soon-control {
+  position: relative;
+  display: inline-flex;
+}
+/* Neutral beside the one primary action, Create page. */
+.sydney-dashboard .button.sydney-coming-soon-button {
+  gap: var(--sydney-dashboard-space-2);
+  color: var(--sydney-dashboard-gray-900);
+  border-color: var(--sydney-dashboard-border);
+  background-color: var(--sydney-dashboard-surface);
+  white-space: nowrap;
+}
+.sydney-dashboard .button.sydney-coming-soon-button:hover,
+.sydney-dashboard .button.sydney-coming-soon-button[aria-expanded="true"] {
+  color: var(--sydney-dashboard-gray-900);
+  border-color: var(--sydney-dashboard-border-strong);
+  background-color: var(--sydney-dashboard-surface-sunken-light);
+}
+.sydney-dashboard .button.sydney-coming-soon-button:focus-visible,
+.sydney-coming-soon-dropdown-item:focus-visible {
+  outline: 2px solid var(--sydney-dashboard-primary);
+  outline-offset: 1px;
+}
+.sydney-dashboard .button.sydney-coming-soon-button:disabled {
+  color: var(--sydney-dashboard-gray-600) !important;
+  border-color: var(--sydney-dashboard-border) !important;
+  background-color: var(--sydney-dashboard-surface) !important;
+  cursor: not-allowed;
+}
+.sydney-coming-soon-button svg {
+  flex-shrink: 0;
+  margin-right: var(--sydney-dashboard-space-1-neg);
+  fill: currentColor;
+}
+/* Its own display rule rather than .bt-flex-center, whose !important would
+   outrank .bt-d-none when there is no page yet. */
+.sydney-coming-soon-split {
+  position: relative;
+  display: inline-flex;
+}
+.sydney-dashboard .sydney-coming-soon-split .sydney-coming-soon-edit {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.sydney-dashboard .sydney-coming-soon-split .sydney-coming-soon-dropdown-toggle {
+  margin-left: var(--sydney-dashboard-nudge-neg);
+  padding-right: var(--sydney-dashboard-space-2);
+  padding-left: var(--sydney-dashboard-space-2);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.sydney-dashboard .sydney-coming-soon-split .sydney-coming-soon-dropdown-toggle svg {
+  margin-right: 0;
+}
+.sydney-coming-soon-mode-prefix {
+  color: var(--sydney-dashboard-gray-700);
+}
+.sydney-coming-soon-button:disabled .sydney-coming-soon-mode-prefix {
+  color: inherit;
+}
+/* The menus are the Template Builder's part menu and rows, opening upward:
+   the card ends the page in Pro, so there is no room below it. */
+.part-menu.sydney-coming-soon-dropdown {
+  top: auto;
+  bottom: 100%;
+  width: auto;
+  min-width: 220px;
+  margin-bottom: var(--sydney-dashboard-space-2);
+  padding: var(--sydney-dashboard-space-1);
+  text-align: left;
+}
+/* Under Edit page, left edges lined up. */
+.part-menu.sydney-coming-soon-page-menu {
+  right: auto;
+  left: 0;
+}
+.part-menu.sydney-coming-soon-mode-menu {
+  width: 320px;
+}
+/* The rows are links and buttons here, not the spans the builder uses. */
+.sydney-coming-soon-dropdown-item {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  line-height: var(--sydney-dashboard-line-height-snug);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.sydney-coming-soon-dropdown-item:focus {
+  color: var(--sydney-dashboard-gray-900);
+  box-shadow: none;
+}
+.sydney-coming-soon-dropdown-item:focus-visible {
+  background-color: var(--sydney-dashboard-primary-tint-light);
+}
+/* The mode descriptions wrap inside the menu's fixed width. */
+.sydney-coming-soon-mode-option {
+  align-items: flex-start;
+  white-space: normal;
+}
+.sydney-coming-soon-mode-check {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--sydney-dashboard-primary);
+  visibility: hidden;
+}
+.sydney-coming-soon-mode-check svg {
+  fill: currentColor;
+}
+.sydney-coming-soon-mode-option[aria-checked="true"] .sydney-coming-soon-mode-check {
+  visibility: visible;
+}
+.sydney-coming-soon-mode-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sydney-coming-soon-mode-option-description {
+  color: var(--sydney-dashboard-gray-700);
+  font-weight: var(--sydney-dashboard-font-weight-normal);
+}
+.sydney-coming-soon-advanced .sydney-dashboard-badge {
+  padding: 0 var(--sydney-dashboard-space-1);
+  font-size: var(--sydney-dashboard-font-size-xs);
+  line-height: 16px;
+}
+.part-menu.sydney-coming-soon-menu {
+  top: auto;
+  bottom: 100%;
+  width: 320px;
+  margin-bottom: var(--sydney-dashboard-space-2);
+  text-align: left;
+}
+.sydney-coming-soon-menu .part-menu-track {
+  width: 200%;
+}
+.sydney-coming-soon-menu .part-menu-panel {
+  width: 50%;
+  padding: var(--sydney-dashboard-space-2);
+}
+.sydney-coming-soon-menu[data-view="builder"] .part-menu-track {
+  transform: none;
+}
+.sydney-coming-soon-menu[data-view="designs"] .part-menu-track {
+  transform: translateX(-50%);
+}
+.sydney-coming-soon-design-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sydney-dashboard-space-2);
+  padding: 0 var(--sydney-dashboard-space-2) var(--sydney-dashboard-space-2);
+}
+.sydney-coming-soon-design {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: var(--sydney-dashboard-space-1);
+  border: 1px solid var(--sydney-dashboard-border-subtle);
+  border-radius: var(--sydney-dashboard-radius-md);
+  background-color: var(--sydney-dashboard-surface);
+  color: var(--sydney-dashboard-gray-700);
+  font: inherit;
+  font-size: var(--sydney-dashboard-font-size-sm);
+  font-weight: var(--sydney-dashboard-font-weight-semibold);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color var(--sydney-dashboard-duration-fast), background-color var(--sydney-dashboard-duration-fast);
+}
+.sydney-coming-soon-design:hover,
+.sydney-coming-soon-design:focus-visible {
+  border-color: var(--sydney-dashboard-primary-tint-border);
+  background-color: var(--sydney-dashboard-primary-tint-light);
+  color: var(--sydney-dashboard-gray-900);
+}
+.sydney-coming-soon-design img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 14 / 9;
+  border-radius: var(--sydney-dashboard-radius-sm);
+}
+.sydney-coming-soon-design-lock {
+  position: absolute;
+  top: var(--sydney-dashboard-space-2);
+  right: var(--sydney-dashboard-space-2);
+  display: inline-flex;
+  padding: var(--sydney-dashboard-space-1);
+  border-radius: 999px;
+  background-color: var(--sydney-dashboard-surface);
+  box-shadow: var(--sydney-dashboard-shadow-sm);
+}
+.sydney-coming-soon-design.is-locked {
+  color: var(--sydney-dashboard-gray-600);
+}
+.sydney-coming-soon-design.is-locked img {
+  opacity: 0.6;
+}
+/* Pro's Advanced options dialogs, on the Header Options dialog's box. */
+.sydney-coming-soon-dialog .sydney-coming-soon-dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sydney-dashboard-space-1);
+  margin: 0;
+  color: var(--sydney-dashboard-gray-700);
+}
+.sydney-coming-soon-dialog input[type="text"],
+.sydney-coming-soon-dialog select,
+.sydney-coming-soon-dialog textarea {
+  width: 100%;
+  max-width: none;
+}
+.sydney-coming-soon-dialog .sydney-coming-soon-link-new {
+  display: flex;
+  gap: var(--sydney-dashboard-space-2);
+}

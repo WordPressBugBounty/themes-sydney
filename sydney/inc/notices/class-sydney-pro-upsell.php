@@ -64,7 +64,8 @@ class Sydney_Pro_Upsell_Notice {
 		}
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'admin_notices', array( $this, 'notice_markup' ), 20 );
+		// Priority -1 runs after the campaign notice (-2) and before the review notice (0).
+		add_action( 'admin_notices', array( $this, 'notice_markup' ), -1 );
 		add_action( 'admin_init', array( $this, 'dismiss_notice_handler' ), 0 );
 		add_action( 'switch_theme', array( $this, 'notice_data_remove' ) );
 	}

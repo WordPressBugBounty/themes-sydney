@@ -31,3 +31,13 @@ function sydney_get_wpforms_form_id() {
 
 	return (int) $forms[0];
 }
+
+/**
+ * Returns the URL of an image bundled with the pattern library.
+ *
+ * @param string $file File name inside the pattern library images folder.
+ * @return string
+ */
+function sydney_pattern_image_url( $file ) {
+	return esc_url( get_template_directory_uri() . '/inc/modules/pattern-library/images/' . $file );
+}

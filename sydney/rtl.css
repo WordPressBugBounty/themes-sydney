@@ -37,6 +37,10 @@ body {
 	left: 0;
 	right: auto;
 }
+/* Header builder: park closed sub-menus off the right edge, which an RTL page cannot scroll to */
+.rtl .sydney-dropdown .sydney-dropdown-ul .sydney-dropdown-ul {
+	left: 999em;
+}
 #mainnav ul li a {
 	float: right;
 }
@@ -73,6 +77,14 @@ body {
 .header-item {
 	margin-right: 0;
 	margin-left: 25px;
+}
+/* Offcanvas menu: RTL defaults to direction right, which free's stylesheet has no rule for */
+.offcanvas-direction-right .sydney-offcanvas-menu {
+	left: auto;
+	right: -100%;
+}
+.offcanvas-direction-right .sydney-offcanvas-menu.toggled {
+	right: 0;
 }
 
 /* 3. Carousel */

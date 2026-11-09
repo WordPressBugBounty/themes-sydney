@@ -47,7 +47,7 @@ function sydney_editor_styles() {
 		return;
 	}
 
-	wp_enqueue_style( 'sydney-block-editor-styles', get_theme_file_uri( '/sydney-gutenberg-editor-styles.css' ), '', '20260824', 'all' );
+	wp_enqueue_style( 'sydney-block-editor-styles', get_theme_file_uri( '/sydney-gutenberg-editor-styles.css' ), '', '20261104', 'all' );
 
 	// Google Fonts are loaded into the editor iframe via add_editor_style() in sydney_setup().
 

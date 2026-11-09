@@ -231,7 +231,7 @@ $wp_customize->selective_refresh->add_partial( 'header_components_offcanvas', ar
 
 $wp_customize->add_setting( 'mobile_menu_alignment',
 	array(
-		'default'           => 'left',
+		'default'           => is_rtl() ? 'right' : 'left',
 		'sanitize_callback' => 'sydney_sanitize_text',
 		'transport'         => 'postMessage',
 	)

@@ -74,6 +74,18 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		const RECENTLY_USED_SERVER_CAP = 50;
 
 		/**
+		 * User meta key storing whether the library opens automatically on new
+		 * pages. '1' or '0'; absent means the site default applies.
+		 */
+		const AUTO_OPEN_META_KEY = 'sydney_pattern_library_auto_open';
+
+		/**
+		 * Site option holding the auto-open default for users who never chose.
+		 * Set to 1 when Sydney is activated over another theme.
+		 */
+		const AUTO_OPEN_DEFAULT_OPTION = 'sydney_pattern_library_auto_open_default';
+
+		/**
 		 * Instance
 		 *
 		 * @var Sydney_Pattern_Library
@@ -111,6 +123,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 			add_filter( 'rest_pre_dispatch', array( $this, 'register_patterns_for_rest' ), 10, 3 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
+			add_action( 'after_switch_theme', array( __CLASS__, 'enable_auto_open_for_new_sites' ), 10, 2 );
 		}
 
 		/**
@@ -131,17 +144,24 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 * Drop the sidebar and force a full-width content column in .org pattern
 		 * previews (issue #480).
 		 *
-		 * wp-themes.com serves the preview from a fresh install, so the request
-		 * falls through to the blog index (home.php). That template renders the
-		 * primary column at col-md-9 via sydney_page_content_classes()
+		 * wp-themes.com renders each preview as a regular page (page.php). Its
+		 * primary column takes the sidebar layout from sydney_page_content_classes()
 		 * (inc/extras.php), leaving an empty col-md-3 gutter even though the
 		 * widget-less sidebar prints nothing (sidebar.php early-returns). The gap
 		 * makes full-width patterns look cramped in every directory screenshot.
 		 *
-		 * Gated on the same signal as pattern registration, so nothing here can
-		 * reach a real visitor's site. Priority 999 because
+		 * It also makes the preview look like the canvas template: the
+		 * front-page body classes enable the full-bleed block rules, the page
+		 * title is dropped and the content column loses its right padding
+		 * offset, so the pattern sits centred and alignfull blocks reach the
+		 * viewport edges.
+		 *
+		 * Gated on the same `pattern_name` query var as pattern registration, so
+		 * a real visitor only sees it by requesting such a URL. It changes
+		 * presentation only. Priority 999 because
 		 * sydney_page_content_classes() discards the filtered value and returns
-		 * its own, so the last callback to run wins.
+		 * its own, so the last callback to run wins. The inline CSS runs at
+		 * priority 11 so sydney_scripts() has enqueued sydney-style-min.
 		 */
 		public function force_org_preview_layout() {
 			if ( ! $this->is_org_pattern_preview() ) {
@@ -150,6 +170,9 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 
 			add_filter( 'sydney_show_sidebar', '__return_false' );
 			add_filter( 'sydney_content_area_class', array( $this, 'fullwidth_content_class' ), 999 );
+			add_filter( 'body_class', array( $this, 'org_preview_body_classes' ) );
+			add_filter( 'sydney_disable_page_title', '__return_true' );
+			add_action( 'wp_enqueue_scripts', array( $this, 'org_preview_inline_css' ), 11 );
 		}
 
 		/**
@@ -161,6 +184,29 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		 */
 		public function fullwidth_content_class() {
 			return 'fullwidth';
+		}
+
+		/**
+		 * Body classes for .org pattern previews.
+		 *
+		 * The front-page template and block classes enable the full-bleed block
+		 * rules the canvas template relies on.
+		 *
+		 * @param array $classes Body classes.
+		 * @return array
+		 */
+		public function org_preview_body_classes( $classes ) {
+			$classes[] = 'page-template-page_front-page';
+			$classes[] = 'syd-has-blocks';
+
+			return $classes;
+		}
+
+		/**
+		 * Remove the content column's right padding offset in .org pattern previews.
+		 */
+		public function org_preview_inline_css() {
+			wp_add_inline_style( 'sydney-style-min', '.content-area .post-wrap { padding-right: 0; }' );
 		}
 
 		/**
@@ -197,6 +243,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		public function get_categories() {
 			$categories = array(
 				'sydney-hero'         => __( 'Hero', 'sydney' ),
+				'sydney-page-header'  => __( 'Page Header', 'sydney' ),
 				'sydney-about'        => __( 'About', 'sydney' ),
 				'sydney-services'     => __( 'Services', 'sydney' ),
 				'sydney-features'     => __( 'Features', 'sydney' ),
@@ -220,7 +267,7 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 		/**
 		 * Register the Sydney pattern categories.
 		 *
-		 * Runs on every `init`: thirteen registry entries and no file I/O, and
+		 * Runs on every `init`: fourteen registry entries and no file I/O, and
 		 * the editor preloads the categories route in-page, so categories must
 		 * exist before any REST dispatch.
 		 */
@@ -269,6 +316,174 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				$this->register_patterns();
 			}
 			return $result;
+		}
+
+		/**
+		 * Collect the Pro patterns shipped in `patterns-extra/`.
+		 *
+		 * These are library-only: they are never passed to
+		 * `register_block_pattern()`, so they stay out of the core pattern
+		 * registry and the block inserter. Returns an empty array when the
+		 * folder does not exist.
+		 *
+		 * File format: each `*.php` file directly inside
+		 * `inc/modules/pattern-library/patterns-extra/` returns a list of
+		 * pattern arrays:
+		 *
+		 *     return array(
+		 *         array(
+		 *             'name'       => 'sydney-pro/hero-1',
+		 *             'title'      => 'Hero 1',
+		 *             'categories' => array( 'sydney-hero' ),
+		 *             'keywords'   => array( 'banner' ),
+		 *             'content'    => '<!-- wp:group -->...<!-- /wp:group -->',
+		 *         ),
+		 *     );
+		 *
+		 * The loader merges the lists and sets `'sydney_pro' => true` on every
+		 * entry. `library-helpers.php` is loaded first, so files can call its
+		 * helpers.
+		 *
+		 * @return array[] Pattern arrays flagged `sydney_pro`.
+		 */
+		public function get_pro_patterns() {
+			$patterns = array();
+			foreach ( $this->load_folder_entries( 'patterns-extra' ) as $entry ) {
+				$entry['sydney_pro'] = true;
+				$patterns[]          = $entry;
+			}
+
+			return $patterns;
+		}
+
+		/**
+		 * Require every `*.php` file directly inside a folder of the module and
+		 * merge the lists they return. Returns an empty array when the folder
+		 * does not exist. `library-helpers.php` is loaded first, so the files can
+		 * call its helpers.
+		 *
+		 * @param string $folder Folder name inside inc/modules/pattern-library/.
+		 * @return array[] The array entries of every file.
+		 */
+		private function load_folder_entries( $folder ) {
+			$dir = get_template_directory() . '/inc/modules/pattern-library/' . $folder;
+
+			if ( ! is_dir( $dir ) ) {
+				return array();
+			}
+
+			require_once get_template_directory() . '/inc/modules/pattern-library/library-helpers.php';
+
+			$files = glob( $dir . '/*.php' );
+			if ( ! is_array( $files ) ) {
+				return array();
+			}
+
+			$entries = array();
+			foreach ( $files as $file ) {
+				$file_entries = require $file;
+				if ( ! is_array( $file_entries ) ) {
+					continue;
+				}
+				foreach ( $file_entries as $entry ) {
+					if ( is_array( $entry ) ) {
+						$entries[] = $entry;
+					}
+				}
+			}
+
+			return $entries;
+		}
+
+		/**
+		 * REST permission gate for the Pro patterns route: logged-in editors
+		 * only. Mirrors rest_favorites_permissions_check().
+		 *
+		 * @return bool
+		 */
+		public function rest_pro_patterns_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * GET handler: return the library-only Pro patterns.
+		 *
+		 * @return \WP_REST_Response
+		 */
+		public function rest_get_pro_patterns() {
+			return rest_ensure_response( array( 'patterns' => $this->get_pro_patterns() ) );
+		}
+
+		/**
+		 * The Full pages: whole-page recipes the library assembles from
+		 * patterns. Library-only like the Pro patterns, never passed to
+		 * `register_block_pattern()`. Returns an empty array when the folder does
+		 * not exist.
+		 *
+		 * File format: each `*.php` file directly inside
+		 * `inc/modules/pattern-library/full-pages/` returns a list of definitions:
+		 *
+		 *     return array(
+		 *         array(
+		 *             'name'       => 'sydney/full-page-home-1', // or 'sydney-pro/full-page-...'.
+		 *             'title'      => __( 'Home 1', 'sydney' ),
+		 *             'page_type'  => 'home',                    // home, about, services or contact.
+		 *             'sydney_pro' => false,
+		 *             'sections'   => array(
+		 *                 array( 'pattern' => 'sydney/hero-1', 'scheme' => 'white' ), // scheme: white, grey or dark.
+		 *                 // 5 to 7 sections (a contact page needs no minimum); see PatternLibraryFullPagesTest for the rules.
+		 *             ),
+		 *         ),
+		 *     );
+		 *
+		 * @return array[] Full page definitions.
+		 */
+		public function get_full_pages() {
+			return $this->load_folder_entries( 'full-pages' );
+		}
+
+		/**
+		 * The Full page types, in tab order.
+		 *
+		 * @return array[] Each `array( 'slug' => string, 'label' => string )`.
+		 */
+		public function get_page_types() {
+			return array(
+				array(
+					'slug'  => 'home',
+					'label' => __( 'Home', 'sydney' ),
+				),
+				array(
+					'slug'  => 'about',
+					'label' => __( 'About', 'sydney' ),
+				),
+				array(
+					'slug'  => 'services',
+					'label' => __( 'Services', 'sydney' ),
+				),
+				array(
+					'slug'  => 'contact',
+					'label' => __( 'Contact', 'sydney' ),
+				),
+			);
+		}
+
+		/**
+		 * REST permission gate for the Full pages route: logged-in editors only.
+		 *
+		 * @return bool
+		 */
+		public function rest_full_pages_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * GET handler: return the Full page definitions.
+		 *
+		 * @return \WP_REST_Response
+		 */
+		public function rest_get_full_pages() {
+			return rest_ensure_response( array( 'pages' => $this->get_full_pages() ) );
 		}
 
 		/**
@@ -346,15 +561,15 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 				true
 			);
 
-		$style_file = get_template_directory() . '/inc/modules/pattern-library/build/index.css';
-		if ( file_exists( $style_file ) ) {
-			wp_enqueue_style(
-				'sydney-pattern-library',
-				get_template_directory_uri() . '/inc/modules/pattern-library/build/index.css',
-				array(),
-				filemtime( $style_file )
-			);
-		}
+			$style_file = get_template_directory() . '/inc/modules/pattern-library/build/index.css';
+			if ( file_exists( $style_file ) ) {
+				wp_enqueue_style(
+					'sydney-pattern-library',
+					get_template_directory_uri() . '/inc/modules/pattern-library/build/index.css',
+					array(),
+					$asset['version']
+				);
+			}
 
 			wp_localize_script(
 				'sydney-pattern-library',
@@ -364,7 +579,9 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 					'upgradeUrl'   => sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade/', array( 'utm_source' => 'theme_pattern_library', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney' ), 'pattern-library-upgrade-link' ),
 					'favorites'    => self::get_user_favorites( get_current_user_id() ),
 					'recentlyUsed' => self::get_user_recently_used( get_current_user_id() ),
+					'autoOpen'     => self::get_user_auto_open( get_current_user_id() ),
 					'typeOrder'    => array_keys( $this->get_categories() ),
+					'pageTypes'    => $this->get_page_types(),
 				)
 			);
 		}
@@ -437,6 +654,45 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 							),
 						),
 					),
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pattern-preferences',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'rest_update_preferences' ),
+					'permission_callback' => array( $this, 'rest_preferences_permissions_check' ),
+					'show_in_index'       => false,
+					'args'                => array(
+						'auto_open' => array(
+							'required' => false,
+							'type'     => 'boolean',
+						),
+					),
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/full-pages',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'rest_get_full_pages' ),
+					'permission_callback' => array( $this, 'rest_full_pages_permissions_check' ),
+					'show_in_index'       => false,
+				)
+			);
+
+			register_rest_route(
+				'sydney/v1',
+				'/pro-patterns',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'rest_get_pro_patterns' ),
+					'permission_callback' => array( $this, 'rest_pro_patterns_permissions_check' ),
+					'show_in_index'       => false,
 				)
 			);
 
@@ -541,6 +797,85 @@ if ( ! class_exists( 'Sydney_Pattern_Library' ) ) {
 			);
 
 			return rest_ensure_response( array( 'recently_used' => $sanitized ) );
+		}
+
+		/**
+		 * REST permission gate for the preferences route: logged-in editors only.
+		 * Mirrors rest_favorites_permissions_check().
+		 *
+		 * @return bool
+		 */
+		public function rest_preferences_permissions_check() {
+			return is_user_logged_in() && current_user_can( 'edit_posts' );
+		}
+
+		/**
+		 * POST handler: persist the preferences present in the request and
+		 * return the effective preferences.
+		 *
+		 * @param \WP_REST_Request $request REST request.
+		 * @return \WP_REST_Response
+		 */
+		public function rest_update_preferences( $request ) {
+			$user_id = get_current_user_id();
+
+			if ( $request->has_param( 'auto_open' ) ) {
+				update_user_meta(
+					$user_id,
+					self::AUTO_OPEN_META_KEY,
+					$request->get_param( 'auto_open' ) ? '1' : '0'
+				);
+			}
+
+			return rest_ensure_response(
+				array( 'auto_open' => self::get_user_auto_open( $user_id ) )
+			);
+		}
+
+		/**
+		 * Turn the auto-open site default on when Sydney replaces another theme.
+		 *
+		 * Runs on after_switch_theme. Switching from a Sydney theme (free to Pro
+		 * or back) and sites that already have the option are left alone.
+		 *
+		 * @param string        $old_theme_name Name of the previously active theme.
+		 * @param WP_Theme|null $old_theme      The previously active theme.
+		 */
+		public static function enable_auto_open_for_new_sites( $old_theme_name, $old_theme = null ) {
+			if ( get_option( self::AUTO_OPEN_DEFAULT_OPTION ) ) {
+				return;
+			}
+
+			if ( false !== strpos( strtolower( (string) $old_theme_name ), 'sydney' ) ) {
+				return;
+			}
+
+			if ( $old_theme instanceof WP_Theme && false !== strpos( strtolower( $old_theme->get_template() ), 'sydney' ) ) {
+				return;
+			}
+
+			update_option( self::AUTO_OPEN_DEFAULT_OPTION, 1 );
+		}
+
+		/**
+		 * Whether the library should open automatically for a user.
+		 *
+		 * An explicit user choice wins, otherwise the site default applies.
+		 *
+		 * @param int $user_id User ID.
+		 * @return bool
+		 */
+		public static function get_user_auto_open( $user_id ) {
+			$meta = empty( $user_id ) ? '' : get_user_meta( $user_id, self::AUTO_OPEN_META_KEY, true );
+
+			if ( '1' === $meta || 1 === $meta ) {
+				return true;
+			}
+			if ( '0' === $meta || 0 === $meta ) {
+				return false;
+			}
+
+			return (bool) get_option( self::AUTO_OPEN_DEFAULT_OPTION, 0 );
 		}
 
 		/**

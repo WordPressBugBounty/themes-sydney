@@ -1,0 +1,60 @@
+[
+	{
+		"id": "5c1a0e1",
+		"elType": "container",
+		"settings": {
+			"content_width": "boxed",
+			"boxed_width": { "unit": "px", "size": 640, "sizes": [] },
+			"flex_direction": "column",
+			"flex_justify_content": "center",
+			"flex_align_items": "center",
+			"min_height": { "unit": "vh", "size": 100, "sizes": [] },
+			"padding": { "unit": "px", "top": "80", "right": "24", "bottom": "80", "left": "24", "isLinked": false },
+			"background_background": "classic",
+			"__globals__": { "background_color": "globals/colors?id=global_color_6" }
+		},
+		"elements": [
+			{
+				"id": "5c1a0e2",
+				"elType": "widget",
+				"widgetType": "heading",
+				"settings": {
+					"title": "Coming soon",
+					"header_size": "p",
+					"align": "center",
+					"typography_typography": "custom",
+					"typography_font_size": { "unit": "px", "size": 14, "sizes": [] },
+					"typography_font_weight": "700",
+					"typography_text_transform": "uppercase",
+					"typography_letter_spacing": { "unit": "em", "size": 0.1, "sizes": [] },
+					"__globals__": { "title_color": "globals/colors?id=global_color_1" }
+				},
+				"elements": []
+			},
+			{
+				"id": "5c1a0e3",
+				"elType": "widget",
+				"widgetType": "heading",
+				"settings": {
+					"title": "We are working on something new",
+					"header_size": "h1",
+					"align": "center",
+					"__globals__": { "title_color": "globals/colors?id=global_color_9" }
+				},
+				"elements": []
+			},
+			{
+				"id": "5c1a0e4",
+				"elType": "widget",
+				"widgetType": "text-editor",
+				"settings": {
+					"editor": "<p>The site is getting ready behind the scenes. Check back soon to see what we have been building.</p>",
+					"align": "center",
+					"__globals__": { "text_color": "globals/colors?id=global_color_8" }
+				},
+				"elements": []
+			}
+		],
+		"isInner": false
+	}
+]

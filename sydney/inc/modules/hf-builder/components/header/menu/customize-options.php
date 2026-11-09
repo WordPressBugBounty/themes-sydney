@@ -70,7 +70,7 @@ $wp_customize->add_control(
                         '#customize-control-shfb_menu_padding',
                         '#customize-control-shfb_menu_margin',
                         '#customize-control-shfb_menu_sticky_border'
-                    ),
+                    )
                 )
             ),
             'priority' 				=> 20

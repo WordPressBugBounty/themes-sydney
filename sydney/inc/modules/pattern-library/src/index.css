@@ -14,11 +14,71 @@
 
 .sydney-pattern-library-modal .components-modal__content {
   padding: 0;
+  margin-bottom: 0;
 }
 
 /* Modal layout */
 .sydney-pattern-library-modal-container {
   height: 100%;
+}
+
+/* The auto-open toggle sits just before the close button. */
+.sydney-pattern-library-modal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* The Color scheme sits in its own footer, pinned under the categories. */
+.sydney-pattern-library-sidebar-footer {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 16px 28px;
+  border-top: 1px solid var(--border-color);
+  background: #fff;
+}
+
+/* Color scheme swatches: White, Grey, Dark, after an inline label. The
+   selected one gets a ring. */
+.sydney-pattern-library-color-scheme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sydney-pattern-library-color-scheme-label {
+  color: var(--color-heading);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.sydney-pattern-library-color-scheme-swatches {
+  display: flex;
+  gap: 8px;
+}
+.sydney-pattern-library-swatch {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #c3c4c7;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.sydney-pattern-library-swatch.is-white {
+  background: #fff;
+}
+.sydney-pattern-library-swatch.is-grey {
+  background: #e2e4e9;
+}
+.sydney-pattern-library-swatch.is-dark {
+  background: #1d2327;
+  border-color: #1d2327;
+}
+.sydney-pattern-library-swatch.is-selected {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1d2327;
+}
+.sydney-pattern-library-swatch:focus-visible {
+  outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+  outline-offset: 4px;
 }
 
 .sydney-pattern-library-modal-sidebar {
@@ -114,15 +174,32 @@
   height: 20px;
 }
 
+/* The sidebar content scrolls on its own, so a short window never gives the
+   modal an outer scrollbar. */
 .sydney-pattern-library-modal-sidebar-content {
   padding: 28px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
-.sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search,
-.sydney-pattern-library-modal-sidebar-content .components-search-control {
+.sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search {
   margin-bottom: 28px;
 }
+
+.sydney-pattern-library-type-filter .components-button {
+  font-weight: 400;
+  height: 32px;
+}
+
+/* The row-gap override needs the extra ancestor to outweigh the emitted Flex gap class. */
+.sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-type-filter {
+  row-gap: 0;
+}
+
 /* Grid container — must be position:relative so the overlay can fill it */
 .sydney-pattern-library-modal-grid-container {
   position: relative;
@@ -214,14 +291,46 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background: #1d2327;
-  color: #fff;
+  background: #f0b849;
+  color: #1d2327;
   font-size: 10px;
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 2px;
-  z-index: 10;
+  z-index: 12;
   pointer-events: none;
+}
+
+/* Locked Pro cards (free sites): preview only, with an Upgrade link shown on
+   hover or when the link has keyboard focus. */
+.sydney-pattern-library-pattern-item.is-locked {
+  cursor: default;
+}
+.sydney-pattern-library-upgrade-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(29, 35, 39, 0.8);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.sydney-pattern-library-upgrade-text {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.sydney-pattern-library-pattern-item.is-locked:hover .sydney-pattern-library-upgrade-overlay,
+.sydney-pattern-library-pattern-item.is-locked:focus-within .sydney-pattern-library-upgrade-overlay {
+  opacity: 1;
 }
 
 /* Heart toggle in top-left of each pattern card.
@@ -331,8 +440,13 @@
   box-shadow: 0 0 0 2px var(--wp-admin-theme-color, #3858e9);
 }
 /* Per-card skeleton shown while the BlockPreview iframe is loading */
-.sydney-pattern-library-pattern-item {
+.sydney-pattern-library-pattern-item:not(.is-loaded) {
   min-height: 180px;
+}
+/* Show the whole pattern: lift core's 2000px preview cap (inline max-height) but keep a finite backstop, so a pattern whose vh/svh heights feed back into the iframe height cannot grow without end. */
+.sydney-pattern-library-pattern-item .block-editor-block-preview__content,
+.sydney-pattern-library-pattern-item .block-editor-block-preview__content iframe {
+  max-height: 20000px !important;
 }
 .sydney-pattern-library-pattern-skeleton {
   position: absolute;
@@ -364,6 +478,11 @@
 .sydney-pattern-library-toolbar-btn-text {
   margin-left: 8px;
 }
+/* Keyboard focus gets the standard focus ring; a mouse click shows none, as before. */
+.components-button.sydney-pattern-library-toolbar-btn:focus:not(:focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
 @media (max-width: 1200px) {
   .sydney-pattern-library-pattern-grid {
     column-count: 2;
@@ -380,24 +499,18 @@
   }
 }
 
-/* Short viewports: tighten the sidebar so the full category list still fits and
-   the modal wrapper never gains its own scrollbar. Thresholds are measured, not
-   picked: the default spacing needs a 872px window, the 871px tier needs 748px.
-   Taller windows keep the roomier default spacing. The row-gap override needs
-   the extra ancestor to outweigh the emitted Flex gap class. */
+/* Short viewports: tighten the sidebar padding and the gaps around the Color
+   scheme control. The thresholds were measured before that control existed,
+   when they let the full category list fit. With it, the sidebar fits whole
+   only in windows 904px and taller. Below that its content scrolls on its own
+   and the modal wrapper still never gains a scrollbar. The category spacing is
+   compact at every height. */
 @media (max-height: 871px) {
   .sydney-pattern-library-modal-sidebar-content {
     padding: 20px 28px;
   }
-  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search,
-  .sydney-pattern-library-modal-sidebar-content .components-search-control {
+  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search {
     margin-bottom: 20px;
-  }
-  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-type-filter {
-    row-gap: 0;
-  }
-  .sydney-pattern-library-type-filter .components-button {
-    height: 32px;
   }
 }
 
@@ -405,11 +518,44 @@
   .sydney-pattern-library-modal-sidebar-content {
     padding: 12px 28px 8px;
   }
-  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search,
-  .sydney-pattern-library-modal-sidebar-content .components-search-control {
+  .sydney-pattern-library-modal-sidebar-content .sydney-pattern-library-modal-search {
     margin-bottom: 12px;
   }
   .sydney-pattern-library-type-filter .components-button {
     height: 30px;
   }
+}
+
+/* Patterns | Pages tabs, shown when at least one Full page is available. */
+.sydney-pattern-library-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 4px;
+  background: #f0f0f1;
+  border-radius: 4px;
+}
+.sydney-pattern-library-tabs .components-button {
+  flex: 1;
+  justify-content: center;
+  height: 32px;
+  color: var(--color-heading);
+}
+.sydney-pattern-library-tabs .components-button[aria-selected="true"] {
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Full page cards show the top of the page and scroll the rest into view on
+   hover, at the speed the card sets in --sydney-page-scroll-duration. */
+.sydney-pattern-library-pattern-item.is-page {
+  height: 420px;
+}
+.sydney-pattern-library-page-scroll {
+  transition: transform 0.4s ease;
+}
+.sydney-pattern-library-pattern-item.is-page:hover .sydney-pattern-library-page-scroll,
+.sydney-pattern-library-pattern-item.is-page:focus-within .sydney-pattern-library-page-scroll {
+  transform: translateY(calc(-1 * var(--sydney-page-scroll, 0px)));
+  transition: transform var(--sydney-page-scroll-duration, 0s) linear;
 }

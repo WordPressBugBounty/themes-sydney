@@ -80,6 +80,13 @@ var sydney = sydney || {};
 
 			e.preventDefault();
 
+			// Close an open header search through its own click handler.
+			var openSearch = document.querySelector( '.header-search .icon-cancel.active' );
+
+			if ( openSearch !== null ) {
+				openSearch.closest( '.header-search' ).click();
+			}
+
 			button.classList.add( 'open' );
 
 			offCanvas.classList.add( 'toggled' );
@@ -710,6 +717,11 @@ sydney.headerSearch = {
 				e.target.closest( '.header-search' ).classList.remove( 'hide' );
 				
 				if( form.classList.contains( 'active' ) ) {
+					// Close the offcanvas first so its close handler returns focus before the search input takes it.
+					if( document.querySelector( '.sydney-offcanvas-menu.toggled' ) !== null ) {
+						document.getElementsByClassName( 'mobile-menu-close' )[0].click();
+					}
+
 					searchInput.focus();
 				}
 

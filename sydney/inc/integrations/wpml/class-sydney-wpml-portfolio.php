@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Integration with WPML for aThemes: Testimonials block
+ * Integration with WPML for aThemes: Filterable Gallery block (athemes-portfolio)
  */
 class Sydney_Pro_WPML_Elementor_Portfolio extends WPML_Elementor_Module_With_Items {
 	
@@ -33,7 +33,7 @@ class Sydney_Pro_WPML_Elementor_Portfolio extends WPML_Elementor_Module_With_Ite
 		  	case 'term':
 				return esc_html__( '[aThemes Portfolio] Term', 'sydney' );
    
-			case 'link':
+			case 'url':
 				return esc_html__( '[aThemes Portfolio] Link', 'sydney' );
    
 			default:
@@ -50,9 +50,11 @@ class Sydney_Pro_WPML_Elementor_Portfolio extends WPML_Elementor_Module_With_Ite
 		switch( $field ) {
 			case 'title':
 			case 'term':
-			case 'link':    
 				return 'LINE';
-   
+
+			case 'url':
+				return 'LINK';
+
 			default:
 				return '';
 		}

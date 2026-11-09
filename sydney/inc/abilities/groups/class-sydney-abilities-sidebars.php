@@ -244,8 +244,8 @@ if ( ! class_exists( 'Sydney_Abilities_Sidebars' ) ) :
 				$invalid  = false;
 
 				if ( array_key_exists( 'enabled', $value ) ) {
-					if ( is_bool( $value['enabled'] ) ) {
-						$ctx_mods[ $ctx['enabled_mod'] ] = $value['enabled'] ? 1 : '';
+					if ( rest_is_boolean( $value['enabled'] ) ) {
+						$ctx_mods[ $ctx['enabled_mod'] ] = rest_sanitize_boolean( $value['enabled'] ) ? 1 : '';
 					} else {
 						$invalid = true;
 					}

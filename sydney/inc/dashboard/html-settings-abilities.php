@@ -48,7 +48,7 @@ $sydney_vibe_settings_url = admin_url( 'admin.php?page=vibe-ai' );
 <div class="sydney-dashboard-card-section bt-mt-5">
 	<div class="sydney-dashboard-module-card">
 
-		<h2 class="bt-m-0 bt-mb-5 bt-inline-flex-center" style="gap:var(--sydney-dashboard-space-1);">
+		<h2 class="bt-m-0 bt-mb-2 bt-inline-flex-center" style="gap:var(--sydney-dashboard-space-1);">
 			<?php echo esc_html__( 'AI Abilities', 'sydney' ); ?>
 			<svg class="sydney-svg-accent" width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M8.66666 4.66666L6 3.66666L8.66666 2.66566L9.66666 0L10.6676 2.66566L13.3333 3.66666L10.6676 4.66666L9.66666 7.33331L8.66666 4.66666ZM3.33331 10L0 8.66666L3.33331 7.33331L4.66666 4L6 7.33331L9.33331 8.66666L6 10L4.66666 13.3333L3.33331 10Z" fill="currentColor"/>

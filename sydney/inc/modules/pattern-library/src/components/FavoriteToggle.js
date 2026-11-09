@@ -20,7 +20,9 @@ export function FavoriteToggle( { patternName } ) {
 	return (
 		<button
 			type="button"
-			className={ `sydney-pattern-library-favorite-toggle${ isFavorited ? ' is-favorited' : '' }` }
+			className={ `sydney-pattern-library-favorite-toggle${
+				isFavorited ? ' is-favorited' : ''
+			}` }
 			aria-label={ label }
 			aria-pressed={ isFavorited }
 			onClick={ handleClick }

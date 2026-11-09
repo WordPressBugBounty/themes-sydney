@@ -165,7 +165,7 @@ if ( ! class_exists( 'Sydney_Abilities_Onboarding' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_set_usage_tracking( $args ) {
-			$enabled = ! empty( $args['enabled'] );
+			$enabled = rest_sanitize_boolean( $args['enabled'] );
 
 			update_option( 'sydney-usage-tracking-enabled', $enabled ? 1 : 0 );
 

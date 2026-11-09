@@ -87,6 +87,11 @@ class Sydney_Dashboard
         add_action( 'wp_ajax_sydney_abilities_mode', array( $this, 'ajax_abilities_mode' ) );
 
         add_action( 'wp_ajax_sydney_module_activation_handler', array( $this, 'ajax_module_activation_handler' ) );
+
+        //The Coming Soon settings section. Not gated on class_exists(): the class is
+        //free's and loads in both editions, but Pro's functions.php requires it after this file.
+        add_action( 'wp_ajax_sydney_coming_soon_save', array( $this, 'ajax_coming_soon_save' ) );
+        add_action( 'wp_ajax_sydney_coming_soon_create_page', array( $this, 'ajax_coming_soon_create_page' ) );
         add_action( 'wp_ajax_sydney_module_activation_all_handler', array( $this, 'ajax_module_activation_all_handler' ) );
         add_action( 'wp_ajax_sydney_setup_checklist_toggle',    array( $this, 'ajax_setup_checklist_toggle' ) );
         add_action( 'wp_ajax_sydney_setup_homepage',            array( $this, 'ajax_setup_homepage' ) );
@@ -122,7 +127,10 @@ class Sydney_Dashboard
             return;
         }
 
-        if ( 'athemes_hf' !== get_post_type() ) {
+        //Template parts, and the Coming Soon placeholder page opened from the settings tab.
+        $is_placeholder_page = class_exists( 'Sydney_Coming_Soon' ) && get_the_ID() && (int) get_the_ID() === Sydney_Coming_Soon::get_page_id();
+
+        if ( 'athemes_hf' !== get_post_type() && ! $is_placeholder_page ) {
             return;
         }
 
@@ -204,7 +212,9 @@ class Sydney_Dashboard
      * Every tab is the same admin page, so core would highlight Theme Dashboard
      * on all of them. Tabs without an item of their own keep that default.
      * The value returned is the slug add_submenu_page() stored, so it matches
-     * core's strict comparison in wp-admin/menu-header.php.
+     * core's strict comparison in wp-admin/menu-header.php. The tab nav switches
+     * tabs without a reload, so highlightAdminSubmenuItem() in sydney-dashboard.js
+     * applies the same rule in the browser: keep the two in sync.
      *
      * @param string|null $submenu_file The submenu file.
      * @return string|null
@@ -451,13 +461,13 @@ class Sydney_Dashboard
     public function admin_enqueue_scripts($hook)
     {
 
-        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20261021');
+        wp_enqueue_style('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard.min.css', array(), '20261104');
 
         if (is_rtl()) {
             wp_enqueue_style('sydney-dashboard-rtl', get_template_directory_uri() . '/inc/dashboard/assets/css/sydney-dashboard-rtl.min.css', array(), '20261016');
         }
 
-        wp_enqueue_script('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/js/sydney-dashboard.min.js', array( 'jquery', 'wp-util', 'jquery-ui-sortable' ), '20261019', true);
+        wp_enqueue_script('sydney-dashboard', get_template_directory_uri() . '/inc/dashboard/assets/js/sydney-dashboard.min.js', array( 'jquery', 'wp-util', 'jquery-ui-sortable' ), '20261104', true);
 
         // Only the display conditions modal uses select2, and that lives in the
         // template builder - no need to ship it alongside the themes.php notice.
@@ -515,6 +525,14 @@ class Sydney_Dashboard
                 'upgrade_step_of' => esc_html__( 'Step %1$s of %2$s', 'sydney' ),
                 'upgrade_failed_install' => esc_html__( 'Failed while: installing Sydney Pro', 'sydney' ),
                 'upgrade_failed_switch' => esc_html__( 'Failed while: activating theme', 'sydney' ),
+                'cs_create_page' => esc_html__( 'Create page', 'sydney' ),
+                'cs_edit_page' => esc_html__( 'Edit page', 'sydney' ),
+                'cs_replace_title' => esc_html__( 'Replace the placeholder page?', 'sydney' ),
+                'cs_replace_message' => esc_html__( 'The new design replaces everything on the page. Any changes you made to it will be lost.', 'sydney' ),
+                'cs_replace_button' => esc_html__( 'Replace page', 'sydney' ),
+                'cs_page_needed' => esc_html__( 'Create a page first', 'sydney' ),
+                'cs_copy' => esc_html__( 'Copy', 'sydney' ),
+                'cs_copied' => esc_html__( 'Copied', 'sydney' ),
             ),
         ));
     }
@@ -911,6 +929,61 @@ class Sydney_Dashboard
         update_option( 'sydney-modules', $modules );
 
         wp_send_json_success();
+    }
+
+    /**
+     * Save the Coming Soon Site mode.
+     *
+     * The response carries the resulting state, mode and badge label included,
+     * so the settings update the admin-bar badge without a reload. Posting no
+     * mode just reads the state back.
+     */
+    public function ajax_coming_soon_save() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) || ! Sydney_Coming_Soon::is_module_active() ) {
+            wp_send_json_error();
+        }
+
+        $input = array();
+
+        if ( isset( $_POST['mode'] ) ) {
+            $input['mode'] = sanitize_key( wp_unslash( $_POST['mode'] ) );
+        }
+
+        $result = empty( $input ) ? Sydney_Coming_Soon::get_settings() : Sydney_Coming_Soon::save_settings( $input );
+
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+        }
+
+        wp_send_json_success( Sydney_Coming_Soon::state() );
+    }
+
+    /**
+     * Create a private Placeholder page from a design and make it the page, or
+     * with replace, overwrite the current page with the design.
+     *
+     * Free's own creator: the Template Builder's part creator ships with Pro.
+     */
+    public function ajax_coming_soon_create_page() {
+        check_ajax_referer( 'nonce-bt-dashboard', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) || ! Sydney_Coming_Soon::is_module_active() ) {
+            wp_send_json_error();
+        }
+
+        $builder = isset( $_POST['builder'] ) ? sanitize_key( wp_unslash( $_POST['builder'] ) ) : '';
+        $design  = isset( $_POST['design'] ) ? sanitize_key( wp_unslash( $_POST['design'] ) ) : '';
+        $replace = ! empty( $_POST['replace'] );
+
+        $page = Sydney_Coming_Soon::create_page( $builder, $design, $replace );
+
+        if ( is_wp_error( $page ) ) {
+            wp_send_json_error( array( 'message' => $page->get_error_message() ) );
+        }
+
+        wp_send_json_success( Sydney_Coming_Soon::state() );
     }
 
     /**
@@ -1461,6 +1534,8 @@ class Sydney_Dashboard
 					</div>
 				</div>
 			</div>
+			<?php require get_template_directory() . '/inc/dashboard/html-editor-overlay.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound ?>
+			<?php require get_template_directory() . '/inc/dashboard/html-confirm-dialog.php'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound ?>
       	</div>
     <?php
 	}
@@ -1470,6 +1545,11 @@ class Sydney_Dashboard
      */
     public function html_notice()
     {
+
+        // The hero gives way to the Black Friday notice while the sale runs.
+        if (did_action('sydney_campaign_notice_printed')) {
+            return;
+        }
 
         global $pagenow;
 

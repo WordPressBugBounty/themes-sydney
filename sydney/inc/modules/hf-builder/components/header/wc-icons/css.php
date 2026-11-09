@@ -54,7 +54,7 @@ $css .= Sydney_Custom_CSS::get_variables_css(
             'name'     => '--bt-shfb-woo-icons-gap',
             'unit'     => 'px',
         ),
-    ),
+    )
 );
 
 // Padding

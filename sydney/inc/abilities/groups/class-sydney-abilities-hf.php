@@ -145,8 +145,12 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 					),
 					'output_schema'    => Sydney_Ability::envelope_schema(
 						array(
-									'header' => array( 'type' => 'object' ),
-									'footer' => array( 'type' => 'object' ),
+									'header'   => array( 'type' => 'object' ),
+									'footer'   => array( 'type' => 'object' ),
+									'pro_only' => array(
+										'type'        => 'object',
+										'description' => 'Free sites only: header and footer component ids that need Sydney Pro, with upgrade_url and upgrade_url_note.',
+									),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_list_hf_components' ),
@@ -408,6 +412,21 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 				),
 			);
 
+			if ( ! defined( 'SYDNEY_PRO_VERSION' ) ) {
+				$pro_header = array_column( Sydney_HF_Layout::pro_components( 'header', $registry ), 'id' );
+				$pro_footer = array_column( Sydney_HF_Layout::pro_components( 'footer', $registry ), 'id' );
+
+				if ( ! empty( $pro_header ) || ! empty( $pro_footer ) ) {
+					$data['pro_only'] = array_merge(
+						array(
+							'header' => $pro_header,
+							'footer' => $pro_footer,
+						),
+						Sydney_Abilities_Response::upgrade_link( 'sydney/list-hf-components' )
+					);
+				}
+			}
+
 			return Sydney_Abilities_Response::success(
 				__( 'Available header/footer components listed.', 'sydney' ),
 				$data
@@ -486,9 +505,20 @@ if ( ! class_exists( 'Sydney_Abilities_HF' ) ) :
 
 			$component = Sydney_HF_Layout::normalize_component_id( isset( $args['component'] ) ? $args['component'] : '' );
 			$position  = isset( $args['position'] ) ? (int) $args['position'] : PHP_INT_MAX;
+			$registry  = Sydney_HF_Layout::registry();
+
+			// On free, a Pro component gets a requires_pro refusal, not the
+			// "not available" error a typo gets.
+			if ( ! defined( 'SYDNEY_PRO_VERSION' ) && ! Sydney_HF_Layout::is_component_allowed( $component, $target['area'], $target['device'], $registry ) ) {
+				$pro = Sydney_HF_Layout::pro_component( $component, $target['area'], $registry );
+
+				if ( null !== $pro ) {
+					return Sydney_Abilities_Response::requires_pro( $pro['label'], 'sydney/add-hf-component', $component );
+				}
+			}
 
 			$data   = Sydney_HF_Layout::load( $target['area'], $target['row'] );
-			$result = Sydney_HF_Layout::add( $data, $target['area'], $target['device'], $target['column'], $component, $position );
+			$result = Sydney_HF_Layout::add( $data, $target['area'], $target['device'], $target['column'], $component, $position, $registry );
 
 			if ( isset( $result['error'] ) ) {
 				return Sydney_Abilities_Response::error( $result['error'] );

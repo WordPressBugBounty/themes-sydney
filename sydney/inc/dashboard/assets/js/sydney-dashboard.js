@@ -237,8 +237,8 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 		function template_confirm(options, on_confirm) {
 			var dialog = $confirm_dialog[0];
 
-			//The dialog is only printed on the builder tab. Without it, fall back to
-			//the browser confirm rather than running the action unchallenged.
+			//The dashboard page prints the dialog after its tabs. Without it, fall
+			//back to the browser confirm rather than running the action unchallenged.
 			if (!dialog) {
 				if (window.confirm(options.message)) {
 					on_confirm();
@@ -564,7 +564,9 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 			//the height of the one it is sliding to. Measured rather than hardcoded:
 			//how many parts exist, and whether Elementor is installed, both vary.
 			function part_menu_view( $menu, view ) {
-				var index = { menu: 0, list: 1, builder: 2 }[ view ] || 0;
+				//The Coming Soon menu has two panels: the builders, then the designs.
+				var views = $menu.hasClass('sydney-coming-soon-menu') ? { builder: 0, designs: 1 } : { menu: 0, list: 1, builder: 2 };
+				var index = views[ view ] || 0;
 
 				$menu.attr('data-view', view);
 				$menu.css('height', $menu.find('.part-menu-panel').eq( index ).outerHeight());
@@ -607,7 +609,7 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 			//Registered once here rather than per open, which is what the panels used
 			//to do - each open stacked another global listener that never came off.
 			$(document).on('click.sydneyPartMenu', function(e) {
-				if ( ! $(e.target).closest('.part-menu, .part-options-toggle, .part-title, .part-sub-label').length ) {
+				if ( ! $(e.target).closest('.part-menu, .part-options-toggle, .part-title, .part-sub-label, .sydney-coming-soon-page-toggle, .sydney-coming-soon-change').length ) {
 					close_part_menus();
 				}
 			});
@@ -844,6 +846,9 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				//browser's Leave Site prompt the next time a part sets src on it.
 				//Detaching skips beforeunload entirely.
 				$( '.sydney-elementor-iframe' ).replaceWith( '<iframe class="sydney-elementor-iframe"></iframe>' );
+
+				//Lets whatever opened the editor refresh what it shows of the post.
+				$( document ).trigger( 'sydney-editor-closed' );
 
 				return false;
 			});
@@ -1336,6 +1341,512 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 			$textarea.val(JSON.stringify(data)).trigger('change');
 		});
 
+		//Coming Soon settings section. The Create page popover is the Template
+		//Builder's part menu, opened on its builder choice. The handlers below are
+		//bound on the section and stop propagation, so the Template Builder's own
+		//document-level handlers for the same classes never see these clicks.
+		var $coming_soon = $('#sydney-coming-soon');
+
+		if ( $coming_soon.length ) {
+
+			var cs_i18n           = window.sydney_dashboard.i18n;
+			var cs_editor_opened  = false; //an editor opened from this section is open
+			var cs_dialog_trigger = null;  //control focus goes back to when a dialog closes
+
+			var cs_post = function( data ) {
+				return $.post( window.sydney_dashboard.ajax_url, $.extend( { nonce: window.sydney_dashboard.nonce }, data ) );
+			};
+
+			var cs_error_message = function( response ) {
+				return ( response && response.data && response.data.message ) ? response.data.message : cs_i18n.failed_message;
+			};
+
+			//One feedback line per row, shown only while it has something to say.
+			var cs_feedback = function( $line, message ) {
+				$line.text( message || '' ).toggleClass( 'bt-d-none', ! message );
+			};
+
+			//The three dropdowns in the controls row: Edit page's menu, Mode and
+			//Advanced. They are part menus too, so the Template Builder's
+			//close_part_menus() and its outside-click handler shut them along with
+			//the design menu: one open at a time.
+			var cs_close_dropdowns = function() {
+				$coming_soon.find('.sydney-coming-soon-dropdown-toggle').attr('aria-expanded', 'false');
+				close_part_menus();
+			};
+
+			$coming_soon.on('click', '.sydney-coming-soon-dropdown-toggle', function(e) {
+				var $toggle  = $(this);
+				var $menu    = $toggle.siblings('.sydney-coming-soon-dropdown');
+				var was_open = $menu.hasClass('open');
+
+				e.preventDefault();
+				e.stopPropagation();
+
+				cs_close_dropdowns();
+
+				if ( ! was_open ) {
+					$menu.addClass('open');
+					$toggle.attr('aria-expanded', 'true');
+				}
+			});
+
+			//The part menus' own outside-click handler closes the menu; this puts
+			//its toggle's aria-expanded back.
+			$(document).on('click.sydneyComingSoonDropdown', function(e) {
+				if ( ! $(e.target).closest('.part-menu').length ) {
+					$coming_soon.find('.sydney-coming-soon-dropdown-toggle').attr('aria-expanded', 'false');
+				}
+			});
+
+			$coming_soon.on('keydown', function(e) {
+				var $open = $coming_soon.find('.sydney-coming-soon-dropdown.open');
+
+				if ( e.key === 'Escape' && $open.length ) {
+					cs_close_dropdowns();
+					$open.siblings('.sydney-coming-soon-dropdown-toggle').trigger('focus');
+				}
+			});
+
+			//Coming Soon and Maintenance wait for a page while the mode is off, so
+			//Mode stays shut until there is one. The tooltip sits on the wrapper: a
+			//disabled button gets no hover.
+			var cs_refresh_mode_locks = function() {
+				var locked = $coming_soon.attr('data-has-page') !== '1' && $coming_soon.attr('data-mode') === 'off';
+
+				$coming_soon.find('.sydney-coming-soon-mode-toggle').prop('disabled', locked);
+
+				$coming_soon.find('.sydney-coming-soon-mode-control')
+					.toggleClass('sydney-dashboard-pro-tooltip', locked)
+					.attr('data-tooltip-message', locked ? cs_i18n.cs_page_needed : null);
+			};
+
+			//The line beside the controls. Its text for each state is printed on it.
+			var cs_render_summary = function() {
+				var $summary = $coming_soon.find('.sydney-coming-soon-summary');
+				var locked   = $coming_soon.attr('data-has-page') !== '1' && $coming_soon.attr('data-mode') === 'off';
+
+				$summary.text( $summary.attr('data-summary-' + ( locked ? 'none' : $coming_soon.attr('data-mode') )) );
+			};
+
+			var cs_render_mode = function( mode ) {
+				var $options = $coming_soon.find('.sydney-coming-soon-mode-option');
+
+				$coming_soon.attr('data-mode', mode);
+
+				$options.attr('aria-checked', 'false');
+				$coming_soon.find('.sydney-coming-soon-mode-label').text(
+					$options.filter('[data-mode="' + mode + '"]').attr('aria-checked', 'true').find('.sydney-coming-soon-mode-option-label').text()
+				);
+			};
+
+			//The admin-bar badge, updated in place from the saved mode.
+			var cs_badge = function( label ) {
+				var $node = $('#wp-admin-bar-sydney-site-mode');
+
+				$node.children('.ab-item').text( label || '' );
+				$node.toggleClass('hidden', ! label);
+			};
+
+			var cs_render_page = function( page, page_missing ) {
+				var has_page = !! ( page && page.id );
+
+				$coming_soon.attr('data-has-page', has_page ? '1' : '0');
+
+				$coming_soon.find('.sydney-coming-soon-page-details').toggleClass('bt-d-none', ! has_page);
+				$coming_soon.find('.sydney-coming-soon-page-picker').toggleClass('bt-d-none', has_page);
+
+				if ( has_page ) {
+					$coming_soon.find('.sydney-coming-soon-edit').attr('data-edit-url', page.edit_url);
+					$coming_soon.find('.sydney-coming-soon-preview').attr('href', page.preview_url);
+				}
+
+				$coming_soon.find('.sydney-coming-soon-page-missing').toggleClass('bt-d-none', ! page_missing);
+			};
+
+			//The dashboard's spinner on the Create page button while a page is made
+			//and its editor loads. Edit page waits behind it until the editor shows.
+			var cs_page_busy = function( busy ) {
+				var $toggle  = $coming_soon.find('.sydney-coming-soon-page-toggle');
+				var has_page = $coming_soon.attr('data-has-page') === '1';
+
+				$toggle.toggleClass('sydney-ajax-progress', busy);
+
+				if ( busy ) {
+					$toggle.html('<i class="dashicons dashicons-update-alt"></i>' + cs_i18n.loading);
+				} else {
+					$toggle.text( cs_i18n.cs_create_page );
+				}
+
+				$coming_soon.find('.sydney-coming-soon-page-picker').toggleClass('bt-d-none', ! busy && has_page);
+				$coming_soon.find('.sydney-coming-soon-page-details').toggleClass('bt-d-none', busy || ! has_page);
+			};
+
+			//The same spinner on Edit page while Change design rewrites the page.
+			var cs_change_busy = function( busy ) {
+				var $edit = $coming_soon.find('.sydney-coming-soon-edit');
+
+				$edit.toggleClass('sydney-ajax-progress loading', busy);
+
+				if ( busy ) {
+					$edit.html('<i class="dashicons dashicons-update-alt"></i>' + cs_i18n.loading);
+				} else {
+					$edit.text( cs_i18n.cs_edit_page );
+				}
+			};
+
+			//Everything the section shows comes from the state the server returns.
+			var cs_apply = function( state ) {
+				if ( ! state ) {
+					return;
+				}
+
+				cs_render_mode( state.mode );
+				cs_render_page( state.page, state.page_missing );
+				cs_badge( state.label );
+				cs_refresh_mode_locks();
+				cs_render_summary();
+			};
+
+			//Site mode, saved on click like the AI Abilities radios. The toggle only
+			//shows a mode the server has stored, so a refused change leaves it as is.
+			$coming_soon.on('click', '.sydney-coming-soon-mode-option', function() {
+				var $toggle   = $coming_soon.find('.sydney-coming-soon-mode-toggle');
+				var $feedback = $coming_soon.find('.sydney-coming-soon-mode-feedback');
+				var mode      = $(this).attr('data-mode');
+
+				cs_close_dropdowns();
+				$toggle.trigger('focus');
+
+				if ( mode === $coming_soon.attr('data-mode') ) {
+					return;
+				}
+
+				$toggle.prop('disabled', true);
+				cs_feedback( $feedback, '' );
+
+				cs_post({
+					action: 'sydney_coming_soon_save',
+					mode: mode
+				}).done(function( response ) {
+					if ( response && response.success ) {
+						cs_apply( response.data );
+					} else {
+						cs_feedback( $feedback, cs_error_message( response ) );
+					}
+				}).fail(function() {
+					cs_feedback( $feedback, cs_i18n.failed_message );
+				}).always(function() {
+					$toggle.prop('disabled', false);
+					cs_refresh_mode_locks();
+				});
+			});
+
+			//Preview and the locked Pro options open a new tab and leave the menu behind.
+			$coming_soon.on('click', '.sydney-coming-soon-preview, .sydney-coming-soon-advanced.is-locked', function() {
+				cs_close_dropdowns();
+			});
+
+			//Create page opens the part menu, one menu open at a time. With a single
+			//builder (no Elementor) there is nothing to choose, so it opens on the designs.
+			//Change design opens the same menu to overwrite the page that is set.
+			$coming_soon.on('click', '.sydney-coming-soon-page-toggle, .sydney-coming-soon-change', function(e) {
+				e.preventDefault();
+
+				var $menu     = $coming_soon.find('.sydney-coming-soon-menu');
+				var $builders = $menu.find('.sydney-coming-soon-builder');
+				var was_open  = $menu.hasClass('open');
+
+				cs_close_dropdowns();
+				close_part_menus();
+
+				if ( ! was_open ) {
+					$menu.addClass('open').attr('data-replace', $(this).hasClass('sydney-coming-soon-change') ? '1' : '0');
+
+					if ( $builders.length === 1 ) {
+						$menu.attr('data-builder', $builders.attr('data-builder'));
+						part_menu_view( $menu, 'designs' );
+					} else {
+						part_menu_view( $menu, 'builder' );
+					}
+				}
+			});
+
+			//The builder is kept on the menu until a design is picked.
+			$coming_soon.on('click', '.sydney-coming-soon-builder', function(e) {
+				e.stopPropagation();
+
+				var $menu = $(this).closest('.sydney-coming-soon-menu');
+
+				$menu.attr('data-builder', $(this).attr('data-builder'));
+				part_menu_view( $menu, 'designs' );
+			});
+
+			//The designs panel steps back to the builders, not to the top level.
+			$coming_soon.on('click', '.sydney-coming-soon-designs-back', function(e) {
+				e.stopPropagation();
+
+				part_menu_view( $(this).closest('.sydney-coming-soon-menu'), 'builder' );
+			});
+
+			//A design creates the private page, or overwrites the one that is set,
+			//and opens it in the editor overlay.
+			var cs_use_design = function( builder, design, replace ) {
+				var $feedback = $coming_soon.find('.sydney-coming-soon-page-feedback');
+				var busy      = replace ? cs_change_busy : cs_page_busy;
+
+				cs_feedback( $feedback, '' );
+				busy( true );
+
+				cs_post({
+					action: 'sydney_coming_soon_create_page',
+					builder: builder,
+					design: design,
+					replace: replace ? 1 : 0
+				}).done(function( response ) {
+					if ( ! response || ! response.success ) {
+						busy( false );
+						cs_feedback( $feedback, cs_error_message( response ) );
+						return;
+					}
+
+					cs_apply( response.data );
+
+					if ( response.data.page && response.data.page.edit_url ) {
+						//cs_apply relabelled the button: the spinner goes back on
+						//until the overlay shows, which waits for the editor to load.
+						busy( true );
+						$('.sydney-elementor-iframe').one('load', function() {
+							busy( false );
+						});
+
+						cs_editor_opened = true;
+						open_editor_iframe( response.data.page.edit_url );
+					}
+				}).fail(function() {
+					busy( false );
+					cs_feedback( $feedback, cs_i18n.failed_message );
+				});
+			};
+
+			//Locked designs are plain links to the upgrade page. Overwriting the
+			//page that is set waits for the user to confirm it.
+			$coming_soon.on('click', 'button.sydney-coming-soon-design', function(e) {
+				e.stopPropagation();
+
+				var $menu   = $(this).closest('.sydney-coming-soon-menu');
+				var builder = $menu.attr('data-builder');
+				var design  = $(this).attr('data-design');
+
+				close_part_menus();
+
+				if ( $menu.attr('data-replace') !== '1' ) {
+					cs_use_design( builder, design, false );
+					return;
+				}
+
+				template_confirm({
+					title:         cs_i18n.cs_replace_title,
+					message:       cs_i18n.cs_replace_message,
+					confirm_label: cs_i18n.cs_replace_button,
+					trigger:       $coming_soon.find('.sydney-coming-soon-page-details .sydney-coming-soon-dropdown-toggle')[0]
+				}, function() {
+					cs_use_design( builder, design, true );
+				});
+			});
+
+			//Edit shows the dashboard's spinner until the overlay shows, which waits
+			//for the editor to load.
+			$coming_soon.on('click', '.sydney-coming-soon-edit', function(e) {
+				e.preventDefault();
+
+				var $edit = $(this);
+				var url   = $edit.attr('data-edit-url');
+				var label = $edit.text();
+
+				if ( url ) {
+					$edit.addClass('sydney-ajax-progress loading').html('<i class="dashicons dashicons-update-alt"></i>' + cs_i18n.loading);
+					$('.sydney-elementor-iframe').one('load', function() {
+						$edit.removeClass('sydney-ajax-progress loading').text( label );
+					});
+
+					cs_editor_opened = true;
+					open_editor_iframe( url );
+				}
+			});
+
+			//The page may have been renamed or published in the editor, so the
+			//row is read back from the server rather than kept as it was.
+			$(document).on('sydney-editor-closed', function() {
+				if ( ! cs_editor_opened ) {
+					return;
+				}
+
+				cs_editor_opened = false;
+
+				//A save with no fields changes nothing and returns the current state.
+				cs_post({ action: 'sydney_coming_soon_save' }).done(function( response ) {
+					if ( response && response.success ) {
+						cs_apply( response.data );
+					}
+				});
+			});
+
+			//Pro's Advanced options. Free renders them as upgrade links with no
+			//data-dialog, and prints none of the markup below, so this is inert there.
+			var cs_close_dialog = function( dialog ) {
+				if ( ! dialog ) {
+					return;
+				}
+
+				if ( typeof dialog.close === 'function' && dialog.open ) {
+					dialog.close();
+				} else {
+					dialog.removeAttribute('open');
+				}
+
+				if ( cs_dialog_trigger ) {
+					$(cs_dialog_trigger).trigger('focus');
+					cs_dialog_trigger = null;
+				}
+			};
+
+			$coming_soon.on('click', '.sydney-coming-soon-advanced[data-dialog]', function(e) {
+				var key = $(this).attr('data-dialog');
+
+				e.preventDefault();
+				cs_close_dropdowns();
+
+				//Include / exclude opens the display conditions modal of the control
+				//Pro prints in this section.
+				if ( key === 'conditions' ) {
+					$coming_soon.find('.sydney-coming-soon-conditions .sydney-display-conditions-modal-toggle').first().trigger('click');
+
+					return;
+				}
+
+				var dialog = document.getElementById( 'sydney-coming-soon-' + key + '-dialog' );
+
+				if ( ! dialog ) {
+					return;
+				}
+
+				//The item sits in a menu that is now shut, so focus goes back to its toggle.
+				cs_dialog_trigger = $coming_soon.find('.sydney-coming-soon-advanced-toggle')[0];
+
+				if ( typeof dialog.showModal === 'function' ) {
+					dialog.showModal();
+				} else {
+					dialog.setAttribute('open', '');
+				}
+			});
+
+			$coming_soon.on('click', '.sydney-coming-soon-dialog .sydney-confirm-dialog-cancel', function() {
+				cs_close_dialog( $(this).closest('dialog')[0] );
+			});
+
+			//A click outside the card landed on the backdrop, so treat it as a dismissal.
+			$coming_soon.on('click', '.sydney-coming-soon-dialog', function(e) {
+				if ( is_backdrop_click(this, e) ) {
+					cs_close_dialog( this );
+				}
+			});
+
+			//The display conditions modal writes the rules here and triggers change.
+			$coming_soon.on('change', '.sydney-coming-soon-conditions .sydney-display-conditions-textarea', function() {
+				var $feedback = $coming_soon.find('.sydney-coming-soon-advanced-feedback');
+
+				cs_feedback( $feedback, '' );
+
+				cs_post({
+					action: 'sydney_coming_soon_save_conditions',
+					conditions: $(this).val()
+				}).done(function( response ) {
+					if ( ! response || ! response.success ) {
+						cs_feedback( $feedback, cs_error_message( response ) );
+					}
+				}).fail(function() {
+					cs_feedback( $feedback, cs_i18n.failed_message );
+				});
+			});
+
+			//Private link: the link is shown once, right after it is generated.
+			$coming_soon.on('click', '.sydney-coming-soon-link-regenerate', function() {
+				var $dialog   = $(this).closest('dialog');
+				var $button   = $(this);
+				var $feedback = $dialog.find('.sydney-coming-soon-dialog-feedback');
+
+				$button.prop('disabled', true);
+				cs_feedback( $feedback, '' );
+
+				cs_post({
+					action: 'sydney_coming_soon_private_link',
+					expiry_days: $dialog.find('select[name="expiry_days"]').val()
+				}).done(function( response ) {
+					if ( response && response.success ) {
+						$dialog.find('.sydney-coming-soon-link-field').val( response.data.url );
+						$dialog.find('.sydney-coming-soon-link-new').removeClass('bt-d-none');
+						$dialog.find('.sydney-coming-soon-link-status').text( response.data.status );
+						$dialog.find('.sydney-coming-soon-link-copy').text( cs_i18n.cs_copy );
+					} else {
+						cs_feedback( $feedback, cs_error_message( response ) );
+					}
+				}).fail(function() {
+					cs_feedback( $feedback, cs_i18n.failed_message );
+				}).always(function() {
+					$button.prop('disabled', false);
+				});
+			});
+
+			$coming_soon.on('click', '.sydney-coming-soon-link-copy', function() {
+				var $button = $(this);
+				var $field  = $button.closest('dialog').find('.sydney-coming-soon-link-field');
+				var done    = function() {
+					$button.text( cs_i18n.cs_copied );
+				};
+
+				if ( navigator.clipboard && navigator.clipboard.writeText ) {
+					navigator.clipboard.writeText( $field.val() ).then( done );
+				} else {
+					$field[0].select();
+					document.execCommand('copy');
+					done();
+				}
+			});
+
+			//IP allowlist: the saved list comes back normalized, and lines that are
+			//not an IP or a CIDR range are reported instead of saved.
+			$coming_soon.on('click', '.sydney-coming-soon-ips-save', function() {
+				var $dialog   = $(this).closest('dialog');
+				var $button   = $(this);
+				var $feedback = $dialog.find('.sydney-coming-soon-dialog-feedback');
+
+				$button.prop('disabled', true);
+				cs_feedback( $feedback, '' );
+
+				cs_post({
+					action: 'sydney_coming_soon_ips',
+					ips: $dialog.find('textarea[name="ips"]').val()
+				}).done(function( response ) {
+					if ( response && response.success ) {
+						$dialog.find('textarea[name="ips"]').val( response.data.ips.join('\n') );
+
+						if ( response.data.message ) {
+							cs_feedback( $feedback, response.data.message );
+						} else {
+							cs_close_dialog( $dialog[0] );
+						}
+					} else {
+						cs_feedback( $feedback, cs_error_message( response ) );
+					}
+				}).fail(function() {
+					cs_feedback( $feedback, cs_i18n.failed_message );
+				}).always(function() {
+					$button.prop('disabled', false);
+				});
+			});
+		}
+
 		// Tabs Navigation
 		const tabs = $( '.sydney-dashboard-tabs-nav' );
 		if( tabs.length ) {
@@ -1398,6 +1909,49 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 				}
 			};
 
+			// Moves the admin submenu highlight to the item of a tab switched without a reload.
+			// Mirrors Sydney_Dashboard::highlight_tab_submenu_item(): a tab with no item of its own highlights Theme Dashboard.
+			const highlightAdminSubmenuItem = function( tab ) {
+				const submenu = document.querySelector( '#toplevel_page_sydney-dashboard .wp-submenu' );
+
+				if( ! submenu ) {
+					return;
+				}
+
+				let target   = null,
+					fallback = null;
+
+				Array.prototype.forEach.call( submenu.querySelectorAll( 'li > a' ), function( link ){
+					const url = new URL( link.href );
+
+					if( url.searchParams.get( 'page' ) !== 'sydney-dashboard' ) {
+						return;
+					}
+
+					if( ! target && url.searchParams.get( 'tab' ) === tab ) {
+						target = link;
+					} else if( ! fallback && ! url.searchParams.has( 'tab' ) ) {
+						fallback = link;
+					}
+				} );
+
+				target = target || fallback;
+
+				if( ! target ) {
+					return;
+				}
+
+				// Only core's highlight state changes, so classes like wp-first-item stay.
+				Array.prototype.forEach.call( submenu.querySelectorAll( 'li, a' ), function( el ){
+					el.classList.remove( 'current' );
+					el.removeAttribute( 'aria-current' );
+				} );
+
+				target.classList.add( 'current' );
+				target.parentElement.classList.add( 'current' );
+				target.setAttribute( 'aria-current', 'page' );
+			};
+
 			tabs.each(function(){
 				const tabWrapperId = $( this ).data( 'tab-wrapper-id' );
 				const nav          = this;
@@ -1441,6 +1995,11 @@ y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scrol
 
 						url.searchParams.set( 'tab', to );
 						window.history.replaceState( null, '', url.toString() );
+					}
+
+					// Keep the admin submenu on the visible tab, as a full load of its URL would.
+					if( tabWrapperId === 'main' ) {
+						highlightAdminSubmenuItem( to );
 					}
 
 					// Recalculate sticky

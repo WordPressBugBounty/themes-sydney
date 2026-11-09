@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'athemes/sydney',
-        'pretty_version' => 'dev-2d9a05b7df611e400e977a0bbb8128b9fe936501',
-        'version' => 'dev-2d9a05b7df611e400e977a0bbb8128b9fe936501',
-        'reference' => '2d9a05b7df611e400e977a0bbb8128b9fe936501',
+        'pretty_version' => 'dev-335d635b1718b7801849662a6d50496f27465498',
+        'version' => 'dev-335d635b1718b7801849662a6d50496f27465498',
+        'reference' => '335d635b1718b7801849662a6d50496f27465498',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'athemes/sydney' => array(
-            'pretty_version' => 'dev-2d9a05b7df611e400e977a0bbb8128b9fe936501',
-            'version' => 'dev-2d9a05b7df611e400e977a0bbb8128b9fe936501',
-            'reference' => '2d9a05b7df611e400e977a0bbb8128b9fe936501',
+            'pretty_version' => 'dev-335d635b1718b7801849662a6d50496f27465498',
+            'version' => 'dev-335d635b1718b7801849662a6d50496f27465498',
+            'reference' => '335d635b1718b7801849662a6d50496f27465498',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

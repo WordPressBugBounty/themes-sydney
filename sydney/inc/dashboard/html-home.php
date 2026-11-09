@@ -257,11 +257,12 @@ if (!defined('ABSPATH')) {
             
             <?php if( ! $this->settings[ 'has_pro' ] ) : ?>
                 <?php
-                $sydney_pro_benefits = array(
+                $sydney_pro_starter_count = $this->settings['starter_counts']['pro'];
+                $sydney_pro_benefits      = array(
                     __( 'Template Builder for custom headers, footers and layouts', 'sydney' ),
-                    $this->settings['starter_counts']['pro']
+                    $sydney_pro_starter_count
                         /* translators: %d: number of Pro starter sites */
-                        ? sprintf( _n( '%d Pro starter site', '%d Pro starter sites', $this->settings['starter_counts']['pro'], 'sydney' ), $this->settings['starter_counts']['pro'] )
+                        ? sprintf( _n( '%d Pro starter site', '%d Pro starter sites', $sydney_pro_starter_count, 'sydney' ), $sydney_pro_starter_count )
                         : __( 'Pro starter sites', 'sydney' ),
                 );
 

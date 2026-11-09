@@ -15,19 +15,19 @@ class Sydney_WPML {
 		$widgets[ 'athemes-testimonials' ] = [
 			'conditions' => [ 'widgetType' => 'athemes-testimonials' ],
 			'fields'     => [],
-			'integration-class' => 'Sydney_WPML_Elementor_Testimonials',
+			'integration-class' => 'Sydney_Pro_WPML_Elementor_Testimonials',
 		];
 
 		$widgets[ 'athemes-employee-carousel' ] = [
 			'conditions' => [ 'widgetType' => 'athemes-employee-carousel' ],
 			'fields'     => [],
-			'integration-class' => 'Sydney_WPML_Elementor_Employees',
+			'integration-class' => 'Sydney_Pro_WPML_Elementor_Employees',
 		];
 		
 		$widgets[ 'athemes-portfolio' ] = [
 			'conditions' => [ 'widgetType' => 'athemes-portfolio' ],
 			'fields'     => [],
-			'integration-class' => 'Sydney_WPML_Elementor_Portfolio',
+			'integration-class' => 'Sydney_Pro_WPML_Elementor_Portfolio',
 		];      
 
 		$widgets[ 'athemes-posts' ] = [
@@ -47,9 +47,9 @@ class Sydney_WPML {
 	}
 	
 	private function load_integration_classes() {
-		require get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-testimonials.php';
-		require get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-employee-carousel.php';
-		require get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-portfolio.php';
+		require_once get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-testimonials.php';
+		require_once get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-employee-carousel.php';
+		require_once get_template_directory() . '/inc/integrations/wpml/class-sydney-wpml-portfolio.php';
 	}
 }
 

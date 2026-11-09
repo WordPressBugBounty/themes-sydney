@@ -37,6 +37,10 @@ class Sydney_Theme_Review_Notice {
 	 * Show HTML markup if conditions meet.
 	 */
 	public function review_notice_markup() {
+		if ( did_action( 'sydney_admin_notice_printed' ) ) {
+			return;
+		}
+
 		$user_id                  = get_current_user_id();
 		$current_user             = wp_get_current_user();
 		$ignored_notice           = get_user_meta( $user_id, 'sydney_disable_review_notice', true );

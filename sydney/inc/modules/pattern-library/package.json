@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "wp-scripts build src/index.js --output-path=build",
+    "test": "wp-scripts test-unit-js",
     "start": "wp-scripts start src/index.js --output-path=build"
   },
   "devDependencies": {

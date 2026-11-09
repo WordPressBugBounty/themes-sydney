@@ -75,6 +75,7 @@ All abilities require `edit_theme_options` unless noted. Reads always register; 
 | Additional CSS | `get-custom-css` | `update-custom-css` | Write requires `edit_css` (→ `unfiltered_html`); writes the same core `custom_css` post as the Customizer and replicates its `</style` breakout validation |
 | Shop | `get-shop` | `update-shop` | Registers only when WooCommerce is active; layout, sidebar, and product-card structure |
 | Page structure | `get-theme-selectors`, `find-elements`, `get-page-structure` | — | Read-only. Helps an agent write CSS for `update-custom-css`: `get-theme-selectors` is a static, no-fetch cheat sheet; `find-elements`/`get-page-structure` fetch rendered HTML over a **same-site** loopback (see below) |
+| Pro features | `get-pro-features` | — | Registers on free sites only: what Sydney Pro adds, with an upgrade link |
 
 All ability ids take the `sydney/` prefix, e.g. `sydney/get-global-colors`.
 

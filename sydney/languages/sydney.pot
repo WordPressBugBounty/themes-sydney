@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: aThemes <team@athemes.com>\n"
 "Last-Translator: aThemes <team@athemes.com>\n"
-"POT-Creation-Date: 2026-10-21 17:06+0000\n"
+"POT-Creation-Date: 2026-11-09 11:24+0000\n"
 "Report-Msgid-Bugs-To: https://athemes.com/contact/\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: functions.php:95, inc/starter-content/class-sydney-starter-content.php:50, inc/modules/hf-builder/class-header-footer-builder.php:94, inc/modules/hf-builder/components/header/menu/customize-options.php:22
+#: functions.php:95, inc/starter-content/class-sydney-starter-content.php:50, inc/modules/hf-builder/class-header-footer-builder.php:97, inc/modules/hf-builder/components/header/menu/customize-options.php:22
 msgid "Primary Menu"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Mobile menu (optional)"
 msgstr ""
 
-#: functions.php:100, inc/modules/hf-builder/class-header-footer-builder.php:98, inc/modules/hf-builder/class-header-footer-builder.php:134, inc/modules/hf-builder/components/header/secondary-menu/customize-options.php:22, inc/modules/hf-builder/components/header/secondary-menu/customize-options.php:467
+#: functions.php:100, inc/modules/hf-builder/class-header-footer-builder.php:101, inc/modules/hf-builder/class-header-footer-builder.php:137, inc/modules/hf-builder/components/header/secondary-menu/customize-options.php:22, inc/modules/hf-builder/components/header/secondary-menu/customize-options.php:467
 msgid "Secondary Menu"
 msgstr ""
 
@@ -115,28 +115,28 @@ msgstr ""
 msgid "Create your menu here"
 msgstr ""
 
-#: functions.php:892
+#: functions.php:893
 msgid "Sydney Font Awesome Update: "
 msgstr ""
 
-#: functions.php:892
+#: functions.php:893
 msgid "Your website is currently running the version 4. Click in the below button to update to version 5."
 msgstr ""
 
-#: functions.php:894, functions.php:910
+#: functions.php:895, functions.php:911
 msgid "Important: "
 msgstr ""
 
-#: functions.php:894, functions.php:910
+#: functions.php:895, functions.php:911
 msgid "This is a global change. That means this change will affect all website icons and you will need update the icons class names in all theme widgets and post types that use Font Awesome 4 icons. For example: \"fa-android\" to \"fab fa-android\"."
 msgstr ""
 
-#: functions.php:896
+#: functions.php:897
 msgid "Update to v5"
 msgstr ""
 
 #. translators: %s: URL to plugins page
-#: functions.php:908
+#: functions.php:909
 msgid "<strong>Optional:</strong> Now <strong>Sydney</strong> is compatible with Font Awesome 5. For it is needed the latest version of <strong>Sydney Toolbox</strong> plugin. You can update the plugin <a href=\"%s\">here</a>."
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "%s link, opens in a new tab"
 msgstr ""
 
-#: inc/extras.php:515, inc/dashboard/class-dashboard.php:250, inc/dashboard/class-dashboard.php:251, inc/dashboard/html-notifications-sidebar.php:42
+#: inc/extras.php:515, inc/dashboard/class-dashboard.php:260, inc/dashboard/class-dashboard.php:261, inc/dashboard/html-notifications-sidebar.php:42
 msgid "Sydney"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Layout 5"
 msgstr ""
 
-#: inc/extras.php:797, inc/classes/class-sydney-header.php:569, inc/modules/hf-builder/class-header-footer-builder.php:106, inc/modules/hf-builder/class-header-footer-builder.php:146, inc/customizer/controls/display-conditions/display-conditions-script-template.php:183, inc/integrations/elementor/library/templates.php:89, inc/modules/hf-builder/components/header/search/customize-options.php:22
+#: inc/extras.php:797, inc/classes/class-sydney-header.php:569, inc/modules/hf-builder/class-header-footer-builder.php:109, inc/modules/hf-builder/class-header-footer-builder.php:149, inc/customizer/controls/display-conditions/display-conditions-script-template.php:183, inc/integrations/elementor/library/templates.php:89, inc/modules/hf-builder/components/header/search/customize-options.php:22
 msgid "Search"
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Cart &amp; account icons"
 msgstr ""
 
-#: inc/extras.php:799, inc/customizer/customizer.php:252, inc/customizer/style-book/class-sydney-style-book.php:402, inc/modules/hf-builder/class-header-footer-builder.php:114, inc/modules/hf-builder/class-header-footer-builder.php:154, inc/modules/hf-builder/components/header/button/customize-options.php:27
+#: inc/extras.php:799, inc/customizer/customizer.php:252, inc/customizer/style-book/class-sydney-style-book.php:402, inc/modules/hf-builder/class-header-footer-builder.php:117, inc/modules/hf-builder/class-header-footer-builder.php:157, inc/modules/hf-builder/components/header/button/customize-options.php:27
 msgid "Button"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Contact info"
 msgstr ""
 
-#: inc/extras.php:801, inc/modules/hf-builder/class-header-footer-builder.php:102, inc/modules/hf-builder/class-header-footer-builder.php:142, inc/modules/hf-builder/class-header-footer-builder.php:187
+#: inc/extras.php:801, inc/modules/hf-builder/class-header-footer-builder.php:105, inc/modules/hf-builder/class-header-footer-builder.php:145, inc/modules/hf-builder/class-header-footer-builder.php:190
 msgid "Social"
 msgstr ""
 
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: inc/so-page-builder.php:179, inc/customizer/options/header.php:316, inc/modules/hf-builder/class-header-footer-builder.php:1597, inc/modules/hf-builder/components/footer/columns/customize-options.php:213, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:169, inc/modules/hf-builder/components/footer/row/customize-options.php:359, inc/modules/hf-builder/components/header/columns/customize-options.php:219, inc/modules/hf-builder/components/header/header-builder/customize-options.php:310, inc/modules/hf-builder/components/header/row/customize-options.php:430
+#: inc/so-page-builder.php:179, inc/customizer/options/header.php:316, inc/modules/hf-builder/class-header-footer-builder.php:1614, inc/modules/hf-builder/components/footer/columns/customize-options.php:213, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:169, inc/modules/hf-builder/components/footer/row/customize-options.php:359, inc/modules/hf-builder/components/header/columns/customize-options.php:219, inc/modules/hf-builder/components/header/header-builder/customize-options.php:310, inc/modules/hf-builder/components/header/row/customize-options.php:430
 msgid "Center"
 msgstr ""
 
@@ -383,73 +383,36 @@ msgctxt "post date"
 msgid "Posted on %s"
 msgstr ""
 
-#: inc/theme-update.php:96
-msgid "Sydney Header Update"
-msgstr ""
-
-#: inc/theme-update.php:98
-msgid "This version of Sydney comes with a new and improved header. Activate it by clicking the button below and you can access new options."
-msgstr ""
-
-#: inc/theme-update.php:102
-msgid "Note 1: this upgrade is optional, there is no need to do it if you are happy with your current header."
-msgstr ""
-
-#: inc/theme-update.php:105
-msgid "Note 2: your current header customizations will be lost and you will have to use the new options to customize your header."
-msgstr ""
-
-#: inc/theme-update.php:108
-msgid "Note 3: this upgrade refers only to the header (site identity and menu bar). It does not change any settings regarding your hero area (slider, video etc)."
-msgstr ""
-
-#: inc/theme-update.php:111
-msgid "Note 4: Please take a full backup of your website before upgrading."
-msgstr ""
-
-#. translators: %s: Documentation link
-#: inc/theme-update.php:116
-msgid "Want to see the new header options before upgrading? Check out our %s."
-msgstr ""
-
-#: inc/theme-update.php:118
-msgid "Upgrade Theme Header"
-msgstr ""
-
-#: inc/theme-update.php:119
-msgid "Continue to use the old header"
-msgstr ""
-
-#: inc/theme-update.php:436
+#: inc/theme-update.php:346
 msgid "Sydney Header/Footer Update"
 msgstr ""
 
-#: inc/theme-update.php:438
+#: inc/theme-update.php:348
 msgid "This version of Sydney comes with a new Header and Footer Builder. Activate it by clicking on the button below and you can access new options."
 msgstr ""
 
-#: inc/theme-update.php:441
+#: inc/theme-update.php:351
 msgid "Note 1: This upgrade is optional, there is no need to do it if you are happy with your current header and footer."
 msgstr ""
 
-#: inc/theme-update.php:444
+#: inc/theme-update.php:354
 msgid "Note 2: Your current header and footer customizations will be lost and you will have to use the new options to customize your header and footer."
 msgstr ""
 
-#: inc/theme-update.php:447
+#: inc/theme-update.php:357
 msgid "Note 3: Please take a full backup of your website before upgrading."
 msgstr ""
 
 #. translators: %s: Documentation link
-#: inc/theme-update.php:453
+#: inc/theme-update.php:363
 msgid "Want to see the new header and footer builder before upgrading? Check out our %s."
 msgstr ""
 
-#: inc/theme-update.php:458
+#: inc/theme-update.php:368
 msgid "Update theme header and footer"
 msgstr ""
 
-#: inc/theme-update.php:459
+#: inc/theme-update.php:369
 msgid "Continue to use the old header and footer system"
 msgstr ""
 
@@ -474,23 +437,23 @@ msgid "My Account"
 msgstr ""
 
 #. translators: %s: quick view product title
-#: inc/woocommerce.php:968
+#: inc/woocommerce.php:1004
 msgid "Quick view the %s product"
 msgstr ""
 
-#: inc/woocommerce.php:969, inc/dashboard/html-free-vs-pro.php:406
+#: inc/woocommerce.php:1005, inc/dashboard/html-free-vs-pro.php:440
 msgid "Quick View"
 msgstr ""
 
-#: inc/woocommerce.php:1239
+#: inc/woocommerce.php:1277
 msgid "Clear"
 msgstr ""
 
-#: inc/woocommerce.php:1223
+#: inc/woocommerce.php:1261
 msgid "This product is currently out of stock and unavailable."
 msgstr ""
 
-#: inc/woocommerce.php:1348, inc/customizer/options/woocommerce.php:438
+#: inc/woocommerce.php:1386, inc/customizer/options/woocommerce.php:438
 msgid "Sale!"
 msgstr ""
 
@@ -1017,7 +980,21 @@ msgid "Sydney Theme"
 msgstr ""
 
 #: inc/abilities/class-sydney-abilities-registry.php:56
-msgid "Customize the active Sydney theme: the global color palette, typography (fonts, sizes, styling), button styling (colors, padding, font size, corner radius), the drag-and-drop header/footer builder (layout and per-component content), Sydney block patterns, and assembling full pages from those patterns."
+msgid "Customize the active Sydney theme: the global color palette, typography (fonts, sizes, styling), button styling (colors, padding, font size, corner radius), the drag-and-drop header/footer builder (layout and per-component content), Sydney block patterns, assembling full pages from those patterns, and the Coming Soon / Maintenance Site mode."
+msgstr ""
+
+#: inc/abilities/class-sydney-abilities-response.php:120
+msgid "A value not in this schema may be a Pro-only feature: call sydney/get-pro-features."
+msgstr ""
+
+#. translators: 1: feature name, 2: upgrade URL.
+#: inc/abilities/class-sydney-abilities-response.php:136
+msgid "%1$s requires Sydney Pro. Upgrade: %2$s"
+msgstr ""
+
+#. translators: %s: starter site name.
+#: inc/abilities/class-sydney-abilities-starter-sites-pro.php:123
+msgid "The %s starter site"
 msgstr ""
 
 #: inc/abilities/class-sydney-ability.php:310
@@ -1251,11 +1228,11 @@ msgstr ""
 msgid "Click me"
 msgstr ""
 
-#: inc/classes/class-sydney-header.php:527, inc/customizer/options/header.php:682, inc/modules/hf-builder/class-header-footer-builder.php:1805
+#: inc/classes/class-sydney-header.php:527, inc/customizer/options/header.php:682, inc/modules/hf-builder/class-header-footer-builder.php:1822
 msgid "office@example.org"
 msgstr ""
 
-#: inc/classes/class-sydney-header.php:528, inc/customizer/options/header.php:697, inc/modules/hf-builder/class-header-footer-builder.php:1806
+#: inc/classes/class-sydney-header.php:528, inc/customizer/options/header.php:697, inc/modules/hf-builder/class-header-footer-builder.php:1823
 msgid "111222333"
 msgstr ""
 
@@ -1307,7 +1284,7 @@ msgstr ""
 msgid "Menu style"
 msgstr ""
 
-#: inc/customizer/customizer.php:209, inc/customizer/customizer.php:668, inc/modules/hf-builder/class-header-footer-builder.php:1593, inc/modules/hf-builder/components/footer/columns/customize-options.php:166, inc/modules/hf-builder/components/header/columns/customize-options.php:170
+#: inc/customizer/customizer.php:209, inc/customizer/customizer.php:668, inc/modules/hf-builder/class-header-footer-builder.php:1610, inc/modules/hf-builder/components/footer/columns/customize-options.php:166, inc/modules/hf-builder/components/header/columns/customize-options.php:170
 msgid "Inline"
 msgstr ""
 
@@ -1331,7 +1308,7 @@ msgstr ""
 msgid "Nothing"
 msgstr ""
 
-#: inc/customizer/customizer.php:253, inc/modules/hf-builder/class-header-footer-builder.php:122, inc/modules/hf-builder/class-header-footer-builder.php:162, inc/modules/hf-builder/class-header-footer-builder.php:195, inc/modules/hf-builder/components/footer/html/customize-options.php:22, inc/modules/hf-builder/components/header/html/customize-options.php:41
+#: inc/customizer/customizer.php:253, inc/modules/hf-builder/class-header-footer-builder.php:125, inc/modules/hf-builder/class-header-footer-builder.php:165, inc/modules/hf-builder/class-header-footer-builder.php:198, inc/modules/hf-builder/components/footer/html/customize-options.php:22, inc/modules/hf-builder/components/header/html/customize-options.php:41
 msgid "HTML"
 msgstr ""
 
@@ -1519,7 +1496,7 @@ msgstr ""
 msgid "Live Chat module"
 msgstr ""
 
-#: inc/customizer/customizer.php:809, inc/dashboard/class-dashboard-settings.php:490
+#: inc/customizer/customizer.php:809, inc/dashboard/features.php:164
 msgid "Offcanvas Content"
 msgstr ""
 
@@ -1531,7 +1508,7 @@ msgstr ""
 msgid "Quick Links"
 msgstr ""
 
-#: inc/customizer/customizer.php:812, inc/dashboard/class-dashboard-settings.php:500
+#: inc/customizer/customizer.php:812, inc/dashboard/features.php:174
 msgid "Browser Tools"
 msgstr ""
 
@@ -1539,7 +1516,7 @@ msgstr ""
 msgid "…and many more premium features"
 msgstr ""
 
-#: inc/customizer/customizer.php:815, inc/customizer/customizer.php:837, inc/dashboard/html-free-vs-pro.php:676, inc/dashboard/html-free-vs-pro.php:750, inc/dashboard/html-home.php:98, inc/dashboard/html-home.php:294, inc/dashboard/html-settings-general.php:51, inc/dashboard/html-settings-general.php:67, inc/dashboard/html-starter-sites.php:57, inc/customizer/controls/class_sydney_upsell_message.php:51, inc/modules/hf-builder/class-header-footer-builder.php:395, inc/integrations/elementor/library/templates.php:54
+#: inc/customizer/customizer.php:815, inc/customizer/customizer.php:837, inc/dashboard/html-free-vs-pro.php:710, inc/dashboard/html-free-vs-pro.php:784, inc/dashboard/html-home.php:98, inc/dashboard/html-home.php:295, inc/dashboard/html-settings-general.php:51, inc/dashboard/html-settings-general.php:67, inc/dashboard/html-starter-sites.php:57, inc/customizer/controls/class_sydney_upsell_message.php:51, inc/modules/hf-builder/class-header-footer-builder.php:398, inc/integrations/elementor/library/templates.php:54
 msgid "Get Sydney Pro"
 msgstr ""
 
@@ -1547,15 +1524,15 @@ msgstr ""
 msgid "Take your store to the next level with Sydney Pro!"
 msgstr ""
 
-#: inc/customizer/customizer.php:821, inc/dashboard/html-free-vs-pro.php:400
+#: inc/customizer/customizer.php:821, inc/dashboard/html-free-vs-pro.php:434
 msgid "Wishlist"
 msgstr ""
 
-#: inc/customizer/customizer.php:822, inc/dashboard/html-free-vs-pro.php:412
+#: inc/customizer/customizer.php:822, inc/dashboard/html-free-vs-pro.php:446
 msgid "Product Swatch"
 msgstr ""
 
-#: inc/customizer/customizer.php:823, inc/dashboard/html-free-vs-pro.php:478
+#: inc/customizer/customizer.php:823, inc/dashboard/html-free-vs-pro.php:512
 msgid "Product Gallery Layouts"
 msgstr ""
 
@@ -1615,648 +1592,432 @@ msgstr ""
 msgid "Invalid characters. Only numbers, +, -, spaces, and parentheses are allowed."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:117
+#: inc/dashboard/class-dashboard-settings.php:120
 msgid "Welcome to Sydney"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:118
+#: inc/dashboard/class-dashboard-settings.php:121
 msgid "Sydney is installed and ready to go! Click \"Let's Get Started\" to browse our professionally designed starter sites and get your website up and running in minutes."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:132
+#: inc/dashboard/class-dashboard-settings.php:135
 msgid "Starter Site is installed and ready for you! Check out the resources on this page to help you get started. Enjoy using Sydney!"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:130
+#: inc/dashboard/class-dashboard-settings.php:133
 msgid "Pick up where you left off! Click Resume wizard to finish choosing your template and customizing your site's design and branding."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:125
+#: inc/dashboard/class-dashboard-settings.php:128
 msgid "You picked the %1$s template. It's part of Sydney Pro, along with %2$d more Pro templates and the Template Builder. 14-day money-back guarantee."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:188, inc/dashboard/class-dashboard.php:314, inc/dashboard/class-dashboard.php:315
+#: inc/dashboard/class-dashboard-settings.php:191, inc/dashboard/class-dashboard.php:324, inc/dashboard/class-dashboard.php:325
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:189
+#: inc/dashboard/class-dashboard-settings.php:192
 msgid "Take Sydney to a whole other level by upgrading to the Pro version."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:190
+#: inc/dashboard/class-dashboard-settings.php:193
 msgid "Discover Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:252, inc/dashboard/class-setup-checklist.php:596, inc/starter-content/class-sydney-starter-content.php:37
+#: inc/dashboard/class-dashboard-settings.php:255, inc/dashboard/class-setup-checklist.php:596, inc/starter-content/class-sydney-starter-content.php:37, inc/modules/pattern-library/class-sydney-pattern-library.php:454
 msgid "Home"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:253, inc/dashboard/class-dashboard.php:286, inc/dashboard/class-dashboard.php:287, inc/dashboard/html-free-vs-pro.php:44, inc/dashboard/html-pro-upgrade-modal.php:61
+#: inc/dashboard/class-dashboard-settings.php:256, inc/dashboard/class-dashboard.php:296, inc/dashboard/class-dashboard.php:297, inc/dashboard/html-free-vs-pro.php:44, inc/dashboard/html-pro-upgrade-modal.php:61
 msgid "Starter Sites"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:254, inc/customizer/options/header.php:296
+#: inc/dashboard/class-dashboard-settings.php:257, inc/modules/class-sydney-modules.php:57, inc/customizer/options/header.php:296
 msgid "Settings"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:258
+#: inc/dashboard/class-dashboard-settings.php:261
 msgid "Setup"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:261
+#: inc/dashboard/class-dashboard-settings.php:264
 msgid "Free vs Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:266, inc/dashboard/class-dashboard-settings.php:449, inc/dashboard/class-dashboard.php:299, inc/dashboard/class-dashboard.php:300, inc/dashboard/html-builder.php:42, inc/dashboard/html-pro-upgrade-modal.php:71
+#: inc/dashboard/class-dashboard-settings.php:269, inc/dashboard/class-dashboard.php:309, inc/dashboard/class-dashboard.php:310, inc/dashboard/features.php:123, inc/dashboard/html-builder.php:42, inc/dashboard/html-pro-upgrade-modal.php:71
 msgid "Template Builder"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:276
+#: inc/dashboard/class-dashboard-settings.php:279
 msgid "License"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:277, inc/customizer/options/general.php:140
+#: inc/dashboard/class-dashboard-settings.php:280, inc/customizer/options/general.php:140
 msgid "Misc"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:278, inc/dashboard/html-settings-abilities.php:52
+#: inc/dashboard/class-dashboard-settings.php:281, inc/dashboard/html-settings-abilities.php:52
 msgid "AI Abilities"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:328
+#: inc/dashboard/class-dashboard-settings.php:331
 msgid "aThemes Blocks"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:329
+#: inc/dashboard/class-dashboard-settings.php:332
 msgid "Extend the Gutenberg Block Editor with additional functionality."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:337
+#: inc/dashboard/class-dashboard-settings.php:340
 msgid "WPForms"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:338
+#: inc/dashboard/class-dashboard-settings.php:341
 msgid "The best WordPress contact form plugin. Drag & Drop online form builder that helps you create beautiful contact forms + custom forms in minutes."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:346
+#: inc/dashboard/class-dashboard-settings.php:349
 msgid "HubSpot"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:347
+#: inc/dashboard/class-dashboard-settings.php:350
 msgid "HubSpot is a platform with all the tools and integrations you need for marketing, sales, and customer service."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:357
-msgid "Site Title and Logo"
+#: inc/dashboard/class-dashboard-settings.php:361, inc/dashboard/html-settings-coming-soon.php:82, inc/modules/class-sydney-modules.php:54
+msgid "Coming Soon & Maintenance"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:358
-msgid "Set the title and upload logo."
+#: inc/dashboard/class-dashboard-settings.php:365, inc/modules/class-sydney-modules.php:59
+msgid "Show visitors a coming soon or maintenance page while you work on the site."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:359, inc/dashboard/class-dashboard-settings.php:387, inc/dashboard/class-dashboard-settings.php:395, inc/dashboard/class-dashboard-settings.php:369, inc/dashboard/class-dashboard-settings.php:377, inc/dashboard/class-dashboard-settings.php:404, inc/dashboard/class-dashboard-settings.php:412, inc/dashboard/class-dashboard-settings.php:420, inc/dashboard/class-dashboard-settings.php:428, inc/dashboard/class-dashboard-settings.php:441, inc/dashboard/class-dashboard-settings.php:463, inc/dashboard/class-dashboard-settings.php:473, inc/dashboard/class-dashboard-settings.php:483, inc/dashboard/class-dashboard-settings.php:493, inc/dashboard/class-dashboard-settings.php:503, inc/dashboard/class-dashboard-settings.php:514, inc/dashboard/class-dashboard-settings.php:542, inc/dashboard/class-dashboard-settings.php:554, inc/dashboard/class-dashboard-settings.php:565, inc/dashboard/class-dashboard-settings.php:585, inc/dashboard/class-dashboard-settings.php:595, inc/dashboard/class-dashboard-settings.php:605, inc/dashboard/class-dashboard-settings.php:631, inc/dashboard/class-dashboard-settings.php:641, inc/dashboard/class-dashboard-settings.php:650, inc/dashboard/class-dashboard-settings.php:660, inc/dashboard/class-dashboard-settings.php:683, inc/dashboard/class-dashboard.php:275, inc/dashboard/class-dashboard.php:276, inc/dashboard/class-setup-checklist.php:104, inc/dashboard/class-setup-checklist.php:111, inc/dashboard/class-setup-checklist.php:118, inc/dashboard/class-setup-checklist.php:130, inc/dashboard/class-setup-checklist.php:144, inc/dashboard/class-setup-checklist.php:156, inc/dashboard/class-setup-checklist.php:163, inc/dashboard/class-setup-checklist.php:187, inc/dashboard/class-setup-checklist.php:194, inc/dashboard/class-setup-checklist.php:209, inc/dashboard/class-setup-checklist.php:215, inc/dashboard/html-home.php:73, inc/dashboard/html-home.php:60, inc/dashboard/html-home.php:51, inc/dashboard/html-home.php:204, inc/dashboard/html-home.php:191, inc/dashboard/html-home.php:177
-msgid "Customize"
+#: inc/dashboard/class-dashboard-settings.php:372
+msgid "Coming Soon & Maintenance Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:385, inc/dashboard/html-builder-card.php:128, inc/dashboard/html-builder.php:187
-msgid "Header Options"
+#: inc/dashboard/class-dashboard-settings.php:374
+msgid "Designed coming soon pages, include or exclude pages, a private link for clients and an IP allowlist."
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:386
-msgid "Customize the header options for your theme."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:393, inc/dashboard/class-setup-checklist.php:160
-msgid "Footer Credits"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:394
-msgid "Customize the footer credits for your theme."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:367, inc/modules/hf-builder/class-header-footer-builder.php:464
-msgid "Header Builder"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:368
-msgid "Drag and drop header builder."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:375, inc/modules/hf-builder/class-header-footer-builder.php:554
-msgid "Footer Builder"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:376
-msgid "Drag and drop footer builder."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:402, inc/dashboard/class-setup-checklist.php:115, inc/customizer/style-book/class-sydney-style-book.php:193, inc/customizer/style-book/class-sydney-style-book.php:417
-msgid "Typography"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:403
-msgid "Set the global font size, style and library."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:410
-msgid "Color Options"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:411
-msgid "Change the colors for various elements."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:418, inc/customizer/options/general.php:581, inc/customizer/options/woocommerce.php:976, inc/customizer/style-book/class-sydney-style-book.php:192, inc/customizer/style-book/class-sydney-style-book.php:398
-msgid "Buttons"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:419
-msgid "Customize the buttons in your theme."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:426
-msgid "Blog Options"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:427
-msgid "Customize the blog options for your theme."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:438, inc/customizer/options/upsell.php:29
-msgid "Top bar"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:440
-msgid "A bar above the header for contact details, links and social icons."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:455
-msgid "Custom headers, footers and page layouts with Elementor or blocks."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:460, inc/dashboard/html-free-vs-pro.php:135
-msgid "Quick Links Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:465
-msgid "A floating bar that keeps your contact and social links one click away."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:470
-msgid "Modal"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:475
-msgid "Pop-ups with your own content for offers, sign-ups or announcements."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:480
-msgid "Custom Fonts"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:485
-msgid "Upload your own fonts and use them across the Customizer."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:495
-msgid "Slide-out panels with widgets, Elementor templates or custom content."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:505
-msgid "Style the scrollbar, color the mobile browser bar and protect your text from copying."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:511
-msgid "Extended Header Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:516
-msgid "More header layouts, elements and styling options."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:522
-msgid "Mega Menu"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:527
-msgid "Multi-column menus you design with Elementor."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:532
-msgid "Requires Elementor"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:539
-msgid "Extended Footer Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:544
-msgid "More footer layouts, widget areas and styling options."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:551
-msgid "Pre-Footer Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:556
-msgid "A call-to-action area above the footer on every page."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:562, inc/dashboard/html-free-vs-pro.php:274
-msgid "Extended Blog Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:567
-msgid "More blog layouts, post meta and single post options."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:572
-msgid "Page Headers"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:577
-msgid "Title banners with background images for posts, pages and archives."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:582, inc/dashboard/html-free-vs-pro.php:106
-msgid "Breadcrumbs Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:587
-msgid "Breadcrumb trails that help visitors and search engines find their way."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:592, inc/dashboard/html-free-vs-pro.php:159
-msgid "Sidebar Module"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:597
-msgid "More sidebar layouts and styling options."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:602
-msgid "Extended WooCommerce"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:607
-msgid "Wishlist, product swatches, sticky add-to-cart, multi-step checkout and more."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:612
-msgid "Requires WooCommerce"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:618
-msgid "Elementor Tools"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:623
-msgid "Custom CSS, particles, tooltips and sticky sections for Elementor."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:628
-msgid "Live Chat (WhatsApp)"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:633
-msgid "A WhatsApp chat button on every page."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:638
-msgid "Forms &amp; HTML Designer"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:643
-msgid "Style your forms and HTML elements to match your site."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:647, inc/dashboard/html-free-vs-pro.php:165
-msgid "Extra Widget Area"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:649
-msgid "One more widget area for content beyond the sidebar and footer."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:657, inc/dashboard/html-free-vs-pro.php:651
-msgid "Hooks"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:658
-msgid "Insert your own code or content at hook points across the theme."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:668
-msgid "White Label (Agency)"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:670
-msgid "Hand clients a site that carries your brand, not ours."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:672, inc/dashboard/html-home.php:158
-msgid "Learn More"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:680, inc/modules/class-sydney-modules.php:33, inc/customizer/options/modules/block-templates.php:9
-msgid "Block Templates"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:685, inc/modules/class-sydney-modules.php:38
-msgid "Build headers, footers etc. with the site editor."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:692, inc/modules/class-sydney-modules.php:43
-msgid "Pattern Library"
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:694, inc/modules/class-sydney-modules.php:48
-msgid "Browse and insert Sydney patterns directly from the block editor."
-msgstr ""
-
-#: inc/dashboard/class-dashboard-settings.php:702
+#: inc/dashboard/class-dashboard-settings.php:383
 msgid "Merchant"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:708
+#: inc/dashboard/class-dashboard-settings.php:389
 msgid "aThemes Addons for Elementor"
 msgstr ""
 
-#: inc/dashboard/class-dashboard-settings.php:760
+#: inc/dashboard/class-dashboard-settings.php:441
 msgid "Get Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:263, inc/dashboard/class-dashboard.php:264
+#: inc/dashboard/class-dashboard.php:273, inc/dashboard/class-dashboard.php:274
 msgid "Theme Dashboard"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:473, inc/dashboard/html-home.php:69, inc/dashboard/html-home.php:200, inc/dashboard/html-home.php:234, inc/dashboard/html-settings-misc.php:32, inc/dashboard/html-settings-performance.php:31, inc/dashboard/html-setup.php:123, inc/dashboard/html-starter-sites.php:31
+#: inc/dashboard/class-dashboard.php:285, inc/dashboard/class-dashboard.php:286, inc/dashboard/class-setup-checklist.php:104, inc/dashboard/class-setup-checklist.php:111, inc/dashboard/class-setup-checklist.php:118, inc/dashboard/class-setup-checklist.php:130, inc/dashboard/class-setup-checklist.php:144, inc/dashboard/class-setup-checklist.php:156, inc/dashboard/class-setup-checklist.php:163, inc/dashboard/class-setup-checklist.php:187, inc/dashboard/class-setup-checklist.php:194, inc/dashboard/class-setup-checklist.php:209, inc/dashboard/class-setup-checklist.php:215, inc/dashboard/features.php:33, inc/dashboard/features.php:61, inc/dashboard/features.php:69, inc/dashboard/features.php:43, inc/dashboard/features.php:51, inc/dashboard/features.php:78, inc/dashboard/features.php:86, inc/dashboard/features.php:94, inc/dashboard/features.php:102, inc/dashboard/features.php:115, inc/dashboard/features.php:137, inc/dashboard/features.php:147, inc/dashboard/features.php:157, inc/dashboard/features.php:167, inc/dashboard/features.php:177, inc/dashboard/features.php:188, inc/dashboard/features.php:216, inc/dashboard/features.php:228, inc/dashboard/features.php:239, inc/dashboard/features.php:259, inc/dashboard/features.php:269, inc/dashboard/features.php:279, inc/dashboard/features.php:305, inc/dashboard/features.php:315, inc/dashboard/features.php:324, inc/dashboard/features.php:334, inc/dashboard/features.php:346, inc/dashboard/features.php:368, inc/dashboard/html-home.php:73, inc/dashboard/html-home.php:60, inc/dashboard/html-home.php:51, inc/dashboard/html-home.php:204, inc/dashboard/html-home.php:191, inc/dashboard/html-home.php:177
+msgid "Customize"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:483, inc/dashboard/html-home.php:69, inc/dashboard/html-home.php:200, inc/dashboard/html-home.php:234, inc/dashboard/html-settings-misc.php:32, inc/dashboard/html-settings-performance.php:31, inc/dashboard/html-setup.php:123, inc/dashboard/html-starter-sites.php:31
 msgid "Activate"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:474, inc/dashboard/html-home.php:56, inc/dashboard/html-home.php:187, inc/dashboard/html-home.php:242, inc/dashboard/html-settings-misc.php:28, inc/dashboard/html-settings-performance.php:27
+#: inc/dashboard/class-dashboard.php:484, inc/dashboard/html-home.php:56, inc/dashboard/html-home.php:187, inc/dashboard/html-home.php:242, inc/dashboard/html-settings-misc.php:28, inc/dashboard/html-settings-performance.php:27
 msgid "Deactivate"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:475
+#: inc/dashboard/class-dashboard.php:485
 msgid "Installing..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:476
+#: inc/dashboard/class-dashboard.php:486
 msgid "Activating..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:477
+#: inc/dashboard/class-dashboard.php:487
 msgid "Deactivating..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:478
+#: inc/dashboard/class-dashboard.php:488
 msgid "Loading..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:479
+#: inc/dashboard/class-dashboard.php:489
 msgid "Saving..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:480
+#: inc/dashboard/class-dashboard.php:490
 msgid "Changes Saved!"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:481
+#: inc/dashboard/class-dashboard.php:491
 msgid "You have unsaved changes."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:482
+#: inc/dashboard/class-dashboard.php:492
 msgid "You have unsaved changes. Close the editor anyway?"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:483, inc/dashboard/html-builder.php:161
+#: inc/dashboard/class-dashboard.php:493, inc/dashboard/html-builder.php:161
 msgid "Save Changes"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:484
+#: inc/dashboard/class-dashboard.php:494
 msgid "Redirecting..."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:485
+#: inc/dashboard/class-dashboard.php:495
 msgid "Activated"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:486
+#: inc/dashboard/class-dashboard.php:496
 msgid "Deactivated"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:487
+#: inc/dashboard/class-dashboard.php:497
 msgid "Something went wrong, contact support."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:488
+#: inc/dashboard/class-dashboard.php:498
 msgid "Error"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:489, inc/dashboard/html-setup.php:71
+#: inc/dashboard/class-dashboard.php:499, inc/dashboard/html-setup.php:71
 msgid "Mark complete"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:490, inc/dashboard/html-setup.php:71
+#: inc/dashboard/class-dashboard.php:500, inc/dashboard/html-setup.php:71
 msgid "Mark incomplete"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:491
+#: inc/dashboard/class-dashboard.php:501
 msgid "Edit homepage"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:492
+#: inc/dashboard/class-dashboard.php:502
 msgid "Applies to:"
 msgstr ""
 
 #. translators: shown without the "Applies to:" label, so it reads as a sentence on its own.
-#: inc/dashboard/class-dashboard.php:494
+#: inc/dashboard/class-dashboard.php:504
 msgid "All pages, unless another template matches."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:495
+#: inc/dashboard/class-dashboard.php:505
 msgid "no conditions set"
 msgstr ""
 
 #. translators: %s: comma separated list of excluded conditions.
-#: inc/dashboard/class-dashboard.php:497
+#: inc/dashboard/class-dashboard.php:507
 msgid "except %s"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:498
+#: inc/dashboard/class-dashboard.php:508
 msgid "Discard unsaved changes?"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:499
+#: inc/dashboard/class-dashboard.php:509
 msgid "All unsaved changes across every template will be lost and the builder will reload with your last saved setup."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:500
+#: inc/dashboard/class-dashboard.php:510
 msgid "Discard changes"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:501
+#: inc/dashboard/class-dashboard.php:511
 msgid "Delete this template?"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:502
+#: inc/dashboard/class-dashboard.php:512
 msgid "This template and all of its part assignments will be removed from the builder. The change becomes permanent when you save."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:503
+#: inc/dashboard/class-dashboard.php:513
 msgid "Delete template"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:504
+#: inc/dashboard/class-dashboard.php:514
 msgid "Templates were changed elsewhere"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:505
+#: inc/dashboard/class-dashboard.php:515
 msgid "Another editor or tool saved the templates after this page loaded. Reload to see them. Unsaved changes on this page will be lost."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:506
+#: inc/dashboard/class-dashboard.php:516
 msgid "Reload"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:507, inc/dashboard/class-pro-upgrade.php:179
+#: inc/dashboard/class-dashboard.php:517, inc/dashboard/class-pro-upgrade.php:179
 msgid "Please enter your license key."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:508, inc/dashboard/html-pro-upgrade-modal.php:85
+#: inc/dashboard/class-dashboard.php:518, inc/dashboard/html-pro-upgrade-modal.php:85
 msgid "OK"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:509
+#: inc/dashboard/class-dashboard.php:519
 msgid "Could not reach your site. Please check your connection and try again."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:510
+#: inc/dashboard/class-dashboard.php:520
 msgid "Your session has expired. Please reload the page and try again."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:511
+#: inc/dashboard/class-dashboard.php:521
 msgid "Your server stopped before this step finished. This usually means it ran out of time or memory. Please try again, or install Sydney Pro manually from your aThemes account."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:512
+#: inc/dashboard/class-dashboard.php:522
 msgid "Installing Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:513
+#: inc/dashboard/class-dashboard.php:523
 msgid "Activating theme"
 msgstr ""
 
 #. translators: %1$s: current step number, %2$s: total step count.
-#: inc/dashboard/class-dashboard.php:515
+#: inc/dashboard/class-dashboard.php:525
 msgid "Step %1$s of %2$s"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:516
+#: inc/dashboard/class-dashboard.php:526
 msgid "Failed while: installing Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:517
+#: inc/dashboard/class-dashboard.php:527
 msgid "Failed while: activating theme"
 msgstr ""
 
+#: inc/dashboard/class-dashboard.php:528, inc/dashboard/html-settings-coming-soon.php:98
+msgid "Create page"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:529, inc/dashboard/html-settings-coming-soon.php:101
+msgid "Edit page"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:530
+msgid "Replace the placeholder page?"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:531
+msgid "The new design replaces everything on the page. Any changes you made to it will be lost."
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:532
+msgid "Replace page"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:533, inc/dashboard/html-settings-coming-soon.php:157
+msgid "Create a page first"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:534
+msgid "Copy"
+msgstr ""
+
+#: inc/dashboard/class-dashboard.php:535
+msgid "Copied"
+msgstr ""
+
 #. translators: %s: https://wordpress.org/
-#: inc/dashboard/class-dashboard.php:715
+#: inc/dashboard/class-dashboard.php:733
 msgid "Thank you for creating your website with <a href=\"%s\" class=\"sydney-dashboard-footer-link\" target=\"_blank\">Sydney</a>."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:758
+#: inc/dashboard/class-dashboard.php:776
 msgid "Insufficient permissions to install the plugin."
 msgstr ""
 
 #. translators: %s: plugin activation error message.
-#: inc/dashboard/class-dashboard.php:782
+#: inc/dashboard/class-dashboard.php:800
 msgid "Plugin activation failed: %s"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:802
+#: inc/dashboard/class-dashboard.php:820
 msgid "Failed to initialize or activate importer plugin."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1125
+#: inc/dashboard/class-dashboard.php:1198
 msgid "Untitled"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1122
+#: inc/dashboard/class-dashboard.php:1195
 msgid "Global"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1205, inc/dashboard/class-setup-checklist.php:124, inc/dashboard/html-free-vs-pro.php:184, inc/customizer/options/blog-single.php:51, inc/customizer/options/colors.php:589, inc/customizer/options/header.php:14, inc/modules/hf-builder/components/header/header-builder/customize-options.php:90
+#: inc/dashboard/class-dashboard.php:1278, inc/dashboard/class-setup-checklist.php:124, inc/dashboard/html-free-vs-pro.php:196, inc/customizer/options/blog-single.php:51, inc/customizer/options/colors.php:589, inc/customizer/options/header.php:14, inc/modules/hf-builder/components/header/header-builder/customize-options.php:90
 msgid "Header"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1206
+#: inc/dashboard/class-dashboard.php:1279
 msgid "Page Title"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1207, inc/customizer/options/blog.php:333
+#: inc/dashboard/class-dashboard.php:1280, inc/customizer/options/blog.php:333
 msgid "Content"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1208, inc/dashboard/class-setup-checklist.php:150, inc/dashboard/html-free-vs-pro.php:342, inc/customizer/options/footer.php:29
+#: inc/dashboard/class-dashboard.php:1281, inc/dashboard/class-setup-checklist.php:150, inc/dashboard/html-free-vs-pro.php:365, inc/customizer/options/footer.php:29
 msgid "Footer"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1248
+#: inc/dashboard/class-dashboard.php:1321
 msgid "Sample Header"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1249
+#: inc/dashboard/class-dashboard.php:1322
 msgid "Sample Content"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1250
+#: inc/dashboard/class-dashboard.php:1323
 msgid "Sample Archive Header"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1251
+#: inc/dashboard/class-dashboard.php:1324
 msgid "Sample Archive Footer"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1275
+#: inc/dashboard/class-dashboard.php:1348
 msgid "Override any part of your site's layout, then override it per page. Set a header, page title, content area and footer here, and every page uses them unless a template targets it."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1283
+#: inc/dashboard/class-dashboard.php:1356
 msgid "Sample Template"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1287, inc/customizer/options/cpt-panels.php:36, inc/customizer/controls/display-conditions/display-conditions-script-template.php:37
+#: inc/dashboard/class-dashboard.php:1360, inc/customizer/options/cpt-panels.php:36, inc/customizer/controls/display-conditions/display-conditions-script-template.php:37
 msgid "Archives"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1288
+#: inc/dashboard/class-dashboard.php:1361
 msgid "Give any page, post or archive a layout of its own. A different header on landing pages, a custom layout for blog posts, a distraction-free checkout, etc."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1309, inc/dashboard/html-builder.php:215
+#: inc/dashboard/class-dashboard.php:1382, inc/dashboard/html-builder.php:199
 msgid "Watch tutorial"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1332, inc/notices/class-sydney-pro-upsell.php:160, inc/notices/class-sydney-pro-upsell.php:193
+#: inc/dashboard/class-dashboard.php:1405, inc/notices/class-sydney-pro-upsell.php:161, inc/notices/class-sydney-pro-upsell.php:194
 msgid "Upgrade to Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1342
+#: inc/dashboard/class-dashboard.php:1415, inc/dashboard/html-settings-coming-soon.php:127
 msgid "Back"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1355
+#: inc/dashboard/class-dashboard.php:1428
 msgid "No templates found."
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1415
+#: inc/dashboard/class-dashboard.php:1488
 msgid "Theme News"
 msgstr ""
 
-#: inc/dashboard/class-dashboard.php:1424
+#: inc/dashboard/class-dashboard.php:1497
 msgid "Website"
 msgstr ""
 
@@ -2340,6 +2101,10 @@ msgstr ""
 msgid "Pick the colors that define your brand."
 msgstr ""
 
+#: inc/dashboard/class-setup-checklist.php:115, inc/dashboard/features.php:76, inc/customizer/style-book/class-sydney-style-book.php:193, inc/customizer/style-book/class-sydney-style-book.php:417
+msgid "Typography"
+msgstr ""
+
 #: inc/dashboard/class-setup-checklist.php:116
 msgid "Choose fonts and sizes for your site."
 msgstr ""
@@ -2380,6 +2145,10 @@ msgstr ""
 msgid "Pick how your footer is organized."
 msgstr ""
 
+#: inc/dashboard/class-setup-checklist.php:160, inc/dashboard/features.php:67
+msgid "Footer Credits"
+msgstr ""
+
 #: inc/dashboard/class-setup-checklist.php:161
 msgid "Personalize the copyright line at the bottom."
 msgstr ""
@@ -2400,7 +2169,7 @@ msgstr ""
 msgid "1-click setup"
 msgstr ""
 
-#: inc/dashboard/class-setup-checklist.php:181, inc/dashboard/class-setup-checklist.php:597, inc/dashboard/html-free-vs-pro.php:271, inc/customizer/options/blog.php:11, inc/modules/pattern-library/class-sydney-pattern-library.php:208, inc/customizer/controls/display-conditions/display-conditions-script-template.php:179
+#: inc/dashboard/class-setup-checklist.php:181, inc/dashboard/class-setup-checklist.php:597, inc/dashboard/html-free-vs-pro.php:294, inc/customizer/options/blog.php:11, inc/modules/pattern-library/class-sydney-pattern-library.php:255, inc/customizer/controls/display-conditions/display-conditions-script-template.php:179
 msgid "Blog"
 msgstr ""
 
@@ -2420,7 +2189,7 @@ msgstr ""
 msgid "Customize how single posts look."
 msgstr ""
 
-#: inc/dashboard/class-setup-checklist.php:203, inc/modules/pattern-library/class-sydney-pattern-library.php:214
+#: inc/dashboard/class-setup-checklist.php:203, inc/modules/pattern-library/class-sydney-pattern-library.php:261
 msgid "Shop"
 msgstr ""
 
@@ -2458,6 +2227,270 @@ msgstr ""
 
 #: inc/dashboard/class-setup-checklist.php:602
 msgid "Could not create the homepage / blog pages."
+msgstr ""
+
+#: inc/dashboard/features.php:31
+msgid "Site Title and Logo"
+msgstr ""
+
+#: inc/dashboard/features.php:32
+msgid "Set the title and upload logo."
+msgstr ""
+
+#: inc/dashboard/features.php:59, inc/dashboard/html-builder-card.php:128, inc/dashboard/html-builder.php:171
+msgid "Header Options"
+msgstr ""
+
+#: inc/dashboard/features.php:60
+msgid "Customize the header options for your theme."
+msgstr ""
+
+#: inc/dashboard/features.php:68
+msgid "Customize the footer credits for your theme."
+msgstr ""
+
+#: inc/dashboard/features.php:41, inc/modules/hf-builder/class-header-footer-builder.php:467
+msgid "Header Builder"
+msgstr ""
+
+#: inc/dashboard/features.php:42
+msgid "Drag and drop header builder."
+msgstr ""
+
+#: inc/dashboard/features.php:49, inc/modules/hf-builder/class-header-footer-builder.php:557
+msgid "Footer Builder"
+msgstr ""
+
+#: inc/dashboard/features.php:50
+msgid "Drag and drop footer builder."
+msgstr ""
+
+#: inc/dashboard/features.php:77
+msgid "Set the global font size, style and library."
+msgstr ""
+
+#: inc/dashboard/features.php:84
+msgid "Color Options"
+msgstr ""
+
+#: inc/dashboard/features.php:85
+msgid "Change the colors for various elements."
+msgstr ""
+
+#: inc/dashboard/features.php:92, inc/customizer/options/general.php:581, inc/customizer/options/woocommerce.php:976, inc/customizer/style-book/class-sydney-style-book.php:192, inc/customizer/style-book/class-sydney-style-book.php:398
+msgid "Buttons"
+msgstr ""
+
+#: inc/dashboard/features.php:93
+msgid "Customize the buttons in your theme."
+msgstr ""
+
+#: inc/dashboard/features.php:100
+msgid "Blog Options"
+msgstr ""
+
+#: inc/dashboard/features.php:101
+msgid "Customize the blog options for your theme."
+msgstr ""
+
+#: inc/dashboard/features.php:112, inc/customizer/options/upsell.php:29
+msgid "Top bar"
+msgstr ""
+
+#: inc/dashboard/features.php:114
+msgid "A bar above the header for contact details, links and social icons."
+msgstr ""
+
+#: inc/dashboard/features.php:129
+msgid "Custom headers, footers and page layouts with Elementor or blocks."
+msgstr ""
+
+#: inc/dashboard/features.php:134, inc/dashboard/html-free-vs-pro.php:147
+msgid "Quick Links Module"
+msgstr ""
+
+#: inc/dashboard/features.php:139
+msgid "A floating bar that keeps your contact and social links one click away."
+msgstr ""
+
+#: inc/dashboard/features.php:144
+msgid "Modal"
+msgstr ""
+
+#: inc/dashboard/features.php:149
+msgid "Pop-ups with your own content for offers, sign-ups or announcements."
+msgstr ""
+
+#: inc/dashboard/features.php:154
+msgid "Custom Fonts"
+msgstr ""
+
+#: inc/dashboard/features.php:159
+msgid "Upload your own fonts and use them across the Customizer."
+msgstr ""
+
+#: inc/dashboard/features.php:169
+msgid "Slide-out panels with widgets, Elementor templates or custom content."
+msgstr ""
+
+#: inc/dashboard/features.php:179
+msgid "Style the scrollbar, color the mobile browser bar and protect your text from copying."
+msgstr ""
+
+#: inc/dashboard/features.php:185
+msgid "Extended Header Module"
+msgstr ""
+
+#: inc/dashboard/features.php:190
+msgid "More header layouts, elements and styling options."
+msgstr ""
+
+#: inc/dashboard/features.php:196
+msgid "Mega Menu"
+msgstr ""
+
+#: inc/dashboard/features.php:201
+msgid "Multi-column menus you design with Elementor."
+msgstr ""
+
+#: inc/dashboard/features.php:206
+msgid "Requires Elementor"
+msgstr ""
+
+#: inc/dashboard/features.php:213
+msgid "Extended Footer Module"
+msgstr ""
+
+#: inc/dashboard/features.php:218
+msgid "More footer layouts, widget areas and styling options."
+msgstr ""
+
+#: inc/dashboard/features.php:225
+msgid "Pre-Footer Module"
+msgstr ""
+
+#: inc/dashboard/features.php:230
+msgid "A call-to-action area above the footer on every page."
+msgstr ""
+
+#: inc/dashboard/features.php:236, inc/dashboard/html-free-vs-pro.php:297
+msgid "Extended Blog Module"
+msgstr ""
+
+#: inc/dashboard/features.php:241
+msgid "More blog layouts, post meta and single post options."
+msgstr ""
+
+#: inc/dashboard/features.php:246
+msgid "Page Headers"
+msgstr ""
+
+#: inc/dashboard/features.php:251
+msgid "Title banners with background images for posts, pages and archives."
+msgstr ""
+
+#: inc/dashboard/features.php:256, inc/dashboard/html-free-vs-pro.php:118
+msgid "Breadcrumbs Module"
+msgstr ""
+
+#: inc/dashboard/features.php:261
+msgid "Breadcrumb trails that help visitors and search engines find their way."
+msgstr ""
+
+#: inc/dashboard/features.php:266, inc/dashboard/html-free-vs-pro.php:171
+msgid "Sidebar Module"
+msgstr ""
+
+#: inc/dashboard/features.php:271
+msgid "More sidebar layouts and styling options."
+msgstr ""
+
+#: inc/dashboard/features.php:276
+msgid "Extended WooCommerce"
+msgstr ""
+
+#: inc/dashboard/features.php:281
+msgid "Wishlist, product swatches, sticky add-to-cart, multi-step checkout and more."
+msgstr ""
+
+#: inc/dashboard/features.php:286
+msgid "Requires WooCommerce"
+msgstr ""
+
+#: inc/dashboard/features.php:292
+msgid "Elementor Tools"
+msgstr ""
+
+#: inc/dashboard/features.php:297
+msgid "Custom CSS, particles, tooltips and sticky sections for Elementor."
+msgstr ""
+
+#: inc/dashboard/features.php:302
+msgid "Live Chat (WhatsApp)"
+msgstr ""
+
+#: inc/dashboard/features.php:307
+msgid "A WhatsApp chat button on every page."
+msgstr ""
+
+#: inc/dashboard/features.php:312
+msgid "Forms &amp; HTML Designer"
+msgstr ""
+
+#: inc/dashboard/features.php:317
+msgid "Style your forms and HTML elements to match your site."
+msgstr ""
+
+#: inc/dashboard/features.php:321, inc/dashboard/html-free-vs-pro.php:177
+msgid "Extra Widget Area"
+msgstr ""
+
+#: inc/dashboard/features.php:323
+msgid "One more widget area for content beyond the sidebar and footer."
+msgstr ""
+
+#: inc/dashboard/features.php:331, inc/dashboard/html-free-vs-pro.php:685
+msgid "Hooks"
+msgstr ""
+
+#: inc/dashboard/features.php:332
+msgid "Insert your own code or content at hook points across the theme."
+msgstr ""
+
+#: inc/dashboard/features.php:343, inc/abilities/groups/class-sydney-abilities-colors.php:75
+msgid "Dark mode"
+msgstr ""
+
+#: inc/dashboard/features.php:345
+msgid "A dark color scheme with its own palette that visitors can switch to."
+msgstr ""
+
+#: inc/dashboard/features.php:353
+msgid "White Label (Agency)"
+msgstr ""
+
+#: inc/dashboard/features.php:355
+msgid "Hand clients a site that carries your brand, not ours."
+msgstr ""
+
+#: inc/dashboard/features.php:357, inc/dashboard/html-home.php:158
+msgid "Learn More"
+msgstr ""
+
+#: inc/dashboard/features.php:365, inc/modules/class-sydney-modules.php:33, inc/customizer/options/modules/block-templates.php:9
+msgid "Block Templates"
+msgstr ""
+
+#: inc/dashboard/features.php:370, inc/modules/class-sydney-modules.php:38
+msgid "Build headers, footers etc. with the site editor."
+msgstr ""
+
+#: inc/dashboard/features.php:377, inc/modules/class-sydney-modules.php:43
+msgid "Pattern Library"
+msgstr ""
+
+#: inc/dashboard/features.php:379, inc/modules/class-sydney-modules.php:48
+msgid "Browse and insert Sydney patterns directly from the block editor."
 msgstr ""
 
 #: inc/dashboard/html-builder-card.php:29
@@ -2501,15 +2534,15 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: inc/dashboard/html-builder-card.php:150
+#: inc/dashboard/html-builder-card.php:150, inc/dashboard/html-settings-coming-soon.php:118
 msgid "Choose your builder:"
 msgstr ""
 
-#: inc/dashboard/html-builder-card.php:152, inc/dashboard/html-free-vs-pro.php:486
+#: inc/dashboard/html-builder-card.php:152, inc/dashboard/html-free-vs-pro.php:520, inc/dashboard/html-settings-coming-soon.php:120
 msgid "Elementor"
 msgstr ""
 
-#: inc/dashboard/html-builder-card.php:154
+#: inc/dashboard/html-builder-card.php:154, inc/dashboard/html-settings-coming-soon.php:122
 msgid "WordPress Editor"
 msgstr ""
 
@@ -2541,31 +2574,31 @@ msgstr ""
 msgid "Discard"
 msgstr ""
 
-#: inc/dashboard/html-builder.php:176, inc/dashboard/html-builder.php:199, inc/dashboard/html-settings-general.php:81
-msgid "Cancel"
-msgstr ""
-
-#: inc/dashboard/html-builder.php:191
+#: inc/dashboard/html-builder.php:175
 msgid "Enable Sticky Header"
 msgstr ""
 
-#: inc/dashboard/html-builder.php:195
+#: inc/dashboard/html-builder.php:179
 msgid "Enable Transparent Header"
 msgstr ""
 
-#: inc/dashboard/html-builder.php:200
+#: inc/dashboard/html-builder.php:183, inc/dashboard/html-confirm-dialog.php:24, inc/dashboard/html-settings-general.php:81
+msgid "Cancel"
+msgstr ""
+
+#: inc/dashboard/html-builder.php:184
 msgid "Apply"
 msgstr ""
 
-#: inc/dashboard/html-builder.php:209
+#: inc/dashboard/html-builder.php:193
 msgid "Tutorial video"
 msgstr ""
 
-#: inc/dashboard/html-builder.php:212, inc/dashboard/html-pro-upgrade-modal.php:100, inc/dashboard/html-setup.php:153
+#: inc/dashboard/html-builder.php:196, inc/dashboard/html-pro-upgrade-modal.php:100, inc/dashboard/html-setup.php:153
 msgid "Close"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:20, inc/customizer/controls/class_sydney_tab_control.php:40, inc/customizer/options/colors.php:92, inc/customizer/options/general.php:14, inc/customizer/options/woocommerce.php:12, inc/integrations/lifter/customize.php:18, inc/modules/hf-builder/class-header-footer-builder.php:1576
+#: inc/dashboard/html-free-vs-pro.php:20, inc/customizer/controls/class_sydney_tab_control.php:40, inc/customizer/options/colors.php:92, inc/customizer/options/general.php:14, inc/customizer/options/woocommerce.php:12, inc/integrations/lifter/customize.php:18, inc/modules/hf-builder/class-header-footer-builder.php:1593
 msgid "General"
 msgstr ""
 
@@ -2598,446 +2631,490 @@ msgid "Translation Ready"
 msgstr ""
 
 #: inc/dashboard/html-free-vs-pro.php:49
+msgid "Dark Mode"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:52
+msgid "Dark palette, follows the visitor's system setting, dark mode logo, switch as a header component or Elementor widget. Off by default."
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:55
+msgid "AI abilities for AI agents"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:57
+msgid "Yes, plus Pro abilities"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:58
+msgid "WordPress Abilities API, off by default, WordPress 6.9 or later."
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:61
 msgid "Templates Builder Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:53
+#: inc/dashboard/html-free-vs-pro.php:65
 msgid "Display rules like \"Show this template on all posts\" or \"Show this template on all pages\" are available to dynamic render the templates."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:56
+#: inc/dashboard/html-free-vs-pro.php:68
 msgid "Build custom headers"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:62
+#: inc/dashboard/html-free-vs-pro.php:74
 msgid "Build custom footers"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:68
+#: inc/dashboard/html-free-vs-pro.php:80
 msgid "Build custom blog archives"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:74
+#: inc/dashboard/html-free-vs-pro.php:86
 msgid "Build custom blog archive items"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:80
+#: inc/dashboard/html-free-vs-pro.php:92
 msgid "Build custom blog posts"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:86
+#: inc/dashboard/html-free-vs-pro.php:98
 msgid "Build custom content blocks"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:90
+#: inc/dashboard/html-free-vs-pro.php:102
 msgid "Hooks like before/after content, before/after title, etc, are available to render the custom content block."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:93
+#: inc/dashboard/html-free-vs-pro.php:105
 msgid "Build custom 404 page"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:99
+#: inc/dashboard/html-free-vs-pro.php:111
 msgid "Build custom WooCommerce pages"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:103
+#: inc/dashboard/html-free-vs-pro.php:115
 msgid "Build custom shop pages like shop, single product, cart, checkout."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:112
+#: inc/dashboard/html-free-vs-pro.php:124
 msgid "Modal Popup Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:118
+#: inc/dashboard/html-free-vs-pro.php:130
 msgid "Offcanvas Content Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:124
+#: inc/dashboard/html-free-vs-pro.php:136
 msgid "Custom Fonts Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:130
+#: inc/dashboard/html-free-vs-pro.php:142
 msgid "Custom Fonts upload & Adobe Fonts support"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:141
+#: inc/dashboard/html-free-vs-pro.php:153
 msgid "Live Chat (WhatsApp) Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:147
+#: inc/dashboard/html-free-vs-pro.php:159
 msgid "Browser Tools Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:153
+#: inc/dashboard/html-free-vs-pro.php:165
 msgid "Forms & HTML Designer Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:170
+#: inc/dashboard/html-free-vs-pro.php:182
 msgid "Extra Page Templates"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:173
+#: inc/dashboard/html-free-vs-pro.php:185
 msgid "Contact with map, Login, and featured or no header image layouts."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:176
+#: inc/dashboard/html-free-vs-pro.php:188
 msgid "White Label"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:178
+#: inc/dashboard/html-free-vs-pro.php:190
 msgid "Agency plan"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:187
-msgid "Mega Menu module"
-msgstr ""
-
-#: inc/dashboard/html-free-vs-pro.php:193
-msgid "More Header Options"
-msgstr ""
-
-#: inc/dashboard/html-free-vs-pro.php:198, inc/customizer/options/upsell.php:30, inc/modules/hf-builder/components/header/header-builder/customize-options.php:455
-msgid "Language switcher"
+#: inc/dashboard/html-free-vs-pro.php:199
+msgid "Header Builder (drag and drop)"
 msgstr ""
 
 #: inc/dashboard/html-free-vs-pro.php:204
-msgid "HTML/Shortcode components"
+msgid "Header Builder components"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:207
+msgid "Pro adds Button 2, HTML 2, Shortcode 1 to 3, Dark Mode Switch, WPML and Polylang switchers."
 msgstr ""
 
 #: inc/dashboard/html-free-vs-pro.php:210
-msgid "Different logo for mobile devices"
+msgid "Mega Menu module"
 msgstr ""
 
 #: inc/dashboard/html-free-vs-pro.php:216
+msgid "More Header Options"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:221, inc/customizer/options/upsell.php:30, inc/modules/hf-builder/components/header/header-builder/customize-options.php:455
+msgid "Language switcher"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:227
+msgid "Extra HTML and Shortcode components"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:233
+msgid "Different logo for mobile devices"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:239
 msgid "Sticky Menu"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:221
+#: inc/dashboard/html-free-vs-pro.php:244
 msgid "Extra Slider Options"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:226
+#: inc/dashboard/html-free-vs-pro.php:249
 msgid "User friendly slider options, resulting in a faster slider setup time"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:232
+#: inc/dashboard/html-free-vs-pro.php:255
 msgid "Individual settings for each slide"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:238
+#: inc/dashboard/html-free-vs-pro.php:261
 msgid "Entrance animation choices for the text and buttons"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:244
+#: inc/dashboard/html-free-vs-pro.php:267
 msgid "New slider settings like title tag selector, hide the slider on secondary blog pages and more"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:250
+#: inc/dashboard/html-free-vs-pro.php:273
 msgid "Vertical and horizontal aligment opions for the slider content"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:256
+#: inc/dashboard/html-free-vs-pro.php:279
 msgid "Styling options including colors, typography and content width"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:262
+#: inc/dashboard/html-free-vs-pro.php:285
 msgid "Page Headers Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:266
+#: inc/dashboard/html-free-vs-pro.php:289
 msgid "Page header options for posts, pages, archives, etc."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:280
+#: inc/dashboard/html-free-vs-pro.php:303
 msgid "Blog Layouts"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:286
+#: inc/dashboard/html-free-vs-pro.php:309
 msgid "Featured posts in blog hero"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:292
+#: inc/dashboard/html-free-vs-pro.php:315
 msgid "Featured boxes"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:298
+#: inc/dashboard/html-free-vs-pro.php:321
 msgid "Archive header options"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:304
+#: inc/dashboard/html-free-vs-pro.php:327
 msgid "Pagination options"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:310
+#: inc/dashboard/html-free-vs-pro.php:333
 msgid "Reading progress and reading time"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:316, inc/customizer/options/upsell.php:211
+#: inc/dashboard/html-free-vs-pro.php:339, inc/customizer/options/upsell.php:211
 msgid "Last updated date"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:322
+#: inc/dashboard/html-free-vs-pro.php:345
 msgid "Post sharing"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:328
+#: inc/dashboard/html-free-vs-pro.php:351
 msgid "Post header layouts"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:334
+#: inc/dashboard/html-free-vs-pro.php:357
 msgid "Related posts layout options"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:345
+#: inc/dashboard/html-free-vs-pro.php:368
+msgid "Footer Builder (drag and drop)"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:373
+msgid "Footer Builder components"
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:376
+msgid "Pro adds Footer Menu, Button 2, HTML 2, Shortcode."
+msgstr ""
+
+#: inc/dashboard/html-free-vs-pro.php:379
 msgid "Widget Areas"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:350
+#: inc/dashboard/html-free-vs-pro.php:384
 msgid "Credits"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:355
+#: inc/dashboard/html-free-vs-pro.php:389
 msgid "More Footer Options"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:360
+#: inc/dashboard/html-free-vs-pro.php:394
 msgid "Footer Separator"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:366
+#: inc/dashboard/html-free-vs-pro.php:400
 msgid "Footer Reveal Effect"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:372
+#: inc/dashboard/html-free-vs-pro.php:406
 msgid "Extra components"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:378, inc/customizer/options/upsell.php:119, inc/customizer/options/upsell.php:150, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:294
+#: inc/dashboard/html-free-vs-pro.php:412, inc/customizer/options/upsell.php:119, inc/customizer/options/upsell.php:150, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:294
 msgid "Pre-footer area"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:386, inc/customizer/controls/display-conditions/display-conditions-script-template.php:80
+#: inc/dashboard/html-free-vs-pro.php:420, inc/customizer/controls/display-conditions/display-conditions-script-template.php:80
 msgid "WooCommerce"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:389
+#: inc/dashboard/html-free-vs-pro.php:423
 msgid "WooCommerce Support"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:390, inc/customizer/controls/display-conditions/display-conditions-script-template.php:29
+#: inc/dashboard/html-free-vs-pro.php:424, inc/customizer/controls/display-conditions/display-conditions-script-template.php:29
 msgid "Basic"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:391
+#: inc/dashboard/html-free-vs-pro.php:425
 msgid "Extended"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:394
+#: inc/dashboard/html-free-vs-pro.php:428
 msgid "Extended WooCommerce Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:418
+#: inc/dashboard/html-free-vs-pro.php:452
 msgid "Multistep Checkout"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:424
+#: inc/dashboard/html-free-vs-pro.php:458
 msgid "Single Sticky Add To Cart"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:430
+#: inc/dashboard/html-free-vs-pro.php:464
 msgid "Shop Header Styles"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:436
+#: inc/dashboard/html-free-vs-pro.php:470
 msgid "Product Tab Styles"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:442
+#: inc/dashboard/html-free-vs-pro.php:476
 msgid "Shop Pagination: Numeric, Infinite, Load More Button"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:448
+#: inc/dashboard/html-free-vs-pro.php:482
 msgid "Advanced Reviews"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:454
+#: inc/dashboard/html-free-vs-pro.php:488
 msgid "Quantity Input Styles"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:460
+#: inc/dashboard/html-free-vs-pro.php:494
 msgid "Extra Single Product Elements: Shortcode and HTML"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:466
+#: inc/dashboard/html-free-vs-pro.php:500
 msgid "AJAX Product Search"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:472
+#: inc/dashboard/html-free-vs-pro.php:506
 msgid "Extra Shop Sidebar Layouts"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:487
+#: inc/dashboard/html-free-vs-pro.php:521
 msgid "Includes aThemes Addons Pro: 65+ premium Elementor widgets."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:490
+#: inc/dashboard/html-free-vs-pro.php:524
 msgid "aThemes Addons Pro widgets"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:495
+#: inc/dashboard/html-free-vs-pro.php:529
 msgid "Elementor Tools Module"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:501
+#: inc/dashboard/html-free-vs-pro.php:535
 msgid "Custom CSS for any widget, column, or section"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:507
+#: inc/dashboard/html-free-vs-pro.php:541
 msgid "Glassmorphism effect"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:513
+#: inc/dashboard/html-free-vs-pro.php:547
 msgid "Wrapper link for sections"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:519
+#: inc/dashboard/html-free-vs-pro.php:553
 msgid "Particles background for sections"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:525
+#: inc/dashboard/html-free-vs-pro.php:559
 msgid "Animation effects"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:531
+#: inc/dashboard/html-free-vs-pro.php:565
 msgid "Sticky mode for widgets, columns, and sections"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:537
+#: inc/dashboard/html-free-vs-pro.php:571
 msgid "Tooltips for widgets"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:543
+#: inc/dashboard/html-free-vs-pro.php:577
 msgid "Testimonials Carousel Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:548
+#: inc/dashboard/html-free-vs-pro.php:582
 msgid "Portfolio Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:549, inc/dashboard/html-free-vs-pro.php:554
+#: inc/dashboard/html-free-vs-pro.php:583, inc/dashboard/html-free-vs-pro.php:588
 msgid "1 Style"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:550, inc/dashboard/html-free-vs-pro.php:555
+#: inc/dashboard/html-free-vs-pro.php:584, inc/dashboard/html-free-vs-pro.php:589
 msgid "2 Styles"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:553
+#: inc/dashboard/html-free-vs-pro.php:587
 msgid "Posts Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:558
+#: inc/dashboard/html-free-vs-pro.php:592
 msgid "Slider Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:563
+#: inc/dashboard/html-free-vs-pro.php:597
 msgid "Employee Carousel Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:568
+#: inc/dashboard/html-free-vs-pro.php:602
 msgid "Advanced Carousel Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:574
+#: inc/dashboard/html-free-vs-pro.php:608
 msgid "Advanced Tabs Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:579
+#: inc/dashboard/html-free-vs-pro.php:613
 msgid "News Bar Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:584
+#: inc/dashboard/html-free-vs-pro.php:618
 msgid "LearnDash Courses Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:589
+#: inc/dashboard/html-free-vs-pro.php:623
 msgid "MailChimp Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:594
+#: inc/dashboard/html-free-vs-pro.php:628
 msgid "Single Employee Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:599
+#: inc/dashboard/html-free-vs-pro.php:633
 msgid "Timeline Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:604
+#: inc/dashboard/html-free-vs-pro.php:638
 msgid "Pricing Tables Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:609
+#: inc/dashboard/html-free-vs-pro.php:643
 msgid "Food Menu Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:614
+#: inc/dashboard/html-free-vs-pro.php:648
 msgid "Animated heading Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:619
+#: inc/dashboard/html-free-vs-pro.php:653
 msgid "Dual heading Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:624
+#: inc/dashboard/html-free-vs-pro.php:658
 msgid "Image hotspots Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:629
+#: inc/dashboard/html-free-vs-pro.php:663
 msgid "Dual Buttons Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:634
+#: inc/dashboard/html-free-vs-pro.php:668
 msgid "Contact Form 7 Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:639
+#: inc/dashboard/html-free-vs-pro.php:673
 msgid "WPForms Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:644
+#: inc/dashboard/html-free-vs-pro.php:678
 msgid "Ninja Forms Widget"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:654
+#: inc/dashboard/html-free-vs-pro.php:688
 msgid "Hooks System"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:658
+#: inc/dashboard/html-free-vs-pro.php:692
 msgid "Hooks allow you to add HTML or shortcodes across different areas of your website"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:674
+#: inc/dashboard/html-free-vs-pro.php:708
 msgid "Everything Sydney Pro adds"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:695
+#: inc/dashboard/html-free-vs-pro.php:729
 msgid "Free"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:698
+#: inc/dashboard/html-free-vs-pro.php:732, inc/dashboard/html-settings-coming-soon.php:185
 msgid "Pro"
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:743, inc/dashboard/html-home.php:92
+#: inc/dashboard/html-free-vs-pro.php:777, inc/dashboard/html-home.php:92
 msgid "14-day money-back guarantee, no questions asked."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:744
+#: inc/dashboard/html-free-vs-pro.php:778
 msgid "If you don't renew, your site and every Pro feature keep working."
 msgstr ""
 
-#: inc/dashboard/html-free-vs-pro.php:746, inc/dashboard/html-settings-general.php:55
+#: inc/dashboard/html-free-vs-pro.php:780, inc/dashboard/html-settings-general.php:55
 msgid "Everything you've built carries over to Sydney Pro."
 msgstr ""
 
@@ -3081,7 +3158,7 @@ msgstr ""
 msgid "Go To Customizer"
 msgstr ""
 
-#: inc/dashboard/html-home.php:44, inc/dashboard/html-home.php:170, inc/dashboard/html-home.php:334
+#: inc/dashboard/html-home.php:44, inc/dashboard/html-home.php:170, inc/dashboard/html-home.php:335
 msgid "Documentation"
 msgstr ""
 
@@ -3093,7 +3170,7 @@ msgstr ""
 msgid "Do more with Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/html-home.php:161
+#: inc/dashboard/html-home.php:161, inc/dashboard/html-settings-coming-soon.php:74
 msgid "This option is only available on Sydney Pro"
 msgstr ""
 
@@ -3101,110 +3178,110 @@ msgstr ""
 msgid "Useful plugins"
 msgstr ""
 
-#: inc/dashboard/html-home.php:261
+#: inc/dashboard/html-home.php:262
 msgid "Template Builder for custom headers, footers and layouts"
 msgstr ""
 
 #. translators: %d: number of Pro starter sites
-#: inc/dashboard/html-home.php:264
+#: inc/dashboard/html-home.php:265
 msgid "%d Pro starter site"
 msgid_plural "%d Pro starter sites"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/dashboard/html-home.php:265
+#: inc/dashboard/html-home.php:266
 msgid "Pro starter sites"
 msgstr ""
 
-#: inc/dashboard/html-home.php:273
+#: inc/dashboard/html-home.php:274
 msgid "Custom fonts, modals, hooks and more Pro modules"
 msgstr ""
 
-#: inc/dashboard/html-home.php:271
+#: inc/dashboard/html-home.php:272
 msgid "Elementor Tools: custom CSS, particles, sticky sections"
 msgstr ""
 
-#: inc/dashboard/html-home.php:269
+#: inc/dashboard/html-home.php:270
 msgid "Extended WooCommerce: wishlist, swatches, multi-step checkout"
 msgstr ""
 
-#: inc/dashboard/html-home.php:276
+#: inc/dashboard/html-home.php:277
 msgid "12 months of premium email support"
 msgstr ""
 
-#: inc/dashboard/html-home.php:281, inc/dashboard/html-notifications-sidebar.php:47, inc/modules/hf-builder/class-header-footer-builder.php:1003
+#: inc/dashboard/html-home.php:282, inc/dashboard/html-notifications-sidebar.php:47, inc/modules/hf-builder/class-header-footer-builder.php:1006
 msgid "Sydney Pro"
 msgstr ""
 
-#: inc/dashboard/html-home.php:292
+#: inc/dashboard/html-home.php:293
 msgid "14-day money-back guarantee."
 msgstr ""
 
-#: inc/dashboard/html-home.php:304
+#: inc/dashboard/html-home.php:305
 msgid "Leave a review"
 msgstr ""
 
-#: inc/dashboard/html-home.php:324
+#: inc/dashboard/html-home.php:325
 msgid "It makes us happy to hear from our users. We would appreciate a review."
 msgstr ""
 
-#: inc/dashboard/html-home.php:326
+#: inc/dashboard/html-home.php:327
 msgid "Submit a Review"
 msgstr ""
 
-#: inc/dashboard/html-home.php:337
+#: inc/dashboard/html-home.php:338
 msgid "Browse documentation and tutorials for the Sydney theme."
 msgstr ""
 
-#: inc/dashboard/html-home.php:339
+#: inc/dashboard/html-home.php:340
 msgid "Browse Docs"
 msgstr ""
 
-#: inc/dashboard/html-home.php:347
+#: inc/dashboard/html-home.php:348
 msgid "Premium support"
 msgstr ""
 
-#: inc/dashboard/html-home.php:347
+#: inc/dashboard/html-home.php:348
 msgid "Support"
 msgstr ""
 
-#: inc/dashboard/html-home.php:353
+#: inc/dashboard/html-home.php:354
 msgid "Have a question? Hit a bug? Find solutions or ask a member of our expert team for help."
 msgstr ""
 
-#: inc/dashboard/html-home.php:351
+#: inc/dashboard/html-home.php:352
 msgid "Your Sydney Pro license includes premium email support from our team of WordPress experts. We typically reply to requests within 8 business hours."
 msgstr ""
 
-#: inc/dashboard/html-home.php:356
+#: inc/dashboard/html-home.php:357
 msgid "Get Premium Support"
 msgstr ""
 
-#: inc/dashboard/html-home.php:356
+#: inc/dashboard/html-home.php:357
 msgid "Get Support"
 msgstr ""
 
-#: inc/dashboard/html-home.php:364
+#: inc/dashboard/html-home.php:365
 msgid "Have an idea or feedback?"
 msgstr ""
 
-#: inc/dashboard/html-home.php:367
+#: inc/dashboard/html-home.php:368
 msgid "Got an idea for how to improve Sydney and Sydney Pro? Let us know."
 msgstr ""
 
-#: inc/dashboard/html-home.php:369
+#: inc/dashboard/html-home.php:370
 msgid "Suggest An Idea"
 msgstr ""
 
-#: inc/dashboard/html-home.php:378
+#: inc/dashboard/html-home.php:379
 msgid "Join our Facebook community"
 msgstr ""
 
-#: inc/dashboard/html-home.php:381
+#: inc/dashboard/html-home.php:382
 msgid "Share your projects, ask questions, or connect with fellow Sydney users in our friendly community."
 msgstr ""
 
-#: inc/dashboard/html-home.php:383
+#: inc/dashboard/html-home.php:384
 msgid "Join Now"
 msgstr ""
 
@@ -3260,7 +3337,7 @@ msgstr ""
 msgid "Try again"
 msgstr ""
 
-#: inc/dashboard/html-settings-abilities.php:33
+#: inc/dashboard/html-settings-abilities.php:33, inc/dashboard/html-settings-coming-soon.php:37
 msgid "Off"
 msgstr ""
 
@@ -3295,6 +3372,91 @@ msgstr ""
 
 #: inc/dashboard/html-settings-abilities.php:99
 msgid "Go to WPVibe Settings"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:38
+msgid "Visitors see your live site."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:41, inc/modules/coming-soon/class-sydney-coming-soon.php:553
+msgid "Coming Soon"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:42
+msgid "For a site that hasn't launched yet."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:45
+msgid "Maintenance"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:46
+msgid "For a live site that's briefly down. Search engines are told to check back later."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:52
+msgid "No placeholder page yet. Create one to choose a mode."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:53
+msgid "Off. Visitors see your live site."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:54
+msgid "Coming Soon. Visitors see the placeholder page."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:55
+msgid "Maintenance. Visitors see the placeholder page. Search engines are told to check back later."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:61
+msgid "Include / exclude pages"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:65
+msgid "Private link"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:69
+msgid "IP allowlist"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:84
+msgid "Show visitors a placeholder page while you work on the site. Editors always see the real site."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:102
+msgid "More page actions"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:104, inc/integrations/elementor/library/templates.php:114
+msgid "Preview"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:105
+msgid "Change design"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:130
+msgid "Choose a design:"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:159
+msgid "Mode:"
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:177
+msgid "Advanced"
+msgstr ""
+
+#. translators: %s: comma separated names of plugins or settings.
+#: inc/dashboard/html-settings-coming-soon.php:200
+msgid "Another coming soon or maintenance mode is active: %s. Turn it off so the two do not compete for your visitors."
+msgstr ""
+
+#: inc/dashboard/html-settings-coming-soon.php:207
+msgid "The placeholder page was deleted. Visitors get a basic coming soon screen until you pick a new page."
 msgstr ""
 
 #: inc/dashboard/html-settings-general.php:53
@@ -3442,99 +3604,99 @@ msgstr ""
 msgid "Documentation article"
 msgstr ""
 
+#: inc/notices/class-sydney-campaign.php:259, inc/notices/class-sydney-pro-upsell.php:183
+msgid "Design your own headers and footers, choose from 35+ starter sites, add extra WooCommerce features and get a year of premium support."
+msgstr ""
+
+#: inc/notices/class-sydney-campaign.php:262, inc/notices/class-sydney-pro-upsell.php:186
+msgid "It also includes aThemes Addons Pro, with 65+ premium Elementor widgets, at no extra cost."
+msgstr ""
+
+#. translators: 1. Last day of the sale.
+#: inc/notices/class-sydney-campaign.php:267
+msgid "The sale ends %1$s."
+msgstr ""
+
 #. translators: 1. Image url. 2. Image alt text.
-#: inc/notices/class-sydney-campaign.php:226
+#: inc/notices/class-sydney-campaign.php:276
 msgid "Sydney Black Friday: Up to <span><img src=\"%1$s\" class=\"sydney-campaign-notice-percent\" alt=\"%2$s\" /> Off!</span>"
 msgstr ""
 
 #. translators: 1. Discount percent.
-#: inc/notices/class-sydney-campaign.php:230
+#: inc/notices/class-sydney-campaign.php:280
 msgid "Up to %1$d percent off"
 msgstr ""
 
-#. translators: 1. Last day of the sale.
-#: inc/notices/class-sydney-campaign.php:237
-msgid "Design your own headers, footers, single posts and archives with the Template Builder in Sydney Pro. The sale ends %1$s."
-msgstr ""
-
-#: inc/notices/class-sydney-campaign.php:241
+#: inc/notices/class-sydney-campaign.php:287
 msgid "Give Me This Deal"
 msgstr ""
 
-#: inc/notices/class-sydney-campaign.php:243
+#: inc/notices/class-sydney-campaign.php:289
 msgid "Sydney Pro customers"
 msgstr ""
 
-#: inc/notices/class-sydney-pro-upsell.php:158
-msgid "Turn your dropdowns into mega menus"
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:159
-msgid "Sydney Pro lets you design mega menus with Elementor, so a dropdown can hold columns, images and widgets."
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:170
-msgid "Your store is taking orders"
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:171
-msgid "Give your customers a smoother way to shop with Sydney Pro: sticky add-to-cart, multi-step checkout, quick view, wishlists and advanced reviews."
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:172
-msgid "See Sydney Pro for WooCommerce"
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:182
-msgid "Design your own headers and footers, choose from 35+ starter sites, add extra WooCommerce features and get a year of premium support."
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:185
-msgid "It also includes aThemes Addons Pro, with 65+ premium Elementor widgets, at no extra cost."
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:179
-msgid "Sticky add-to-cart, quick view, wishlist, product swatches and multi-step checkout, built into Sydney Pro."
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:191
-msgid "Build more with Sydney Pro"
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:294, inc/notices/class-sydney-review.php:69
-msgid "Maybe later"
-msgstr ""
-
-#: inc/notices/class-sydney-pro-upsell.php:297
+#: inc/notices/class-sydney-campaign.php:291, inc/notices/class-sydney-pro-upsell.php:298
 msgid "Dismiss this notice."
 msgstr ""
 
+#: inc/notices/class-sydney-pro-upsell.php:159
+msgid "Turn your dropdowns into mega menus"
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:160
+msgid "Sydney Pro lets you design mega menus with Elementor, so a dropdown can hold columns, images and widgets."
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:171
+msgid "Your store is taking orders"
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:172
+msgid "Give your customers a smoother way to shop with Sydney Pro: sticky add-to-cart, multi-step checkout, quick view, wishlists and advanced reviews."
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:173
+msgid "See Sydney Pro for WooCommerce"
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:180
+msgid "Sticky add-to-cart, quick view, wishlist, product swatches and multi-step checkout, built into Sydney Pro."
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:192
+msgid "Build more with Sydney Pro"
+msgstr ""
+
+#: inc/notices/class-sydney-pro-upsell.php:295, inc/notices/class-sydney-review.php:73
+msgid "Maybe later"
+msgstr ""
+
 #. translators: %1$s current user display name.
-#: inc/notices/class-sydney-review.php:58
+#: inc/notices/class-sydney-review.php:62
 msgid "Hey, %1$s! You've been using Sydney for more than two weeks now and we hope you're happy with it. If you have a few minutes, we would love to get a 5 star review from you."
 msgstr ""
 
-#: inc/notices/class-sydney-review.php:67
+#: inc/notices/class-sydney-review.php:71
 msgid "Sure"
 msgstr ""
 
-#: inc/notices/class-sydney-review.php:71
+#: inc/notices/class-sydney-review.php:75
 msgid "I already did"
 msgstr ""
 
-#: inc/starter-content/class-sydney-starter-content.php:55, inc/starter-content/class-sydney-starter-content.php:181, inc/modules/pattern-library/class-sydney-pattern-library.php:200
+#: inc/starter-content/class-sydney-starter-content.php:55, inc/starter-content/class-sydney-starter-content.php:189, inc/modules/pattern-library/class-sydney-pattern-library.php:247, inc/modules/pattern-library/class-sydney-pattern-library.php:458
 msgid "About"
 msgstr ""
 
-#: inc/starter-content/class-sydney-starter-content.php:60, inc/modules/pattern-library/class-sydney-pattern-library.php:201
+#: inc/starter-content/class-sydney-starter-content.php:60, inc/modules/pattern-library/class-sydney-pattern-library.php:248, inc/modules/pattern-library/class-sydney-pattern-library.php:462
 msgid "Services"
 msgstr ""
 
-#: inc/starter-content/class-sydney-starter-content.php:184
+#: inc/starter-content/class-sydney-starter-content.php:192
 msgid "Locations"
 msgstr ""
 
-#: inc/starter-content/class-sydney-starter-content.php:187
+#: inc/starter-content/class-sydney-starter-content.php:195
 msgid "Policy"
 msgstr ""
 
@@ -3543,32 +3705,32 @@ msgid "Proceed to checkout"
 msgstr ""
 
 #. translators: 1: component id, 2: area, 3: device.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:505
+#: inc/abilities/customizer/class-sydney-hf-layout.php:609
 msgid "Component \"%1$s\" is not available for %2$s / %3$s."
 msgstr ""
 
 #. translators: 1: component id.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:517
+#: inc/abilities/customizer/class-sydney-hf-layout.php:621
 msgid "Component \"%s\" is already in that column."
 msgstr ""
 
 #. translators: 1: device, 2: column index.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:543
+#: inc/abilities/customizer/class-sydney-hf-layout.php:647
 msgid "No column %2$d in device \"%1$s\"."
 msgstr ""
 
 #. translators: 1: component id.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:549
+#: inc/abilities/customizer/class-sydney-hf-layout.php:653
 msgid "Component \"%s\" is not in that column."
 msgstr ""
 
 #. translators: 1: device.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:582
+#: inc/abilities/customizer/class-sydney-hf-layout.php:686
 msgid "Unknown device \"%s\"."
 msgstr ""
 
 #. translators: 1: column index, 2: position.
-#: inc/abilities/customizer/class-sydney-hf-layout.php:587
+#: inc/abilities/customizer/class-sydney-hf-layout.php:691
 msgid "No component at column %1$d position %2$d."
 msgstr ""
 
@@ -3580,52 +3742,52 @@ msgstr ""
 msgid "Read the blog/archive listing layout: layout style, number of grid columns, whether post content shows, excerpt length, the read-more link, and which post-meta elements appear. Call before sydney/update-blog-layout. When sydney/get-templates is available (Sydney Pro), call it first: a Template Builder content part assigned to blog pages replaces this layout there."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:129
-msgid "Update blog layout"
-msgstr ""
-
-#: inc/abilities/groups/class-sydney-abilities-blog.php:130
+#: inc/abilities/groups/class-sydney-abilities-blog.php:125
 msgid "Update the blog/archive listing layout. Provide any subset of fields; omitted fields are left unchanged. layout: layout1 (Classic), layout2 (Classic 2), layout3 (Grid), layout4 (List), layout5 (Masonry), layout6 (List zig-zag). columns: 2, 3 or 4. meta_elements is a full-replacement ordered list. Some fields only take effect depending on other values; call sydney/get-blog-layout first. When sydney/get-templates is available, a Template Builder content part overrides this layout wherever its template matches; the response carries a notice when that is the case everywhere."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:220
+#: inc/abilities/groups/class-sydney-abilities-blog.php:133
+msgid "Update blog layout"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-blog.php:224
 msgid "Blog layout retrieved."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:243
+#: inc/abilities/groups/class-sydney-abilities-blog.php:247
 msgid "layout must be one of layout1..layout6."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:253
+#: inc/abilities/groups/class-sydney-abilities-blog.php:257
 msgid "columns must be 2, 3 or 4."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:264
+#: inc/abilities/groups/class-sydney-abilities-blog.php:268
 msgid "show_content must be a boolean."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:274
+#: inc/abilities/groups/class-sydney-abilities-blog.php:278
 msgid "excerpt_length must be an integer between 0 and 120."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:284
+#: inc/abilities/groups/class-sydney-abilities-blog.php:288
 msgid "read_more_link must be a boolean."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:294
+#: inc/abilities/groups/class-sydney-abilities-blog.php:298
 msgid "meta_elements must be an array."
 msgstr ""
 
 #. translators: %s: the invalid meta element value.
-#: inc/abilities/groups/class-sydney-abilities-blog.php:301
+#: inc/abilities/groups/class-sydney-abilities-blog.php:305
 msgid "meta_elements contains an unsupported value: %s."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:312
+#: inc/abilities/groups/class-sydney-abilities-blog.php:316
 msgid "Provide at least one field to update (layout, columns, show_content, excerpt_length, read_more_link, meta_elements)."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-blog.php:327
+#: inc/abilities/groups/class-sydney-abilities-blog.php:331
 msgid "Blog layout updated."
 msgstr ""
 
@@ -3658,27 +3820,23 @@ msgid "Button styles updated."
 msgstr ""
 
 #. translators: %s: comma-separated list of ignored keys.
-#: inc/abilities/groups/class-sydney-abilities-buttons.php:305, inc/abilities/groups/class-sydney-abilities-colors.php:514, inc/abilities/groups/class-sydney-abilities-typography.php:524
+#: inc/abilities/groups/class-sydney-abilities-buttons.php:305, inc/abilities/groups/class-sydney-abilities-colors.php:517, inc/abilities/groups/class-sydney-abilities-typography.php:524
 msgid "Ignored (not applied): %s."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:76
-msgid "Dark mode requires Sydney Pro."
-msgstr ""
-
-#: inc/abilities/groups/class-sydney-abilities-colors.php:142
+#: inc/abilities/groups/class-sydney-abilities-colors.php:139
 msgid "Get global colors"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:143
+#: inc/abilities/groups/class-sydney-abilities-colors.php:140
 msgid "Read every global color palette slot and its semantic role. Use before sydney/update-global-colors to choose the right slot. On Sydney Pro it also returns the Dark palette and the Dark mode settings."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:166
+#: inc/abilities/groups/class-sydney-abilities-colors.php:163
 msgid "List color palettes"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:167
+#: inc/abilities/groups/class-sydney-abilities-colors.php:164
 msgid "List Sydney's named global-color palettes (id, name, per-slot hex values and, on Sydney Pro, the matching Dark palette). Use to offer the user a palette by name, then apply it with sydney/apply-color-palette."
 msgstr ""
 
@@ -3703,33 +3861,33 @@ msgid "Global colors retrieved."
 msgstr ""
 
 #. translators: %d: number of palettes.
-#: inc/abilities/groups/class-sydney-abilities-colors.php:345
+#: inc/abilities/groups/class-sydney-abilities-colors.php:348
 msgid "%d color palette available."
 msgid_plural "%d color palettes available."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:503
+#: inc/abilities/groups/class-sydney-abilities-colors.php:506
 msgid "No valid color slots were provided."
 msgstr ""
 
 #. translators: %d: number of color slots updated.
-#: inc/abilities/groups/class-sydney-abilities-colors.php:508
+#: inc/abilities/groups/class-sydney-abilities-colors.php:511
 msgid "%d global color updated."
 msgid_plural "%d global colors updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:540
+#: inc/abilities/groups/class-sydney-abilities-colors.php:543
 msgid "Unknown palette_id. Call sydney/list-color-palettes for valid ids."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-colors.php:568
+#: inc/abilities/groups/class-sydney-abilities-colors.php:571
 msgid "The palette could not be applied."
 msgstr ""
 
 #. translators: %s: palette name.
-#: inc/abilities/groups/class-sydney-abilities-colors.php:585
+#: inc/abilities/groups/class-sydney-abilities-colors.php:588
 msgid "Applied the \"%s\" color palette."
 msgstr ""
 
@@ -3782,28 +3940,28 @@ msgstr ""
 msgid "Read the hero (front-page banner, separate from the nav header): the hero type for the front page and for other pages, the configured header height, and whether the overlay is hidden. Call before sydney/update-hero."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hero.php:102
-msgid "Update hero type"
-msgstr ""
-
-#: inc/abilities/groups/class-sydney-abilities-hero.php:103
+#: inc/abilities/groups/class-sydney-abilities-hero.php:98
 msgid "Set the hero type for the front page and/or all other pages. Values: \"slider\" (full-screen slider), \"image\" (header image), \"core-video\" (video), \"nothing\" (menu only). Omitted fields are left unchanged. Only the hero type can be changed here — slide content, height and overlay are not affected."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hero.php:144
+#: inc/abilities/groups/class-sydney-abilities-hero.php:106
+msgid "Update hero type"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-hero.php:148
 msgid "Hero settings retrieved."
 msgstr ""
 
 #. translators: %s: the field name (front_page_type or site_type).
-#: inc/abilities/groups/class-sydney-abilities-hero.php:177
+#: inc/abilities/groups/class-sydney-abilities-hero.php:181
 msgid "%s must be one of: slider, image, core-video, nothing."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hero.php:187
+#: inc/abilities/groups/class-sydney-abilities-hero.php:191
 msgid "Provide \"front_page_type\" and/or \"site_type\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hero.php:194
+#: inc/abilities/groups/class-sydney-abilities-hero.php:198
 msgid "Hero type updated."
 msgstr ""
 
@@ -3823,116 +3981,116 @@ msgstr ""
 msgid "List the components available for each area and device (respects WooCommerce availability). Call before sydney/add-hf-component to get valid component ids per area and device."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:162
+#: inc/abilities/groups/class-sydney-abilities-hf.php:166
 msgid "Get header/footer component settings"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:163
+#: inc/abilities/groups/class-sydney-abilities-hf.php:167
 msgid "Read the content and functional settings of one header or footer builder component (e.g. a button's text and link). Use before sydney/update-hf-component-settings to see the writable setting keys. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:197
+#: inc/abilities/groups/class-sydney-abilities-hf.php:201
 msgid "Add header/footer component"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:198
+#: inc/abilities/groups/class-sydney-abilities-hf.php:202
 msgid "Add a component to a builder row column at a position. Column accepts left/center/right or a 0-based index. Call sydney/list-hf-components first for the valid component ids in the target area and device."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:231
+#: inc/abilities/groups/class-sydney-abilities-hf.php:235
 msgid "Remove header/footer component"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:232
+#: inc/abilities/groups/class-sydney-abilities-hf.php:236
 msgid "Remove a component from a builder row column."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:264
+#: inc/abilities/groups/class-sydney-abilities-hf.php:268
 msgid "Move header/footer component"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:265
+#: inc/abilities/groups/class-sydney-abilities-hf.php:269
 msgid "Reorder a component within a column or move it across columns of the SAME row/device. Cross-row moves are not supported in this phase — to relocate a component to a different row, remove it from the source row and add it to the destination row."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:295
+#: inc/abilities/groups/class-sydney-abilities-hf.php:299
 msgid "Update header/footer component settings"
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:296
+#: inc/abilities/groups/class-sydney-abilities-hf.php:300
 msgid "Set the content and functional settings of one header or footer builder component. Only curated settings are writable; the raw HTML component is not. Component settings such as button, contact info and WooCommerce icons take effect only when that component is placed in a header or footer builder row. When sydney/get-templates is available, a Template Builder header or footer overrides this builder wherever its template matches; the response carries a notice when that is the case everywhere."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:383
+#: inc/abilities/groups/class-sydney-abilities-hf.php:387
 msgid "Header/footer layout retrieved."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:412
+#: inc/abilities/groups/class-sydney-abilities-hf.php:431
 msgid "Available header/footer components listed."
 msgstr ""
 
 #. translators: 1: row id, 2: area.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:432
+#: inc/abilities/groups/class-sydney-abilities-hf.php:451
 msgid "Invalid row \"%1$s\" for area \"%2$s\"."
 msgstr ""
 
 #. translators: 1: device.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:437
+#: inc/abilities/groups/class-sydney-abilities-hf.php:456
 msgid "Invalid device \"%s\"."
 msgstr ""
 
 #. translators: 1: device, 2: row id, 3: comma-separated valid devices.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:446
+#: inc/abilities/groups/class-sydney-abilities-hf.php:465
 msgid "Device \"%1$s\" is not rendered by row \"%2$s\". Valid devices for this row: %3$s."
 msgstr ""
 
 #. translators: 1: column value.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:465
+#: inc/abilities/groups/class-sydney-abilities-hf.php:484
 msgid "Invalid column \"%s\". Use left/center/right or an index."
 msgstr ""
 
 #. translators: 1: component id.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:501
+#: inc/abilities/groups/class-sydney-abilities-hf.php:531
 msgid "Added \"%s\"."
 msgstr ""
 
 #. translators: 1: component id.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:533
+#: inc/abilities/groups/class-sydney-abilities-hf.php:563
 msgid "Removed \"%s\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:557
+#: inc/abilities/groups/class-sydney-abilities-hf.php:587
 msgid "Invalid from_column/to_column. Use left/center/right or an index."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:574
+#: inc/abilities/groups/class-sydney-abilities-hf.php:604
 msgid "Component moved."
 msgstr ""
 
 #. translators: 1: component id, 2: area.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:642, inc/abilities/groups/class-sydney-abilities-hf.php:703
+#: inc/abilities/groups/class-sydney-abilities-hf.php:672, inc/abilities/groups/class-sydney-abilities-hf.php:733
 msgid "Unknown component \"%1$s\" for the %2$s area."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:662
+#: inc/abilities/groups/class-sydney-abilities-hf.php:692
 msgid "Component settings retrieved."
 msgstr ""
 
 #. translators: %s: component id.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:694
+#: inc/abilities/groups/class-sydney-abilities-hf.php:724
 msgid "The \"%s\" component cannot be edited through this ability."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:728
+#: inc/abilities/groups/class-sydney-abilities-hf.php:758
 msgid "No valid component settings were provided."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-hf.php:735
+#: inc/abilities/groups/class-sydney-abilities-hf.php:765
 msgid "Component settings updated."
 msgstr ""
 
 #. translators: %s: comma-separated list of ignored setting keys.
-#: inc/abilities/groups/class-sydney-abilities-hf.php:740
+#: inc/abilities/groups/class-sydney-abilities-hf.php:770
 msgid "Component settings updated. Ignored (not written): %s."
 msgstr ""
 
@@ -4055,20 +4213,20 @@ msgid "Only same-site URLs are allowed (the page must be on this site)."
 msgstr ""
 
 #. translators: %s: error detail.
-#: inc/abilities/groups/class-sydney-abilities-page-structure.php:282
+#: inc/abilities/groups/class-sydney-abilities-page-structure.php:291
 msgid "Could not fetch the page: %s"
 msgstr ""
 
 #. translators: %d: HTTP status code.
-#: inc/abilities/groups/class-sydney-abilities-page-structure.php:287
+#: inc/abilities/groups/class-sydney-abilities-page-structure.php:296
 msgid "The page returned HTTP %d."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-page-structure.php:292
+#: inc/abilities/groups/class-sydney-abilities-page-structure.php:301
 msgid "The URL did not return an HTML page."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-page-structure.php:297
+#: inc/abilities/groups/class-sydney-abilities-page-structure.php:306
 msgid "The page returned an empty body."
 msgstr ""
 
@@ -4148,16 +4306,55 @@ msgstr ""
 msgid "Preloader state retrieved."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-preloader.php:131, inc/abilities/groups/class-sydney-abilities-scrolltop.php:133
+#: inc/abilities/groups/class-sydney-abilities-preloader.php:133, inc/abilities/groups/class-sydney-abilities-scrolltop.php:133
 msgid "A boolean \"enabled\" is required."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-preloader.php:143
+#: inc/abilities/groups/class-sydney-abilities-preloader.php:145
 msgid "Preloader enabled."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-preloader.php:144
+#: inc/abilities/groups/class-sydney-abilities-preloader.php:146
 msgid "Preloader disabled."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:53
+msgid "Get Sydney Pro features"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:54
+msgid "Lists what Sydney Pro adds to this site's free Sydney theme, with an upgrade link. Use when the user asks for something no other sydney/ ability can do, asks about Sydney Pro or pricing, or asks what else the theme can do."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:103
+msgid "Shortcode hero"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:104
+msgid "Use a shortcode, such as a slider plugin's, as the hero on the front page or on other pages."
+msgstr ""
+
+#. translators: %d: number of Sydney Pro features.
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:115
+msgid "%d Sydney Pro feature listed."
+msgid_plural "%d Sydney Pro features listed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:213
+msgid "A header builder component."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:211
+msgid "A footer builder component."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:209
+msgid "A header and footer builder component."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-pro-features.php:207
+msgid "A header builder component that shows a WPML or Polylang language switcher."
 msgstr ""
 
 #: inc/abilities/groups/class-sydney-abilities-scrolltop.php:59
@@ -4196,52 +4393,52 @@ msgstr ""
 msgid "Read the WooCommerce product catalog settings: layout (grid or list), sidebar position, product-card style, which card elements show and in what order, card text alignment, and the add-to-cart button layout. Call before sydney/update-shop."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:159
-msgid "Update shop settings"
-msgstr ""
-
-#: inc/abilities/groups/class-sydney-abilities-shop.php:160
+#: inc/abilities/groups/class-sydney-abilities-shop.php:155
 msgid "Update the WooCommerce product catalog. Provide any subset of fields; omitted fields are left unchanged. layout: grid or list. sidebar: none, left or right. card_style: layout1-3. card_elements is a full-replacement ordered list (title, reviews, price, category, description). add_to_cart_layout: layout1 or layout2."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:238
+#: inc/abilities/groups/class-sydney-abilities-shop.php:163
+msgid "Update shop settings"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-shop.php:242
 msgid "Shop settings retrieved."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:275
+#: inc/abilities/groups/class-sydney-abilities-shop.php:279
 msgid "layout must be \"grid\" or \"list\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:285
+#: inc/abilities/groups/class-sydney-abilities-shop.php:289
 msgid "sidebar must be \"none\", \"left\" or \"right\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:295
+#: inc/abilities/groups/class-sydney-abilities-shop.php:299
 msgid "card_style must be one of layout1, layout2, layout3."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:305
+#: inc/abilities/groups/class-sydney-abilities-shop.php:309
 msgid "card_elements must be an array."
 msgstr ""
 
 #. translators: %s: the invalid card element value.
-#: inc/abilities/groups/class-sydney-abilities-shop.php:314
+#: inc/abilities/groups/class-sydney-abilities-shop.php:318
 msgid "card_elements contains an unsupported value: %s. Valid: title, reviews, price, category, description."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:327
+#: inc/abilities/groups/class-sydney-abilities-shop.php:331
 msgid "card_alignment must be \"left\", \"center\" or \"right\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:337
+#: inc/abilities/groups/class-sydney-abilities-shop.php:341
 msgid "add_to_cart_layout must be \"layout1\" or \"layout2\"."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:346
+#: inc/abilities/groups/class-sydney-abilities-shop.php:350
 msgid "Provide at least one field to update (layout, sidebar, card_style, card_elements, card_alignment, add_to_cart_layout)."
 msgstr ""
 
-#: inc/abilities/groups/class-sydney-abilities-shop.php:353
+#: inc/abilities/groups/class-sydney-abilities-shop.php:357
 msgid "Shop settings updated."
 msgstr ""
 
@@ -4279,6 +4476,66 @@ msgstr ""
 
 #: inc/abilities/groups/class-sydney-abilities-sidebars.php:286
 msgid "Sidebar layout updated."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:83
+msgid "Get Site mode"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:84
+msgid "Read the Coming Soon module state: whether the module is active, the Site mode (off, coming-soon or maintenance), when it was turned on, the Placeholder page visitors see while a mode is on, the designs and builders set-site-mode can create that page with, and other active plugins that run their own coming soon or maintenance mode."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:103
+msgid "Set Site mode"
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:104
+msgid "Turn Coming Soon mode or Maintenance mode on or off, and create or redesign the Placeholder page, as the Sydney dashboard does. While a mode is on, visitors see the Placeholder page on every URL and users who can edit pages see the real site. A mode needs a Placeholder page: when there is none, pass design to create one as a private page, built in the block editor or, with builder elementor, in Elementor. When there is one, pass a design with replace true to overwrite it. Pass mode off with a design to create the page without turning a mode on. get-site-mode lists the designs and builders. Coming Soon is for a site that has not launched or is closed for more than two days; Maintenance is for a short break of up to two days."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:218, inc/abilities/groups/class-sydney-abilities-site-mode.php:236
+msgid "The Coming Soon module is not available."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:222
+msgid "Site mode retrieved."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:242
+msgid "mode must be off, coming-soon or maintenance."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:248
+msgid "builder and replace apply to a design: pass design as well."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:252
+msgid "The Coming Soon module is not active. Activate it on the Sydney dashboard Home tab first."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:259
+msgid "A Placeholder page already exists. Pass replace true to overwrite it with the design, or leave design out to keep it."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:263
+msgid "There is no Placeholder page yet. Pass design to create one."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:284
+msgid "Site mode turned off."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:284
+msgid "Site mode updated."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:282
+msgid "Design applied to the Placeholder page. Site mode is off."
+msgstr ""
+
+#: inc/abilities/groups/class-sydney-abilities-site-mode.php:282
+msgid "Design applied to the Placeholder page and Site mode updated."
 msgstr ""
 
 #: inc/abilities/groups/class-sydney-abilities-social.php:86
@@ -4450,7 +4707,7 @@ msgstr ""
 msgid "Created page \"%1$s\" from %2$d patterns."
 msgstr ""
 
-#: inc/customizer/controls/class_sydney_tab_control.php:41, inc/modules/hf-builder/class-header-footer-builder.php:1577
+#: inc/customizer/controls/class_sydney_tab_control.php:41, inc/modules/hf-builder/class-header-footer-builder.php:1594
 msgid "Style"
 msgstr ""
 
@@ -4462,7 +4719,7 @@ msgstr ""
 msgid "Header alignment"
 msgstr ""
 
-#: inc/customizer/options/blog-single.php:69, inc/customizer/options/blog.php:371, inc/customizer/options/footer.php:163, inc/modules/hf-builder/class-header-footer-builder.php:1588, inc/modules/hf-builder/components/footer/columns/customize-options.php:118, inc/modules/hf-builder/components/header/columns/customize-options.php:120
+#: inc/customizer/options/blog-single.php:69, inc/customizer/options/blog.php:371, inc/customizer/options/footer.php:163, inc/modules/hf-builder/class-header-footer-builder.php:1605, inc/modules/hf-builder/components/footer/columns/customize-options.php:118, inc/modules/hf-builder/components/header/columns/customize-options.php:120
 msgid "Middle"
 msgstr ""
 
@@ -4654,11 +4911,11 @@ msgstr ""
 msgid "Vertical alignment"
 msgstr ""
 
-#: inc/customizer/options/blog.php:370, inc/customizer/options/footer.php:162, inc/modules/hf-builder/class-header-footer-builder.php:1587, inc/customizer/controls/dimensions/class_sydney_dimensions_control.php:59, inc/modules/hf-builder/components/footer/columns/customize-options.php:117, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:168, inc/modules/hf-builder/components/footer/row/customize-options.php:358, inc/modules/hf-builder/components/header/columns/customize-options.php:119, inc/modules/hf-builder/components/header/header-builder/customize-options.php:309, inc/modules/hf-builder/components/header/row/customize-options.php:429
+#: inc/customizer/options/blog.php:370, inc/customizer/options/footer.php:162, inc/modules/hf-builder/class-header-footer-builder.php:1604, inc/customizer/controls/dimensions/class_sydney_dimensions_control.php:59, inc/modules/hf-builder/components/footer/columns/customize-options.php:117, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:168, inc/modules/hf-builder/components/footer/row/customize-options.php:358, inc/modules/hf-builder/components/header/columns/customize-options.php:119, inc/modules/hf-builder/components/header/header-builder/customize-options.php:309, inc/modules/hf-builder/components/header/row/customize-options.php:429
 msgid "Top"
 msgstr ""
 
-#: inc/customizer/options/blog.php:372, inc/customizer/options/footer.php:164, inc/customizer/options/header.php:537, inc/modules/hf-builder/class-header-footer-builder.php:1589, inc/customizer/controls/dimensions/class_sydney_dimensions_control.php:61, inc/modules/hf-builder/components/footer/columns/customize-options.php:119, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:170, inc/modules/hf-builder/components/footer/row/customize-options.php:360, inc/modules/hf-builder/components/header/columns/customize-options.php:121, inc/modules/hf-builder/components/header/header-builder/customize-options.php:311, inc/modules/hf-builder/components/header/row/customize-options.php:431
+#: inc/customizer/options/blog.php:372, inc/customizer/options/footer.php:164, inc/customizer/options/header.php:537, inc/modules/hf-builder/class-header-footer-builder.php:1606, inc/customizer/controls/dimensions/class_sydney_dimensions_control.php:61, inc/modules/hf-builder/components/footer/columns/customize-options.php:119, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:170, inc/modules/hf-builder/components/footer/row/customize-options.php:360, inc/modules/hf-builder/components/header/columns/customize-options.php:121, inc/modules/hf-builder/components/header/header-builder/customize-options.php:311, inc/modules/hf-builder/components/header/row/customize-options.php:431
 msgid "Bottom"
 msgstr ""
 
@@ -5090,7 +5347,7 @@ msgstr ""
 msgid "Icon size"
 msgstr ""
 
-#: inc/customizer/options/general.php:561, inc/customizer/options/header.php:1108, inc/modules/hf-builder/class-header-footer-builder.php:1582, inc/modules/hf-builder/components/footer/columns/customize-options.php:305, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:232, inc/modules/hf-builder/components/footer/row/customize-options.php:477, inc/modules/hf-builder/components/header/columns/customize-options.php:311, inc/modules/hf-builder/components/header/header-builder/customize-options.php:373, inc/modules/hf-builder/components/header/row/customize-options.php:548
+#: inc/customizer/options/general.php:561, inc/customizer/options/header.php:1108, inc/modules/hf-builder/class-header-footer-builder.php:1599, inc/modules/hf-builder/components/footer/columns/customize-options.php:305, inc/modules/hf-builder/components/footer/footer-builder/customize-options.php:232, inc/modules/hf-builder/components/footer/row/customize-options.php:477, inc/modules/hf-builder/components/header/columns/customize-options.php:311, inc/modules/hf-builder/components/header/header-builder/customize-options.php:373, inc/modules/hf-builder/components/header/row/customize-options.php:548
 msgid "Padding"
 msgstr ""
 
@@ -6220,11 +6477,7 @@ msgid "Requires HTML Designer module to be active."
 msgstr ""
 
 #: inc/customizer/upsell/class-customize.php:76
-msgid "Want more customization options?"
-msgstr ""
-
-#: inc/customizer/upsell/class-customize.php:77
-msgid "Buy Sydney Pro"
+msgid "View Pro Features"
 msgstr ""
 
 #: inc/integrations/elementor/class-sydney-elementor-global-colors.php:113
@@ -6407,287 +6660,388 @@ msgstr ""
 msgid "[aThemes Posts] See all button text"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:110, inc/modules/hf-builder/class-header-footer-builder.php:150
+#: inc/modules/coming-soon/class-sydney-coming-soon-admin.php:110
+msgid "Maintenance mode has been on for more than two days. For a longer closure, switch to Coming Soon mode: search engines treat a long run of maintenance responses as a site that is down."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon-admin.php:112
+msgid "Change Site mode"
+msgstr ""
+
+#. translators: %s: Site mode name, such as "Coming Soon mode".
+#: inc/modules/coming-soon/class-sydney-coming-soon-admin.php:131
+msgid "%s is on. Switching to a theme other than Sydney turns the placeholder page off, and visitors will see your site."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon-gate.php:580
+msgid "Down for maintenance. Please check back soon."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon-gate.php:580
+msgid "Coming soon."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon-gate.php:597, inc/modules/coming-soon/template-placeholder.php:41
+msgid "Log in"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:231
+msgid "Pick a published, draft or private page."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:242
+msgid "Unknown Site mode."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:257
+msgid "Create or pick a placeholder page first."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:494
+msgid "This builder is not available."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:500
+msgid "Unknown design."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:504
+msgid "This design is only available on Sydney Pro."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:510, inc/modules/coming-soon/class-sydney-coming-soon.php:524
+msgid "This design has no content for this builder."
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:634
+msgid "Private"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:632
+msgid "Draft"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:641
+msgid "(no title)"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:657
+msgid "Coming Soon mode"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:661
+msgid "Maintenance mode"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:727
+msgid "Elementor maintenance mode"
+msgstr ""
+
+#: inc/modules/coming-soon/class-sydney-coming-soon.php:731
+msgid "WooCommerce coming soon mode"
+msgstr ""
+
+#: inc/modules/coming-soon/designs.php:21
+msgid "Starter"
+msgstr ""
+
+#: inc/modules/coming-soon/designs.php:26
+msgid "Launch"
+msgstr ""
+
+#: inc/modules/coming-soon/designs.php:31
+msgid "Spotlight"
+msgstr ""
+
+#: inc/modules/coming-soon/designs.php:36
+msgid "Studio"
+msgstr ""
+
+#: inc/modules/hf-builder/class-header-footer-builder.php:113, inc/modules/hf-builder/class-header-footer-builder.php:153
 msgid "Site Identity"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:118, inc/modules/hf-builder/class-header-footer-builder.php:158, inc/modules/hf-builder/components/header/contact-info/customize-options.php:25
+#: inc/modules/hf-builder/class-header-footer-builder.php:121, inc/modules/hf-builder/class-header-footer-builder.php:161, inc/modules/hf-builder/components/header/contact-info/customize-options.php:25
 msgid "Contact Info"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:130
+#: inc/modules/hf-builder/class-header-footer-builder.php:133
 msgid "Off-Canvas Menu"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:138, inc/modules/hf-builder/components/header/mobile-hamburger/customize-options.php:24
+#: inc/modules/hf-builder/class-header-footer-builder.php:141, inc/modules/hf-builder/components/header/mobile-hamburger/customize-options.php:24
 msgid "Menu Toggle"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:170, inc/modules/hf-builder/class-header-footer-builder.php:175, inc/modules/hf-builder/components/header/wc-icons/customize-options.php:29
+#: inc/modules/hf-builder/class-header-footer-builder.php:173, inc/modules/hf-builder/class-header-footer-builder.php:178, inc/modules/hf-builder/components/header/wc-icons/customize-options.php:29
 msgid "WooCommerce Icons"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:183, inc/modules/hf-builder/components/footer/copyright/customize-options.php:24
+#: inc/modules/hf-builder/class-header-footer-builder.php:186, inc/modules/hf-builder/components/footer/copyright/customize-options.php:24
 msgid "Copyright"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:191, inc/modules/hf-builder/components/footer/button/customize-options.php:14
+#: inc/modules/hf-builder/class-header-footer-builder.php:194, inc/modules/hf-builder/components/footer/button/customize-options.php:14
 msgid "Button 1"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:199, inc/modules/hf-builder/components/footer/widget-1/customize-options.php:14
+#: inc/modules/hf-builder/class-header-footer-builder.php:202, inc/modules/hf-builder/components/footer/widget-1/customize-options.php:14
 msgid "Widget Area 1"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:203, inc/modules/hf-builder/components/footer/widget-2/customize-options.php:14
+#: inc/modules/hf-builder/class-header-footer-builder.php:206, inc/modules/hf-builder/components/footer/widget-2/customize-options.php:14
 msgid "Widget Area 2"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:207, inc/modules/hf-builder/components/footer/widget-3/customize-options.php:14
+#: inc/modules/hf-builder/class-header-footer-builder.php:210, inc/modules/hf-builder/components/footer/widget-3/customize-options.php:14
 msgid "Widget Area 3"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:211, inc/modules/hf-builder/components/footer/widget-4/customize-options.php:14
+#: inc/modules/hf-builder/class-header-footer-builder.php:214, inc/modules/hf-builder/components/footer/widget-4/customize-options.php:14
 msgid "Widget Area 4"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:219, inc/modules/hf-builder/class-header-footer-builder.php:262
+#: inc/modules/hf-builder/class-header-footer-builder.php:222, inc/modules/hf-builder/class-header-footer-builder.php:265
 msgid "Button 2"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:224, inc/modules/hf-builder/class-header-footer-builder.php:257
+#: inc/modules/hf-builder/class-header-footer-builder.php:227, inc/modules/hf-builder/class-header-footer-builder.php:260
 msgid "HTML 2"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:229, inc/modules/hf-builder/class-header-footer-builder.php:267
+#: inc/modules/hf-builder/class-header-footer-builder.php:232, inc/modules/hf-builder/class-header-footer-builder.php:270
 msgid "Shortcode"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:233
+#: inc/modules/hf-builder/class-header-footer-builder.php:236
 msgid "Shortcode 2"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:237
+#: inc/modules/hf-builder/class-header-footer-builder.php:240
 msgid "Shortcode 3"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:241
+#: inc/modules/hf-builder/class-header-footer-builder.php:244
 msgid "Dark Mode Switch"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:245
+#: inc/modules/hf-builder/class-header-footer-builder.php:248
 msgid "Language Switcher"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:253
+#: inc/modules/hf-builder/class-header-footer-builder.php:256
 msgid "Footer Menu"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:275, inc/modules/hf-builder/class-header-footer-builder.php:300, inc/modules/hf-builder/class-header-footer-builder.php:476, inc/modules/hf-builder/class-header-footer-builder.php:566
+#: inc/modules/hf-builder/class-header-footer-builder.php:278, inc/modules/hf-builder/class-header-footer-builder.php:303, inc/modules/hf-builder/class-header-footer-builder.php:479, inc/modules/hf-builder/class-header-footer-builder.php:569
 msgid "Top Row"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:276, inc/modules/hf-builder/class-header-footer-builder.php:477
+#: inc/modules/hf-builder/class-header-footer-builder.php:279, inc/modules/hf-builder/class-header-footer-builder.php:480
 msgid "The settings from the first row from header builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:282, inc/modules/hf-builder/class-header-footer-builder.php:307, inc/modules/hf-builder/class-header-footer-builder.php:489, inc/modules/hf-builder/class-header-footer-builder.php:579, inc/modules/hf-builder/components/header/header-builder/customize-options.php:138
+#: inc/modules/hf-builder/class-header-footer-builder.php:285, inc/modules/hf-builder/class-header-footer-builder.php:310, inc/modules/hf-builder/class-header-footer-builder.php:492, inc/modules/hf-builder/class-header-footer-builder.php:582, inc/modules/hf-builder/components/header/header-builder/customize-options.php:138
 msgid "Main Row"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:283, inc/modules/hf-builder/class-header-footer-builder.php:490
+#: inc/modules/hf-builder/class-header-footer-builder.php:286, inc/modules/hf-builder/class-header-footer-builder.php:493
 msgid "The settings from the second row from header builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:289, inc/modules/hf-builder/class-header-footer-builder.php:314, inc/modules/hf-builder/class-header-footer-builder.php:502, inc/modules/hf-builder/class-header-footer-builder.php:592, inc/modules/hf-builder/components/header/header-builder/customize-options.php:139
+#: inc/modules/hf-builder/class-header-footer-builder.php:292, inc/modules/hf-builder/class-header-footer-builder.php:317, inc/modules/hf-builder/class-header-footer-builder.php:505, inc/modules/hf-builder/class-header-footer-builder.php:595, inc/modules/hf-builder/components/header/header-builder/customize-options.php:139
 msgid "Bottom Row"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:290, inc/modules/hf-builder/class-header-footer-builder.php:503
+#: inc/modules/hf-builder/class-header-footer-builder.php:293, inc/modules/hf-builder/class-header-footer-builder.php:506
 msgid "The settings from the third row from header builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:301, inc/modules/hf-builder/class-header-footer-builder.php:567
+#: inc/modules/hf-builder/class-header-footer-builder.php:304, inc/modules/hf-builder/class-header-footer-builder.php:570
 msgid "The settings from the first row from footer builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:308, inc/modules/hf-builder/class-header-footer-builder.php:580
+#: inc/modules/hf-builder/class-header-footer-builder.php:311, inc/modules/hf-builder/class-header-footer-builder.php:583
 msgid "The settings from the second row from footer builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:315, inc/modules/hf-builder/class-header-footer-builder.php:593
+#: inc/modules/hf-builder/class-header-footer-builder.php:318, inc/modules/hf-builder/class-header-footer-builder.php:596
 msgid "The settings from the third row from footer builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:384
+#: inc/modules/hf-builder/class-header-footer-builder.php:387
 msgid "PRO Components"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:386
+#: inc/modules/hf-builder/class-header-footer-builder.php:389
 msgid "Add shortcodes, a second button, a language switcher or a dark mode switch to any row."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:387
+#: inc/modules/hf-builder/class-header-footer-builder.php:390
 msgid "Add a footer menu, a shortcode, a second button or a second HTML block to any row."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:390
+#: inc/modules/hf-builder/class-header-footer-builder.php:393
 msgid "You're using every free header component. Sydney Pro adds up to 8 more: a second button, a second HTML block, 3 shortcode slots, WPML/Polylang switchers and a dark mode switch."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:391
+#: inc/modules/hf-builder/class-header-footer-builder.php:394
 msgid "You're using every free footer component. Sydney Pro adds 4 more: a footer menu, a second button, a second HTML block and a shortcode slot."
 msgstr ""
 
 #. translators: %s: name of a free header or footer component, e.g. Button
-#: inc/modules/hf-builder/class-header-footer-builder.php:394
+#: inc/modules/hf-builder/class-header-footer-builder.php:397
 msgid "You're already using %s. Sydney Pro adds a second one."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:401
+#: inc/modules/hf-builder/class-header-footer-builder.php:404
 msgid "It looks like you already are using all available components."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:465
+#: inc/modules/hf-builder/class-header-footer-builder.php:468
 msgid "Powerful drag and drop tool to build your own header."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:515, inc/modules/hf-builder/components/header/mobile-offcanvas/customize-options.php:36
+#: inc/modules/hf-builder/class-header-footer-builder.php:518, inc/modules/hf-builder/components/header/mobile-offcanvas/customize-options.php:36
 msgid "Mobile Offcanvas"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:516
+#: inc/modules/hf-builder/class-header-footer-builder.php:519
 msgid "The settings from the mobile offcanvas from header builder."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:555
+#: inc/modules/hf-builder/class-header-footer-builder.php:558
 msgid "Powerful drag and drop tool to build your own footer."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:842, inc/modules/hf-builder/class-header-footer-builder.php:843, inc/modules/hf-builder/class-header-footer-builder.php:863, inc/modules/hf-builder/class-header-footer-builder.php:864
+#: inc/modules/hf-builder/class-header-footer-builder.php:845, inc/modules/hf-builder/class-header-footer-builder.php:846, inc/modules/hf-builder/class-header-footer-builder.php:866, inc/modules/hf-builder/class-header-footer-builder.php:867
 msgid "Click to edit this element."
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:883
+#: inc/modules/hf-builder/class-header-footer-builder.php:886
 msgid "Desktop"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:889
+#: inc/modules/hf-builder/class-header-footer-builder.php:892
 msgid "Tablet/Mobile"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:909, inc/modules/hf-builder/class-header-footer-builder.php:965
+#: inc/modules/hf-builder/class-header-footer-builder.php:912, inc/modules/hf-builder/class-header-footer-builder.php:968
 msgid "TOP ROW"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:922, inc/modules/hf-builder/class-header-footer-builder.php:978
+#: inc/modules/hf-builder/class-header-footer-builder.php:925, inc/modules/hf-builder/class-header-footer-builder.php:981
 msgid "MAIN ROW"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:935, inc/modules/hf-builder/class-header-footer-builder.php:991
+#: inc/modules/hf-builder/class-header-footer-builder.php:938, inc/modules/hf-builder/class-header-footer-builder.php:994
 msgid "BOTTOM ROW"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:951
+#: inc/modules/hf-builder/class-header-footer-builder.php:954
 msgid "OFFCANVAS"
 msgstr ""
 
 #. translators: %s: link to Sydney Pro
-#: inc/modules/hf-builder/class-header-footer-builder.php:1010
+#: inc/modules/hf-builder/class-header-footer-builder.php:1013
 msgid "Add a footer menu, a shortcode or a second button with %s"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1007
+#: inc/modules/hf-builder/class-header-footer-builder.php:1010
 msgid "Add shortcodes, a second button, a language switcher or a dark mode switch with %s"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1020
+#: inc/modules/hf-builder/class-header-footer-builder.php:1023
 msgid "Show"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1024
+#: inc/modules/hf-builder/class-header-footer-builder.php:1027
 msgid "Hide"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1209
+#: inc/modules/hf-builder/class-header-footer-builder.php:1226
 msgid "Close mobile menu"
 msgstr ""
 
 #. translators: %s: column number.
 #. translators: 1: column number.
-#: inc/modules/hf-builder/class-header-footer-builder.php:1572, inc/modules/hf-builder/components/footer/columns/customize-options.php:30, inc/modules/hf-builder/components/footer/row/customize-options.php:236, inc/modules/hf-builder/components/header/columns/customize-options.php:30, inc/modules/hf-builder/components/header/row/customize-options.php:273
+#: inc/modules/hf-builder/class-header-footer-builder.php:1589, inc/modules/hf-builder/components/footer/columns/customize-options.php:30, inc/modules/hf-builder/components/footer/row/customize-options.php:236, inc/modules/hf-builder/components/header/columns/customize-options.php:30, inc/modules/hf-builder/components/header/row/customize-options.php:273
 msgid "Column %s"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1578, inc/modules/hf-builder/components/footer/columns/customize-options.php:108, inc/modules/hf-builder/components/header/columns/customize-options.php:110
+#: inc/modules/hf-builder/class-header-footer-builder.php:1595, inc/modules/hf-builder/components/footer/columns/customize-options.php:108, inc/modules/hf-builder/components/header/columns/customize-options.php:110
 msgid "Vertical Alignment"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1579, inc/modules/hf-builder/components/footer/columns/customize-options.php:156, inc/modules/hf-builder/components/header/columns/customize-options.php:160
+#: inc/modules/hf-builder/class-header-footer-builder.php:1596, inc/modules/hf-builder/components/footer/columns/customize-options.php:156, inc/modules/hf-builder/components/header/columns/customize-options.php:160
 msgid "Inner Elements Layout"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1580, inc/modules/hf-builder/components/footer/columns/customize-options.php:203, inc/modules/hf-builder/components/header/columns/customize-options.php:209
+#: inc/modules/hf-builder/class-header-footer-builder.php:1597, inc/modules/hf-builder/components/footer/columns/customize-options.php:203, inc/modules/hf-builder/components/header/columns/customize-options.php:209
 msgid "Horizontal Alignment"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1581, inc/modules/hf-builder/components/footer/columns/customize-options.php:252, inc/modules/hf-builder/components/header/columns/customize-options.php:258
+#: inc/modules/hf-builder/class-header-footer-builder.php:1598, inc/modules/hf-builder/components/footer/columns/customize-options.php:252, inc/modules/hf-builder/components/header/columns/customize-options.php:258
 msgid "Elements Spacing"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1583, inc/modules/hf-builder/components/footer/columns/customize-options.php:356, inc/modules/hf-builder/components/footer/row/customize-options.php:528, inc/modules/hf-builder/components/header/columns/customize-options.php:362, inc/modules/hf-builder/components/header/row/customize-options.php:599
+#: inc/modules/hf-builder/class-header-footer-builder.php:1600, inc/modules/hf-builder/components/footer/columns/customize-options.php:356, inc/modules/hf-builder/components/footer/row/customize-options.php:528, inc/modules/hf-builder/components/header/columns/customize-options.php:362, inc/modules/hf-builder/components/header/row/customize-options.php:599
 msgid "Margin"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1592, inc/modules/hf-builder/components/footer/columns/customize-options.php:165, inc/modules/hf-builder/components/header/columns/customize-options.php:169
+#: inc/modules/hf-builder/class-header-footer-builder.php:1609, inc/modules/hf-builder/components/footer/columns/customize-options.php:165, inc/modules/hf-builder/components/header/columns/customize-options.php:169
 msgid "Stack"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1596, inc/modules/hf-builder/components/footer/columns/customize-options.php:212, inc/modules/hf-builder/components/header/columns/customize-options.php:218
+#: inc/modules/hf-builder/class-header-footer-builder.php:1613, inc/modules/hf-builder/components/footer/columns/customize-options.php:212, inc/modules/hf-builder/components/header/columns/customize-options.php:218
 msgid "Start"
 msgstr ""
 
-#: inc/modules/hf-builder/class-header-footer-builder.php:1598, inc/modules/hf-builder/components/footer/columns/customize-options.php:214, inc/modules/hf-builder/components/header/columns/customize-options.php:220
+#: inc/modules/hf-builder/class-header-footer-builder.php:1615, inc/modules/hf-builder/components/footer/columns/customize-options.php:214, inc/modules/hf-builder/components/header/columns/customize-options.php:220
 msgid "End"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:199
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:245
 msgid "Hero"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:202
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:246
+msgid "Page Header"
+msgstr ""
+
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:249
 msgid "Features"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:203
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:250
 msgid "CTA"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:204
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:251
 msgid "Testimonials"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:205
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:252
 msgid "Team"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:206
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:253
 msgid "Pricing"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:207
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:254
 msgid "Gallery"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:209
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:256
 msgid "Stats"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:210
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:257, inc/modules/pattern-library/class-sydney-pattern-library.php:466
 msgid "Contact"
 msgstr ""
 
-#: inc/modules/pattern-library/class-sydney-pattern-library.php:572
+#: inc/modules/pattern-library/class-sydney-pattern-library.php:907
 msgid "Invalid pattern name."
 msgstr ""
 
@@ -6993,20 +7347,52 @@ msgstr ""
 msgid "Search Templates:"
 msgstr ""
 
-#: inc/integrations/elementor/library/templates.php:114
-msgid "Preview"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/about.php:11
+#: inc/modules/pattern-library/full-pages/about.php:16, inc/modules/pattern-library/patterns/about.php:11
 msgid "About 1"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:39
+#: inc/modules/pattern-library/full-pages/about.php:50, inc/modules/pattern-library/patterns/about.php:39
 msgid "About 2"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:67
+#: inc/modules/pattern-library/full-pages/about.php:84, inc/modules/pattern-library/patterns/about.php:67
 msgid "About 3"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/contact.php:16, inc/modules/pattern-library/patterns/contact.php:13
+msgid "Contact 1"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/contact.php:38, inc/modules/pattern-library/patterns/contact.php:90
+msgid "Contact 2"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/contact.php:60, inc/modules/pattern-library/patterns/contact.php:159
+msgid "Contact 3"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/home.php:16
+msgid "Home 1"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/home.php:50
+msgid "Home 2"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/home.php:80
+msgid "Home 3"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/services.php:16, inc/modules/pattern-library/patterns/services.php:12
+msgid "Services 1"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/services.php:46, inc/modules/pattern-library/patterns/services.php:143
+msgid "Services 2"
+msgstr ""
+
+#: inc/modules/pattern-library/full-pages/services.php:80, inc/modules/pattern-library/patterns-extra/services.php:14
+msgid "Services 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/about.php:95
@@ -7018,46 +7404,38 @@ msgid "About 5"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/about.php:173
-msgid "About 6"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/about.php:247
 msgid "About 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:317
+#: inc/modules/pattern-library/patterns/about.php:245
 msgid "About 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:349
+#: inc/modules/pattern-library/patterns/about.php:277
 msgid "About 9"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:387
+#: inc/modules/pattern-library/patterns/about.php:315
 msgid "About 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:457
-msgid "About 11"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/about.php:537
+#: inc/modules/pattern-library/patterns/about.php:385
 msgid "About 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:609
+#: inc/modules/pattern-library/patterns/about.php:457
 msgid "About 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:651
+#: inc/modules/pattern-library/patterns/about.php:499
 msgid "About 14"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:699
+#: inc/modules/pattern-library/patterns/about.php:543
 msgid "About 15"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/about.php:767
+#: inc/modules/pattern-library/patterns/about.php:611
 msgid "About 16"
 msgstr ""
 
@@ -7074,174 +7452,122 @@ msgid "Blog 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/blog.php:148
-msgid "Blog 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/blog.php:192
 msgid "Blog 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/blog.php:241
-msgid "Blog 6"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/blog.php:285
+#: inc/modules/pattern-library/patterns/blog.php:197
 msgid "Blog 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/blog.php:321
+#: inc/modules/pattern-library/patterns/blog.php:233
 msgid "Blog 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:13
-msgid "Contact 1"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/contact.php:91
-msgid "Contact 2"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/contact.php:162
-msgid "Contact 3"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/contact.php:254
+#: inc/modules/pattern-library/patterns/contact.php:249
 msgid "Contact 4"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:351
+#: inc/modules/pattern-library/patterns/contact.php:345
 msgid "Contact 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:443
-msgid "Contact 6"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/contact.php:508
+#: inc/modules/pattern-library/patterns/contact.php:437
 msgid "Contact 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:588
+#: inc/modules/pattern-library/patterns/contact.php:517
 msgid "Contact 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:668
+#: inc/modules/pattern-library/patterns/contact.php:597
 msgid "Contact 9"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:739
+#: inc/modules/pattern-library/patterns/contact.php:667
 msgid "Contact 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:808
-msgid "Contact 11"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/contact.php:892
+#: inc/modules/pattern-library/patterns/contact.php:735
 msgid "Contact 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:910
+#: inc/modules/pattern-library/patterns/contact.php:753
 msgid "Contact 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/contact.php:974
+#: inc/modules/pattern-library/patterns/contact.php:817
 msgid "Contact 14"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:13
+#: inc/modules/pattern-library/patterns/cta.php:12
 msgid "CTA 1"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:44
-msgid "CTA 2"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/cta.php:71
+#: inc/modules/pattern-library/patterns/cta.php:45
 msgid "CTA 3"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:125
+#: inc/modules/pattern-library/patterns/cta.php:99
 msgid "CTA 4"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:155
+#: inc/modules/pattern-library/patterns/cta.php:129
 msgid "CTA 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:193
+#: inc/modules/pattern-library/patterns/cta.php:167
 msgid "CTA 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:219
+#: inc/modules/pattern-library/patterns/cta.php:193
 msgid "CTA 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:249
-msgid "CTA 8"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/cta.php:297
-msgid "CTA 9"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/cta.php:373
+#: inc/modules/pattern-library/patterns/cta.php:223
 msgid "CTA 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:411
+#: inc/modules/pattern-library/patterns/cta.php:261
 msgid "CTA 11"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:443
+#: inc/modules/pattern-library/patterns/cta.php:293
 msgid "CTA 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:467
+#: inc/modules/pattern-library/patterns/cta.php:317
 msgid "CTA 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:498
-msgid "CTA 14"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/cta.php:524
+#: inc/modules/pattern-library/patterns/cta.php:347
 msgid "CTA 15"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:554
+#: inc/modules/pattern-library/patterns/cta.php:377
 msgid "CTA 16"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:582
+#: inc/modules/pattern-library/patterns/cta.php:404
 msgid "CTA 17"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:621
+#: inc/modules/pattern-library/patterns/cta.php:443
 msgid "CTA 18"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/cta.php:656
-msgid "CTA 19"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/features.php:12
+#: inc/modules/pattern-library/patterns/features.php:11
 msgid "Features 1"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/features.php:106
+#: inc/modules/pattern-library/patterns/features.php:105
 msgid "Features 2"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/features.php:189
+#: inc/modules/pattern-library/patterns/features.php:188
 msgid "Features 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/features.php:264
-msgid "Features 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/features.php:321
 msgid "Features 5"
 msgstr ""
 
@@ -7250,58 +7576,46 @@ msgid "Gallery 1"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/gallery.php:60
-msgid "Gallery 2"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/gallery.php:115
 msgid "Gallery 3"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:160
-msgid "Gallery 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/gallery.php:242
+#: inc/modules/pattern-library/patterns/gallery.php:104
 msgid "Gallery 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:329
+#: inc/modules/pattern-library/patterns/gallery.php:191
 msgid "Gallery 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:385
+#: inc/modules/pattern-library/patterns/gallery.php:247
 msgid "Gallery 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:431
-msgid "Gallery 8"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/gallery.php:485
+#: inc/modules/pattern-library/patterns/gallery.php:293
 msgid "Gallery 9"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:533
+#: inc/modules/pattern-library/patterns/gallery.php:341
 msgid "Gallery 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:588
+#: inc/modules/pattern-library/patterns/gallery.php:396
 msgid "Gallery 11"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:638
+#: inc/modules/pattern-library/patterns/gallery.php:446
 msgid "Gallery 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:720
+#: inc/modules/pattern-library/patterns/gallery.php:528
 msgid "Gallery 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:795
+#: inc/modules/pattern-library/patterns/gallery.php:603
 msgid "Gallery 14"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/gallery.php:845
+#: inc/modules/pattern-library/patterns/gallery.php:653
 msgid "Gallery 15"
 msgstr ""
 
@@ -7318,95 +7632,83 @@ msgid "Hero 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/hero.php:97
-msgid "Hero 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/hero.php:156
 msgid "Hero 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:208
+#: inc/modules/pattern-library/patterns/hero.php:149
 msgid "Hero 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:278
+#: inc/modules/pattern-library/patterns/hero.php:219
 msgid "Hero 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:331
-msgid "Hero 8"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/hero.php:428
+#: inc/modules/pattern-library/patterns/hero.php:273
 msgid "Hero 9"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:499
-msgid "Hero 10"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/hero.php:586
+#: inc/modules/pattern-library/patterns/hero.php:347
 msgid "Hero 11"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:626
+#: inc/modules/pattern-library/patterns/hero.php:387
 msgid "Hero 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:690
-msgid "Hero 13"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/hero.php:750
+#: inc/modules/pattern-library/patterns/hero.php:451
 msgid "Hero 14"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:814
+#: inc/modules/pattern-library/patterns/hero.php:515
 msgid "Hero 15"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:878
+#: inc/modules/pattern-library/patterns/hero.php:579
 msgid "Hero 16"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:938
+#: inc/modules/pattern-library/patterns/hero.php:639
 msgid "Hero 17"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:998
+#: inc/modules/pattern-library/patterns/hero.php:699
 msgid "Hero 18"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1032
+#: inc/modules/pattern-library/patterns/hero.php:733
 msgid "Hero 19"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1080
+#: inc/modules/pattern-library/patterns/hero.php:781
 msgid "Hero 20"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1122
+#: inc/modules/pattern-library/patterns/hero.php:823
 msgid "Hero 21"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1156
+#: inc/modules/pattern-library/patterns/hero.php:857
 msgid "Hero 22"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1218
-msgid "Hero 23"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/hero.php:1257
+#: inc/modules/pattern-library/patterns/hero.php:919
 msgid "Hero 24"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1325
+#: inc/modules/pattern-library/patterns/hero.php:986
 msgid "Hero 25"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/hero.php:1365
-msgid "Hero 26"
+#: inc/modules/pattern-library/patterns/page-header.php:12
+msgid "Page Header 1"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns/page-header.php:31
+msgid "Page Header 2"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns/page-header.php:55
+msgid "Page Header 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/pricing.php:12
@@ -7417,91 +7719,63 @@ msgstr ""
 msgid "Pricing 2"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:13
-msgid "Services 1"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:144
-msgid "Services 2"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:275
-msgid "Services 3"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:375
-msgid "Services 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:463
+#: inc/modules/pattern-library/patterns/services.php:274
 msgid "Services 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:535
+#: inc/modules/pattern-library/patterns/services.php:346
 msgid "Services 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:622
+#: inc/modules/pattern-library/patterns/services.php:432
 msgid "Services 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:756
+#: inc/modules/pattern-library/patterns/services.php:566
 msgid "Services 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:902
+#: inc/modules/pattern-library/patterns/services.php:712
 msgid "Services 9"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1010
+#: inc/modules/pattern-library/patterns/services.php:820
 msgid "Services 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1084
+#: inc/modules/pattern-library/patterns/services.php:894
 msgid "Services 11"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1152
+#: inc/modules/pattern-library/patterns/services.php:962
 msgid "Services 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1286
+#: inc/modules/pattern-library/patterns/services.php:1096
 msgid "Services 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1384
+#: inc/modules/pattern-library/patterns/services.php:1194
 msgid "Services 14"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1502
-msgid "Services 15"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:1592
+#: inc/modules/pattern-library/patterns/services.php:1312
 msgid "Services 16"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1674
+#: inc/modules/pattern-library/patterns/services.php:1394
 msgid "Services 17"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1751
-msgid "Services 18"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:1833
+#: inc/modules/pattern-library/patterns/services.php:1470
 msgid "Services 19"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:1924
+#: inc/modules/pattern-library/patterns/services.php:1560
 msgid "Services 20"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/services.php:2032
-msgid "Services 21"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/services.php:2162
+#: inc/modules/pattern-library/patterns/services.php:1668
 msgid "Services 22"
 msgstr ""
 
@@ -7530,46 +7804,30 @@ msgid "Stats 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/stats.php:246
-msgid "Stats 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/stats.php:312
 msgid "Stats 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:382
+#: inc/modules/pattern-library/patterns/stats.php:316
 msgid "Stats 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:456
+#: inc/modules/pattern-library/patterns/stats.php:390
 msgid "Stats 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:533
+#: inc/modules/pattern-library/patterns/stats.php:467
 msgid "Stats 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:595
-msgid "Stats 9"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/stats.php:661
+#: inc/modules/pattern-library/patterns/stats.php:529
 msgid "Stats 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:713
-msgid "Stats 11"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/stats.php:765
-msgid "Stats 12"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/stats.php:836
+#: inc/modules/pattern-library/patterns/stats.php:582
 msgid "Stats 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/stats.php:910
+#: inc/modules/pattern-library/patterns/stats.php:656
 msgid "Stats 14"
 msgstr ""
 
@@ -7586,26 +7844,18 @@ msgid "Team 3"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/team.php:289
-msgid "Team 4"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/team.php:405
 msgid "Team 5"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/team.php:491
+#: inc/modules/pattern-library/patterns/team.php:375
 msgid "Team 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/team.php:601
+#: inc/modules/pattern-library/patterns/team.php:485
 msgid "Team 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/team.php:708
-msgid "Team 8"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/team.php:812
+#: inc/modules/pattern-library/patterns/team.php:591
 msgid "Team 9"
 msgstr ""
 
@@ -7618,51 +7868,239 @@ msgid "Testimonials 2"
 msgstr ""
 
 #: inc/modules/pattern-library/patterns/testimonials.php:211
-msgid "Testimonials 3"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/testimonials.php:255
 msgid "Testimonials 4"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:365
-msgid "Testimonials 5"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/testimonials.php:421
+#: inc/modules/pattern-library/patterns/testimonials.php:321
 msgid "Testimonials 6"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:539
+#: inc/modules/pattern-library/patterns/testimonials.php:439
 msgid "Testimonials 7"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:575
+#: inc/modules/pattern-library/patterns/testimonials.php:475
 msgid "Testimonials 8"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:659
-msgid "Testimonials 9"
-msgstr ""
-
-#: inc/modules/pattern-library/patterns/testimonials.php:734
+#: inc/modules/pattern-library/patterns/testimonials.php:559
 msgid "Testimonials 10"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:834
+#: inc/modules/pattern-library/patterns/testimonials.php:659
 msgid "Testimonials 11"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:870
+#: inc/modules/pattern-library/patterns/testimonials.php:695
 msgid "Testimonials 12"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:1024
+#: inc/modules/pattern-library/patterns/testimonials.php:849
 msgid "Testimonials 13"
 msgstr ""
 
-#: inc/modules/pattern-library/patterns/testimonials.php:1090
+#: inc/modules/pattern-library/patterns-extra/about.php:14
+msgid "About 6"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/about.php:86
+msgid "About 11"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/about.php:165
+msgid "About 17"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/blog.php:14
+msgid "Blog 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/blog.php:56
+msgid "Blog 6"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/blog.php:99
+msgid "Blog 9"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/blog.php:140
+msgid "Blog 10"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/contact.php:15
+msgid "Contact 6"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/contact.php:78
+msgid "Contact 11"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:14
+msgid "CTA 8"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:60
+msgid "CTA 9"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:134
+msgid "CTA 19"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:215
+msgid "CTA 20"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:282
+msgid "CTA 21"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:317
+msgid "CTA 22"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/cta.php:402
+msgid "CTA 23"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/features.php:14
+msgid "Features 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/features.php:65
+msgid "Features 6"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/gallery.php:15
+msgid "Gallery 2"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/gallery.php:59
+msgid "Gallery 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/gallery.php:139
+msgid "Gallery 8"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/gallery.php:192
+msgid "Gallery 16"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/hero.php:14
+msgid "Hero 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/hero.php:70
+msgid "Hero 8"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/hero.php:164
+msgid "Hero 10"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/hero.php:246
+msgid "Hero 13"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/hero.php:306
+msgid "Hero 23"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/page-header.php:15
+msgid "Page Header 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/pricing.php:15
+msgid "Pricing 3"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/pricing.php:316
+msgid "Pricing 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/pricing.php:403
+msgid "Pricing 5"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/pricing.php:564
+msgid "Pricing 6"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/services.php:112
+msgid "Services 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/services.php:198
+msgid "Services 15"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/services.php:286
+msgid "Services 18"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/services.php:367
+msgid "Services 23"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/services.php:476
+msgid "Services 24"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/stats.php:14
+msgid "Stats 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/stats.php:78
+msgid "Stats 12"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/stats.php:147
+msgid "Stats 15"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/stats.php:270
+msgid "Stats 16"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/team.php:14
+msgid "Team 4"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/team.php:128
+msgid "Team 8"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/team.php:231
+msgid "Team 10"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/team.php:342
+msgid "Team 11"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:14
+msgid "Testimonials 3"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:56
+msgid "Testimonials 5"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:110
+msgid "Testimonials 9"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:182
 msgid "Testimonials 14"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:319
+msgid "Testimonials 15"
+msgstr ""
+
+#: inc/modules/pattern-library/patterns-extra/testimonials.php:360
+msgid "Testimonials 16"
 msgstr ""
 
 #: inc/modules/hf-builder/components/footer/button/customize-options.php:97

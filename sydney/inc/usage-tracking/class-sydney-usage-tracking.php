@@ -126,7 +126,7 @@ class Sydney_Usage_Tracking {
 			$version .= ' Pro/' . SYDNEY_PRO_VERSION;
 		}
 
-		return 'aThemes Sydney/' . $version . '; ' . get_bloginfo( 'url' );
+		return 'aThemes Sydney/' . $version . '; ' . home_url();
 	}
 
 	/**
@@ -182,6 +182,7 @@ class Sydney_Usage_Tracking {
 			'athemes_sydney_pro_installed_date'  => $is_pro ? $this->get_installed_date( 'pro' ) : '',
 			'athemes_sydney_pro_upgrade_date'    => (int) get_option( 'sydney_pro_upgrade_date', 0 ),
 			'athemes_sydney_pro_upgrade_source'  => (string) get_option( 'sydney_pro_upgrade_source', '' ),
+			'athemes_sydney_current_starter'     => (string) get_option( 'atts_current_starter', '' ),
 			'athemes_sydney_active_modules'      => $this->get_active_modules(),
 			'athemes_sydney_settings'            => $this->get_settings(),
 			'athemes_sydney_block_editor_enabled' => (int) $this->is_block_editor_enabled(),

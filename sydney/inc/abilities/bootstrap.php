@@ -10,8 +10,10 @@
  * API actually initializes. Finally it exposes Sydney's two gating
  * decisions to the multi-theme athemes-starter-sites plugin via cross-repo
  * filters (see docs/adr/0003-starter-sites-abilities-gating.md); harmless when
- * the plugin is absent. Ability runs are counted for usage tracking: the
- * reporting filter is added before the gates, the counters on init after them.
+ * the plugin is absent. On free sites it also wraps the plugin's list-sites
+ * and import-site abilities to report Pro starter sites. Ability runs are
+ * counted for usage tracking: the reporting filter is added before the gates,
+ * the counters on init after them.
  *
  * @package Sydney
  */
@@ -53,6 +55,12 @@ add_action( 'wp_abilities_api_init', array( 'Sydney_Abilities_Registry', 'regist
 // Let the athemes-starter-sites plugin (multi-theme) gate its own abilities on Sydney's toggles. Harmless when the plugin is absent.
 add_filter( 'atss_abilities_enabled', array( 'Sydney_Abilities', 'is_enabled' ) );
 add_filter( 'atss_abilities_allow_writes', array( 'Sydney_Abilities', 'writes_enabled' ) );
+
+// On free sites, list the plugin's Pro starter sites and refuse to import one.
+// SYDNEY_PRO_VERSION is not defined yet here, so the callbacks check the edition.
+require_once get_template_directory() . '/inc/abilities/class-sydney-abilities-starter-sites-pro.php';
+add_filter( 'wp_ability_execute_result', array( 'Sydney_Abilities_Starter_Sites_Pro', 'add_pro_sites' ), 10, 2 );
+add_filter( 'wp_pre_execute_ability', array( 'Sydney_Abilities_Starter_Sites_Pro', 'refuse_pro_import' ), 10, 3 );
 
 // Count ability runs when usage tracking is on. Sydney_Usage_Tracking loads
 // after this file, so the check waits for init.

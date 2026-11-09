@@ -32,6 +32,12 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 		const DEVICES = array( 'desktop', 'mobile', 'mobile_offcanvas' );
 
 		/**
+		 * Upsell entries that name a feature, not a component id. The builder's
+		 * Language Switcher stands for Pro's wpml_switcher and pll_switcher.
+		 */
+		const LABEL_ONLY_COMPONENTS = array( 'language_switcher' );
+
+		/**
 		 * Optional injected registry source (test seam).
 		 *
 		 * When set (via set_registry_override()), builder_registry() returns this
@@ -41,7 +47,8 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 		 * on `! class_exists`, so a stub under the real name would permanently
 		 * starve the real HFBuilderTest. The fixture exposes the same shape the
 		 * builder populates in set_components_data():
-		 * { header_desktop, header_mobile, footer } arrays of {id,label}.
+		 * { header_desktop, header_mobile, footer } arrays of {id,label}, plus the
+		 * optional header_upsell / footer_upsell lists.
 		 *
 		 * @var array|object|null
 		 */
@@ -241,9 +248,12 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 		 * Inject a registry fixture for tests, or pass null to clear it.
 		 *
 		 * @param array|object|null $fixture A {header_desktop,header_mobile,footer}
-		 *                                   array, or an object exposing
-		 *                                   desktop_components / mobile_components /
-		 *                                   footer_components, or null to reset.
+		 *                                   array with optional header_upsell /
+		 *                                   footer_upsell keys, or an object
+		 *                                   exposing desktop_components /
+		 *                                   mobile_components / footer_components
+		 *                                   and optionally header_upsell_components /
+		 *                                   footer_upsell_components, or null to reset.
 		 * @return void
 		 */
 		public static function set_registry_override( $fixture ) {
@@ -251,11 +261,14 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 		}
 
 		/**
-		 * Pull the raw component registry from the live builder, keyed by set.
+		 * Pull the component registry from the live builder, keyed by set.
 		 *
-		 * Returns header_desktop / header_mobile / footer lists exactly as the
-		 * builder populated them in set_components_data() (so the conditional
-		 * woo_icons entry is present iff WooCommerce is active).
+		 * Returns header_desktop / header_mobile / footer lists as the builder
+		 * populated them in set_components_data() (so the conditional woo_icons
+		 * entry is present iff WooCommerce is active), passed through the same
+		 * sydney_header_builder_*_components filters the builder applies, which
+		 * is where Sydney Pro adds its components. header_upsell / footer_upsell
+		 * carry the builder's Pro upsell entries.
 		 *
 		 * If a test override has been injected via set_registry_override(), it is
 		 * used in place of the live builder.
@@ -269,28 +282,60 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 		 * @return array
 		 */
 		protected static function builder_registry() {
-			// Test seam: an injected fixture short-circuits the live builder.
-			if ( null !== self::$registry_override ) {
-				$override = self::$registry_override;
-				if ( is_array( $override ) ) {
-					return array(
-						'header_desktop' => isset( $override['header_desktop'] ) ? $override['header_desktop'] : array(),
-						'header_mobile'  => isset( $override['header_mobile'] ) ? $override['header_mobile'] : array(),
-						'footer'         => isset( $override['footer'] ) ? $override['footer'] : array(),
-					);
-				}
-				return array(
-					'header_desktop' => isset( $override->desktop_components ) ? $override->desktop_components : array(),
-					'header_mobile'  => isset( $override->mobile_components ) ? $override->mobile_components : array(),
-					'footer'         => isset( $override->footer_components ) ? $override->footer_components : array(),
-				);
-			}
+			$raw = self::raw_builder_registry();
 
+			// The filters the builder applies in admin_enqueue_scripts(), where
+			// Sydney Pro adds its components. Documented there.
+			return array(
+				'header_desktop' => apply_filters( 'sydney_header_builder_desktop_components', $raw['header_desktop'] ),
+				'header_mobile'  => apply_filters( 'sydney_header_builder_mobile_components', $raw['header_mobile'] ),
+				'footer'         => apply_filters( 'sydney_header_builder_footer_components', $raw['footer'] ),
+				'header_upsell'  => apply_filters( 'sydney_header_builder_upsell_components', $raw['header_upsell'] ),
+				'footer_upsell'  => apply_filters( 'sydney_header_builder_footer_upsell_components', $raw['footer_upsell'] ),
+			);
+		}
+
+		/**
+		 * The component sets before the builder's filters run.
+		 *
+		 * @return array
+		 */
+		protected static function raw_builder_registry() {
 			$registry = array(
 				'header_desktop' => array(),
 				'header_mobile'  => array(),
 				'footer'         => array(),
+				'header_upsell'  => array(),
+				'footer_upsell'  => array(),
 			);
+
+			// Test seam: an injected fixture short-circuits the live builder.
+			if ( null !== self::$registry_override ) {
+				$override = self::$registry_override;
+				if ( is_array( $override ) ) {
+					foreach ( array_keys( $registry ) as $set ) {
+						if ( isset( $override[ $set ] ) ) {
+							$registry[ $set ] = $override[ $set ];
+						}
+					}
+					return $registry;
+				}
+
+				$props = array(
+					'header_desktop' => 'desktop_components',
+					'header_mobile'  => 'mobile_components',
+					'footer'         => 'footer_components',
+					'header_upsell'  => 'header_upsell_components',
+					'footer_upsell'  => 'footer_upsell_components',
+				);
+
+				foreach ( $props as $set => $prop ) {
+					if ( isset( $override->$prop ) ) {
+						$registry[ $set ] = $override->$prop;
+					}
+				}
+				return $registry;
+			}
 
 			if ( ! class_exists( 'Sydney_Header_Footer_Builder' ) ) {
 				return $registry;
@@ -303,27 +348,32 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 				// (REST/MCP request path).
 				$data = $shfb->get_components_registry();
 
-				return array(
-					'header_desktop' => $data['desktop'],
-					'header_mobile'  => $data['mobile'],
-					'footer'         => $data['footer'],
-				);
+				$registry['header_desktop'] = $data['desktop'];
+				$registry['header_mobile']  = $data['mobile'];
+				$registry['footer']         = $data['footer'];
+			} else {
+				// Pre-accessor builder: populate the arrays ourselves if still empty.
+				$empty = empty( $shfb->desktop_components ) && empty( $shfb->mobile_components ) && empty( $shfb->footer_components );
+				if ( $empty && method_exists( $shfb, 'set_components_data' ) ) {
+					$shfb->set_components_data();
+				}
+
+				if ( isset( $shfb->desktop_components ) && is_array( $shfb->desktop_components ) ) {
+					$registry['header_desktop'] = $shfb->desktop_components;
+				}
+				if ( isset( $shfb->mobile_components ) && is_array( $shfb->mobile_components ) ) {
+					$registry['header_mobile'] = $shfb->mobile_components;
+				}
+				if ( isset( $shfb->footer_components ) && is_array( $shfb->footer_components ) ) {
+					$registry['footer'] = $shfb->footer_components;
+				}
 			}
 
-			// Pre-accessor builder: populate the arrays ourselves if still empty.
-			$empty = empty( $shfb->desktop_components ) && empty( $shfb->mobile_components ) && empty( $shfb->footer_components );
-			if ( $empty && method_exists( $shfb, 'set_components_data' ) ) {
-				$shfb->set_components_data();
+			if ( isset( $shfb->header_upsell_components ) && is_array( $shfb->header_upsell_components ) ) {
+				$registry['header_upsell'] = $shfb->header_upsell_components;
 			}
-
-			if ( isset( $shfb->desktop_components ) && is_array( $shfb->desktop_components ) ) {
-				$registry['header_desktop'] = $shfb->desktop_components;
-			}
-			if ( isset( $shfb->mobile_components ) && is_array( $shfb->mobile_components ) ) {
-				$registry['header_mobile'] = $shfb->mobile_components;
-			}
-			if ( isset( $shfb->footer_components ) && is_array( $shfb->footer_components ) ) {
-				$registry['footer'] = $shfb->footer_components;
+			if ( isset( $shfb->footer_upsell_components ) && is_array( $shfb->footer_upsell_components ) ) {
+				$registry['footer_upsell'] = $shfb->footer_upsell_components;
 			}
 
 			return $registry;
@@ -331,14 +381,68 @@ if ( ! class_exists( 'Sydney_HF_Layout' ) ) :
 
 		/**
 		 * Public accessor for the component registry (header_desktop /
-		 * header_mobile / footer sets). Callers listing several area/device
-		 * sets should fetch this once and pass it to available_components()'
-		 * $registry param instead of re-entering the builder per set.
+		 * header_mobile / footer sets, plus header_upsell / footer_upsell).
+		 * Callers listing several area/device sets should fetch this once and
+		 * pass it to available_components()' $registry param instead of
+		 * re-entering the builder per set.
 		 *
 		 * @return array
 		 */
 		public static function registry() {
 			return self::builder_registry();
+		}
+
+		/**
+		 * Components Sydney Pro adds to an area, from the builder's upsell list,
+		 * as {id, label}. Entries that only name a feature are left out.
+		 *
+		 * @param string     $area     'header' or 'footer'.
+		 * @param array|null $registry Optional registry from registry(); pulled
+		 *                             from the live builder when null.
+		 * @return array
+		 */
+		public static function pro_components( $area, $registry = null ) {
+			if ( null === $registry ) {
+				$registry = self::builder_registry();
+			}
+
+			$set   = ( 'footer' === $area ) ? 'footer_upsell' : 'header_upsell';
+			$found = array();
+
+			if ( empty( $registry[ $set ] ) || ! is_array( $registry[ $set ] ) ) {
+				return $found;
+			}
+
+			foreach ( $registry[ $set ] as $entry ) {
+				if ( ! is_array( $entry ) || ! isset( $entry['id'] ) || in_array( $entry['id'], self::LABEL_ONLY_COMPONENTS, true ) ) {
+					continue;
+				}
+
+				$found[] = array(
+					'id'    => $entry['id'],
+					'label' => isset( $entry['label'] ) ? $entry['label'] : $entry['id'],
+				);
+			}
+
+			return $found;
+		}
+
+		/**
+		 * The Sydney Pro component with this id in an area, or null.
+		 *
+		 * @param string     $component_id Canonical component id.
+		 * @param string     $area         'header' or 'footer'.
+		 * @param array|null $registry     Optional registry from registry().
+		 * @return array|null {id, label}
+		 */
+		public static function pro_component( $component_id, $area, $registry = null ) {
+			foreach ( self::pro_components( $area, $registry ) as $entry ) {
+				if ( $entry['id'] === $component_id ) {
+					return $entry;
+				}
+			}
+
+			return null;
 		}
 
 		/**

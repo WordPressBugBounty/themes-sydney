@@ -25,7 +25,7 @@ class Sydney_Campaign_Notice {
 	 *
 	 * @var string
 	 */
-	private static $end_date_target = '2026-12-01';
+	private static $end_date_target = '2026-12-06';
 
 	/**
 	 * Highest discount the campaign offers, in percent.
@@ -33,6 +33,13 @@ class Sydney_Campaign_Notice {
 	 * @var int
 	 */
 	private static $discount = 40;
+
+	/**
+	 * Admin screens (hook suffixes) the notice renders on.
+	 *
+	 * @var array
+	 */
+	private static $screens = array( 'index.php', 'plugins.php', 'themes.php', 'toplevel_page_sydney-dashboard' );
 
 	/**
 	 * Constructor
@@ -43,7 +50,8 @@ class Sydney_Campaign_Notice {
 		}
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'admin_notices', array( $this, 'review_notice_markup' ), 0 );
+		// Priority -2 runs before the Pro upsell (-1) and review (0) notices, so the campaign claims the screen first.
+		add_action( 'admin_notices', array( $this, 'review_notice_markup' ), -2 );
 		add_action( 'admin_init', array( $this, 'dismiss_notice_handler' ), 0 );
 	}
 
@@ -79,12 +87,37 @@ class Sydney_Campaign_Notice {
                 background-color: #000;
                 padding: 30px 30px 0px !important;
                 border-left: 0;
+                margin: 10px 20px 15px 2px;
+                clear: both;
+            }
+
+            .rtl .sydney-campaign-notice {
+                margin: 10px 2px 15px 20px;
+            }
+
+            .toplevel_page_sydney-dashboard .sydney-campaign-notice {
+                margin: 0;
+            }
+
+            @media (max-width: 782px) {
+                .sydney-campaign-notice {
+                    margin-right: 12px;
+                    margin-left: 0;
+                }
+
+                .rtl .sydney-campaign-notice {
+                    margin-right: 0;
+                    margin-left: 12px;
+                }
             }
 
             @media(min-width: 1270px) {
                 .sydney-campaign-notice {
                     padding: 45px 61px 40px !important;
-					margin-left: -20px;
+                }
+
+                .toplevel_page_sydney-dashboard .sydney-campaign-notice {
+                    margin-left: -20px;
                 }
             }
 
@@ -132,14 +165,19 @@ class Sydney_Campaign_Notice {
                     position: absolute;
                     right: 40px;
                     bottom: 0;
-                    max-width: 553px;
+                    max-width: min(553px, calc(100% - 641px));
                     margin-top: 0;
+                }
+
+                .rtl .sydney-campaign-notice-thumbnail {
+                    right: auto;
+                    left: 40px;
                 }
             }
 
             @media(min-width: 1300px) {
                 .sydney-campaign-notice-thumbnail {
-                    max-width: 663px;
+                    max-width: min(663px, calc(100% - 641px));
                 }
             }
 
@@ -199,7 +237,7 @@ class Sydney_Campaign_Notice {
 	 * @return bool
 	 */
 	public function should_display( $hook_suffix ) {
-		if ( 'toplevel_page_sydney-dashboard' !== $hook_suffix ) {
+		if ( ! in_array( $hook_suffix, self::$screens, true ) ) {
 			return false;
 		}
 
@@ -217,7 +255,19 @@ class Sydney_Campaign_Notice {
 		if ( ! $this->should_display( $hook_suffix ) ) {
 			return;
 		}
-		
+
+		$text = __( 'Design your own headers and footers, choose from 35+ starter sites, add extra WooCommerce features and get a year of premium support.', 'sydney' );
+
+		if ( did_action( 'elementor/loaded' ) ) {
+			$text .= ' ' . __( 'It also includes aThemes Addons Pro, with 65+ premium Elementor widgets, at no extra cost.', 'sydney' );
+		}
+
+		$text .= ' ' . sprintf(
+			/* Translators: 1. Last day of the sale. */
+			__( 'The sale ends %1$s.', 'sydney' ),
+			date_i18n( 'F j', strtotime( self::$end_date_target ) )
+		);
+
 		?>
         
         <div class="sydney-notice sydney-campaign-notice" style="position:relative;">
@@ -232,20 +282,18 @@ class Sydney_Campaign_Notice {
                 ) )
             ) ); ?></h3>
 
-            <p><?php echo esc_html( sprintf(
-                /* Translators: 1. Last day of the sale. */
-                __( 'Design your own headers, footers, single posts and archives with the Template Builder in Sydney Pro. The sale ends %1$s.', 'sydney' ),
-                date_i18n( 'F j', strtotime( self::$end_date_target ) )
-            ) ); ?></p>
+            <p><?php echo esc_html( $text ); ?></p>
 
             <a href="<?php echo esc_url( sydney_admin_upgrade_link( 'https://athemes.com/sydney-upgrade/', array( 'utm_source' => 'theme_notice', 'utm_medium' => 'link', 'utm_campaign' => 'Sydney', 'utm_content' => 'bf2026_notice' ), 'notice-campaign-link' ) ); ?>" class="sydney-btn sydney-btn-primary" target="_blank"><?php esc_html_e( 'Give Me This Deal', 'sydney' ); ?></a>
 
             <img src="<?php echo esc_url( get_template_directory_uri() . '/images/admin/people-trust.png' ); ?>" alt="<?php echo esc_attr__( 'Sydney Pro customers', 'sydney' ); ?>" class="sydney-campaign-notice-thumbnail" />
 
-			<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'nag_sydney_disable_campaign_notice', '0' ), 'sydney_campaign_notice_nonce' ) ); ?>" style="text-decoration:none;"></a>
+			<a class="notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'nag_sydney_disable_campaign_notice', '0' ), 'sydney_campaign_notice_nonce' ) ); ?>" style="text-decoration:none;"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'sydney' ); ?></span></a>
 		</div>
 
 		<?php
+		do_action( 'sydney_admin_notice_printed' );
+		do_action( 'sydney_campaign_notice_printed' );
 	}
 
 	/**

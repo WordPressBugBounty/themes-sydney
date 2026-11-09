@@ -324,15 +324,30 @@ a.shipping-calculator-button {
 }
 .woocommerce .woocommerce-cart-form a.remove {
 	display: block;
-    font-size: 20px;
+    position: relative;
+    font-size: 0;
     height: 28px;
     width: 28px;
-    line-height: 25px;
     color: #333!important;
     border: 2px solid #f0f0f0;
     text-decoration: none;
     font-weight: 700;
     margin: 0 auto;
+}
+/* The remove icon is drawn instead of using the times glyph: fonts place the glyph low, so no line-height centers it. */
+.woocommerce .woocommerce-cart-form a.remove::before,
+.woocommerce .woocommerce-cart-form a.remove::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 2px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.woocommerce .woocommerce-cart-form a.remove::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 .woocommerce .woocommerce-cart-form a.remove:hover {
     color: #fff!important;

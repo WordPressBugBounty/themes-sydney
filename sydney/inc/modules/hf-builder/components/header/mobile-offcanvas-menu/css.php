@@ -40,7 +40,8 @@ $css .= Sydney_Custom_CSS::get_fill_css( 'mobile_offcanvas_menu_submenu_color', 
 $css .= Sydney_Custom_CSS::get_color_css( 'mobile_offcanvas_menu_submenu_color_hover', '#ffffff', '.shfb.shfb-mobile_offcanvas #mainnav .sub-menu.sydney-dropdown-ul a.sydney-dropdown-link:hover' );
 $css .= Sydney_Custom_CSS::get_fill_css( 'mobile_offcanvas_menu_submenu_color_hover', '#ffffff', '.shfb.shfb-mobile_offcanvas #mainnav .sub-menu.sydney-dropdown-ul a.sydney-dropdown-link:hover + .dropdown-symbol svg' );
 
-$mobile_menu_alignment = get_theme_mod( 'mobile_menu_alignment', 'left' );
+// Render fallback is the logical 'start'; the Customizer default ('right' on RTL, 'left' otherwise) renders the same, so an unsaved site matches its preview.
+$mobile_menu_alignment = get_theme_mod( 'mobile_menu_alignment', 'start' );
 $css .= ".sydney-offcanvas-menu .mainnav ul li,.mobile-header-item.offcanvas-items,.mobile-header-item.offcanvas-items .social-profile { text-align:" . esc_attr( $mobile_menu_alignment ) . ";}" . "\n";
 $css .= ".sydney-offcanvas-menu #mainnav ul li { text-align:" . esc_attr( $mobile_menu_alignment ) . ";}" . "\n";
 if ( 'center' === $mobile_menu_alignment ) {

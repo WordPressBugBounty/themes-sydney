@@ -72,10 +72,7 @@ if ( ! class_exists( 'Sydney_Abilities_Colors' ) ) :
 		 * @return array Response envelope.
 		 */
 		protected function dark_mode_requires_pro() {
-			return Sydney_Abilities_Response::error(
-				__( 'Dark mode requires Sydney Pro.', 'sydney' ),
-				array( 'status' => 'requires_pro' )
-			);
+			return Sydney_Abilities_Response::requires_pro( __( 'Dark mode', 'sydney' ), 'sydney/update-global-colors', 'dark_mode' );
 		}
 
 		/**
@@ -172,7 +169,10 @@ if ( ! class_exists( 'Sydney_Abilities_Colors' ) ) :
 					'output_schema'    => Sydney_Ability::envelope_schema(
 						array(
 									'palettes' => array( 'type' => 'array' ),
-									'dark_mode' => array( 'type' => 'object' ),
+									'pro_only' => array(
+										'type'        => 'object',
+										'description' => 'Free sites only: settings that need Sydney Pro (the Dark palettes), with upgrade_url and upgrade_url_note.',
+									),
 						)
 					),
 					'execute_callback' => array( $this, 'execute_list_color_palettes' ),
@@ -337,7 +337,10 @@ if ( ! class_exists( 'Sydney_Abilities_Colors' ) ) :
 			$data = array( 'palettes' => $palettes );
 
 			if ( ! $dark ) {
-				$data['dark_mode'] = array( 'requires_pro' => true );
+				$data['pro_only'] = array_merge(
+					array( 'settings' => array( 'dark_mode' ) ),
+					Sydney_Abilities_Response::upgrade_link( 'sydney/list-color-palettes' )
+				);
 			}
 
 			return Sydney_Abilities_Response::success(

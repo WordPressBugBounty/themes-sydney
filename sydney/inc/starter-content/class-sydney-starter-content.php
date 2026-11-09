@@ -79,6 +79,11 @@ class Sydney_Starter_Content {
 				// Buttons: dark text on the yellow background (matches the hero button).
 				'button_color'                   => '#00102e',
 				'button_color_hover'             => '#00102e',
+				'button_background_color'        => '#ffd00a',
+				'button_background_color_hover'  => '#ffd00a',
+				// Keep the button background linked to Global Color 1 after publish.
+				'global_button_background_color'       => 'global_color_1',
+				'global_button_background_color_hover' => 'global_color_1',
 				// Scroll-to-top: dark icon on the yellow background.
 				'scrolltop_color'                => '#00102e',
 				'scrolltop_color_hover'          => '#00102e',
@@ -109,6 +114,9 @@ class Sydney_Starter_Content {
 				'site_desc_font_size_desktop'    => 16,
 				// Header: layout without the WooCommerce icons (logo + menu + search).
 				'sydney_header_row__main_header_row'                         => '{"desktop":[["logo"],["menu","search"]],"mobile":[["logo"],["search","mobile_hamburger"]]}',
+				// Header: no hero image band on the front page or on other pages.
+				'front_header_type'                                          => 'nothing',
+				'site_header_type'                                           => 'nothing',
 				// Header: transparent on the homepage only (front-page display condition).
 				'transparent_header'                                        => '[{"type":"include","condition":"front-page","id":null}]',
 				// Header: transparent builder wrapper background (default is white).
@@ -241,7 +249,7 @@ button,
 .wp-block-button__link {
 	letter-spacing: 2px;
 }
-.is-style-outline a {
+.wp-block-button.is-style-outline a:not(.has-background) {
 	background-color: transparent;
 }
 .wp-block-button.is-style-outline a:hover {
@@ -310,8 +318,8 @@ SYDNEY_STARTER_CSS;
         </a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"textAlign":"left","className":"is-style-outline","style":{"color":{"text":"#FFFFFF"},"border":{"width":"1px"},"elements":{"link":{"color":{"text":"#00102E"}}}},"borderColor":"global_color_1"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color has-link-color has-border-color has-global-color-1-border-color has-text-align-left wp-element-button" style="border-width:1px;color:#FFFFFF">
+<!-- wp:button {"textAlign":"left","className":"is-style-outline","style":{"color":{"text":"#FFFFFF"},"border":{"color":"#FFFFFF","width":"1px"},"elements":{"link":{"color":{"text":"#00102E"}}}}} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color has-link-color has-border-color has-text-align-left wp-element-button" style="border-width:1px;border-color:#FFFFFF;color:#FFFFFF">
           PROJECTS
         </a></div>
 <!-- /wp:button --></div>
@@ -593,6 +601,51 @@ function sydney_starter_content_init() {
 	$starter_content->register();
 }
 add_action( 'after_setup_theme', 'sydney_starter_content_init' );
+
+/**
+ * Serve the starter Additional CSS on the wp.org theme directory preview.
+ *
+ * The starter content stores its CSS under the `custom_css[<stylesheet>]` key, which
+ * core only turns into a `custom_css` post when the Customizer imports it. The
+ * wp.org preview never imports: it applies each starter option as a
+ * `pre_option_{$name}` filter, so `wp_get_custom_css()` finds no post and the
+ * starter CSS never prints.
+ *
+ * This fallback hands that option back to `wp_get_custom_css()` so core prints it
+ * as `style#wp-custom-css`. It is read-only and never reaches a real site:
+ * any saved or previewed Additional CSS returns first, established sites are not
+ * fresh, and a real fresh site holds no `custom_css[<stylesheet>]` option.
+ *
+ * When the theme description starts with the tagline, as the wp.org
+ * preview sets it, a rule hiding the header tagline is appended.
+ *
+ * @param string $css        Additional CSS found by core, empty when there is none.
+ * @param string $stylesheet Stylesheet the CSS belongs to.
+ * @return string
+ */
+function sydney_starter_content_preview_custom_css( $css, $stylesheet ) {
+	if ( '' !== $css ) {
+		return $css;
+	}
+
+	if ( ! get_option( 'fresh_site' ) ) {
+		return $css;
+	}
+
+	$starter = get_option( 'custom_css[' . $stylesheet . ']' );
+	if ( ! is_string( $starter ) || '' === $starter ) {
+		return $css;
+	}
+
+	$tagline     = get_bloginfo( 'description', 'display' );
+	$description = esc_html( convert_chars( wptexturize( wp_get_theme()->get( 'Description' ) ) ) );
+	if ( '' !== $tagline && 0 === strpos( $description, $tagline ) ) {
+		$starter .= "\n.shfb .site-branding .site-description { display: none; }";
+	}
+
+	return $starter;
+}
+add_filter( 'wp_get_custom_css', 'sydney_starter_content_preview_custom_css', 10, 2 );
 
 /**
  * Enable the header/footer builder on fresh sites that never ran theme activation.

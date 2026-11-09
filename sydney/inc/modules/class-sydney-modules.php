@@ -49,6 +49,16 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 					'keywords'     => array( 'patterns', 'studio', 'block editor', 'library' ),
 					'default'      => true,
 				),
+				array(
+					'slug'         => 'coming-soon',
+					'name'         => esc_html__( 'Coming Soon & Maintenance', 'sydney' ),
+					'type'         => 'free',
+					'link'         => Sydney_Coming_Soon::settings_url(),
+					'link_label'   => esc_html__( 'Settings', 'sydney' ),
+					'activate_uri' => '&amp;activate_module_coming-soon',
+					'text'         => __( 'Show visitors a coming soon or maintenance page while you work on the site.', 'sydney' ),
+					'keywords'     => array( 'coming soon', 'maintenance', 'launch', 'placeholder', 'under construction' ),
+				),
 			);
 
 			/**
@@ -126,6 +136,7 @@ if ( ! class_exists( 'Sydney_Modules' ) ) {
 			return array(
 				'block-templates' => false,
 				'pattern-library' => true,
+				'coming-soon'     => false,
 			);
 		}
 

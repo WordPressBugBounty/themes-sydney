@@ -28,6 +28,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                 ?>
 
                 <?php
+                // Load Coming Soon section, while its module is active.
+                if ( class_exists( 'Sydney_Coming_Soon' ) && Sydney_Coming_Soon::is_module_active() ) {
+                    require get_template_directory() . '/inc/dashboard/html-settings-coming-soon.php';
+                }
+                ?>
+
+                <?php
                 // Load Misc section (Usage Tracking).
                 require get_template_directory() . '/inc/dashboard/html-settings-misc.php';
                 ?>

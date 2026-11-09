@@ -100,9 +100,9 @@ function sydney_body_classes( $classes ) {
 		$classes[] = 'no-transparent-header-mobile';
 	}
 
-	//Offcanvas
+	//Offcanvas. RTL mirrors the header toggle, so the panel always opens from the right edge there.
 	$classes[] = 'offcanvas-effect-' . esc_attr( get_theme_mod( 'offcanvas_opening_effect', 'slide' ) );
-	$classes[] = 'offcanvas-direction-' . esc_attr( get_theme_mod( 'offcanvas_direction', 'left' ) );
+	$classes[] = 'offcanvas-direction-' . esc_attr( is_rtl() ? 'right' : get_theme_mod( 'offcanvas_direction', 'left' ) );
 
 	//Check if current page has blocks
 	if ( isset( $post ) && function_exists( 'has_blocks' ) && has_blocks() ) {

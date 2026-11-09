@@ -128,14 +128,14 @@ if ( ! class_exists( 'Sydney_Abilities_Scrolltop' ) ) :
 		 * @return array Response envelope.
 		 */
 		public function execute_update_scrolltop( $args ) {
-			if ( ! array_key_exists( 'enabled', $args ) || ! is_bool( $args['enabled'] ) ) {
+			if ( ! array_key_exists( 'enabled', $args ) || ! rest_is_boolean( $args['enabled'] ) ) {
 				return Sydney_Abilities_Response::error(
 					__( 'A boolean "enabled" is required.', 'sydney' )
 				);
 			}
 
 			$map     = $this->get_scrolltop_map();
-			$enabled = $args['enabled'];
+			$enabled = rest_sanitize_boolean( $args['enabled'] );
 
 			// Mirror sydney_sanitize_checkbox storage: 1 / ''.
 			set_theme_mod( $map['enabled']['theme_mod'], $enabled ? 1 : '' );

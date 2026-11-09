@@ -152,12 +152,16 @@ if ( ! class_exists( 'Sydney_Abilities_Shop' ) ) :
 		 * Register sydney/update-shop (write).
 		 */
 		protected function register_update_shop() {
+			$description = __( 'Update the WooCommerce product catalog. Provide any subset of fields; omitted fields are left unchanged. layout: grid or list. sidebar: none, left or right. card_style: layout1-3. card_elements is a full-replacement ordered list (title, reviews, price, category, description). add_to_cart_layout: layout1 or layout2.', 'sydney' );
+
+			$description = Sydney_Abilities_Response::pro_hint( $description );
+
 			Sydney_Ability::register(
 				'sydney/update-shop',
 				array(
 					'write'            => true, // ADR-0002: not registered while writes are off.
 					'label'            => __( 'Update shop settings', 'sydney' ),
-					'description'      => __( 'Update the WooCommerce product catalog. Provide any subset of fields; omitted fields are left unchanged. layout: grid or list. sidebar: none, left or right. card_style: layout1-3. card_elements is a full-replacement ordered list (title, reviews, price, category, description). add_to_cart_layout: layout1 or layout2.', 'sydney' ),
+					'description'      => $description,
 					'input_schema'     => array(
 						'type'                 => 'object',
 						'additionalProperties' => false,

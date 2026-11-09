@@ -46,7 +46,7 @@ $wp_customize->add_control(
                         '#customize-control-secondary_menu_visibility',
                         '#customize-control-topbar_nav_link'
                     )
-                ),
+                )
             ),
             'controls_design'		=> wp_json_encode(
                 array_merge(

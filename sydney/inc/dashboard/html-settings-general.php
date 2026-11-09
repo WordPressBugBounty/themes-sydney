@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php if ( defined( 'SYDNEY_PRO_VERSION' ) ) : ?>
 
             <div class="sydney-dashboard-license-wrapper">
-                <h2 class="bt-mb-5"><?php echo esc_html__( 'Sydney Pro License', 'sydney' ); ?></h2>
+                <h2 class="bt-mb-2"><?php echo esc_html__( 'Sydney Pro License', 'sydney' ); ?></h2>
                 <p class="bt-text-color-grey bt-mb-5"><?php echo esc_html__( 'Activate your license key for Sydney Pro to get the latest theme updates automatically, right from your WordPress Dashboard.', 'sydney' ); ?> </p>
                 <?php do_action( 'sydney_pro_license_form' ); // phpcs:ignore WPThemeReview.CoreFunctionality.PrefixAllGlobals.NonPrefixedHooknameFound ?>
                 <details class="sydney-dashboard-disclosure bt-mt-5">
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="sydney-dashboard-module-card<?php echo $sydney_can_upgrade ? ' sydney-pro-upgrade' : ''; ?>">
                 <div class="sydney-dashboard-module-card-header">
                     <div class="sydney-dashboard-module-card-header-info">
-                        <h2 class="bt-mb-5"><?php echo esc_html__( 'Get Sydney Pro', 'sydney' ); ?></h2>
+                        <h2 class="bt-mb-2"><?php echo esc_html__( 'Get Sydney Pro', 'sydney' ); ?></h2>
                         <p class="bt-text-color-grey">
                             <?php echo esc_html__( 'Take Sydney to a whole other level by upgrading to the premium version.', 'sydney' ); ?>
                             <?php if ( $this->settings['upgrade_carries_over'] ) : ?>
